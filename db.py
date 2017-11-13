@@ -46,15 +46,33 @@ class PythonProblems(object):
         """
         sql_template = ''' INSERT INTO %s(%s) VALUES(%s) '''
         total = 0
+        idx_old = -1
         for item in rows:
+            # Get problem and solution
             problem = item["problem"]
             solution = item["solution"]
-            problem_sql = sql_template % ("problem", ','.join(problem.keys()),
+
+            # If problem has not already been inserted (same problem,
+            # different solutions), add problem
+            idx_current = solution["idx"]
+            if idx_current != idx_old:
+                problem_sql = sql_template % ("problem", ','.join(problem.keys()),
                     ','.join(list('?'*len(problem.keys()))))
-            cur = conn.cursor()
-            cur.execute(sql, problem.values())
-            solution["problem_id"] = cur.lastrowid
+                cur = self.conn.cursor()
+                cur.execute(sql, problem.values())
+                problem_id = cur.lastrowid
+
+
+            # Add problem
+            solution["problem_id"] = problem_id
+            del solution["idx"]
             solution_sql = sql_template % ("solution", ','.join(solution.keys()),
                     ','.join(list('?'*len(solution.keys()))))
+            cur = self.conn.cursor()
+            cur.execute(sql, problem.values())
+
+            # Update control
             total += 1
+            idx_old = idx_current
+
         return total
