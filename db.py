@@ -59,7 +59,7 @@ class PythonProblems(object):
                 problem_sql = sql_template % ("problem", ','.join(problem.keys()),
                     ','.join(list('?'*len(problem.keys()))))
                 cur = self.conn.cursor()
-                cur.execute(sql, problem.values())
+                cur.execute(problem_sql, list(problem.values()))
                 problem_id = cur.lastrowid
 
 
@@ -69,7 +69,7 @@ class PythonProblems(object):
             solution_sql = sql_template % ("solution", ','.join(solution.keys()),
                     ','.join(list('?'*len(solution.keys()))))
             cur = self.conn.cursor()
-            cur.execute(sql, problem.values())
+            cur.execute(solution_sql, list(solution.values()))
 
             # Update control
             total += 1
