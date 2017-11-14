@@ -22,6 +22,8 @@ class PythonProblems(object):
             print(e)
 
         return None
+    def close_connection(self):
+        self.conn.close()
 
     def create_tables(self, create_table_sql):
         """ create a table from the create_table_sql statement
@@ -74,5 +76,6 @@ class PythonProblems(object):
             # Update control
             total += 1
             idx_old = idx_current
-
+        # gravando no bd
+        self.conn.commit()
         return total

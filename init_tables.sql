@@ -9,7 +9,7 @@ IF NOT EXISTS problem (
  retrieved_date timestamp,
  crawler text NOT NULL
 );
- 
+
 -- solutions table
 CREATE TABLE
 IF NOT EXISTS solution (
@@ -18,6 +18,6 @@ IF NOT EXISTS solution (
  problem_id integer NOT NULL,
  link text NOT NULL,
  retrieved_date timestamp NOT NULL,
- ignore boolean NOT NULL,
+ ignore boolean default 0 check(ignore in (0,1)),
  FOREIGN KEY (problem_id) REFERENCES problem (id)
 );
