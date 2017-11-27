@@ -40,16 +40,34 @@ class PythonProblems(object):
         except Error as e:
             print(e)
 
-    def populate(self, rows):
+    def insert_rows(self, problems, solutions, mode='i'):
+        """ Append rows to be inserted into row list """
+
+        # Two modes: i (insert) or a (append). When in mode i, reset list. With
+        # mode is a, then just append to existing list
+        if mode == 'i':
+            self.rows = []
+
+        for item in solutions:
+            row_dict = {}
+            idx = item["idx"]
+            row_dict["problem"] = problems[idx]
+            row_dict["solution"] = item
+            self.rows.append(row_dict)
+
+    def populate(self):
         """
         Create a new project into the projects table
         :param rows: dict list containing table and column names in keys and respective values
         :return: list with ids
         """
         sql_template = ''' INSERT INTO %s(%s) VALUES(%s) '''
-        total = 0
+        total_problems = 0
+        total_solutions = 0
+        repeated_problems = []
+        repeated_solutions = 0
         idx_old = -1
-        for item in rows:
+        for item in self.rows:
             # Get problem and solution
             problem = item["problem"]
             solution = item["solution"]
@@ -61,7 +79,13 @@ class PythonProblems(object):
                 problem_sql = sql_template % ("problem", ','.join(problem.keys()),
                     ','.join(list('?'*len(problem.keys()))))
                 cur = self.conn.cursor()
-                cur.execute(problem_sql, list(problem.values()))
+                # If it is a repeated problem from another crawler run. skip it
+                try:
+                    cur.execute(problem_sql, list(problem.values()))
+                    total_problems += 1
+                except sqlite3.IntegrityError:
+                    repeated_problems.append(item)
+                    continue
                 problem_id = cur.lastrowid
 
 
@@ -71,11 +95,15 @@ class PythonProblems(object):
             solution_sql = sql_template % ("solution", ','.join(solution.keys()),
                     ','.join(list('?'*len(solution.keys()))))
             cur = self.conn.cursor()
-            cur.execute(solution_sql, list(solution.values()))
+            try:
+                cur.execute(solution_sql, list(solution.values()))
+                total_solutions += 1
+            except sqlite3.IntegrityError:
+                repeated_solutions += 1
 
             # Update control
-            total += 1
             idx_old = idx_current
         # gravando no bd
         self.conn.commit()
-        return total
+        self.repeated_problems = repeated_problems
+        return total_problems, total_solutions, len(repeated_problems), repeated_solutions

@@ -7,7 +7,8 @@ IF NOT EXISTS problem (
  difficulty text NULL,
  link text NOT NULL,
  retrieved_date timestamp,
- crawler text NOT NULL
+ crawler text NOT NULL,
+ unique (title, content)
 );
 
 -- solutions table
@@ -20,4 +21,5 @@ IF NOT EXISTS solution (
  retrieved_date timestamp NOT NULL,
  ignore boolean default 0 check(ignore in (0,1)),
  FOREIGN KEY (problem_id) REFERENCES problem (id)
+ unique (problem_id, content)
 );
