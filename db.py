@@ -37,8 +37,10 @@ class PythonProblems(object):
             statements = sql_command.split(';')
             for statement in statements:
                 c.execute(statement)
+            self.conn.commit()
         except Error as e:
             print(e)
+
 
     def insert_rows(self, problems, solutions, mode='i'):
         """ Append rows to be inserted into row list """
