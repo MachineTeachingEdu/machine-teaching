@@ -1,4 +1,4 @@
 jupyter
 beautifulsoup4
 requests
-
+tqdm
