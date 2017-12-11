@@ -69,6 +69,7 @@ class PythonProblems(object):
         repeated_problems = []
         repeated_solutions = 0
         idx_old = -1
+        problem_ids = []
         for item in self.rows:
             # Get problem and solution
             problem = item["problem"]
@@ -76,8 +77,10 @@ class PythonProblems(object):
 
             # If problem has not already been inserted (same problem,
             # different solutions), add problem
+            ### TODO: this solutions only avoids repetitions if they are in a
+            # sequence. Make it generic.
             idx_current = solution["idx"]
-            if idx_current != idx_old:
+            if idx_current > idx_old:
                 problem_sql = sql_template % ("problem", ','.join(problem.keys()),
                     ','.join(list('?'*len(problem.keys()))))
                 cur = self.conn.cursor()
@@ -88,10 +91,14 @@ class PythonProblems(object):
                 except sqlite3.IntegrityError:
                     repeated_problems.append(item)
                     continue
-                problem_id = cur.lastrowid
-
+            # We are keeping problem_ids in order. If it is repeated we add
+            # null value to maintain order and idx difference.
+                problem_ids.append(cur.lastrowid)
+            else:
+                problem_ids.append(None)
 
             # Add problem
+            problem_id = problem_ids[idx_current]
             solution["problem_id"] = problem_id
             del solution["idx"]
             solution_sql = sql_template % ("solution", ','.join(solution.keys()),
