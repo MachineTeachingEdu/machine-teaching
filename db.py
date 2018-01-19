@@ -98,6 +98,7 @@ class PythonProblems(object):
                 problem_ids.append(None)
 
             # Add problem
+            print(repeated_problems)
             problem_id = problem_ids[idx_current]
             solution["problem_id"] = problem_id
             del solution["idx"]
