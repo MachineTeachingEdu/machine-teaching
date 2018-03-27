@@ -1,0 +1,202 @@
+\let\footruleskip\relax % for compatibility of memoir and fancyhdr
+\renewcommand{\sl}{\textsl} % for compatibility of memoir and fancyhdr
+\renewcommand{\rm}{\textrm} % for compatibility of memoir and fancyhdr
+\renewcommand*\familydefault{\sfdefault}
+
+\counterwithout{figure}{chapter}
+
+%%%%
+% Packages
+%%%
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage[table]{xcolor}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\usepackage{float}
+\usepackage{graphicx}% Include figure files
+\usepackage{indentfirst}
+\usepackage{multirow}
+\usepackage[hyphens]{url}
+\usepackage{tikz}
+\usepackage{eso-pic}
+\usepackage{kpfonts}
+\usepackage{calc}
+\usepackage{lipsum}
+\usepackage{subcaption}
+\usepackage{longtable}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\usepackage{coloremoji}
+
+
+\usetikzlibrary{positioning,shapes,shadows,arrows}
+
+\usetikzlibrary{chains}
+\usetikzlibrary{scopes}
+\usetikzlibrary{decorations}
+\usetikzlibrary{decorations.pathreplacing}
+
+
+\newcommand{\degree}{\ensuremath{^\circ}~}
+
+
+%%%%%
+%% New color definitions
+%%%%
+\definecolor{White}{rgb}{1,1,1}
+\definecolor{Blue}{rgb}{0,0,1}
+\definecolor{Teal}{rgb}{0.00,0.65,0.65}
+
+%\end New color definitions
+
+
+%%%%%
+%% Fancy Chapter Header Styling
+%%%%
+
+
+%\end Fancy Chapter Header
+
+%%%%%
+%% Page Layouting
+%%%%
+
+%% Header occupies height of a single line;
+%% Bottom edge of footer is 12mm from bottom edge
+%% of typeblock
+\setheadfoot{20mm}{10mm}
+\setlrmarginsandblock{20mm}{20mm}{*}
+%\setulmargins{10mm}{*}{*}
+%% Apply and enforce layout
+\checkandfixthelayout
+
+
+%%%
+% Footer image
+
+\newcommand\FooterPic{
+\put(0,0){
+\parbox[b][\paperheight]{\paperwidth}{%
+\centering
+\vspace{10mm}
+\includegraphics[width=\textwidth,keepaspectratio]{images/Papel_Carta_Header.eps}%
+\vfill
+\includegraphics[width=\paperwidth,keepaspectratio]{images/footer_twist.eps}%
+}}}
+
+%%%
+% First page image
+
+\newcommand\watermark{
+\put(0,0){
+\parbox[b][\paperheight]{\paperwidth}{%
+\centering
+\vfill
+\includegraphics[width=\paperwidth,keepaspectratio]{images/watermark.eps}%
+}}}
+
+
+%/end Page Layouting
+
+%%%%
+%% HEADER AND FOOTER 
+
+\makepagestyle{standard} %Make standard pagestyle
+
+\makeatletter                 %Define standard pagestyle
+\makeevenfoot{standard}{}{\thepage}{} %
+\makeoddfoot{standard}{}{\thepage}{}  %
+\makeevenhead{standard}{}{}{}
+\makeoddhead{standard}{}{}{}
+\makeatother                  %
+
+\makeatletter
+\makepsmarks{standard}{
+\createmark{chapter}{both}{shownumber}{\@chapapp\ }{ \quad }
+\createmark{section}{right}{shownumber}{}{ \quad }
+\createplainmark{toc}{both}{\contentsname}
+\createplainmark{lof}{both}{\listfigurename}
+\createplainmark{lot}{both}{\listtablename}
+\createplainmark{bib}{both}{\bibname}
+\createplainmark{index}{both}{\indexname}
+\createplainmark{glossary}{both}{\glossaryname}
+   }
+\makeatother                               %
+
+
+\nouppercaseheads
+\pagestyle{standard}
+\aliaspagestyle{chapter}{standard}
+
+%/end Header and Footer
+
+%%%
+% Chapter header
+%%%
+\definecolor{ChapNumColor}{gray}{0.90}
+\definecolor{ChapTitleColor}{gray}{0.65}
+% helper macros
+\newcommand\numlifter[1]{\raisebox{-18mm}[0pt][0pt]{\smash{#1}}}
+\newcommand\numindent{\kern08mm}
+\newlength\chaptertitleboxheight
+\makechapterstyle{hansen}{
+  \renewcommand\printchaptername{%
+    \color{ChapTitleColor}%
+  %\raggedleft
+  }
+  \renewcommand\printchapternum{%
+    \begingroup%
+    \leavevmode%
+    \chapnumfont%
+    \strut%
+    \numindent%
+    \numlifter{\thechapter}%
+    \endgroup%
+  }
+  \renewcommand*{\printchapternonum}{%
+    \vphantom{\begingroup%
+      \leavevmode%
+      \chapnumfont%
+    \numlifter{\vphantom{9}}%
+    \numindent%
+    \endgroup}
+  \afterchapternum}
+  \setlength\midchapskip{0pt}
+  \setlength\beforechapskip{0.5\baselineskip}
+  \setlength{\afterchapskip}{3\baselineskip}
+  \renewcommand\chapnumfont{%
+    \fontsize{40mm}{0mm}%
+    \bfseries%
+    \fontfamily{\sfdefault}\selectfont%
+    \color{ChapNumColor}%
+  }
+  \renewcommand\chaptitlefont{%
+    \huge%
+    \sffamily%
+    %\color{ChapTitleColor}%
+    %\raggedleft%
+  }%
+  \settototalheight\chaptertitleboxheight{%
+  \parbox{\textwidth}{\chaptitlefont \strut bg\\bg\strut}}
+  \renewcommand\printchaptertitle[1]{%
+    \parbox[t][\chaptertitleboxheight][t]{\textwidth}{%
+    %\microtypesetup{protrusion=false}% add this if you use microtype
+    \chaptitlefont\strut ##1\strut}%
+  }
+}
+\chapterstyle{hansen}
+
+\makeatother
+
+%%%/end Chapter header
+
+\newcolumntype{$}{>{\global\let\currentrowstyle\relax}}
+\newcolumntype{^}{>{\currentrowstyle}}
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+\newcommand{\rowstyle}[1]{\gdef\currentrowstyle{#1}%
+#1\ignorespaces
+}
+
+
