@@ -3,26 +3,23 @@
 {% block content %}
       <div class="row">
         <div class="col-lg-12">
-            <h1 class="mt-5">{{ problem.title }}</h1>
+            <h1 class="mt-5">{{ problem.id }} - {{ problem.title }}</h1>
           <p class="lead">
           {{ problem.content }}
           </p>
         </div>
       </div>
       <form> 
-          <textarea id="yourcode" cols="40" rows="10">import turtle
-
-              t = turtle.Turtle()
-              t.forward(100)
-
-              print "Hello World" 
+          <textarea id="yourcode" cols="80" rows="10">{{tip}}
           </textarea><br /> 
-          <button type="button" onclick="runit()">Run</button> 
-      <a href="{% url 'next' %}" class="btn btn-primary btn-lg" style="color:white;">Next</a>
+          <button type="button" onclick="runit({{test_case}}, '{{header}}', {{expected_results}})">Run</button> 
+      <a href="{% url 'next' %}" id="next" class="btn btn-primary btn-lg" style="color:white;">Next</a>
       </form> 
       <pre id="output" ></pre> 
       <!-- If you want turtle graphics include a canvas -->
       <div id="mycanvas"></div> 
+      <div id="evaluation"></div>
+      {{test_case}}
 {% endblock %}
 
 {% block javascript %}

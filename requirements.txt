@@ -2,3 +2,5 @@ jupyter
 beautifulsoup4
 requests
 tqdm
+django-extensions
+django

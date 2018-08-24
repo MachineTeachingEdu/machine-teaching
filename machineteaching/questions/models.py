@@ -22,9 +22,18 @@ class Problem(models.Model):
     def __unicode__(self):
         return self.title
 
+    def __str__(self):
+        return "%d - %s" % (self.id, self.title)
+
 class Solution(models.Model):
     content = models.TextField(blank=False)
+    header = models.TextField(blank=False)
     problem = models.ForeignKey(Problem, on_delete=models.PROTECT)
     link = models.URLField(blank=False)
     retrieved_date = models.DateTimeField(blank=False)
     ignore = models.BooleanField(default=False)
+    tip = models.TextField(blank=True, default="#Start your python function here")
+
+class TestCase(models.Model):
+    problem = models.ForeignKey(Problem, on_delete=models.PROTECT)
+    content = models.TextField(blank=False)
