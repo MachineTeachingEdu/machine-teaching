@@ -17,18 +17,23 @@ function evaluate(expected_results){
     errors = 0;
     console.log(answers);
     console.log(expected_results);
+
+    // For each test, compare results
     for (i = 0; i < expected_results.length; i++){
         eval_div.innerHTML += "Expected output: " + expected_results[i] + "<br>" + "Your output: " + answers[i] + "<br>";
         if (JSON.stringify(expected_results[i]) == JSON.stringify(answers[i])){
-            eval_div.innerHTML += '<span style="color:green">OK</span><br><br>'
+            eval_div.innerHTML += '<span class="badge badge-success">OK</span><br><br>'
         } else {
-            eval_div.innerHTML += '<span style="color:red">OOPS!</span><br><br>'
+            eval_div.innerHTML += '<span class="badge badge-danger">OOPS!</span><br><br>'
+            errors++;
         };
     }
 
-//    if errors == 0{
-//        console.log(document.getElementById("next").style);
-//    }
+    // If no errors are found, go to the next problem
+    if (errors == 0) {
+        document.getElementById("next").style.background = 'green';
+        document.getElementById("next").innerHTML = "Next";
+    }
 }
 // Here's everything you need to run a python program in skulpt
 // grab the code from your textarea
@@ -36,7 +41,12 @@ function evaluate(expected_results){
 // configure the output function
 // call Sk.importMainWithBody()
 function runit(args, func, expected_results) {
-   var prog = document.getElementById("yourcode").value;
+   // Display result divs
+   document.getElementById("output-div").style.display="block";
+   document.getElementById("testcase-div").style.display="block";
+
+   // Get code
+   var prog = editor.getValue();
 
    // Prepare output display
    var mypre = document.getElementById("output");
@@ -60,8 +70,21 @@ function runit(args, func, expected_results) {
       },
            function(err) {
            console.log(err.toString());
+           document.getElementById("output").innerHTML = err.toString();
        });
    };
 
+   // Evaluate results
    evaluate(expected_results);
 }
+
+// Set pretty Python editor
+var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+mode: {name: "python",
+       version: 2,
+       singleLineStringErrors: false},
+lineNumbers: true,
+indentUnit: 4,
+tabMode: "shift",
+matchBrackets: true
+});
