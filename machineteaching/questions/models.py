@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models.aggregates import Count
+from django.contrib.auth.models import User
 from random import randint
 
 # Create your models here.
@@ -43,6 +44,7 @@ class UserLog(models.Model):
                 ("P", "Passed"),
                 ("S", "Skipped"))
 
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
     problem = models.ForeignKey(Problem, on_delete=models.PROTECT)
     solution = models.TextField(blank=True)
     outcome = models.CharField(max_length=2, choices=OUTCOMES)

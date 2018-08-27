@@ -33,7 +33,10 @@ function evaluate(expected_results){
     if (errors == 0) {
         document.getElementById("next").style.background = 'green';
         document.getElementById("next").innerHTML = "Next";
-    }
+        save_log('P', seconds_in_code, seconds_to_begin, seconds_in_page);
+    } else {
+        save_log('F', seconds_in_code, seconds_to_begin, seconds_in_page);
+    };
 }
 // Here's everything you need to run a python program in skulpt
 // grab the code from your textarea
@@ -75,16 +78,64 @@ function runit(args, func, expected_results) {
    };
 
    // Evaluate results
+   seconds_end_page = performance.now()
+   seconds_in_page = Math.round((seconds_end_page - seconds_begin_page)/1000);
+   console.log("seconds in page:" + seconds_in_page);
    evaluate(expected_results);
 }
 
 // Set pretty Python editor
 var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
 mode: {name: "python",
-       version: 2,
-       singleLineStringErrors: false},
+    version: 2,
+    singleLineStringErrors: false},
 lineNumbers: true,
 indentUnit: 4,
 tabMode: "shift",
 matchBrackets: true
+});
+
+// Calculating time in page and code
+// Get when user stops typing
+var delay = (function(){
+  var timer = 0;
+  return function(callback, ms){
+    clearTimeout (timer);
+    timer = setTimeout(callback, ms);
+  };
+})();
+
+// Variables to count time
+var seconds_begin_page = performance.now();
+var seconds_in_code = 0;
+var seconds_to_begin = 0;
+var seconds_in_page = 0;
+var first_keydown= true;
+
+// When user starts typing
+$('.CodeMirror').keydown(function(){
+
+    //Starting to type for the first time
+    if (seconds_to_begin == 0) {
+        seconds_to_begin = Math.round((performance.now() - seconds_begin_page)/1000);
+        console.log("seconds to begin: " + seconds_to_begin);
+    }
+
+    // Starting code snippet
+    if (first_keydown == true){
+        seconds_begin_code = performance.now();
+        first_keydown = false;
+    };
+
+});
+// Finished code snippet. Sum time to variable.
+$('.CodeMirror').keyup(function() {
+    delay(function(){
+        seconds_end_code = performance.now();
+        console.log("seconds in this snippet:" + Math.round(
+            (seconds_end_code - seconds_begin_code)/1000));
+        seconds_in_code += Math.round((seconds_end_code - seconds_begin_code)/1000);
+        console.log("seconds in code: " + seconds_in_code);
+        first_keydown = true;
+    }, 1000);
 });

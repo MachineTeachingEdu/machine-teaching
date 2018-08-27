@@ -1,9 +1,10 @@
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import permission_required
 import json
 
 from .models import Problem, Solution, TestCase
+from questions.forms import UserLogForm
 
 # Create your views here.
 def index(request):
@@ -46,3 +47,12 @@ def get_next_problem(request):
     solution = Solution.objects.filter(problem=problem)[0]
     return render(request, 'questions/show_problem.html', {'problem': problem,
                                                            'solution': solution})
+
+def save_user_log(request):
+    form = UserLogForm(request.GET)
+    if form.is_valid():
+        log = form.save(commit=False)
+        log.user = request.user
+        log.save()
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'failed'})
