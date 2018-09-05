@@ -19,6 +19,7 @@ class Clustering():
         self.X = X
         self.k = k
         self.kwargs = kwargs
+        self.seed = 0
 
         # Create result variables
         self.model = None
@@ -26,7 +27,7 @@ class Clustering():
         self.word_topic = None
 
     def _generate_random_state(self):
-        self.random_state = np.
+        self.seed = np.random.randint()
 
     def _normalize_per_row(self, matrix):
         """ Normalize sum per row """
@@ -50,7 +51,10 @@ class Clustering():
 
     def lda(self):
         """ Use LDA clustering method """
-        model = LatentDirichletAllocation(n_components=self.k, max_iter=10, learning_method='batch')
+        self._generate_random_state()
+        model = LatentDirichletAllocation(n_components=self.k, max_iter=10,
+                                          learning_method='batch',
+                                          random_state=self.seed)
         document_topic = model.fit_transform(self.X)
         word_topic = model.components_
 
@@ -89,7 +93,9 @@ class Clustering():
 
     def gaussian_mixture(self):
         """ Use gaussian mixture clustering method """
-        model = GaussianMixture(n_components=self.k).fit(self.X)
+        self._generate_random_state()
+        model = GaussianMixture(n_components=self.k,
+                                random_state=self.seed).fit(self.X)
         document_topic = model.predict_proba(self.X)
         word_topic = model.means_
 #        clusters = {}
