@@ -23,6 +23,7 @@ class Plot2D():
         self.ys = None
 
         self._set_clusters()
+        # Generate seed
         self._generate_random_state()
 
     def _generate_random_state(self):
@@ -39,15 +40,14 @@ class Plot2D():
     def reduce(self, solution_sample):
         # convert two components as we're plotting points in a two-dimensional plane
         # we will also specify `random_state` so the plot is reproducible.
-        self.seed = self._generate_random_state()
         solution_tsne = TSNE(n_components=2, metric='cosine',
                              random_state=self.seed)
         pos = solution_tsne.fit_transform(solution_sample)  # shape (n_components, n_samples)
         self.xs, self.ys = pos[:, 0], pos[:, 1]
 
-    def plot(self, show_clusters=True, highlight=None):
+    def plot(self, show_clusters=True, highlight=None, show=True, savefig=False):
         # set up plot
-        fig, ax = plt.subplots(figsize=(17, 9)) # set size
+        fig, ax = plt.subplots(figsize=(9, 13)) # set size
         ax.margins(0.05) # Optional, just adds 5% padding to the autoscaling
 
         # Show pre-labeled (not by the student!!) samples with the respective color
@@ -94,7 +94,10 @@ class Plot2D():
         # If highlight is set, show observation with different color
         if highlight is not None:
             plt.scatter(self.xs[highlight], self.ys[highlight],
-                        color='r', marker='x', s=12)
+                        color='r', marker=r'$\star$', s=400)
 
+        if savefig:
+            plt.savefig(savefig)
 
-        plt.show() #show the plot
+        if show:
+            plt.show() #show the plot

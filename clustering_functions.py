@@ -19,20 +19,12 @@ class Clustering():
         self.X = X
         self.k = k
         self.kwargs = kwargs
-        self.seed = 0
 
         # Create result variables
         self.model = None
         self.document_topic = None
-        self.word_topic = None
 
-        # Generate seed
-        self._generate_random_state()
-
-    def _generate_random_state(self):
-        self.seed = np.random.randint(2**32 - 1)
-
-    def _normalize_per_row(self, matrix):
+    def _normalize_per_row(matrix):
         """ Normalize sum per row """
         row_sums = matrix.sum(axis=1)
         matrix_norm = matrix / row_sums[:, np.newaxis]
@@ -54,12 +46,8 @@ class Clustering():
 
     def lda(self):
         """ Use LDA clustering method """
-        model = LatentDirichletAllocation(n_components=self.k, max_iter=10,
-                                          learning_method='batch',
-                                          random_state=self.seed)
+        model = LatentDirichletAllocation(n_components=self.k, max_iter=10, learning_method='batch')
         document_topic = model.fit_transform(self.X)
-        word_topic = model.components_
-
     #     docs_names = docs_id
 #        topics = [d for d in range(1, document_topic.shape[1]+1)]
 #        document_topic_norm = self._normalize_per_row(document_topic)
@@ -72,10 +60,9 @@ class Clustering():
         # Save result variables
         self.model = model
         self.document_topic = document_topic
-        self.word_topic = word_topic
 
 #        return model, document_topic, clusters
-        return model, document_topic, word_topic
+        return model, document_topic
 
     def hierarchical(self):
         """ Use hierarchical clustering method """
@@ -95,10 +82,8 @@ class Clustering():
 
     def gaussian_mixture(self):
         """ Use gaussian mixture clustering method """
-        model = GaussianMixture(n_components=self.k,
-                                random_state=self.seed).fit(self.X)
-        document_topic = model.predict_proba(self.X)
-        word_topic = model.means_
+        model = GaussianMixture(n_components=self.k).fit(self.X)
+        document_topic = model.predict(self.X)
 #        clusters = {}
 #        for key in set(document_topic):
 #            clusters[key] = np.where(document_topic == key)[0]
@@ -106,30 +91,29 @@ class Clustering():
         # Save result variables
         self.model = model
         self.document_topic = document_topic
-        self.word_topic = word_topic
 
 #        return model, document_topic, clusters
-        return model, document_topic, word_topic
+        return model, document_topic
 
-    def _plot_distribution(self, topic_distribution, x_label,
-                           topics=None, min_score=0.3):
+    def plot_topic_distribution(self, topics=None, min_score=0.3):
+
         # If topic names are not set, set general topic name
         if not topics:
             topics = ["Topic %d" %d for d in range(1, self.k+1)]
 
-        if topic_distribution.any() == None:
+        if not self.document_topic:
             raise AttributeError("Plotting not available yet. Please run one of"
                                  " the clustering functions before plotting results")
 
         # Normalize document per topic distribution per document (row)
-        topic_distribution_norm = self._normalize_per_row(topic_distribution)
+        document_topic_norm = self._normalize_per_row(self.document_topic)
 
-        topic_distribution_df = pd.DataFrame(topic_distribution_norm,
-                                         index=x_label,
+        document_topic_df = pd.DataFrame(document_topic_norm,
+                                         index=range(0, self.X.shape[0]),
                                          columns=topics)
 
         # Sort docs according to topic assignment
-        topic_distribution_df = self._sort_distribution(topic_distribution_df,
+        document_topic_df = self._sort_distribution(document_topic_df,
                                                     topics,
                                                     min_score=min_score)
 
@@ -140,18 +124,6 @@ class Clustering():
         # fig, (ax1, ax2) = plt.subplots(2, 1, sharex='col', figsize=(12,12))
 
 
-        sns.heatmap(topic_distribution_df, ax=ax1)
+        sns.heatmap(document_topic_df, ax=ax1)
         ax1.xaxis.tick_top()
         plt.show()
-        return topic_distribution_df
-
-
-    def plot_topic_distribution(self, topics=None, min_score=0.3):
-        self._plot_distribution(self.document_topic, range(0, self.X.shape[0]))
-
-
-    def plot_word_distribution(self, words, topics=None, min_score=0.3):
-        df = self._plot_distribution(self.word_topic,
-                                x_label=["Topic %d" %d for d in range(1,self.k+1)],
-                                topics=words)
-        return df
