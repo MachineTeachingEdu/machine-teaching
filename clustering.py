@@ -27,7 +27,7 @@ class Clustering():
         self.word_topic = None
 
     def _generate_random_state(self):
-        self.seed = np.random.randint()
+        self.seed = np.random.randint(2**32 - 1)
 
     def _normalize_per_row(self, matrix):
         """ Normalize sum per row """
