@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 
 # Visualization
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 from sklearn.manifold import TSNE
 import matplotlib.cm as cm
@@ -21,6 +22,7 @@ class Plot2D():
         self.seed = 0
         self.xs = None
         self.ys = None
+        self.X = None
 
         self._set_clusters()
         # Generate seed
@@ -41,11 +43,41 @@ class Plot2D():
         # convert two components as we're plotting points in a two-dimensional plane
         # we will also specify `random_state` so the plot is reproducible.
         solution_tsne = TSNE(n_components=2, metric='cosine',
-                             random_state=self.seed)
+                             #random_state=self.seed)
+                             random_state=1)
         pos = solution_tsne.fit_transform(solution_sample)  # shape (n_components, n_samples)
+        self.X = pos
         self.xs, self.ys = pos[:, 0], pos[:, 1]
 
-    def plot(self, show_clusters=True, highlight=None, show=True, savefig=False):
+    def make_ellipses(self, gmm, ax, clusters):
+        colors = []
+        for i in range(clusters):
+            color = cm.tab10(i / clusters)
+            color_hex = mpl_colors.rgb2hex(color[:3])
+            colors.append(color_hex)
+
+        for n, color in enumerate(colors):
+            if gmm.covariance_type == 'full':
+                covariances = gmm.covariances_[n][:2, :2]
+            elif gmm.covariance_type == 'tied':
+                covariances = gmm.covariances_[:2, :2]
+            elif gmm.covariance_type == 'diag':
+                covariances = np.diag(gmm.covariances_[n][:2])
+            elif gmm.covariance_type == 'spherical':
+                covariances = np.eye(gmm.means_.shape[1]) * gmm.covariances_[n]
+            v, w = np.linalg.eigh(covariances)
+            u = w[0] / np.linalg.norm(w[0])
+            angle = np.arctan2(u[1], u[0])
+            angle = 180 * angle / np.pi  # convert to degrees
+            v = 2. * np.sqrt(2.) * np.sqrt(v)
+            ell = mpl.patches.Ellipse(gmm.means_[n, :2], v[0], v[1],
+                                    180 + angle, color=color)
+            ell.set_clip_box(ax.bbox)
+            ell.set_alpha(0.5)
+            ax.add_artist(ell)
+
+    def plot(self, show_clusters=True, highlight=None, show=True,
+             savefig=False, make_ellipses=False):
         # set up plot
         fig, ax = plt.subplots(figsize=(9, 13)) # set size
         ax.margins(0.05) # Optional, just adds 5% padding to the autoscaling
@@ -76,15 +108,15 @@ class Plot2D():
                 ax.tick_params(\
                     axis= 'x',          # changes apply to the x-axis
                     which='both',      # both major and minor ticks are affected
-                    bottom='off',      # ticks along the bottom edge are off
-                    top='off',         # ticks along the top edge are off
-                    labelbottom='off')
+                    bottom='on',      # ticks along the bottom edge are off
+                    top='on',         # ticks along the top edge are off
+                    labelbottom='on')
                 ax.tick_params(\
                     axis= 'y',         # changes apply to the y-axis
                     which='both',      # both major and minor ticks are affected
-                    left='off',      # ticks along the bottom edge are off
-                    top='off',         # ticks along the top edge are off
-                    labelleft='off')
+                    left='on',      # ticks along the bottom edge are off
+                    top='on',         # ticks along the top edge are off
+                    labelleft='on')
 
             ax.legend(numpoints=1)  #show legend with only 1 point
 
@@ -95,6 +127,9 @@ class Plot2D():
         if highlight is not None:
             plt.scatter(self.xs[highlight], self.ys[highlight],
                         color='r', marker=r'$\star$', s=400)
+        if make_ellipses:
+            make_ellipses["ax"] = ax
+            self.make_ellipses(**make_ellipses)
 
         if savefig:
             plt.savefig(savefig)
