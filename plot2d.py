@@ -132,7 +132,7 @@ class Plot2D():
             self.make_ellipses(**make_ellipses)
 
         if savefig:
-            plt.savefig(savefig)
+            plt.savefig('images/' + savefig)
 
         if show:
             plt.show() #show the plot

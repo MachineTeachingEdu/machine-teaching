@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-class Clustering():
+class Clustering(object):
     """ Class used to cluster the dataset using different methods with pre-defined arguments """
     # TODO: allow kwargs to be used to set different arguments in each method
     def __init__(self, X, k, **kwargs):

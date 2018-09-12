@@ -32,7 +32,7 @@ class PDFReport():
     def append_solution(self, solution_id, problem, solution):
         with self.doc.create(Multicols(arguments=[2])):
             image_filename = os.path.join(os.path.dirname('.'),
-                                          'solution_%d.png' % solution_id)
+                                          'images/solution_%d.png' % solution_id)
             with self.doc.create(Section('Problem with solution %d' % solution_id,
                                          label="problem%d" % solution_id)):
                 with self.doc.create(Subsection('TSNE representation',
