@@ -20,7 +20,7 @@
         <div class="col-lg-12">
           <form> 
               <textarea id="code" cols="80" rows="10">{{tip}}</textarea><br /> 
-              <button type="button" onclick="runit({{test_case}}, '{{header}}', {{expected_results}})">Run</button> 
+              <button type="button" onclick="runit({{test_case}}, '{{header}}', {{expected_results}})" class="btn-lg btn-default">Run</button> 
               <a href="{% url 'next' %}" id="next" onclick="save_log('S', seconds_in_code, seconds_to_begin, seconds_in_page)" class="btn btn-primary btn-lg" style="color:white;">Skip</a>
           </form> 
         </div>
@@ -49,7 +49,7 @@
             </div>
         </div>
       </div>
-      {{test_case}}
+      <!--{{test_case}}-->
 
 {% endblock %}
 

@@ -9,7 +9,7 @@ from sklearn.manifold import TSNE
 import matplotlib.cm as cm
 import matplotlib.colors as mpl_colors
 
-class Plot2D():
+class Plot2D(object):
     """ Reduce data to 2 dimensions to plot it."""
     def __init__(self, clusters=None, doc_category=None, doc_id=None):
         if clusters is None:

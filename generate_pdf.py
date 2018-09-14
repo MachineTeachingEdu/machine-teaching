@@ -17,7 +17,7 @@ class Verbatim(Environment):
     escape = False
     content_separator = "\n"
 
-class PDFReport():
+class PDFReport(object):
     def __init__(self):
         self.doc = self.begin_pdf()
 
