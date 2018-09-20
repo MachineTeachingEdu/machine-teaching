@@ -30,7 +30,7 @@ class Solution(models.Model):
     content = models.TextField(blank=False)
     header = models.TextField(blank=False)
     problem = models.ForeignKey(Problem, on_delete=models.PROTECT)
-    link = models.URLField(blank=False)
+    link = models.URLField(blank=True, null=True)
     retrieved_date = models.DateTimeField(blank=False)
     ignore = models.BooleanField(default=False)
     tip = models.TextField(blank=True, default="#Start your python function here")

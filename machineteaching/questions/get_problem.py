@@ -17,6 +17,7 @@ def get_problem(problem_id):
         expected_results = []
         for args in test_case:
             expected_results.append(str(eval(solution.header)(*args)))
+        print(expected_results)
     except Problem.DoesNotExist:
         raise Problem.DoesNotExist
 
