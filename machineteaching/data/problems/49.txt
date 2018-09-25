@@ -1,0 +1,7 @@
+Write a function to:
+1) Convert a certain amount into Euros using the given exchange rate (you should divide the amount by the exchange rate).
+2) Calculate how many 50, 20, 10, 5 and 1 Euro notes/coins you would receive for a given value of Euros.
+
+You should ignore the cents after the conversion.
+
+Your function should return, in a tuple, in this order: total amount in euros, the how many 50 euros notes, 20 notes, 10 notes, 5 notes and the remaining.

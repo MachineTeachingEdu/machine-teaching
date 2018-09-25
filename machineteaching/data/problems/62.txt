@@ -1,0 +1,5 @@
+Write a function that receives as argument a month (from 1 to 12) and returns its season. Remembering:
+a) December, January and February are summer
+b) March, April and May are autumn
+c) June, July and August are winter
+d) September, October and November are spring

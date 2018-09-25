@@ -1,0 +1,1 @@
+Write a function that receives as an argument a list of numbers and returns the average (mean) of a these numbers.

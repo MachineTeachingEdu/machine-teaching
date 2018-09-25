@@ -1,0 +1,1 @@
+Write a function that receives as argument how many goals Team One scored and how many goals Team Two scored. Your function should return "Team One scores 3 points and Team Two scores 0 points." if Team One scored more goals than Team Two and vice-versa. If the number of goals is the same, the returned sentence should be "Both Team One and Team Two score 1 point.".

@@ -1,0 +1,1 @@
+Write a function that receives as argument a month (from 1 to 12) and returns the number of days in the given month (ignore leap years!).

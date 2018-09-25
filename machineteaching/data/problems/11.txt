@@ -1,0 +1,1 @@
+Given a number as an argument, create a function that determines whether the number is prime or not. (For those who have forgotten, a prime number is a number that has no divisors.).

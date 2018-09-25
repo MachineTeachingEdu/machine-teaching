@@ -1,0 +1,1 @@
+Write a function that takes as argument a word and returns (boolean type True or False) whether this string is a palindrome or not. (A palindrome is a string that reads the same forwards and backwards.)

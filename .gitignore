@@ -99,3 +99,8 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# Generated results
+images/
+*.tex
+*.pdf
