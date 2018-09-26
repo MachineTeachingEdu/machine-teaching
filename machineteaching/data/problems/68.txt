@@ -1,0 +1,6 @@
+Create a function that will output the grade according to the exam score. Use the following rules:
+1) If the user got 80 points or more, the function should return the grade A.
+2) If the user got between 60 and 79, they got a B.
+3) If the user got between 40 and 59, they got a C.
+4) If the user got between 20 and 39, they got a D.
+5) If the user got less then 20 points, they get an E.

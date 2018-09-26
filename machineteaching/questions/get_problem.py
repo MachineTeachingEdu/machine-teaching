@@ -7,7 +7,7 @@ def get_problem(problem_id):
         problem = Problem.objects.get(pk=problem_id)
         test_case = TestCase.objects.filter(problem=problem)
         test_case = [json.loads(test.content) for test in test_case]
-        solution = Solution.objects.filter(problem=problem, ignore=False)[0]
+        solution = Solution.objects.filter(problem=problem, ignore=False).order_by('?')[0]
 
         # Transform solution into python function
         function_obj = compile(solution.content, 'solution', 'exec')

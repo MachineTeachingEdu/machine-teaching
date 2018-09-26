@@ -1,0 +1,7 @@
+def digit_sum(digit):
+    n1 = int("{0}".format(a))
+    n2 = int("{0}{1}".format(a,a))
+    n3 = int("{0}{1}{2}".format(a,a,a))
+    n4 = int("{0}{1}{2}{3}".format(a,a,a,a))
+    total = n1+n2+n3+n4
+    return total

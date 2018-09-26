@@ -1,0 +1,2 @@
+Create a function that receives as argument a decimal number up to 255 and convert it into its 8-bit binary equivalent.
+Your function should return the 8-bit binary as a string, so you can add leading zeros. Make sure your binary number has 8 bits.

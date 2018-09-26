@@ -3,12 +3,20 @@ from .models import Problem, Solution, TestCase, UserLog
 
 
 # Register your models here.
-admin.site.register(Problem)
-admin.site.register(Solution)
+@admin.register(Problem)
+class ProblemAdmin(admin.ModelAdmin):
+    list_display = ('id','title', 'content')
+    search_fields = ['id']
+
+@admin.register(Solution)
+class SolutionAdmin(admin.ModelAdmin):
+    list_display = ('id', 'problem', 'content')
+    search_fields = ['id']
 
 @admin.register(TestCase)
 class TestCaseAdmin(admin.ModelAdmin):
     list_display = ('problem', 'content')
+    autocomplete_fields = ['problem']
 
 @admin.register(UserLog)
 class UserLogAdmin(admin.ModelAdmin):

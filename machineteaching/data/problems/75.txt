@@ -1,0 +1,3 @@
+Create a function that uses linear search to check that a given character is in a given string and replace all characters that are not the searched character with underscore (_). The function receives as argument a string and a character and should return the replaced string if the character was found or return the sentence "Character not found.", otherwise.
+1) In a linear search, each character of the given string is compared to the given character. Do not use any built-in operators.
+For example, if the string was "hello" and the given character was "l" the program would display "__ll_".

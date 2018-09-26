@@ -1,0 +1,5 @@
+Write a function that receives as argument a sentence and calculate the number of letters and digits.
+Suppose the following input is supplied to the program:
+hello world! 123
+Then, the output should be the dictionary:
+{"letters": 10, "digits": 3}

@@ -1,0 +1,23 @@
+Create a function that receives as argument a binary string of 8-bits and convert it into hexadecimal string equivalent.
+To convert from binary to hexadecimal, divide the string into two parts of 4 bits and calculate the decimal equivalent.
+If it's less than 10, just report the found number, if it's more than 10, convert it to the appropriate letter:
+a) 10 = A
+b) 11 = B
+c) 12 = C
+d) 13 = D
+e) 14 = E
+f) 15 = F
+
+For example, the 63 decimal number is represented in binary as 00111111. If we separate it in two parts, we get:
+1) 0011
+2) 1111
+
+Transforming each part to its decimal equivalent, we get:
+1) 3
+2) 15
+
+Then, using the code above, we get for each part:
+1) 3
+2) F
+
+So, the hexadecimal number equivalent to the binary 00111111 is 3F.

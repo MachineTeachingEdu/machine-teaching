@@ -1,0 +1,3 @@
+Create a function that receives as argument a shopping list and returns it sorted alphabetically. Rules:
+1) Sort it using a bubble-sort algorithm.
+2) Do not use any built-in sorting functions.

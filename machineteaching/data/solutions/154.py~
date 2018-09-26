@@ -1,0 +1,9 @@
+def amount(transaction_list):
+    total = 0
+    for item in transaction_list:
+        op, value = item
+        if op == 'D':
+            total += value
+        elif op == 'S':
+            total -= value
+    return total

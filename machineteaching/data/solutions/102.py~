@@ -1,0 +1,11 @@
+def grade(score):
+    if grade >= 80:
+        return 'A'
+    elif grade >= 60:
+        return 'B'
+    elif grade >= 40:
+        return 'C'
+    elif grade >= 20:
+        return 'D'
+    else:
+        return 'E'

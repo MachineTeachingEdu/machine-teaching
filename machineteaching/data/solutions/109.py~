@@ -1,0 +1,14 @@
+def search_and_replace(targetStr, character):
+    found = False
+    outputStr = ""
+    for eachChar in targetStr:
+        if eachChar == character:
+            outputStr = outputStr + character
+            found = True
+        else:
+            outputStr = outputStr + '_'
+
+    if not found:
+        return "Character not found"
+    else:
+        return outputStr

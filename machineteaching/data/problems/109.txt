@@ -1,0 +1,15 @@
+Write a functions that calculates and returns the value according to the given formula ROUDED OFF to its nearest integer value:
+Q = Square root of [(2 * C * D)/H]
+Following are the fixed values of C and H:
+C is 50. H is 30.
+D is the variable whose values should be input to your function as argument.
+Example
+Let us assume the following values are given to the function as D:
+a) 100
+b) 150
+c) 180
+The output of the function should be, respectively:
+a) 18
+b) 22
+c) 24
+Make sure the returned type is integer!

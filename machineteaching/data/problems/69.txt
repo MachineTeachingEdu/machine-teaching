@@ -1,0 +1,5 @@
+Write a function that receives as argument a month (from 1 to 12) and a year (four digits) and returns the number of days in the given month (consider leap years!)
+The rules for leap years are:
+1) If the year is a multiple of 4, it is USUALLY a leap year (example: 1984).
+2) However, if it is a multiple of 100 (even though is a multiple of 4), then it's not a leap year, breaking rule number 1 (example: 1900)
+3) Except if it's a multiple of 400, then it is a leap year again, breaking rule number 2 (example: 2000)

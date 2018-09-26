@@ -1,0 +1,1 @@
+Create a function that receives as argument the state of two switches (either 1 (on) or 0 (off)). The function should work out if both switches are on and then output True (the light is on). Otherwise, the program should output False (the light is off).

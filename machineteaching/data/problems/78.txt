@@ -1,0 +1,2 @@
+Create a function that receives as argument a hexadecimal string and convert it into its decimal equivalent number.
+Do not forget, that the hexadecimal string can vary in length.

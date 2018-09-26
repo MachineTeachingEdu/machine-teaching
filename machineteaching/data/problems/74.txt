@@ -1,0 +1,2 @@
+Create a function that uses linear search to check that a given character is in a given string. The function receives as argument a string and a character and should return the boolean values True or False if the character is found or not in the string, respectivelly. Remember:
+1) In a linear search, each character of the given string is compared to the given character. Do not use any built-in operators.

@@ -1,0 +1,9 @@
+def binby5(number_csv):
+    value = []
+    items=[x for x in number_csv.split(',')]
+    for p in items:
+        intp = int(p, 2)
+        intp = int(item[0])*8 + int(item[1])*4 + int(item[2])*2 + int(item[3])
+        if not intp%5:
+            value.append(p)
+    return ", ".join(value)
