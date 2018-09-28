@@ -4,3 +4,4 @@ requests
 tqdm
 django-extensions
 django
+psycopg2
