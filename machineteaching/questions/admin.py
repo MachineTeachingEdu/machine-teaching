@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Problem, Solution, TestCase, UserLog
+from .models import Problem, Solution, TestCase, UserLog, Cluster
 
 
 # Register your models here.
@@ -10,8 +10,9 @@ class ProblemAdmin(admin.ModelAdmin):
 
 @admin.register(Solution)
 class SolutionAdmin(admin.ModelAdmin):
-    list_display = ('id', 'problem', 'content')
+    list_display = ('id', 'problem', 'content', 'cluster')
     search_fields = ['id']
+    list_filter = ('ignore', )
 
 @admin.register(TestCase)
 class TestCaseAdmin(admin.ModelAdmin):
@@ -21,3 +22,5 @@ class TestCaseAdmin(admin.ModelAdmin):
 @admin.register(UserLog)
 class UserLogAdmin(admin.ModelAdmin):
     list_display = ('user', 'problem', 'outcome', 'timestamp')
+
+admin.site.register(Cluster)

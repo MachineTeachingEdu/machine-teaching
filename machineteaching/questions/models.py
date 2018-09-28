@@ -4,6 +4,17 @@ from django.contrib.auth.models import User
 from random import randint
 
 # Create your models here.
+class Cluster(models.Model):
+    id = models.IntegerField(primary_key=True)
+    label = models.CharField(max_length=50, blank=False)
+
+    def __unicode__(self):
+        return self.label
+
+    def __str__(self):
+        return "%d - %s" % (self.id, self.label)
+
+
 class ProblemManager(models.Manager):
     def random(self):
         count = self.aggregate(count=Count('id'))['count']
@@ -34,6 +45,7 @@ class Solution(models.Model):
     retrieved_date = models.DateTimeField(blank=False)
     ignore = models.BooleanField(default=False)
     tip = models.TextField(blank=True, default="#Start your python function here")
+    cluster = models.ForeignKey(Cluster, on_delete=models.SET_NULL, null=True)
 
 class TestCase(models.Model):
     problem = models.ForeignKey(Problem, on_delete=models.PROTECT)

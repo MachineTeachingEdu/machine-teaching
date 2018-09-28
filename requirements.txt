@@ -5,3 +5,4 @@ tqdm
 django-extensions
 django
 psycopg2
+uwsgi
