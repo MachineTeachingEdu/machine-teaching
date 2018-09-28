@@ -75,10 +75,11 @@ class UserModel(models.Model):
     distribution = PickledObjectField()
 
 @receiver(post_save, sender=User)
-def create_user_model(sender, instance, **kwargs):
-    model = UserModel()
-    model.user = instance
-    # TODO: UPDATE!
-    # Fixed in number of problems and topics (54 x 3)
-    model.distribution = np.zeros((54, 3))
-    model.save()
+def create_user_model(sender, instance, created, **kwargs):
+    if created:
+        model = UserModel()
+        model.user = instance
+        # TODO: UPDATE!
+        # Fixed in number of problems and topics (54 x 3)
+        model.distribution = np.zeros((54, 3))
+        model.save()
