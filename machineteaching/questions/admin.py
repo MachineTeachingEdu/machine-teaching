@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Problem, Solution, TestCase, UserLog, Cluster
+from .models import Problem, Solution, TestCase, UserLog, Cluster, UserModel
 
 
 # Register your models here.
@@ -24,3 +24,4 @@ class UserLogAdmin(admin.ModelAdmin):
     list_display = ('user', 'problem', 'outcome', 'timestamp')
 
 admin.site.register(Cluster)
+admin.site.register(UserModel)

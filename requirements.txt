@@ -6,3 +6,4 @@ django-extensions
 django
 psycopg2
 uwsgi
+django-picklefield

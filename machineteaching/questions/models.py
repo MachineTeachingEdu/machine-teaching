@@ -1,7 +1,11 @@
 from django.db import models
 from django.db.models.aggregates import Count
 from django.contrib.auth.models import User
+from picklefield.fields import PickledObjectField
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from random import randint
+import numpy as np
 
 # Create your models here.
 class Cluster(models.Model):
@@ -65,3 +69,16 @@ class UserLog(models.Model):
     seconds_to_begin = models.IntegerField()
     solution_lines = models.IntegerField()
     timestamp = models.DateTimeField(auto_now_add=True)
+
+class UserModel(models.Model):
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    distribution = PickledObjectField()
+
+@receiver(post_save, sender=User)
+def create_user_model(sender, instance, **kwargs):
+    model = UserModel()
+    model.user = instance
+    # TODO: UPDATE!
+    # Fixed in number of problems and topics (54 x 3)
+    model.distribution = np.zeros((54, 3))
+    model.save()

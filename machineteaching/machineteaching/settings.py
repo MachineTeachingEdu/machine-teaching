@@ -23,8 +23,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '46j0)898ya9&y)-3sr51q%9(%ga-lvh1c%(rmo6%!md6k^fq%o'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-#DEBUG = True
-DEBUG = False
+DEBUG = True
+#DEBUG = False
 
 ALLOWED_HOSTS = ["machine-teaching.eastus.cloudapp.azure.com", "40.121.177.95", "localhost"]
 
@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_extensions',
+    'django_extensions'
 ]
 
 MIDDLEWARE = [
@@ -155,7 +155,7 @@ LOGGING = {
         # Log to a text file that can be rotated by logrotate
         'logfile': {
             'class': 'logging.handlers.WatchedFileHandler',
-            'filename': '/home/lmoraes/machine-teaching/machineteaching/mt.log'
+            'filename': os.path.join(BASE_DIR, "mt.log")
         },
     },
     'loggers': {
