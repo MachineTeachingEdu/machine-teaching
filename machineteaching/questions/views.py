@@ -1,6 +1,6 @@
 from django.http import Http404, JsonResponse
 from django.shortcuts import render
-from django.contrib.auth.decorators import permission_required
+from django.contrib.auth.decorators import permission_required, login_required
 from django.conf import settings
 import numpy as np
 import pickle
@@ -22,6 +22,7 @@ def show_problem(request, problem_id):
         raise Http404("Problem does not exist")
     return render(request, 'questions/show_problem.html', context)
 
+@login_required
 def get_start_problem(request):
     # View to define starting problem. For the moment, let's always start with
     # the same problem
@@ -31,12 +32,14 @@ def get_start_problem(request):
         raise Http404("Problem does not exist")
     return render(request, 'questions/show_problem.html', context)
 
+@login_required
 def get_random_problem(request):
     problem = Problem.objects.random()
     solution = Solution.objects.filter(problem=problem)[0]
     return render(request, 'questions/show_problem.html', {'problem': problem,
                                                            'solution': solution})
 
+@login_required
 def get_next_problem(request):
     ## TODO: Get user current status and calculate next best problem
     # View to define starting problem. For the moment, let's always start with
@@ -95,6 +98,7 @@ def get_next_problem(request):
         raise Http404("Problem does not exist")
     return render(request, 'questions/show_problem.html', context)
 
+@login_required
 def save_user_log(request):
     form = UserLogForm(request.GET)
     if form.is_valid():
