@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from picklefield.fields import PickledObjectField
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.conf import settings
 from random import randint
 import numpy as np
 
@@ -81,5 +82,5 @@ def create_user_model(sender, instance, created, **kwargs):
         model.user = instance
         # TODO: UPDATE!
         # Fixed in number of problems and topics (54 x 3)
-        model.distribution = np.zeros((54, 3))
+        model.distribution = np.zeros(settings.DOC_TOPIC_SHAPE)
         model.save()
