@@ -22,7 +22,7 @@
           <form> 
               <textarea id="code" cols="80" rows="10">{{tip}}</textarea><br /> 
               <button type="button" onclick="runit({{test_case|safe}}, '{{header}}', {{expected_results|safe|escape_doublequote}})" class="btn-lg btn-default">Run</button> 
-              <a href="{% url 'next' %}" id="next" class="btn btn-primary btn-lg" style="color:white;">Skip</a>
+              <button type="button" onclick="skipit()" id="next" class="btn btn-primary btn-lg" style="color:white;">Skip</button>
           </form> 
         </div>
       </div>
@@ -83,8 +83,7 @@ function save_log(outcome, seconds_in_code, seconds_to_begin, seconds_in_page){
             console.log('status: ' + data['status']);
         },
         error: function (request, status, error) {
-            alert(request.status);
-            alert(error);
+            console.log(request.status);
       }
     });
 }

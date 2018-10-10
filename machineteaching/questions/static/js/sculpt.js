@@ -33,7 +33,7 @@ function evaluate(expected_results){
     if (errors == 0) {
         document.getElementById("next").style.background = 'green';
         document.getElementById("next").innerHTML = "Next";
-        document.getElementById("next").href = next_url;
+        document.getElementById("next").onclick = gotoproblem;
         save_log('P', seconds_in_code, seconds_to_begin, seconds_in_page);
     } else {
         save_log('F', seconds_in_code, seconds_to_begin, seconds_in_page);
@@ -94,8 +94,15 @@ function skipit() {
    console.log("seconds in code:" + seconds_in_code);
 
    save_log('S', seconds_in_code, seconds_to_begin, seconds_in_page);
-   //document.getElementById("next").href = next_url;
+
+   setTimeout(function(){
+       gotoproblem();
+   }, 2000);
 };
+
+function gotoproblem() {
+     location.reload();
+}
 
 // Set pretty Python editor
 var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
