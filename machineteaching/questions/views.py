@@ -100,6 +100,7 @@ def get_next_problem(request):
 
 @login_required
 def save_user_log(request):
+    print(request)
     form = UserLogForm(request.GET)
     if form.is_valid():
         log = form.save(commit=False)

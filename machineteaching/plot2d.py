@@ -43,8 +43,8 @@ class Plot2D(object):
         # convert two components as we're plotting points in a two-dimensional plane
         # we will also specify `random_state` so the plot is reproducible.
         solution_tsne = TSNE(n_components=2, metric='cosine',
-                             #random_state=self.seed)
-                             random_state=1)
+                             random_state=self.seed)
+                             #random_state=1)
         pos = solution_tsne.fit_transform(solution_sample)  # shape (n_components, n_samples)
         self.X = pos
         self.xs, self.ys = pos[:, 0], pos[:, 1]
