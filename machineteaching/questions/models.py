@@ -9,6 +9,13 @@ from random import randint
 import numpy as np
 
 # Create your models here.
+class UserProfile(models.Model):
+    PROFESSORS = (("carla", "Carla"),
+               ("joao", "João Carlos"))
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    professor = models.CharField(max_length=5, choices=PROFESSORS)
+    programming = models.BooleanField(blank=False)
+
 class Cluster(models.Model):
     id = models.IntegerField(primary_key=True)
     label = models.CharField(max_length=50, blank=False)
@@ -78,6 +85,11 @@ class UserModel(models.Model):
 @receiver(post_save, sender=User)
 def create_user_model(sender, instance, created, **kwargs):
     if created:
+        # Create profile
+        UserProfile.objects.create(user=instance)
+        instance.userprofile.save()
+
+        # Create user model
         model = UserModel()
         model.user = instance
         # TODO: UPDATE!

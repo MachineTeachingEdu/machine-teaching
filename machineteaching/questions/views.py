@@ -6,7 +6,7 @@ import numpy as np
 import pickle
 
 from questions.models import Problem, Solution, UserLog, UserModel
-from questions.forms import UserLogForm
+from questions.forms import UserLogForm, SignUpForm
 from questions.get_problem import get_problem
 from questions.sampling import get_next_sample
 
@@ -108,3 +108,23 @@ def save_user_log(request):
         log.save()
         return JsonResponse({'status': 'success'})
     return JsonResponse({'status': 'failed'})
+
+def signup(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        print(form)
+        if form.is_valid():
+            user = form.save()
+            user.refresh_from_db()  # load the profile instance created by the signal
+            print(form.cleaned_data)
+            user.userprofile.professor = form.cleaned_data.get('professor')
+            user.userprofile.programming = form.cleaned_data.get('programming')
+            user.save()
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
+            user = authenticate(username=username, password=raw_password)
+            login(request, user)
+            return redirect('start')
+    else:
+        form = SignUpForm()
+    return render(request, 'registration/signup.html', {'form': form})

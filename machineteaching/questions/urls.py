@@ -7,6 +7,7 @@ urlpatterns = [
     path('start', views.get_next_problem, name='start'),
     path('next', views.get_next_problem, name='next'),
     path('savelog', views.save_user_log, name='savelog'),
+    path('signup', views.signup, name='signup'),
 
     ## DEBUG PURPOSES ##
     path('<int:problem_id>/', views.show_problem, name='show_problem'),

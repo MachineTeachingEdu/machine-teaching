@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Problem, Solution, TestCase, UserLog, Cluster, UserModel
+from .models import (Problem, Solution, TestCase, UserLog, Cluster, UserModel,
+                     UserProfile)
 
 
 # Register your models here.
@@ -25,3 +26,4 @@ class UserLogAdmin(admin.ModelAdmin):
 
 admin.site.register(Cluster)
 admin.site.register(UserModel)
+admin.site.register(UserProfile)
