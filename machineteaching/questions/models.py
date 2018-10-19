@@ -14,7 +14,7 @@ class UserProfile(models.Model):
                ("joao", "João Carlos"))
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     professor = models.CharField(max_length=5, choices=PROFESSORS)
-    programming = models.BooleanField(blank=False)
+    # programming = models.BooleanField(blank=False)
 
 class Cluster(models.Model):
     id = models.IntegerField(primary_key=True)

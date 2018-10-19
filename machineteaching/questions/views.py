@@ -1,6 +1,7 @@
 from django.http import Http404, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import permission_required, login_required
+from django.contrib.auth import login, authenticate
 from django.conf import settings
 import numpy as np
 import pickle
@@ -112,13 +113,12 @@ def save_user_log(request):
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
-        print(form)
         if form.is_valid():
             user = form.save()
             user.refresh_from_db()  # load the profile instance created by the signal
             print(form.cleaned_data)
             user.userprofile.professor = form.cleaned_data.get('professor')
-            user.userprofile.programming = form.cleaned_data.get('programming')
+            # user.userprofile.programming = form.cleaned_data.get('programming')
             user.save()
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
