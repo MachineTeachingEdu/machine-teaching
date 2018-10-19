@@ -12,9 +12,21 @@ import numpy as np
 class UserProfile(models.Model):
     PROFESSORS = (("carla", "Carla"),
                ("joao", "João Carlos"))
+    PROGRAMMING = (("yes", "Yes"),
+                   ("no", "No"))
+    STRATEGIES = (("ordered", "ordered"),
+                   ("eer", "eer"))
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    professor = models.CharField(max_length=5, choices=PROFESSORS)
-    # programming = models.BooleanField(blank=False)
+    professor = models.CharField(max_length=5, choices=PROFESSORS, blank=True)
+    programming = models.CharField(max_length=3, choices=PROGRAMMING)
+    accepted = models.BooleanField(default=False)
+    strategy = models.CharField(max_length=10, choices=STRATEGIES)
+
+    def __unicode__(self):
+        return self.user
+
+    def __str__(self):
+        return "%s" % self.user
 
 class Cluster(models.Model):
     id = models.IntegerField(primary_key=True)
@@ -68,8 +80,8 @@ class UserLog(models.Model):
                 ("P", "Passed"),
                 ("S", "Skipped"))
 
-    user = models.ForeignKey(User, on_delete=models.PROTECT)
-    problem = models.ForeignKey(Problem, on_delete=models.PROTECT)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
     solution = models.TextField(blank=True)
     outcome = models.CharField(max_length=2, choices=OUTCOMES)
     seconds_in_code = models.IntegerField()
@@ -79,8 +91,14 @@ class UserLog(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
 
 class UserModel(models.Model):
-    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     distribution = PickledObjectField()
+
+    def __unicode__(self):
+        return self.user
+
+    def __str__(self):
+        return "%s" % self.user
 
 @receiver(post_save, sender=User)
 def create_user_model(sender, instance, created, **kwargs):

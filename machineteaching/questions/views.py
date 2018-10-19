@@ -5,6 +5,7 @@ from django.contrib.auth import login, authenticate
 from django.conf import settings
 import numpy as np
 import pickle
+import random
 
 from questions.models import Problem, Solution, UserLog, UserModel
 from questions.forms import UserLogForm, SignUpForm
@@ -101,7 +102,6 @@ def get_next_problem(request):
 
 @login_required
 def save_user_log(request):
-    print(request)
     form = UserLogForm(request.GET)
     if form.is_valid():
         log = form.save(commit=False)
@@ -115,12 +115,15 @@ def signup(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
-            user.refresh_from_db()  # load the profile instance created by the signal
-            print(form.cleaned_data)
-            user.userprofile.professor = form.cleaned_data.get('professor')
-            # user.userprofile.programming = form.cleaned_data.get('programming')
+            user.username = form.cleaned_data.get('email')
             user.save()
-            username = form.cleaned_data.get('username')
+            user.refresh_from_db()  # load the profile instance created by the signal
+            user.userprofile.professor = form.cleaned_data.get('professor')
+            user.userprofile.programming = form.cleaned_data.get('programming')
+            user.userprofile.accepted = form.cleaned_data.get('accepted')
+            user.userprofile.strategy = random.choice(settings.STRATEGIES)
+            user.userprofile.save()
+            username = form.cleaned_data.get('email')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)

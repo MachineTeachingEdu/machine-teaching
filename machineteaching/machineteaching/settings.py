@@ -140,6 +140,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 # LOGIN
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+AUTHENTICATION_BACKENDS = ['questions.backends.EmailBackend']
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'apikey'
+EMAIL_HOST_PASSWORD = '***REMOVED***'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL="lmoraes@cos.ufrj.br"
 
 # LOGGING
 LOGGING = {
@@ -184,3 +191,6 @@ LOGGING = {
 
 # Document Topic shape
 DOC_TOPIC_SHAPE = (54,3)
+
+# Problem selection strategies
+STRATEGIES = ("ordered", "eer")

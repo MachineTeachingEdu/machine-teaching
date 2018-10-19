@@ -24,6 +24,10 @@ class TestCaseAdmin(admin.ModelAdmin):
 class UserLogAdmin(admin.ModelAdmin):
     list_display = ('user', 'problem', 'outcome', 'timestamp')
 
+
+@admin.register(UserProfile)
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ('user', 'professor', 'programming', 'strategy', 'accepted')
+
 admin.site.register(Cluster)
 admin.site.register(UserModel)
-admin.site.register(UserProfile)

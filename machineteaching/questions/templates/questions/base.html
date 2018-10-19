@@ -38,7 +38,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         {% if user.is_authenticated %}
-            <div style="color:white"> Hello, {{user.username}} </div>
+        <div style="color:white"> Hello, {{user.first_name}} {{user.last_name}}</div>
         {% endif %}
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
@@ -58,9 +58,12 @@
             <!--</li>-->
             <li class="nav-item">
                 {% if user.is_authenticated %}
-                <a class="nav-link" href="/accounts/logout">Logout</a>
+                <a class="nav-link" href="{% url 'logout'%}">Logout</a>
                 {% else %}
-                <a class="nav-link" href="/accounts/login" id="accountslogin">Login</a>
+                <a class="nav-link" href="{% url 'signup' %}" id="signup">Sign Up</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="{% url 'login' %}" id="accountslogin">Login</a>
                 {% endif %}
             </li>
           </ul>
