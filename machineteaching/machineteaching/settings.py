@@ -26,7 +26,8 @@ SECRET_KEY = '46j0)898ya9&y)-3sr51q%9(%ga-lvh1c%(rmo6%!md6k^fq%o'
 DEBUG = True
 #DEBUG = False
 
-ALLOWED_HOSTS = ["machine-teaching.eastus.cloudapp.azure.com", "40.121.177.95", "localhost"]
+ALLOWED_HOSTS = ["machine-teaching.eastus.cloudapp.azure.com", "40.121.177.95", "localhost",
+                 "www.machineteaching.tech"]
 
 
 # Application definition
