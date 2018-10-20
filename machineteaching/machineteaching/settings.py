@@ -27,7 +27,7 @@ DEBUG = True
 #DEBUG = False
 
 ALLOWED_HOSTS = ["machine-teaching.eastus.cloudapp.azure.com", "40.121.177.95", "localhost",
-                 "www.machineteaching.tech"]
+                 "www.machineteaching.tech", "machineteaching.tech"]
 
 
 # Application definition
