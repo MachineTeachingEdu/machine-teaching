@@ -1,0 +1,50 @@
+{% extends "questions/base.html" %}
+{% load static %}
+
+{% block header %}
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
+{% endblock %}
+{% block content %}
+<table id="problems" class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Timestamp</th>
+            <th class="searchable">Title</th>
+            <th class="searchable">Status</th>
+            <th>Solution</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in past_problems %}
+        <tr> 
+            <td>{{ item.timestamp }}</td>
+            <td>{{ item.problem.title }}</td>
+            {% if item.outcome == 'P' %}
+                <td style="color:green">Passed</td>
+                <td><a href={% url 'past_solutions' id=item.id %}>See your solution</a></td>
+            {% elif item.outcome == 'F' %}
+                <td style="color:red">Failed</td>
+                <td><a href={% url 'past_solutions' id=item.id %}>See your solution</a></td>
+            {% else %}
+                <td style="color:blue">Skipped</td>
+                <td></td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
+
+{% block javascript %}
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script>
+$(document).ready(function() {
+        $('#problems').dataTable({
+            "pageLength": 50,
+            "order": [[ 0, "desc" ]]
+            });
+} );
+</script>
+{% endblock %}

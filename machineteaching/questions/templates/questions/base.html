@@ -50,12 +50,12 @@
             <!--<li class="nav-item">-->
               <!--<a class="nav-link" href="#">About</a>-->
             <!--</li>-->
-            <!--<li class="nav-item">-->
-              <!--<a class="nav-link" href="#">Services</a>-->
-            <!--</li>-->
-            <!--<li class="nav-item">-->
-              <!--<a class="nav-link" href="#">Contact</a>-->
-            <!--</li>-->
+            <li class="nav-item">
+            <a class="nav-link" href="{% url 'next' %}">Next problem</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="{% url 'past_problems' %}">Past Problems</a>
+            </li>
             <li class="nav-item">
                 {% if user.is_authenticated %}
                 <a class="nav-link" href="{% url 'logout'%}">Logout</a>
