@@ -51,10 +51,10 @@
               <!--<a class="nav-link" href="#">About</a>-->
             <!--</li>-->
             <li class="nav-item">
-            <a class="nav-link" href="{% url 'next' %}">Next problem</a>
+            <a class="nav-link" href="{% url 'next' %}">Current problem</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="{% url 'past_problems' %}">Past Problems</a>
+            <a class="nav-link" href="{% url 'past_problems' %}">Past problems</a>
             </li>
             <li class="nav-item">
                 {% if user.is_authenticated %}
