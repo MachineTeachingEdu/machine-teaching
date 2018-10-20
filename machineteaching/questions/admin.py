@@ -27,7 +27,7 @@ class UserLogAdmin(admin.ModelAdmin):
 
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'professor', 'programming', 'strategy', 'accepted')
+    list_display = ('user', 'professor', 'programming', 'strategy', 'accepted', 'seed')
 
 admin.site.register(Cluster)
 admin.site.register(UserModel)

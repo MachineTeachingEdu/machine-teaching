@@ -5,7 +5,8 @@ from picklefield.fields import PickledObjectField
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.conf import settings
-from random import randint
+import random
+from random import randint, SystemRandom
 import numpy as np
 
 # Create your models here.
@@ -14,13 +15,14 @@ class UserProfile(models.Model):
                ("joao", "João Carlos"))
     PROGRAMMING = (("yes", "Yes"),
                    ("no", "No"))
-    STRATEGIES = (("ordered", "ordered"),
+    STRATEGIES = (("random", "random"),
                    ("eer", "eer"))
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     professor = models.CharField(max_length=5, choices=PROFESSORS, blank=True)
     programming = models.CharField(max_length=3, choices=PROGRAMMING)
     accepted = models.BooleanField(default=False)
     strategy = models.CharField(max_length=10, choices=STRATEGIES)
+    seed = models.CharField(max_length=81)
 
     def __unicode__(self):
         return self.user
@@ -114,3 +116,13 @@ def create_user_model(sender, instance, created, **kwargs):
         # Fixed in number of problems and topics (54 x 3)
         model.distribution = np.zeros(settings.DOC_TOPIC_SHAPE)
         model.save()
+
+@receiver(post_save, sender=UserProfile)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        # Generate data for the random fields of UserProfile
+        instance.strategy = random.choice(settings.STRATEGIES)
+        alphabet = u'9ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        generator = SystemRandom()
+        instance.seed = u''.join(generator.choice(alphabet) for _ in range(81))
+        instance.save()

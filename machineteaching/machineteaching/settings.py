@@ -193,4 +193,4 @@ LOGGING = {
 DOC_TOPIC_SHAPE = (54,3)
 
 # Problem selection strategies
-STRATEGIES = ("ordered", "eer")
+STRATEGIES = ("random", "eer")
