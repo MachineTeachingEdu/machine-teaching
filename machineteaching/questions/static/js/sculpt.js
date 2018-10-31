@@ -15,13 +15,26 @@ function evaluate(expected_results){
     eval_div.innerHTML = "";
     answers = document.getElementById("output").innerHTML.split("\n");
     errors = 0;
-    console.log(answers);
-    console.log(expected_results);
 
     // For each test, compare results
     for (i = 0; i < expected_results.length; i++){
+        console.log(answers[i]);
+        try {
+        answers_parsed = JSON.parse(answers[i].replace(/'/g, '"').toLowerCase());
+        }
+        catch {
+            answers_parsed = answers[i];
+        }
+        console.log(typeof answers_parsed);
+        try {
+        expected_results_parsed = JSON.parse(expected_results[i].replace(/'/g, '"').toLowerCase());
+        } catch {
+            expected_results_parsed = expected_results[i];
+        }
+        console.log(typeof expected_results_parsed);
         eval_div.innerHTML += "Expected output: " + expected_results[i] + "<br>" + "Your output: " + answers[i] + "<br>";
-        if (JSON.stringify(expected_results[i]) == JSON.stringify(answers[i])){
+        if (JSON.stringify(expected_results_parsed, Object.keys(expected_results_parsed).sort()) == JSON.stringify(answers_parsed, Object.keys(answers_parsed).sort())){
+        //if (JSON.stringify(expected_results[i]) == JSON.stringify(answers[i])){
             eval_div.innerHTML += '<span class="badge badge-success">OK</span><br><br>'
         } else {
             eval_div.innerHTML += '<span class="badge badge-danger">OOPS!</span><br><br>'
