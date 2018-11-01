@@ -12,7 +12,11 @@ import numpy as np
 # Create your models here.
 class UserProfile(models.Model):
     PROFESSORS = (("carla", "Carla"),
-               ("joao", "João Carlos"))
+                  ("joao", "João Carlos"),
+                  ("hugo", "Hugo"),
+                  ("fernanda", "Fernanda"),
+                  ("kleber", "Kleber"),
+                  ("cadu", "Cadu"))
     PROGRAMMING = (("yes", "Yes"),
                    ("no", "No"))
     STRATEGIES = (("random", "random"),

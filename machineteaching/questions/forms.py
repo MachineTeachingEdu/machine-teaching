@@ -13,7 +13,11 @@ class UserLogForm(ModelForm):
 
 class SignUpForm(UserCreationForm):
     PROFESSORS = (("carla", "Carla"),
-               ("joao", "João Carlos"))
+                  ("joao", "João Carlos"),
+                  ("hugo", "Hugo"),
+                  ("fernanda", "Fernanda"),
+                  ("kleber", "Kleber"),
+                  ("cadu", "Cadu"))
     PROGRAMMING = (("no", "No"),
                    ("yes", "Yes"))
     professor = forms.ChoiceField(choices=PROFESSORS)
