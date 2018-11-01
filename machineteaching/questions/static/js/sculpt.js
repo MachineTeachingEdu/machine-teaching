@@ -20,18 +20,18 @@ function evaluate(expected_results){
     for (i = 0; i < expected_results.length; i++){
         console.log(answers[i]);
         try {
-        answers_parsed = JSON.parse(answers[i].replace(/'/g, '"').toLowerCase());
+            answers_parsed = JSON.parse(answers[i].replace(/'/g, '"'));
         }
         catch {
             answers_parsed = answers[i];
         }
-        console.log(typeof answers_parsed);
+        console.log(answers_parsed)
         try {
-        expected_results_parsed = JSON.parse(expected_results[i].replace(/'/g, '"').toLowerCase());
+            expected_results_parsed = JSON.parse(expected_results[i].replace(/'/g, '"'));
         } catch {
             expected_results_parsed = expected_results[i];
         }
-        console.log(typeof expected_results_parsed);
+        console.log(expected_results_parsed);
         eval_div.innerHTML += "Expected output: " + expected_results[i] + "<br>" + "Your output: " + answers[i] + "<br>";
         if (JSON.stringify(expected_results_parsed, Object.keys(expected_results_parsed).sort()) == JSON.stringify(answers_parsed, Object.keys(answers_parsed).sort())){
         //if (JSON.stringify(expected_results[i]) == JSON.stringify(answers[i])){
