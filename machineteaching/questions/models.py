@@ -22,7 +22,7 @@ class UserProfile(models.Model):
     STRATEGIES = (("random", "random"),
                    ("eer", "eer"))
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    professor = models.CharField(max_length=5, choices=PROFESSORS, blank=True)
+    professor = models.CharField(max_length=30, choices=PROFESSORS, blank=True)
     programming = models.CharField(max_length=3, choices=PROGRAMMING)
     accepted = models.BooleanField(default=False)
     strategy = models.CharField(max_length=10, choices=STRATEGIES)
