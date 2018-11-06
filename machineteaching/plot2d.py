@@ -5,9 +5,11 @@ import pandas as pd
 # Visualization
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-from sklearn.manifold import TSNE
+from sklearn.manifold import TSNE, MDS
+from sklearn.decomposition import PCA, TruncatedSVD
 import matplotlib.cm as cm
 import matplotlib.colors as mpl_colors
+from sklearn.metrics.pairwise import cosine_distances
 
 class Plot2D(object):
     """ Reduce data to 2 dimensions to plot it."""
@@ -23,6 +25,7 @@ class Plot2D(object):
         self.xs = None
         self.ys = None
         self.X = None
+        self.solution_tsne = None
 
         self._set_clusters()
         # Generate seed
@@ -42,10 +45,15 @@ class Plot2D(object):
     def reduce(self, solution_sample):
         # convert two components as we're plotting points in a two-dimensional plane
         # we will also specify `random_state` so the plot is reproducible.
-        solution_tsne = TSNE(n_components=2, metric='cosine',
+        self.solution_tsne = PCA(n_components=2,
+        # self.solution_tsne = TruncatedSVD(n_components=2,
+        # self.solution_tsne = MDS(n_components=2, dissimilarity='precomputed',
+        # self.solution_tsne = TSNE(n_components=2, metric='cosine',
                              random_state=self.seed)
                              #random_state=1)
-        pos = solution_tsne.fit_transform(solution_sample)  # shape (n_components, n_samples)
+        dissimilarity = cosine_distances(solution_sample)
+        pos = self.solution_tsne.fit_transform(solution_sample)  # shape (n_components, n_samples)
+        # pos = self.solution_tsne.fit_transform(dissimilarity)  # shape (n_components, n_samples)
         self.X = pos
         self.xs, self.ys = pos[:, 0], pos[:, 1]
 
@@ -79,7 +87,7 @@ class Plot2D(object):
     def plot(self, show_clusters=True, highlight=None, show=True,
              savefig=False, make_ellipses=False):
         # set up plot
-        fig, ax = plt.subplots(figsize=(9, 13)) # set size
+        fig, ax = plt.subplots(figsize=(13,9)) # set size
         ax.margins(0.05) # Optional, just adds 5% padding to the autoscaling
 
         # Show pre-labeled (not by the student!!) samples with the respective color
