@@ -87,7 +87,8 @@ class UserLog(models.Model):
                 ("S", "Skipped"))
     ERROR_TYPE = (("C", "Conceptual"),
                   ("S", "Syntax"),
-                  ("D", "Distraction"))
+                  ("D", "Distraction"),
+                  ("I", "Interpretation"))
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE)

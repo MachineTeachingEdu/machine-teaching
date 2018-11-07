@@ -133,8 +133,18 @@ class Plot2D(object):
 
         # If highlight is set, show observation with different color
         if highlight is not None:
+
+            colors = []
+            if isinstance(highlight, list):
+                for i in range(len(highlight)):
+                    color = cm.tab10(i / len(highlight))
+                    color_hex = mpl_colors.rgb2hex(color[:3])
+                    colors.append(color_hex)
+            else:
+                colors = ['r']
+
             plt.scatter(self.xs[highlight], self.ys[highlight],
-                        color='r', marker=r'$\star$', s=400)
+                        color=colors, marker=r'$\star$', s=400)
         if make_ellipses:
             make_ellipses["ax"] = ax
             self.make_ellipses(**make_ellipses)

@@ -12,7 +12,7 @@ class ProblemAdmin(admin.ModelAdmin):
 @admin.register(Solution)
 class SolutionAdmin(admin.ModelAdmin):
     list_display = ('id', 'problem', 'content', 'cluster')
-    search_fields = ['id']
+    search_fields = ['id', 'problem']
     list_filter = ('ignore', )
 
 @admin.register(TestCase)
