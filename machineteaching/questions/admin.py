@@ -7,7 +7,7 @@ from .models import (Problem, Solution, TestCase, UserLog, Cluster, UserModel,
 @admin.register(Problem)
 class ProblemAdmin(admin.ModelAdmin):
     list_display = ('id','title', 'content')
-    search_fields = ['id']
+    search_fields = ['id', 'title']
 
 @admin.register(Solution)
 class SolutionAdmin(admin.ModelAdmin):
@@ -23,6 +23,7 @@ class TestCaseAdmin(admin.ModelAdmin):
 @admin.register(UserLog)
 class UserLogAdmin(admin.ModelAdmin):
     list_display = ('user', 'problem', 'outcome', 'timestamp')
+    search_fields = ['problem']
 
 
 @admin.register(UserProfile)

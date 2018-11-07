@@ -9,7 +9,7 @@ from questions.models import UserLog
 class UserLogForm(ModelForm):
     class Meta:
         model = UserLog
-        exclude = ['timestamp', 'user']
+        exclude = ['timestamp', 'user', 'error_type']
 
 class SignUpForm(UserCreationForm):
     PROFESSORS = (("carla", "Carla"),

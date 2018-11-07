@@ -85,6 +85,9 @@ class UserLog(models.Model):
     OUTCOMES = (("F", "Failed"),
                 ("P", "Passed"),
                 ("S", "Skipped"))
+    ERROR_TYPE = (("C", "Conceptual"),
+                  ("S", "Syntax"),
+                  ("D", "Distraction"))
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
@@ -95,6 +98,7 @@ class UserLog(models.Model):
     seconds_to_begin = models.IntegerField()
     solution_lines = models.IntegerField()
     timestamp = models.DateTimeField(auto_now_add=True)
+    error_type = models.CharField(max_length=2, choices=ERROR_TYPE, default="D")
 
 class UserModel(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)

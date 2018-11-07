@@ -22,13 +22,13 @@ function evaluate(expected_results){
         try {
             answers_parsed = JSON.parse(answers[i].replace(/'/g, '"'));
         }
-        catch {
+        catch(e) {
             answers_parsed = answers[i];
         }
         console.log(answers_parsed)
         try {
             expected_results_parsed = JSON.parse(expected_results[i].replace(/'/g, '"'));
-        } catch {
+        } catch(e) {
             expected_results_parsed = expected_results[i];
         }
         console.log(expected_results_parsed);

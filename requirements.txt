@@ -8,3 +8,8 @@ psycopg2
 uwsgi
 django-picklefield
 numpy
+sklearn
+matplotlib
+pandas
+seaborn
+pylatex
