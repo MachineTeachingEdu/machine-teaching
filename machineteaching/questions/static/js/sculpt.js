@@ -117,6 +117,15 @@ function gotoproblem() {
      location.reload();
 }
 
+function betterTab(cm) {
+    if (cm.somethingSelected()) {
+        cm.indentSelection("add");
+    } else {
+        cm.replaceSelection(cm.getOption("indentWithTabs")? "\t":
+                Array(cm.getOption("indentUnit") + 1).join(" "), "end", "+input");
+    }
+}
+
 // Set pretty Python editor
 var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
 mode: {name: "python",
@@ -124,8 +133,9 @@ mode: {name: "python",
     singleLineStringErrors: false},
 lineNumbers: true,
 indentUnit: 4,
-tabMode: "shift",
-matchBrackets: true
+tabMode: "spaces",
+matchBrackets: true,
+extraKeys: { Tab: betterTab }
 });
 
 // Calculating time in page and code
