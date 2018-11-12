@@ -6,6 +6,7 @@ import pandas as pd
 from sklearn.decomposition import LatentDirichletAllocation
 from scipy.cluster import hierarchy
 from sklearn.mixture import GaussianMixture
+from sklearn.cluster import SpectralClustering
 
 # Plots
 import matplotlib.pyplot as plt
@@ -102,6 +103,26 @@ class Clustering(object):
 #        clusters = {}
 #        for key in set(document_topic):
 #            clusters[key] = np.where(document_topic == key)[0]
+
+        # Save result variables
+        self.model = model
+        self.document_topic = document_topic
+        self.word_topic = word_topic
+
+#        return model, document_topic, clusters
+        return model, document_topic, word_topic
+
+    def spectral_clustering(self):
+        """ Use spectral clustering method """
+        model = SpectralClustering(n_clusters=self.k,
+                                   random_state=self.seed,
+                                   assign_labels="discretize").fit(self.X)
+        clusters = model.fit_predict(self.X)
+        document_topic = np.zeros(self.X.shape)
+        for row in range(len(clusters)):
+            document_topic[row, clusters[row]] = 1
+
+        word_topic = None
 
         # Save result variables
         self.model = model
