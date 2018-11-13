@@ -13,3 +13,5 @@ matplotlib
 pandas
 seaborn
 pylatex
+networkx
+pydot
