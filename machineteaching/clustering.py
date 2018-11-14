@@ -82,17 +82,19 @@ class Clustering(object):
         """ Use hierarchical clustering method """
         # Create linkage matrix for original data
         model = hierarchy.linkage(self.X, 'ward')
-        document_topic = hierarchy.fcluster(model, self.k, criterion='maxclust')
-#        clusters = {}
-#        for key in set(document_topic):
-#            clusters[key] = np.where(document_topic == key)[0]
+        clusters = hierarchy.fcluster(model, self.k, criterion='maxclust')
+        document_topic = np.zeros((self.X.shape[0], self.k))
+        for row in range(len(clusters)):
+            document_topic[row, clusters[row]-1] = 1
+
+        word_topic = None
 
         # Save result variables
         self.model = model
         self.document_topic = document_topic
+        self.word_topic = word_topic
 
-#        return model, document_topic, clusters
-        return model, document_topic
+        return model, document_topic, word_topic
 
     def gaussian_mixture(self):
         """ Use gaussian mixture clustering method """
@@ -118,7 +120,7 @@ class Clustering(object):
                                    random_state=self.seed,
                                    assign_labels="discretize").fit(self.X)
         clusters = model.fit_predict(self.X)
-        document_topic = np.zeros(self.X.shape)
+        document_topic = np.zeros((self.X.shape[0], self.k))
         for row in range(len(clusters)):
             document_topic[row, clusters[row]] = 1
 
