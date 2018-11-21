@@ -14,7 +14,7 @@ def random_strategy(user):
     random.seed(user.userprofile.seed)
 
     ## Get random problem from available list that the user has not done yet
-    done_problems = UserLog.objects.filter(user=user, outcome__in=("S", "P")).values_list('problem__id', flat=True)
+    done_problems = UserLog.objects.filter(user=user, outcome__in=("S", "P")).values_list('problem__id', flat=True).distinct()
     problems = list(Problem.objects.filter(solution__ignore=False).values_list('id', flat=True).order_by('id'))
     random.shuffle(problems)
 
