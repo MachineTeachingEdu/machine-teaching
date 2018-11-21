@@ -16,7 +16,8 @@ class UserProfile(models.Model):
                   ("hugo", "Hugo"),
                   ("fernanda", "Fernanda"),
                   ("kleber", "Kleber"),
-                  ("cadu", "Cadu"))
+                  ("cadu", "Cadu"),
+                  ("alan", "Alan"))
     PROGRAMMING = (("yes", "Yes"),
                    ("no", "No"))
     STRATEGIES = (("random", "random"),

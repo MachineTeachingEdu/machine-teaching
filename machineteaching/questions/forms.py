@@ -17,7 +17,8 @@ class SignUpForm(UserCreationForm):
                   ("hugo", "Hugo"),
                   ("fernanda", "Fernanda"),
                   ("kleber", "Kleber"),
-                  ("cadu", "Cadu"))
+                  ("cadu", "Cadu"),
+                  ("alan", "Alan"))
     PROGRAMMING = (("no", "No"),
                    ("yes", "Yes"))
     professor = forms.ChoiceField(choices=PROFESSORS)
