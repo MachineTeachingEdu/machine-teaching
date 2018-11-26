@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 
 # Learning
-from sklearn.decomposition import LatentDirichletAllocation
+from sklearn.decomposition import LatentDirichletAllocation, NMF
 from scipy.cluster import hierarchy
 from sklearn.mixture import GaussianMixture
 from sklearn.cluster import SpectralClustering
@@ -53,6 +53,20 @@ class Clustering(object):
         df_sorted = df.loc[index]
         return df_sorted
 
+    def nmf(self):
+        """ Use NMF clustering method """
+        model = NMF(n_components=self.k, random_state=self.seed)
+        document_topic = model.fit_transform(self.X)
+        word_topic = model.components_
+
+        # Save result variables
+        self.model = model
+        self.document_topic = document_topic
+        self.word_topic = word_topic
+
+#        return model, document_topic, clusters
+        return model, document_topic, word_topic
+
     def lda(self):
         """ Use LDA clustering method """
         model = LatentDirichletAllocation(n_components=self.k, max_iter=10,
@@ -81,7 +95,7 @@ class Clustering(object):
     def hierarchical(self):
         """ Use hierarchical clustering method """
         # Create linkage matrix for original data
-        model = hierarchy.linkage(self.X, 'ward')
+        model = hierarchy.linkage(self.X, 'ward', metric=self.kwargs['metric'])
         clusters = hierarchy.fcluster(model, self.k, criterion='maxclust')
         document_topic = np.zeros((self.X.shape[0], self.k))
         for row in range(len(clusters)):
