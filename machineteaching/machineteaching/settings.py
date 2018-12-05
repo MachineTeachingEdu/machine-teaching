@@ -195,3 +195,9 @@ DOC_TOPIC_SHAPE = (54,3)
 
 # Problem selection strategies
 STRATEGIES = ("random", "eer")
+
+# Notebook options
+NOTEBOOK_ARGUMENTS = [
+    '--ip', '0.0.0.0',
+    '--no-browser'
+]
