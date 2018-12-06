@@ -82,18 +82,20 @@ class Gap(object):
         return gap_k, error
 
 def define_k(gaps, error):
-    for i in range(2,len(gaps)):
-        k = i-2
-        gapi = gaps[k]
-        gapi1 = gaps[k+1]
-        std = error[k+1]
-
-        if gapi >= (gapi1-std):
-            print("k = %d" % (k+2))
-            break
+#    for i in range(2,len(gaps)):
+#        k = i-2
+#        gapi = gaps[k]
+#        gapi1 = gaps[k+1]
+#        std = error[k+1]
+#
+#        if gapi >= (gapi1-std):
+#            print("k = %d" % (k+2))
+#            break
 
     diff = np.array(gaps) - np.array(error)
     gaps[1:] = gaps[:-1]
     gap_diff = np.array(gaps) > diff
     k = np.argmax(gap_diff[1:] == True)
-    return k+2
+#     k = np.where(gap_diff[1:]==True)[0][0]+2
+    k2 = np.where(gap_diff[1:]==True)[0][1]+2
+    return k+2, k2+2
