@@ -3,15 +3,16 @@ import numpy as np
 
 def calculate_umass_coherence(X, word_topic, clusters, k, N=5):
     k_coherence = []
-    for idx_cluster in range(k):
-        cluster_data = X[clusters == idx_cluster]
+    count_data = X.copy()
+    count_data[np.where(count_data != 0)] = 1
+    for idx_cluster in range(k):    
+        cluster_data = count_data[clusters == idx_cluster]
 
         # If there aren't any documents assigned to the cluster, skip it
         if cluster_data.shape[0] == 0:
             continue
 
         # Calculate cooccurence matrix
-        cluster_data[np.where(cluster_data > 1)] = 1
         cooccurence = np.dot(cluster_data.T, cluster_data)
 
         # For each topic, get N top words

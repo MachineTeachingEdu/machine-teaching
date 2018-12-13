@@ -57,7 +57,7 @@ class Clustering(object):
         """ Use NMF clustering method """
         model = NMF(n_components=self.k, random_state=self.seed)
         document_topic = model.fit_transform(self.X)
-        word_topic = model.components_
+        word_topic = model.components_.T
 
         # Save result variables
         self.model = model
@@ -73,7 +73,7 @@ class Clustering(object):
                                           learning_method='batch',
                                           random_state=self.seed)
         document_topic = model.fit_transform(self.X)
-        word_topic = model.components_
+        word_topic = model.components_.T
 
     #     docs_names = docs_id
 #        topics = [d for d in range(1, document_topic.shape[1]+1)]
