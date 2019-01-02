@@ -95,7 +95,11 @@ def define_k(gaps, error):
     diff = np.array(gaps) - np.array(error)
     gaps[1:] = gaps[:-1]
     gap_diff = np.array(gaps) > diff
-    k = np.argmax(gap_diff[1:] == True)
+    try:
+        k = np.argmax(gap_diff[1:] == True)
+    except ValueError:
+        k = np.argmax(gap_diff == True)
+
 #     k = np.where(gap_diff[1:]==True)[0][0]
     try:
         k2 = np.where(gap_diff[1:]==True)[0][1]

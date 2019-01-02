@@ -111,7 +111,7 @@ class Plot2D(object):
                 # Plot other categories
                 ax.plot(group.x, group.y, marker='o', linestyle='', ms=12,
                         label=name, color=self.cluster_colors[name],
-                        mec='none', alpha=0.5)
+                        mec='none')
                 ax.set_aspect('auto')
                 ax.tick_params(\
                     axis= 'x',          # changes apply to the x-axis
