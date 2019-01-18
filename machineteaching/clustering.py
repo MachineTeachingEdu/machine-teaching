@@ -148,8 +148,9 @@ class Clustering(object):
 #        return model, document_topic, clusters
         return model, document_topic, word_topic
 
-    def _plot_distribution(self, topic_distribution, x_label,
-                           topics=None, min_score=0.3):
+    def _plot_distribution(self, topic_distribution, xlabel,
+                           topics=None, min_score=0.3, cmap=sns.cm.rocket,
+                           ylabel=None, title=None, savefig=None):
         # If topic names are not set, set general topic name
         if not topics:
             topics = ["Topic %d" %d for d in range(1, self.k+1)]
@@ -162,33 +163,45 @@ class Clustering(object):
         topic_distribution_norm = self._normalize_per_row(topic_distribution)
 
         topic_distribution_df = pd.DataFrame(topic_distribution_norm,
-                                         index=x_label,
-                                         columns=topics)
+                                             index=xlabel,
+                                             columns=topics)
 
         # Sort docs according to topic assignment
         topic_distribution_df = self._sort_distribution(topic_distribution_df,
-                                                    topics,
-                                                    min_score=min_score)
+                                                        topics,
+                                                        min_score=min_score)
 
         # Create a figure instance, and the two subplots
-        fig = plt.figure(figsize=(12,12))
-        ax1 = fig.add_subplot(211)
-#        ax2 = fig.add_subplot(212)
-        # fig, (ax1, ax2) = plt.subplots(2, 1, sharex='col', figsize=(12,12))
+        fig = plt.figure(figsize=(18,12))
+        ax = fig.add_subplot(111)
 
+        sns.heatmap(topic_distribution_df, ax=ax, cmap=cmap, cbar_kws={'label': 'Topic weight'})
+        # use matplotlib.colorbar.Colorbar object
+        cbar = ax.collections[0].colorbar
+        # here set the labelsize by 20
+        cbar.ax.tick_params(labelsize=14)
+        cbar.ax.set_ylabel("Topic weight", fontsize=14)
+        ax.tick_params(labelsize=12)
+        ax.xaxis.tick_top()
 
-        sns.heatmap(topic_distribution_df, ax=ax1)
-        ax1.xaxis.tick_top()
+        if ylabel:
+            ax.set_ylabel(ylabel, fontsize=14)
+
+        if title:
+            ax.set_title(title, fontsize=18, y=1.04)
+        if savefig:
+            plt.savefig('images/' + savefig)
+
         plt.show()
         return topic_distribution_df
 
 
-    def plot_topic_distribution(self, topics=None, min_score=0.3):
-        self._plot_distribution(self.document_topic, range(0, self.X.shape[0]))
+    def plot_topic_distribution(self, **kwargs):
+        self._plot_distribution(self.document_topic, range(0, self.X.shape[0]),
+                                **kwargs)
 
 
-    def plot_word_distribution(self, words, topics=None, min_score=0.3):
-        df = self._plot_distribution(self.word_topic,
-                                x_label=["Topic %d" %d for d in range(1,self.k+1)],
-                                topics=words)
+    def plot_word_distribution(self, words, **kwargs):
+        kwargs["xlabel"] = ["Topic %d" %d for d in range(1,self.k+1)]
+        df = self._plot_distribution(self.word_topic, **kwargs)
         return df

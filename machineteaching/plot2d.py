@@ -42,18 +42,41 @@ class Plot2D(object):
             color_hex = mpl_colors.rgb2hex(color[:3])
             self.cluster_colors[self.cluster_names[i]] = color_hex
 
-    def reduce(self, solution_sample):
+    def reduce_pca(self, solution_sample):
         # convert two components as we're plotting points in a two-dimensional plane
         # we will also specify `random_state` so the plot is reproducible.
-        self.solution_tsne = PCA(n_components=2,
-        # self.solution_tsne = TruncatedSVD(n_components=2,
-        # self.solution_tsne = MDS(n_components=2, dissimilarity='precomputed',
-        # self.solution_tsne = TSNE(n_components=2, metric='cosine',
-                             random_state=self.seed)
-                             #random_state=1)
+        self.solution_reduced = PCA(n_components=2, random_state=self.seed)
+
+        pos = self.solution_reduced.fit_transform(solution_sample)  # shape (n_components, n_samples)
+        self.X = pos
+        self.xs, self.ys = pos[:, 0], pos[:, 1]
+
+    def reduce_svd(self, solution_sample):
+        # convert two components as we're plotting points in a two-dimensional plane
+        # we will also specify `random_state` so the plot is reproducible.
+        self.solution_reduced = TruncatedSVD(n_components=2, random_state=self.seed)
+
+        pos = self.solution_reduced.fit_transform(solution_sample)  # shape (n_components, n_samples)
+        self.X = pos
+        self.xs, self.ys = pos[:, 0], pos[:, 1]
+
+    def reduce_tsne(self, solution_sample):
+        # convert two components as we're plotting points in a two-dimensional plane
+        # we will also specify `random_state` so the plot is reproducible.
+        self.solution_reduced = TSNE(n_components=2, metric='cosine',
+                                     random_state=self.seed)
+
+        pos = self.solution_reduced.fit_transform(solution_sample)  # shape (n_components, n_samples)
+        self.X = pos
+        self.xs, self.ys = pos[:, 0], pos[:, 1]
+
+    def reduce_mds(self, solution_sample):
+        # convert two components as we're plotting points in a two-dimensional plane
+        # we will also specify `random_state` so the plot is reproducible.
+        self.solution_reduced = MDS(n_components=2, dissimilarity='precomputed',
+                                    random_state=self.seed)
         dissimilarity = cosine_distances(solution_sample)
-        pos = self.solution_tsne.fit_transform(solution_sample)  # shape (n_components, n_samples)
-        # pos = self.solution_tsne.fit_transform(dissimilarity)  # shape (n_components, n_samples)
+        pos = self.solution_reduced.fit_transform(dissimilarity)  # shape (n_components, n_samples)
         self.X = pos
         self.xs, self.ys = pos[:, 0], pos[:, 1]
 
@@ -129,7 +152,10 @@ class Plot2D(object):
             ax.legend(numpoints=1)  #show legend with only 1 point
 
         # Plot all docs
-        plt.scatter(self.xs, self.ys, alpha=0.5)
+        plt.scatter(self.xs, self.ys, alpha=0)
+        plt.title("Documents projected using PCA - First 2 components", fontsize=20)
+        plt.xlabel("PC1", fontsize=14)
+        plt.ylabel("PC2", fontsize=14)
 
         # If highlight is set, show observation with different color
         if highlight is not None:

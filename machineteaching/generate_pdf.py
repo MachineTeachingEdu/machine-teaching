@@ -55,3 +55,6 @@ class PDFReport(object):
 
     def generate_pdf(self, name):
         self.doc.generate_pdf(name, clean_tex=False)
+
+    def generate_tex(self, name):
+        self.doc.generate_tex(name)
