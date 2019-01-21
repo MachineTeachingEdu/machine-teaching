@@ -190,7 +190,8 @@ class Clustering(object):
         if title:
             ax.set_title(title, fontsize=18, y=1.04)
         if savefig:
-            plt.savefig('images/' + savefig)
+            plt.savefig('images/' + savefig + '.eps', format='eps')
+            plt.savefig('images/' + savefig + '.png', format='png')
 
         plt.show()
         return topic_distribution_df

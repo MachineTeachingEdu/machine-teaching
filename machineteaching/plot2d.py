@@ -176,7 +176,8 @@ class Plot2D(object):
             self.make_ellipses(**make_ellipses)
 
         if savefig:
-            plt.savefig('images/' + savefig)
+            plt.savefig('images/' + savefig + '.eps', format='eps')
+            plt.savefig('images/' + savefig + '.png', format='png')
 
         if show:
             plt.show() #show the plot
