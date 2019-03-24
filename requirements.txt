@@ -16,3 +16,4 @@ pylatex
 networkx
 pydot
 ipyparallel
+pyLDAvis
