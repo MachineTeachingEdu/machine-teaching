@@ -8,7 +8,7 @@ psycopg2
 uwsgi
 django-picklefield
 numpy
-sklearn
+sklearn==0.20.1
 matplotlib
 pandas
 seaborn

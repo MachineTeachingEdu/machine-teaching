@@ -15,8 +15,20 @@ class NCutVectorizer(object):
         train_data_features = train_data_features.toarray()
 
         # Calculate NCut-weight
-        doc_mat_norm = normalize(train_data_features)
+        # Fit
+        doc_mat_norm = normalize(train_data_features, axis=0)
         S = np.dot(doc_mat_norm.T, doc_mat_norm) + 0.001
-        D = np.power(np.sum(S, axis=1), -0.5) * np.eye(S.shape[0])
-        Y = np.dot(D, train_data_features.T)
+        self.D = np.power(np.sum(S, axis=1), -0.5) * np.eye(S.shape[0])
+
+        # Tranform
+        Y = np.dot(self.D, train_data_features.T)
+        return Y.T
+
+    def get_feature_names(self):
+        return self.vectorizer.get_feature_names()
+
+    def transform(object):
+        train_data_features = self.vectorizer.transform(docs)
+        train_data_features = train_data_features.toarray()
+        Y = np.dot(self.D, train_data_features.T)
         return Y.T
