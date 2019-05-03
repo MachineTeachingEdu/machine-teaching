@@ -22,6 +22,8 @@ def choose_concepts(request):
                     pk=request.POST['solution_id'])
                 new_concept.concept = Concept.objects.get(pk=item)
                 new_concept.save()
+        else:
+            return HttpResponse("form is not valid")
 
     # Count how many problems that user has done
     user_count = User.objects.filter(username=request.user.username).annotate(
