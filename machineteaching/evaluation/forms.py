@@ -1,11 +1,11 @@
-from django.forms import ModelForm
 from django import forms
+from evaluation.models import Concept
 
-class ConceptForm(ModelForm):
-    class Meta:
-        model = PythonConcepts
 
-    def __init__(self, *args, **kwargs):
-        super(ConceptForm, self).__init__(*args, **kwargs)
-        self.fields['concepts'] =  forms.ModelChoiceField(queryset=PythonConcepts.objects.all(),
-                                                    empty_label="Choose a countries",)
+class MultiChoiceWidget(forms.widgets.CheckboxSelectMultiple):
+    template_name = 'evaluation/concept_checkbox.html'
+
+class ConceptForm(forms.Form):
+    opt_concepts = Concept.objects.all().values_list('pk', 'label')
+    concepts = forms.MultipleChoiceField(choices=opt_concepts,
+                                         widget=MultiChoiceWidget)

@@ -1,8 +1,7 @@
-from django.views.generic import CreateView
-from evaluation.models import PythonConcepts
+from django.urls import path, reverse
+from evaluation import views
+from evaluation.forms import ConceptForm
 
 urlpatterns = [
-    path('', CreateView.as_view(model=PythonConcepts,
-         get_success_url=lambda: reverse('model_countries'),
-            template_name='your_countries.html'), form_class=ChoiceForm, name='model_countries'),)
+    path('', views.choose_concepts, name='choose_concepts')
 ]

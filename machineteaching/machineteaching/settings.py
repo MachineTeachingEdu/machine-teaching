@@ -34,6 +34,7 @@ ALLOWED_HOSTS = ["machine-teaching.eastus.cloudapp.azure.com", "40.121.177.95", 
 
 INSTALLED_APPS = [
     'questions.apps.QuestionsConfig',
+    'evaluation.apps.EvaluationConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -195,6 +196,11 @@ DOC_TOPIC_SHAPE = (54,3)
 
 # Problem selection strategies
 STRATEGIES = ("random", "eer")
+
+# Max Evaluation Count
+# How many solutions each user should evaluate
+# MAX_EVAL_COUNT = 15
+MAX_EVAL_COUNT = 5
 
 # Notebook options
 NOTEBOOK_ARGUMENTS = [

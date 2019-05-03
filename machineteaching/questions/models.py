@@ -78,6 +78,12 @@ class Solution(models.Model):
     tip = models.TextField(blank=True, default="#Start your python function here")
     cluster = models.ForeignKey(Cluster, on_delete=models.SET_NULL, null=True)
 
+    def __unicode__(self):
+        return self.problem.title
+
+    def __str__(self):
+        return self.problem.title
+
 class TestCase(models.Model):
     problem = models.ForeignKey(Problem, on_delete=models.PROTECT)
     content = models.TextField(blank=False)
