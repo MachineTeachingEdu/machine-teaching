@@ -1,7 +1,7 @@
-from django.urls import path, reverse
+from django.urls import path
 from evaluation import views
-from evaluation.forms import ConceptForm
 
 urlpatterns = [
-    path('', views.choose_concepts, name='choose_concepts')
+    path('', views.index, name='evaluation_index'),
+    path('concepts', views.choose_concepts, name='choose_concepts')
 ]

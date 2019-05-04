@@ -57,6 +57,9 @@
             <a class="nav-link" href="{% url 'past_problems' %}">Past problems</a>
             </li>
             <li class="nav-item">
+            <a class="nav-link" href="{% url 'evaluation_index' %}">Evaluation</a>
+            </li>
+            <li class="nav-item">
                 {% if user.is_authenticated %}
                 <a class="nav-link" href="{% url 'logout'%}">Logout</a>
                 {% else %}
