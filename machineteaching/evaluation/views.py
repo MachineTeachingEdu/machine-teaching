@@ -9,7 +9,8 @@ from functools import wraps
 
 from questions.models import Solution
 from evaluation.models import SolutionConcept, Concept
-from evaluation.forms import ConceptForm, UserNoPasswordForm, IntruderForm
+from evaluation.forms import (ConceptForm, UserNoPasswordForm,
+                              IntruderForm, TopicNameForm)
 
 
 LOGGER = logging.getLogger(__name__)
@@ -98,3 +99,10 @@ def intruder(request):
                   {"solutions": solutions,
                    "form": form})
 
+def topic_name(request):
+    """ Retrieve 4 solutions from the same topic and ask for a name. """
+    solutions = Solution.objects.filter(ignore=False)[:4]
+    form = TopicNameForm()
+    return render(request, 'evaluation/topic_name.html',
+                  {"solutions": solutions,
+                   "form": form})

@@ -101,9 +101,10 @@ ENV/
 .mypy_cache/
 
 # Generated results
-images/
+images*/
 *.tex
 *.pdf
+*.aux
 
 bbc-fulltext/
 bbc/

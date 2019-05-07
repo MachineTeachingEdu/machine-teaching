@@ -20,3 +20,7 @@ class IntruderForm(forms.Form):
     CHOICES = ((1,1), (2,2), (3,3), (4,4))
     intruder = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect,
                                  label="")
+
+class TopicNameForm(forms.Form):
+    name = forms.CharField(label="Este tópico reune códigos sobre ",
+                           widget=forms.TextInput(attrs={'style': 'width:60%'}))
