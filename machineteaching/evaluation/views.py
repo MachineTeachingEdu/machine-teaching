@@ -9,7 +9,7 @@ from functools import wraps
 
 from questions.models import Solution
 from evaluation.models import SolutionConcept, Concept
-from evaluation.forms import ConceptForm, UserNoPasswordForm
+from evaluation.forms import ConceptForm, UserNoPasswordForm, IntruderForm
 
 
 LOGGER = logging.getLogger(__name__)
@@ -93,6 +93,8 @@ def choose_concepts(request):
 def intruder(request):
     """ Retrieve 3 solutions from the same topic and an intruder. """
     solutions = Solution.objects.filter(ignore=False)[:4]
+    form = IntruderForm()
     return render(request, 'evaluation/intruder.html',
-                  {"solutions": solutions})
+                  {"solutions": solutions,
+                   "form": form})
 

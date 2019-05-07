@@ -211,7 +211,7 @@ STRATEGIES = ("random", "eer")
 
 # Max Evaluation Count
 # How many solutions each user should evaluate
-#MAX_EVAL_COUNT = 15
+# MAX_EVAL_COUNT = 15
 MAX_EVAL_COUNT = 2
 
 # Notebook options

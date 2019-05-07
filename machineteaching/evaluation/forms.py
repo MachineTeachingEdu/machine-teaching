@@ -9,11 +9,14 @@ class MultiChoiceWidget(forms.widgets.CheckboxSelectMultiple):
 class ConceptForm(forms.Form):
     opt_concepts = Concept.objects.all().values_list('pk', 'label')
     concepts = forms.MultipleChoiceField(choices=opt_concepts,
-                                         widget=MultiChoiceWidget)
+                                         widget=MultiChoiceWidget,
+                                         label="")
 
 class UserNoPasswordForm(forms.Form):
     name = forms.CharField()
     email = forms.EmailField()
 
 class IntruderForm(forms.Form):
-    intruder = forms.ChoiceField(choices=[1,2,3,4])
+    CHOICES = ((1,1), (2,2), (3,3), (4,4))
+    intruder = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect,
+                                 label="")

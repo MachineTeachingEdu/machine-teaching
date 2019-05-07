@@ -1,0 +1,20 @@
+    <!-- Code -->
+{% for item in solutions %}
+    <!-- Add row for every 2 codes -->
+    {% if forloop.counter0|divisibleby:"2" %}
+    <div class="row">
+    {% endif %}
+
+    <!-- Add code -->
+    <div class="col-lg-6 col-sm-12">
+    <h4> Código {{forloop.counter}}: </h4>
+    <form> 
+        <textarea name="code" cols="80" rows="10">{{item.content}}</textarea><br /> 
+    </form> 
+    </div>
+
+    <!-- Close row tag -->
+    {% if forloop.counter|divisibleby:"2" %}
+    </div>
+    {% endif %}
+{% endfor %}
