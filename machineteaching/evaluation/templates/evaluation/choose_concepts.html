@@ -7,7 +7,7 @@
 
 {% block content %}
       <!-- Problem statement -->
-      <h3>Problema {{ user_count }}/{{ max_eval_count }}<h3>
+      <h3>Problem {{ user_count|add:"1" }}/{{ max_eval_count }}<h3>
       <div class="row">
         <div class="col-lg-12">
             <h1 class="mt-5">{{ solution.problem.title }}</h1>

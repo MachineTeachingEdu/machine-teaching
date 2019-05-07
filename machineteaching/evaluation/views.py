@@ -1,3 +1,4 @@
+import logging
 from django.shortcuts import render, redirect
 from django.db.models import Count
 from django.conf import settings
@@ -10,6 +11,8 @@ from questions.models import Solution
 from evaluation.models import SolutionConcept, Concept
 from evaluation.forms import ConceptForm, UserNoPasswordForm
 
+
+LOGGER = logging.getLogger(__name__)
 
 # Custom decorator
 def login_required_nopwd(model=None):
@@ -69,15 +72,14 @@ def choose_concepts(request):
                           {"error": "Concepts can't be empty"})
 
     # Count how many problems that user has done
-    user_count = User.objects.filter(username=request.user.username).annotate(
-        user_count=Count('solutionconcept'))[0].user_count
+    user_count = User.objects.filter(username=request.user.username
+            ).annotate(user_count=Count('solutionconcept__solution',
+                       distinct=True))[0].user_count
 
     # If there are still problems to solve, render a new problem
     if user_count < settings.MAX_EVAL_COUNT:
         solution = Solution.objects.filter(ignore=False).annotate(
             num_concepts=Count('solutionconcept')).order_by('num_concepts')[0]
-        user_count = User.objects.filter(username=request.user.username).annotate(
-            user_count=Count('solutionconcept'))[0].user_count
         form = ConceptForm()
 
         return render(request, 'evaluation/choose_concepts.html',
@@ -86,4 +88,11 @@ def choose_concepts(request):
                        'max_eval_count': settings.MAX_EVAL_COUNT})
     # Otherwise, go to next exercise
     else:
-        return render(request, 'evaluation/intruder.html')
+        return redirect('intruder')
+
+def intruder(request):
+    """ Retrieve 3 solutions from the same topic and an intruder. """
+    solutions = Solution.objects.filter(ignore=False)[:4]
+    return render(request, 'evaluation/intruder.html',
+                  {"solutions": solutions})
+

@@ -185,7 +185,19 @@ LOGGING = {
         # Your own app - this assumes all your logger names start with "myapp."
         'machineteaching': {
             'handlers': ['logfile'],
-            'level': 'WARNING', # Or maybe INFO or DEBUG
+            'level': 'DEBUG', # Or maybe INFO or DEBUG
+            'propagate': False
+        },
+        # Your own app - this assumes all your logger names start with "myapp."
+        'questions': {
+            'handlers': ['logfile'],
+            'level': 'DEBUG', # Or maybe INFO or DEBUG
+            'propagate': False
+        },
+        # Your own app - this assumes all your logger names start with "myapp."
+        'evaluation': {
+            'handlers': ['logfile'],
+            'level': 'DEBUG', # Or maybe INFO or DEBUG
             'propagate': False
         },
     },
@@ -199,7 +211,8 @@ STRATEGIES = ("random", "eer")
 
 # Max Evaluation Count
 # How many solutions each user should evaluate
-MAX_EVAL_COUNT = 15
+#MAX_EVAL_COUNT = 15
+MAX_EVAL_COUNT = 2
 
 # Notebook options
 NOTEBOOK_ARGUMENTS = [

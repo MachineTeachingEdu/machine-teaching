@@ -14,3 +14,6 @@ class ConceptForm(forms.Form):
 class UserNoPasswordForm(forms.Form):
     name = forms.CharField()
     email = forms.EmailField()
+
+class IntruderForm(forms.Form):
+    intruder = forms.ChoiceField(choices=[1,2,3,4])

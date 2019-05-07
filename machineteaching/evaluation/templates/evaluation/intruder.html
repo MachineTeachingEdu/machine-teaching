@@ -1,4 +1,38 @@
 {% extends "questions/base.html" %}
+{% load static %}
 {% block content %}
-Próximo exercício
+      <!-- Code -->
+      <div class="row">
+        <div class="col-lg-6 col-sm-12">
+          <form> 
+              <textarea id="code" cols="80" rows="10">{{solutions.0.content}}</textarea><br /> 
+          </form> 
+        </div>
+<!--        <div class="col-lg-6 col-sm-12">-->
+<!--          <form> -->
+<!--              <textarea id="code" cols="80" rows="10">{{solutions.1.content}}</textarea><br /> -->
+<!--          </form> -->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="row">-->
+<!--        <div class="col-lg-6 col-sm-12">-->
+<!--          <form> -->
+<!--              <textarea id="code" cols="80" rows="10">{{solutions.2.content}}</textarea><br /> -->
+<!--          </form> -->
+<!--        </div>-->
+<!--        <div class="col-lg-6 col-sm-12">-->
+<!--          <form> -->
+<!--              <textarea id="code" cols="80" rows="10">{{solutions.3.content}}</textarea><br /> -->
+<!--          </form> -->
+<!--        </div>-->
+<!--      </div>-->
+{% endblock %}
+{% block javascript %}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js" type="text/javascript"></script> 
+<script src="http://www.skulpt.org/static/skulpt.min.js" type="text/javascript"></script> 
+<script src="http://www.skulpt.org/static/skulpt-stdlib.js" type="text/javascript"></script> 
+<script src="{% static 'vendor/codemirror-5.40.0/lib/codemirror.js' %}"></script>
+<script src="{% static 'vendor/codemirror-5.40.0/mode/python/python.js' %}"></script>
+
+<script src="{% static 'js/sculpt.js' %}"></script>
 {% endblock %}
