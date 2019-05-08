@@ -105,6 +105,7 @@ images*/
 *.tex
 *.pdf
 *.aux
+*.csv
 
 bbc-fulltext/
 bbc/

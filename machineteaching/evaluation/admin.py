@@ -1,8 +1,10 @@
 from django.contrib import admin
-from evaluation.models import Concept, SolutionConcept
+from evaluation.models import Concept, SolutionConcept, Intruder
 
 # Register your models here.
 admin.site.register(Concept)
+admin.site.register(Intruder)
+
 
 @admin.register(SolutionConcept)
 class SolutionConceptAdmin(admin.ModelAdmin):

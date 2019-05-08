@@ -6,14 +6,16 @@ from django.contrib.auth import login
 from django.contrib.auth.models import User
 # from django.contrib.auth.decorators import login_required
 from functools import wraps
+import random
 
-from questions.models import Solution
-from evaluation.models import SolutionConcept, Concept
+from questions.models import Solution, Cluster
+from evaluation.models import SolutionConcept, Concept, Intruder
 from evaluation.forms import (ConceptForm, UserNoPasswordForm,
                               IntruderForm, TopicNameForm)
 
 
 LOGGER = logging.getLogger(__name__)
+
 
 # Custom decorator
 def login_required_nopwd(model=None):
@@ -73,9 +75,10 @@ def choose_concepts(request):
                           {"error": "Concepts can't be empty"})
 
     # Count how many problems that user has done
-    user_count = User.objects.filter(username=request.user.username
-            ).annotate(user_count=Count('solutionconcept__solution',
-                       distinct=True))[0].user_count
+    user_count = User.objects.filter(
+        username=request.user.username).annotate(
+            user_count=Count(
+                'solutionconcept__solution', distinct=True))[0].user_count
 
     # If there are still problems to solve, render a new problem
     if user_count < settings.MAX_EVAL_COUNT:
@@ -91,13 +94,65 @@ def choose_concepts(request):
     else:
         return redirect('intruder')
 
+
 def intruder(request):
     """ Retrieve 3 solutions from the same topic and an intruder. """
-    solutions = Solution.objects.filter(ignore=False)[:4]
-    form = IntruderForm()
-    return render(request, 'evaluation/intruder.html',
-                  {"solutions": solutions,
-                   "form": form})
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = IntruderForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            for solution in request.POST['solutions_ids'].split(','):
+                intruder = Intruder()
+                intruder.user = request.user
+                intruder.cluster = Cluster.objects.get(pk=request.POST['cluster'])
+                intruder.solution = Solution.objects.get(pk=solution)
+                if solution == form.cleaned_data['intruder']:
+                    intruder.intruder = True
+                else:
+                    intruder.intruder = False
+                intruder.save()
+
+    # Get and exclude clusters already analyzed by the user
+    analyzed_clusters = Intruder.objects.filter(
+        user=request.user).values_list('pk', flat=True).distinct()
+    clusters = Cluster.objects.exclude(pk__in=analyzed_clusters)
+
+    # If there are still clusters to analyze
+    if clusters.count() > 0:
+        # Shuffle clusters
+        cluster = sorted(clusters,
+                        key=lambda x: random.random())[0]
+
+        # Get 3 random solutions for the cluster
+        solutions = Solution.objects.filter(ignore=False, cluster=cluster)
+        solutions = sorted(solutions,
+                        key=lambda x: random.random())[:3]
+
+        # Get 4th solution outside the cluster
+        intruder_solution = Solution.objects.filter(
+            ignore=False, cluster__isnull=False).exclude(cluster=cluster)
+        intruder_solution = [sorted(intruder_solution,
+                                    key=lambda x: random.random())[0]]
+
+        # Merge querysets and shuffle them for visualization
+        solution_queryset = solutions + intruder_solution
+        solution_queryset = sorted(solution_queryset,
+                                key=lambda x: random.random())
+
+        form = IntruderForm()
+        return render(request, 'evaluation/intruder.html', {
+            "solutions": solution_queryset,
+            "solutions_ids": ",".join(
+                [str(item.pk) for item in solution_queryset]),
+            "cluster": cluster.pk,
+            "user_count": analyzed_clusters.count()+1,
+            "total_count": analyzed_clusters.count() + clusters.count(),
+            "form": form})
+    else:
+        redirect('topic_name')
+
 
 def topic_name(request):
     """ Retrieve 4 solutions from the same topic and ask for a name. """

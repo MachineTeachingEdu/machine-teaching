@@ -6,13 +6,16 @@
 {% endblock %}
 {% block content %}
 
-<h3> Tópico </h3>
+<h3> Tópico {{user_count}}/{{total_count}}</h3>
+<p> Analisando tópico {{cluster}}
 
 <!-- Question -->
 <h3> Qual dos {{solutions|length}} códigos não pertence ao grupo? </h3>
     <form action="" method="post">
         {% csrf_token %}
         {{ form.as_table }}
+        <input type="hidden" name="solutions_ids" value="{{ solutions_ids }}">
+        <input type="hidden" name="cluster" value="{{ cluster }}">
         <input type="submit" value="Próximo" class="btn btn-primary btn-lg"/>
     </form> 
     {% include "evaluation/codeblock.html" %}
