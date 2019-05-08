@@ -1,5 +1,5 @@
 from django import forms
-from evaluation.models import Concept
+from evaluation.models import Concept, TopicName
 
 
 class MultiChoiceWidget(forms.widgets.CheckboxSelectMultiple):
@@ -12,14 +12,17 @@ class ConceptForm(forms.Form):
                                          widget=MultiChoiceWidget,
                                          label="")
 
+
 class UserNoPasswordForm(forms.Form):
     name = forms.CharField()
     email = forms.EmailField()
 
+
 class IntruderForm(forms.Form):
-    CHOICES = ((1,1), (2,2), (3,3), (4,4))
+    CHOICES = ((1, 1), (2, 2), (3, 3), (4, 4))
     intruder = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect,
                                  label="")
+
 
 class TopicNameForm(forms.Form):
     name = forms.CharField(label="Este tópico reune códigos sobre ",

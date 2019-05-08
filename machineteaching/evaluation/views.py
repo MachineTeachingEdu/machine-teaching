@@ -9,7 +9,7 @@ from functools import wraps
 import random
 
 from questions.models import Solution, Cluster
-from evaluation.models import SolutionConcept, Concept, Intruder
+from evaluation.models import SolutionConcept, Concept, Intruder, TopicName
 from evaluation.forms import (ConceptForm, UserNoPasswordForm,
                               IntruderForm, TopicNameForm)
 
@@ -103,12 +103,14 @@ def intruder(request):
         form = IntruderForm(request.POST)
         # check whether it's valid:
         if form.is_valid():
-            for solution in request.POST['solutions_ids'].split(','):
+            for idx, solution in enumerate(request.POST['solutions_ids'].split(',')):
                 intruder = Intruder()
                 intruder.user = request.user
-                intruder.cluster = Cluster.objects.get(pk=request.POST['cluster'])
+                intruder.cluster = Cluster.objects.get(
+                    pk=request.POST['cluster'])
                 intruder.solution = Solution.objects.get(pk=solution)
-                if solution == form.cleaned_data['intruder']:
+
+                if (idx+1) == int(form.cleaned_data['intruder']):
                     intruder.intruder = True
                 else:
                     intruder.intruder = False
@@ -116,19 +118,19 @@ def intruder(request):
 
     # Get and exclude clusters already analyzed by the user
     analyzed_clusters = Intruder.objects.filter(
-        user=request.user).values_list('pk', flat=True).distinct()
+        user=request.user).values_list('cluster', flat=True).distinct()
     clusters = Cluster.objects.exclude(pk__in=analyzed_clusters)
 
     # If there are still clusters to analyze
     if clusters.count() > 0:
         # Shuffle clusters
         cluster = sorted(clusters,
-                        key=lambda x: random.random())[0]
+                         key=lambda x: random.random())[0]
 
         # Get 3 random solutions for the cluster
         solutions = Solution.objects.filter(ignore=False, cluster=cluster)
         solutions = sorted(solutions,
-                        key=lambda x: random.random())[:3]
+                           key=lambda x: random.random())[:3]
 
         # Get 4th solution outside the cluster
         intruder_solution = Solution.objects.filter(
@@ -139,7 +141,7 @@ def intruder(request):
         # Merge querysets and shuffle them for visualization
         solution_queryset = solutions + intruder_solution
         solution_queryset = sorted(solution_queryset,
-                                key=lambda x: random.random())
+                                   key=lambda x: random.random())
 
         form = IntruderForm()
         return render(request, 'evaluation/intruder.html', {
@@ -151,13 +153,45 @@ def intruder(request):
             "total_count": analyzed_clusters.count() + clusters.count(),
             "form": form})
     else:
-        redirect('topic_name')
+        return redirect('topic_name')
 
 
 def topic_name(request):
     """ Retrieve 4 solutions from the same topic and ask for a name. """
-    solutions = Solution.objects.filter(ignore=False)[:4]
-    form = TopicNameForm()
-    return render(request, 'evaluation/topic_name.html',
-                  {"solutions": solutions,
-                   "form": form})
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = TopicNameForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            topic = TopicName()
+            topic.user = request.user
+            topic.label = form.cleaned_data['name']
+            topic.cluster = Cluster.objects.get(pk=request.POST['cluster'])
+            topic.save()
+
+    # Get and exclude clusters already analyzed by the user
+    analyzed_clusters = TopicName.objects.filter(
+        user=request.user).values_list('cluster', flat=True).distinct()
+    clusters = Cluster.objects.exclude(pk__in=analyzed_clusters)
+
+    # If there are still clusters to analyze
+    if clusters.count() > 0:
+        # Shuffle clusters
+        cluster = sorted(clusters,
+                         key=lambda x: random.random())[0]
+
+        # Get 4 random solutions for the cluster
+        solutions = Solution.objects.filter(ignore=False, cluster=cluster)
+        solutions = sorted(solutions,
+                           key=lambda x: random.random())[:4]
+
+        form = TopicNameForm()
+        return render(request, 'evaluation/topic_name.html', {
+            "solutions": solutions,
+            "cluster": cluster.pk,
+            "user_count": analyzed_clusters.count()+1,
+            "total_count": analyzed_clusters.count() + clusters.count(),
+            "form": form})
+    else:
+        return redirect('thank_you')
