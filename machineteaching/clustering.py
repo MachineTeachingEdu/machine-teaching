@@ -42,15 +42,12 @@ class Clustering(object):
     def _sort_distribution(self, df, columns, min_score=0.3):
         """ Sort topic assignment distribution """
         ids = []
-
         for col in columns:
-            ids = ids + df[df[col] > min_score].sort_values([col], ascending=False).index.tolist()
+            ids_col = np.where(df.idxmax(axis=1) == col)
+            ids_col = df.loc[ids_col].sort_values([col], ascending=False).index.tolist()
+            ids += ids_col
 
-        for col in columns:
-            ids = ids + df.sort_values([col], ascending=False).index.tolist()
-
-        index = df.loc[ids].index.drop_duplicates()
-        df_sorted = df.loc[index]
+        df_sorted = df.loc[ids]
         return df_sorted
 
     def nmf(self):
@@ -172,7 +169,7 @@ class Clustering(object):
                                                         min_score=min_score)
 
         # Create a figure instance, and the two subplots
-        fig = plt.figure(figsize=(18,12))
+        fig = plt.figure(figsize=(8,10))
         ax = fig.add_subplot(111)
 
         sns.heatmap(topic_distribution_df, ax=ax, cmap=cmap, cbar_kws={'label': 'Topic weight'})
@@ -183,6 +180,7 @@ class Clustering(object):
         cbar.ax.set_ylabel("Topic weight", fontsize=14)
         ax.tick_params(labelsize=12)
         ax.xaxis.tick_top()
+        ax.tick_params('x', labelrotation=45)
 
         if ylabel:
             ax.set_ylabel(ylabel, fontsize=14)
@@ -194,6 +192,7 @@ class Clustering(object):
             plt.savefig('images/' + savefig + '.png', format='png')
 
         plt.show()
+        plt.tight_layout()
         return topic_distribution_df
 
 
