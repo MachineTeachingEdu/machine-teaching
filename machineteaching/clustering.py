@@ -191,8 +191,8 @@ class Clustering(object):
             plt.savefig('images/' + savefig + '.eps', format='eps')
             plt.savefig('images/' + savefig + '.png', format='png')
 
-        plt.show()
         plt.tight_layout()
+        plt.show()
         return topic_distribution_df
 
 
