@@ -4,9 +4,10 @@ from random import randint
 import numpy as np
 import pickle
 
-from questions.models import Problem, Solution, UserLog, UserModel
+from questions.models import Problem, Solution, UserLog, UserModel, Cluster
 from questions.sampling import get_next_sample
 
+CLUSTER_IDX = list(Cluster.objects.values_list('pk', flat=True).order_by('pk'))
 
 ## STRATEGIES (random or eer)
 def random_strategy(user):
@@ -53,7 +54,7 @@ def eer_strategy(user):
     for item in passed_solutions:
         sol_id, cluster = item
         sol_idx = all_solutions_idx.index(sol_id)
-        X[sol_idx, cluster] = 1
+        X[sol_idx, CLUSTER_IDX.index(cluster)] = 1
         L.append(sol_idx)
 
     # Save user model
@@ -65,7 +66,7 @@ def eer_strategy(user):
     Y = np.zeros(settings.DOC_TOPIC_SHAPE)
     clusters = all_solutions.values_list('cluster', flat=True).order_by('id')
     for idx, cluster_value in enumerate(clusters):
-        Y[idx, cluster_value] = 1
+        Y[idx, CLUSTER_IDX.index(cluster_value)] = 1
 
     # Unpickle similarity matrix (W)
     with open('similarity.pkl', 'rb') as pklfile:
