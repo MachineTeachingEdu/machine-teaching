@@ -30,6 +30,8 @@ class UserProfile(models.Model):
     accepted = models.BooleanField(default=False)
     strategy = models.CharField(max_length=10, choices=STRATEGIES)
     seed = models.CharField(max_length=81)
+    user_class = models.ForeignKey(OnlineClass, on_delete=models.PROTECT,
+                                   blank=True)
 
     def __unicode__(self):
         return self.user
@@ -116,6 +118,15 @@ class UserLog(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     error_type = models.CharField(max_length=2, choices=ERROR_TYPE,
                                   default="D")
+
+
+class OnlineClass(models.Model):
+    name = models.CharField(max_length=200, blank=False)
+
+
+class Professor(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    prof_class = models.ForeignKey(OnlineClass, on_delete=models.PROTECT)
 
 
 class UserModel(models.Model):
