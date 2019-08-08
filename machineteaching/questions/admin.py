@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import (Problem, Solution, TestCase, UserLog, Cluster, UserModel,
-                     UserProfile)
+                     UserProfile, Professor, OnlineClass, Chapter)
 
 
 # Register your models here.
@@ -32,3 +32,6 @@ class UserProfileAdmin(admin.ModelAdmin):
 
 admin.site.register(Cluster)
 admin.site.register(UserModel)
+admin.site.register(Professor)
+admin.site.register(OnlineClass)
+admin.site.register(Chapter)

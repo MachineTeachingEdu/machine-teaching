@@ -1,0 +1,14 @@
+{% extends "questions/base.html" %}
+{% load static %}
+
+{% block content %}
+<div><h2>Você terminou todos os problemas disponíveis no modo 
+        {% if user.userprofile.sequential %} <b>Sequential</b>. Você pode:
+        <ul>
+            <li> Ir em <a href="{% url 'chapters' %}"> Aulas </a> e voltar para os exercícios que pulou.</li>
+            <li> Ir para o modo <b>Random</b> e tentar outros exercícios.
+        </ul>
+        {% else %} <b>Random</b>. Você pode ir para o modo <b>Sequential</b> e fazer novos exercícios. {% endif %}
+    </h2>
+</div>
+{% endblock %}

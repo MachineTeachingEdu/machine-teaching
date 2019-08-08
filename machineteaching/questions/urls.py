@@ -8,10 +8,12 @@ urlpatterns = [
     path('start', views.get_next_problem, name='start'),
     path('next', views.get_next_problem, name='next'),
     path('savelog', views.save_user_log, name='savelog'),
+    path('update_strategy', views.update_strategy, name='update_strategy'),
     path('signup', views.signup, name='signup'),
     path('past_problems', views.get_past_problems, name='past_problems'),
     path('past_solutions/<int:id>', views.get_user_solution,
          name='past_solutions'),
+    path('chapters', views.get_chapter_problems, name='chapters'),
     path('terms_and_conditions', TemplateView.as_view(
         template_name='questions/conditions.html'),
         name='terms_and_conditions'),

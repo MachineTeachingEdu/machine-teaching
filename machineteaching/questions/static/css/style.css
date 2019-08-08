@@ -12,3 +12,11 @@ body {
 }
 
 .top-buffer { margin-top:5%; }
+.navbar-dark .navbar-nav .nav-pretty {
+    color: white;
+    text-shadow: none;
+}
+
+.navbar-dark .navbar-nav .nav-nolink:hover{
+    color:white;
+}

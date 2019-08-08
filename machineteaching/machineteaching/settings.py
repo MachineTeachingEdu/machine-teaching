@@ -204,7 +204,7 @@ LOGGING = {
 }
 
 # Document Topic shape
-DOC_TOPIC_SHAPE = (54, 5)
+DOC_TOPIC_SHAPE = (55, 5)
 
 # Problem selection strategies
 STRATEGIES = ("random", "eer")

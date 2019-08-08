@@ -50,23 +50,37 @@
             <!--<li class="nav-item">-->
               <!--<a class="nav-link" href="#">About</a>-->
             <!--</li>-->
+        {% if user.is_authenticated %}
             <li class="nav-item">
-            <a class="nav-link" href="{% url 'next' %}">Current problem</a>
+                <div class="nav-link nav-pretty nav-nolink">
+                Strategy:
+                <input type="radio" name="sequential" value=1 
+                    {% if user.userprofile.sequential %} checked {% endif %}>Sequential</input>
+                <input type="radio" name="sequential" value=0 
+                {% if not user.userprofile.sequential %} checked {% endif %}>Random</input>
+                </div>
+            </li>
+        {% endif %}
+            <li class="nav-item">
+            <a class="nav-link nav-pretty" href="{% url 'next' %}">Current problem</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="{% url 'past_problems' %}">Past problems</a>
+            <a class="nav-link nav-pretty" href="{% url 'past_problems' %}">Past problems</a>
             </li>
+            <!--<li class="nav-item">
+            <a class="nav-link nav-pretty" href="{% url 'evaluation_index' %}">Evaluation</a>
+            </li>-->
             <li class="nav-item">
-            <a class="nav-link" href="{% url 'evaluation_index' %}">Evaluation</a>
+            <a class="nav-link nav-pretty" href="{% url 'chapters' %}">Aulas</a>
             </li>
             <li class="nav-item">
                 {% if user.is_authenticated %}
-                <a class="nav-link" href="{% url 'logout'%}">Logout</a>
+                <a class="nav-link nav-pretty" href="{% url 'logout'%}">Logout</a>
                 {% else %}
-                <a class="nav-link" href="{% url 'signup' %}" id="signup">Sign Up</a>
+                <a class="nav-link nav-pretty" href="{% url 'signup' %}" id="signup">Sign Up</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="{% url 'login' %}" id="accountslogin">Login</a>
+            <a class="nav-link nav-pretty" href="{% url 'login' %}" id="accountslogin">Login</a>
                 {% endif %}
             </li>
           </ul>
@@ -81,10 +95,11 @@
     </div>
 
     <!-- Bootstrap core JavaScript -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
-    <script src="{% static 'js/script.js' %}"></script>
+    <!--<script src="{% static 'js/script.js' %}"></script>-->
     <!--Start of Zendesk Chat Script-->
     <script type="text/javascript">
     window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
@@ -94,6 +109,27 @@
     type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
     </script>
     <!--End of Zendesk Chat Script-->
+    <!-- Change between strategies -->
+    <script>
+    $("[name='sequential']").on('click', function(){
+        $.ajax({
+            type: "GET",
+            url: '{% url 'update_strategy' %}',
+            data: {
+                'sequential': $("[name='sequential']:checked").val()
+            },
+            dataType: 'json',
+            success: function(data){
+                console.log('status: ' + data['status']);
+                window.location.href = "{% url 'start' %}";
+
+            },
+            error: function (request, status, error) {
+                console.log(request.status);
+          }
+        });
+    });
+    </script>
 
     {% block javascript %}
     {% endblock %}

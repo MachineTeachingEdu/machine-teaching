@@ -1,4 +1,5 @@
 #from django.http import Http404, JsonResponse
+import logging
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import permission_required, login_required
@@ -8,10 +9,12 @@ from django.core.exceptions import PermissionDenied
 import random
 from functools import wraps
 
-from questions.models import Problem, Solution, UserLog, UserModel
+from questions.models import Problem, Solution, UserLog, UserModel, UserProfile
 from questions.forms import UserLogForm, SignUpForm
 from questions.get_problem import get_problem
 from questions.strategies import STRATEGIES_FUNC
+
+LOGGER = logging.getLogger(__name__)
 
 #Custom decorator
 def must_be_yours(model=None):
@@ -80,13 +83,18 @@ def get_random_problem(request):
 
 @login_required
 def get_next_problem(request):
-    strategy = request.user.userprofile.strategy
+    if request.user.userprofile.sequential:
+        strategy = 'sequential'
+    else:
+        strategy = 'random'
+        # TODO: Temp hack while EER strategy is not updated with new clusters and problems
+        ## strategy = request.user.userprofile.strategy
     problem_id = STRATEGIES_FUNC[strategy](request.user)
-    #try:
+    LOGGER.debug("Got problem %s", problem_id)
+
+    if not problem_id:
+        return render(request, 'questions/finished.html', {})
     context = get_problem(problem_id)
-    #except Problem.DoesNotExist:
-        #raise Http404("Problem does not exist")
-        #raise DoesNotExist
     return render(request, 'questions/show_problem.html', context)
 
 @login_required
@@ -101,11 +109,40 @@ def save_user_log(request):
 
 @login_required
 def get_past_problems(request):
-    past_problems = UserLog.objects.filter(user=request.user).order_by('-timestamp')
+    past_problems = UserLog.objects.filter(user=request.user).order_by('timestamp')
     return render(request, 'questions/past_problems.html', {'past_problems': past_problems})
+
+@login_required
+def get_chapter_problems(request):
+    problems = Problem.objects.filter(chapter__isnull=False).order_by(
+            'chapter_id')
+    # Get exercise where student passed
+    passed = UserLog.objects.filter(user=request.user, outcome='P'
+            ).values_list('problem_id', flat=True).distinct()
+    skipped = UserLog.objects.filter(user=request.user, outcome='S'
+            ).values_list('problem_id', flat=True).distinct()
+    failed = UserLog.objects.filter(user=request.user, outcome='F'
+            ).values_list('problem_id', flat=True).distinct()
+    return render(request, 'questions/chapters.html', {
+        'problems': problems,
+        'passed': passed,
+        'skipped': skipped,
+        'failed': failed
+        })
 
 @login_required
 @must_be_yours(model=UserLog)
 def get_user_solution(request, id):
     userlog = UserLog.objects.get(pk=id)
     return render(request, 'questions/past_solutions.html', {'log': userlog})
+
+@login_required
+def update_strategy(request):
+    try:
+        sequential = request.GET['sequential']
+        user = UserProfile.objects.get(user=request.user)
+        user.sequential = bool(int(sequential))
+        user.save()
+        return JsonResponse({'status': 'success'})
+    except Exception:
+        return JsonResponse({'status': 'failed'})

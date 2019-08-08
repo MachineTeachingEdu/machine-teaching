@@ -1,5 +1,6 @@
-from django.conf import settings
+import logging
 import random
+from django.conf import settings
 from random import randint
 import numpy as np
 import pickle
@@ -7,6 +8,7 @@ import pickle
 from questions.models import Problem, Solution, UserLog, UserModel, Cluster
 from questions.sampling import get_next_sample
 
+LOGGER = logging.getLogger(__name__)
 CLUSTER_IDX = list(Cluster.objects.values_list('pk', flat=True).order_by('pk'))
 
 ## STRATEGIES (random or eer)
@@ -15,15 +17,24 @@ def random_strategy(user):
     random.seed(user.userprofile.seed)
 
     ## Get random problem from available list that the user has not done yet
-    done_problems = UserLog.objects.filter(user=user, outcome__in=("S", "P")).values_list('problem__id', flat=True).distinct()
-    problems = list(Problem.objects.filter(solution__ignore=False).values_list('id', flat=True).order_by('id'))
+    done_problems = UserLog.objects.filter(user=user, outcome__in=("S", "P"),
+            problem__solution__ignore=False).values_list('problem__id', flat=True).distinct()
+    LOGGER.debug("User %s has done problems: %s", user.username, done_problems)
+    problems = list(Problem.objects.filter(solution__ignore=False).values_list('id', flat=True).distinct().order_by('id'))
+    LOGGER.debug("Analisying %d problems", len(problems))
     random.shuffle(problems)
 
     # Remove all done problems and get the next one
     for done in done_problems:
+        LOGGER.debug("Removing problem %d", done)
         problems.remove(done)
 
-    return problems[0]
+    LOGGER.debug("Remaining problems: %s", problems)
+    try:
+        problem_id = problems[0]
+    except IndexError:
+        problem_id = None
+    return problem_id
 
 def eer_strategy(user):
     ## TODO: Get user current status and calculate next best problem
@@ -79,7 +90,24 @@ def eer_strategy(user):
 
     return problem_id
 
+def sequential_strategy(user):
+    # Get user solutions
+    user_passed = UserLog.objects.filter(user=user, outcome__in=["P", "S"]).values_list(
+            'problem', flat=True)
+
+    # Go to next available problem
+    try:
+        problem_id = Problem.objects.filter(chapter__isnull=False).exclude(
+                id__in=user_passed).order_by('id')[0].pk
+    except IndexError:
+        problem_id = None
+
+    return problem_id
+
+
 STRATEGIES_FUNC = {
     "random": random_strategy,
-    "eer": eer_strategy
+    "eer": eer_strategy,
+    "sequential": sequential_strategy
 }
+

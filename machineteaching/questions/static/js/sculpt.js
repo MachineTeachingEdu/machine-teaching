@@ -114,7 +114,8 @@ function skipit() {
 };
 
 function gotoproblem() {
-     location.reload();
+    /*location.reload();*/
+    window.location.href = START;
 }
 
 function betterTab(cm) {

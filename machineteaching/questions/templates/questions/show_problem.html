@@ -64,6 +64,7 @@
 
 <script src="{% static 'js/sculpt.js' %}"></script>
 <script>
+START = "{% url 'start' %}";
 var next_url = '{% url 'next' %}';
 function save_log(outcome, seconds_in_code, seconds_to_begin, seconds_in_page){
     $.ajax({

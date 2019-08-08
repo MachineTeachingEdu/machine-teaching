@@ -11,27 +11,46 @@ import numpy as np
 
 
 # Create your models here.
+class OnlineClass(models.Model):
+    name = models.CharField(max_length=200, blank=False)
+
+    class Meta:
+        verbose_name_plural = 'OnlineClasses'
+
+    def __unicode__(self):
+        return self.name
+
+    def __str__(self):
+        return "%s" % self.name
+
+
+class Professor(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    prof_class = models.ManyToManyField(OnlineClass)
+
+    def __unicode__(self):
+        return self.user
+
+    def __str__(self):
+        return "%s" % self.user
+
 class UserProfile(models.Model):
-    PROFESSORS = (("carla", "Carla"),
-                  ("joao", "João Carlos"),
-                  ("hugo", "Hugo"),
-                  ("fernanda", "Fernanda"),
-                  ("kleber", "Kleber"),
-                  ("cadu", "Cadu"),
-                  ("alan", "Alan"),
-                  ("evandro", "Evandro"))
     PROGRAMMING = (("yes", "Yes"),
                    ("no", "No"))
     STRATEGIES = (("random", "random"),
-                  ("eer", "eer"))
+                  ("eer", "eer"),
+                  ("sequential", "sequential"))
     user = models.OneToOneField(User, on_delete=models.PROTECT)
-    professor = models.CharField(max_length=30, choices=PROFESSORS, blank=True)
+    professor = models.ForeignKey(Professor, on_delete=models.PROTECT,
+                                  null=True)
     programming = models.CharField(max_length=3, choices=PROGRAMMING)
     accepted = models.BooleanField(default=False)
     strategy = models.CharField(max_length=10, choices=STRATEGIES)
     seed = models.CharField(max_length=81)
     user_class = models.ForeignKey(OnlineClass, on_delete=models.PROTECT,
-                                   blank=True)
+                                   null=True)
+    sequential = models.BooleanField(default=True)
+
 
     def __unicode__(self):
         return self.user
@@ -43,6 +62,17 @@ class UserProfile(models.Model):
 class Cluster(models.Model):
     id = models.IntegerField(primary_key=True)
     label = models.CharField(max_length=50, blank=False)
+
+    def __unicode__(self):
+        return self.label
+
+    def __str__(self):
+        return "%d - %s" % (self.id, self.label)
+
+
+class Chapter(models.Model):
+    id = models.IntegerField(primary_key=True)
+    label = models.CharField(max_length=200, blank=False)
 
     def __unicode__(self):
         return self.label
@@ -67,6 +97,7 @@ class Problem(models.Model):
     crawler = models.CharField(max_length=200, blank=True)
     hint = models.TextField(blank=True)
     objects = ProblemManager()
+    chapter = models.ForeignKey(Chapter, on_delete=models.PROTECT, null=True)
 
     def __unicode__(self):
         return self.title
@@ -118,15 +149,6 @@ class UserLog(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     error_type = models.CharField(max_length=2, choices=ERROR_TYPE,
                                   default="D")
-
-
-class OnlineClass(models.Model):
-    name = models.CharField(max_length=200, blank=False)
-
-
-class Professor(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    prof_class = models.ForeignKey(OnlineClass, on_delete=models.PROTECT)
 
 
 class UserModel(models.Model):
