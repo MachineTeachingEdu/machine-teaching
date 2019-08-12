@@ -1,28 +1,30 @@
-#from django.http import Http404, JsonResponse
+# from django.http import Http404, JsonResponse
 import logging
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth import login, authenticate
-from django.conf import settings
+# from django.conf import settings
 from django.core.exceptions import PermissionDenied
-import random
+# import random
 from functools import wraps
 
-from questions.models import Problem, Solution, UserLog, UserModel, UserProfile
+from questions.models import (Problem, Solution, UserLog, UserProfile,
+                              Professor)
 from questions.forms import UserLogForm, SignUpForm
 from questions.get_problem import get_problem
 from questions.strategies import STRATEGIES_FUNC
 
 LOGGER = logging.getLogger(__name__)
 
-#Custom decorator
+
+# Custom decorator
 def must_be_yours(model=None):
     def decorator(view_func):
         @wraps(view_func)
         def _wrapped_view(request, *args, **kwargs):
-            #user = request.user
-            #print user.id
+            # user = request.user
+            # print user.id
             pk = kwargs["id"]
             obj = model.objects.get(pk=pk)
             if not (obj.user == request.user):
@@ -31,9 +33,11 @@ def must_be_yours(model=None):
         return _wrapped_view
     return decorator
 
+
 # Create your views here.
 def index(request):
     return render(request, 'questions/index.html')
+
 
 def signup(request):
     if request.method == 'POST':
@@ -43,7 +47,8 @@ def signup(request):
             user.username = form.cleaned_data.get('email')
             user.save()
             user.refresh_from_db()  # load the profile instance created by the signal
-            user.userprofile.professor = form.cleaned_data.get('professor')
+            professor = Professor.objects.get(pk=int(form.cleaned_data.get('professor')))
+            user.userprofile.professor = professor
             user.userprofile.programming = form.cleaned_data.get('programming')
             user.userprofile.accepted = form.cleaned_data.get('accepted')
             user.userprofile.save()
