@@ -10,7 +10,7 @@ from django.core.exceptions import PermissionDenied
 from functools import wraps
 
 from questions.models import (Problem, Solution, UserLog, UserProfile,
-                              Professor)
+                              Professor, OnlineClass)
 from questions.forms import UserLogForm, SignUpForm
 from questions.get_problem import get_problem
 from questions.strategies import STRATEGIES_FUNC
@@ -47,10 +47,14 @@ def signup(request):
             user.username = form.cleaned_data.get('email')
             user.save()
             user.refresh_from_db()  # load the profile instance created by the signal
+            LOGGER.debug(form.cleaned_data.get('professor'))
             professor = Professor.objects.get(pk=int(form.cleaned_data.get('professor')))
             user.userprofile.professor = professor
             user.userprofile.programming = form.cleaned_data.get('programming')
             user.userprofile.accepted = form.cleaned_data.get('accepted')
+            user_class = OnlineClass.objects.get(pk=int(form.cleaned_data.get(
+                'onlineclass')))
+            user.userprofile.user_class = user_class
             user.userprofile.save()
             username = form.cleaned_data.get('email')
             raw_password = form.cleaned_data.get('password1')

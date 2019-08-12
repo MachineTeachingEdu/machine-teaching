@@ -3,8 +3,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
-from django.urls import reverse
-from questions.models import UserLog, Professor
+# from django.urls import reverse
+from questions.models import UserLog, Professor, OnlineClass
 
 class UserLogForm(ModelForm):
     class Meta:
@@ -14,8 +14,11 @@ class UserLogForm(ModelForm):
 class SignUpForm(UserCreationForm):
     PROGRAMMING = (("no", "No"),
                    ("yes", "Yes"))
-    PROFESSORS = Professor.objects.all().values_list("user_id", "user__first_name")
+    PROFESSORS = Professor.objects.all().values_list(
+        "id", "user__first_name").order_by('user__first_name')
+    CLASSES = OnlineClass.objects.all().values_list("id", "name")
     professor = forms.ChoiceField(choices=PROFESSORS)
+    onlineclass = forms.ChoiceField(choices=CLASSES, label="Class")
     programming = forms.ChoiceField(choices=PROGRAMMING, label="Did you have any programming experience before this course?")
     accepted = forms.BooleanField(label=mark_safe('I accept the <a href="/terms_and_conditions">Terms and Conditions</a>'))
 
