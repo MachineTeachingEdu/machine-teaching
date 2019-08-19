@@ -6,6 +6,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.conf import settings
 import random
+import json
 from random import randint, SystemRandom
 import numpy as np
 
@@ -214,5 +215,5 @@ def create_test_cases(sender, instance, created, **kwargs):
             for item in test_cases:
                 test_case = TestCase()
                 test_case.problem = instance
-                test_case.content = item
+                test_case.content = json.dumps(item)
                 test_case.save()
