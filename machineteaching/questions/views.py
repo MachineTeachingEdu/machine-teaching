@@ -124,7 +124,7 @@ def get_past_problems(request):
 @login_required
 def get_chapter_problems(request):
     problems = Problem.objects.filter(chapter__isnull=False).order_by(
-            'chapter_id')
+            '-chapter_id', 'id')
     # Get exercise where student passed
     passed = UserLog.objects.filter(user=request.user, outcome='P'
             ).values_list('problem_id', flat=True).distinct()

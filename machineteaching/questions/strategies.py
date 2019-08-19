@@ -102,6 +102,7 @@ def sequential_strategy(user):
     except IndexError:
         problem_id = None
 
+    LOGGER.debug("Selecting problem %d from sequential strategy", problem_id)
     return problem_id
 
 

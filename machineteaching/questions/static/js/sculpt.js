@@ -10,7 +10,7 @@ function builtinRead(x) {
     return Sk.builtinFiles["files"][x];
 }
 
-function evaluate(expected_results){
+function evaluate(args, expected_results){
     eval_div = document.getElementById("evaluation");
     eval_div.innerHTML = "";
     answers = document.getElementById("output").innerHTML.split("\n");
@@ -32,7 +32,7 @@ function evaluate(expected_results){
             expected_results_parsed = expected_results[i];
         }
         console.log(expected_results_parsed);
-        eval_div.innerHTML += "Expected output: " + expected_results[i] + "<br>" + "Your output: " + answers[i] + "<br>";
+        eval_div.innerHTML += "Input: " + args[i] + "<br>Expected output: " + expected_results[i] + "<br>" + "Your output: " + answers[i] + "<br>";
         if (JSON.stringify(expected_results_parsed, Object.keys(expected_results_parsed).sort()) == JSON.stringify(answers_parsed, Object.keys(answers_parsed).sort())){
         //if (JSON.stringify(expected_results[i]) == JSON.stringify(answers[i])){
             eval_div.innerHTML += '<span class="badge badge-success">OK</span><br><br>'
@@ -95,7 +95,7 @@ function runit(args, func, expected_results) {
    seconds_end_page = performance.now()
    seconds_in_page = Math.round((seconds_end_page - seconds_begin_page)/1000);
    console.log("seconds in page:" + seconds_in_page);
-   evaluate(expected_results);
+   evaluate(args, expected_results);
 };
 
 function skipit() {
