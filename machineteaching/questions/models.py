@@ -97,7 +97,9 @@ class Problem(models.Model):
     crawler = models.CharField(max_length=200, blank=True)
     hint = models.TextField(blank=True)
     objects = ProblemManager()
-    chapter = models.ForeignKey(Chapter, on_delete=models.PROTECT, null=True)
+    chapter = models.ForeignKey(Chapter, on_delete=models.PROTECT, null=True,
+            blank=True)
+    test_case_generator = models.TextField(blank=True, null=True)
 
     def __unicode__(self):
         return self.title
@@ -187,3 +189,30 @@ def create_user_profile(sender, instance, created, **kwargs):
         generator = SystemRandom()
         instance.seed = u''.join(generator.choice(alphabet) for _ in range(81))
         instance.save()
+
+@receiver(post_save, sender=Problem)
+def create_test_cases(sender, instance, created, **kwargs):
+    # If generate test case is provided with the Problem, generate and
+    # save the test cases
+    if instance.test_case_generator != None and \
+            instance.test_case_generator != '':
+
+        # Transform solution into python function
+        function_obj = compile(instance.test_case_generator, 'generate', 'exec')
+        exec(function_obj)
+
+        # Generate test cases
+        test_cases = eval('generate')()
+
+        # If valid test cases
+        if test_cases:
+            # Delete old ones
+            old_test_cases = TestCase.objects.filter(problem=instance)
+            old_test_cases.delete()
+
+            # Add new ones
+            for item in test_cases:
+                test_case = TestCase()
+                test_case.problem = instance
+                test_case.content = item
+                test_case.save()
