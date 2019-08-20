@@ -5,6 +5,7 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
 {% endblock %}
 {% block content %}
+<p><b>Aula:</b><span id="aula">Aula</span></p>
 <table id="problems" class="table table-striped table-bordered">
     <thead>
         <tr>
@@ -13,6 +14,7 @@
             <th class="searchable">Resultado</th>
         </tr>
     </thead>
+
     <tbody>
         {% for item in problems %}
         <tr> 
@@ -32,10 +34,24 @@
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script>
 $(document).ready(function() {
-        $('#problems').dataTable({
+        var table = $('#problems').DataTable({
             "pageLength": 50,
             "order": [[ 0, "desc" ]]
             });
+
+        $("#aula").each( function ( i ) {
+        var select = $('<select><option value="">Todas</option></select>')
+            .appendTo( $(this).empty() )
+            .on( 'change', function () {
+                table.column( i )
+                    .search( $(this).val() )
+                    .draw();
+            } );
+ 
+        table.column( i ).data().unique().sort().each( function ( d, j ) {
+            select.append( '<option value="'+d+'">'+d+'</option>' )
+        } );
+    } );
 } );
 </script>
 {% endblock %}

@@ -10,9 +10,9 @@
       <div class="row">
         <div class="col-lg-12">
             <h1 class="mt-5">{{ problem.title }}</h1>
-          <p class="lead">
-          {{ problem.content|linebreaks }}
-          </p>
+          <span id="problem_content">
+            {{ problem.content|linebreaks}}
+          </span>
         </div>
       </div>
 
@@ -59,6 +59,7 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js" type="text/javascript"></script> 
 <script src="http://www.skulpt.org/js/skulpt.min.js" type="text/javascript"></script> 
 <script src="http://www.skulpt.org/js/skulpt-stdlib.js" type="text/javascript"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js" type="text/javascript"></script>
 <script src="{% static 'vendor/codemirror-5.40.0/lib/codemirror.js' %}"></script>
 <script src="{% static 'vendor/codemirror-5.40.0/mode/python/python.js' %}"></script>
 
@@ -88,5 +89,12 @@ function save_log(outcome, seconds_in_code, seconds_to_begin, seconds_in_page){
       }
     });
 }
+
+// Load markdown
+var converter = new showdown.Converter(),
+    text      = `{{problem.content}}`,
+    html      = converter.makeHtml(text);
+$("#problem_content").html(html);
+console.log($("#problem_content").html())
 </script>
 {% endblock %}
