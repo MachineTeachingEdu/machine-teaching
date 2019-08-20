@@ -91,7 +91,7 @@ function save_log(outcome, seconds_in_code, seconds_to_begin, seconds_in_page){
 }
 
 // Load markdown
-var converter = new showdown.Converter(),
+var converter = new showdown.Converter({'simplifiedAutoLink': true}),
     text      = `{{problem.content}}`,
     html      = converter.makeHtml(text);
 $("#problem_content").html(html);
