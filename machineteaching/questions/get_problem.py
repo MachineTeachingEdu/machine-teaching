@@ -28,7 +28,7 @@ def get_problem(problem_id):
 
     context = {
         "problem": problem,
-        "test_case": test_case,
+        "test_case": ["%s" % item for item in test_case],
         "expected_results": expected_results,
         "tip": solution.tip,
         "header": solution.header

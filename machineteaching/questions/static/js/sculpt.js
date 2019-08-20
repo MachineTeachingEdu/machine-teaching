@@ -58,6 +58,7 @@ function evaluate(args, expected_results){
 // configure the output function
 // call Sk.importMainWithBody()
 function runit(args, func, expected_results) {
+
    // Display result divs
    document.getElementById("output-div").style.display="block";
    document.getElementById("testcase-div").style.display="block";
@@ -72,11 +73,14 @@ function runit(args, func, expected_results) {
    Sk.configure({output:outf, read:builtinRead});
    (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'mycanvas';
 
+   // Extract data type from JSON 
    console.log(args);
+
    for (i = 0; i < args.length; i++) {
        item = args[i];
        console.log(item);
-       prog_args = prog + "\nprint(" + func + "(*" + JSON.stringify(item) + "))";
+       //prog_args = prog + "\nprint(" + func + "(*" + JSON.stringify(item) + "))";
+       prog_args = prog + "\nprint(" + func + "(*" + item + "))";
        console.log(prog_args);
        var myPromise = Sk.misceval.asyncToPromise(function() {
            return Sk.importMainWithBody("<stdin>", false, prog_args, true);

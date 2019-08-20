@@ -21,7 +21,7 @@
         <div class="col-lg-12">
           <form> 
               <textarea id="code" cols="80" rows="10">{{tip}}</textarea><br /> 
-              <button type="button" onclick="runit({{test_case|safe}}, '{{header}}', {{expected_results|safe|escape_doublequote}})" class="btn-lg btn-default">Run</button> 
+              <button type="button" onclick="runit({{test_case|safe|escape_doublequote}}, '{{header}}', {{expected_results|safe|escape_doublequote}})" class="btn-lg btn-default">Run</button> 
               <button type="button" onclick="skipit()" id="next" class="btn btn-primary btn-lg" style="color:white;">Skip</button>
           </form> 
         </div>
