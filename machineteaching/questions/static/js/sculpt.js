@@ -70,7 +70,7 @@ function runit(args, func, expected_results) {
    var mypre = document.getElementById("output");
    mypre.innerHTML = '';
    Sk.pre = "output";
-   Sk.configure({output:outf, read:builtinRead});
+   Sk.configure({output:outf, read:builtinRead, __future__: Sk.python3});
    (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'mycanvas';
 
    // Extract data type from JSON 
