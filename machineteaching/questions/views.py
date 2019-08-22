@@ -65,7 +65,8 @@ def signup(request):
         form = SignUpForm()
     return render(request, 'registration/signup.html', {'form': form})
 
-@permission_required('questions.can_add_problem', raise_exception=True)
+#@permission_required('questions.can_add_problem', raise_exception=True)
+@login_required
 def show_problem(request, problem_id):
     #try:
     context = get_problem(problem_id)
