@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
 # from django.urls import reverse
-from questions.models import UserLog, Professor, OnlineClass
+from questions.models import UserLog, Professor, OnlineClass, Chapter
 
 class UserLogForm(ModelForm):
     class Meta:
@@ -37,3 +37,17 @@ class SignUpForm(UserCreationForm):
         if email and User.objects.filter(email=email).exists():
             raise forms.ValidationError(u'Email addresses must be unique.')
         return email
+
+class OutcomeForm(forms.Form):
+    onlineclass = forms.ModelChoiceField(queryset=OnlineClass.objects.all(), label="Class")
+    chapter = forms.ModelChoiceField(queryset=Chapter.objects.all(), label="Aula")
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(OutcomeForm, self).__init__(*args, **kwargs)
+
+    def clean_onlineclass(self):
+        onlineclass = self.cleaned_data.get('onlineclass')
+        if onlineclass not in OnlineClass.objects.filter(professor__user=self.user):
+            raise forms.ValidationError(u'You don\t have authorization to view this class.')
+        return onlineclass

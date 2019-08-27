@@ -1,0 +1,52 @@
+{% extends "questions/base.html" %}
+{% load static %}
+
+{% block content %}
+    <form action="{% url 'show_outcome' %}" method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Search" class="btn btn-primary btn-lg"/>
+    </form> 
+    {% if problems %}
+        <table id="outcomes">
+            <thead>
+                <tr>
+                    <th class="searchable">Alunos</th>
+                    {% for item in problems %}
+                    <th class="searchable">{{ forloop.counter }}.</th>
+                    {% endfor %}
+                    <!--<th class="searchable">Total</th>-->
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for student in students %}
+                <tr> {% for item in student %}
+                    <td>
+                        {% if item.0 == "P" %} <span class="badge badge-success">Passed</span>
+                        {% elif item.0 == "F" %} <span class="badge badge-danger">Failed</span>
+                        {% elif item.0 == "S" %} <span class="badge badge-primary">Skipped</span>
+                        {% elif item.0 == "N" %}{% else %}
+                        {{ item }}
+                        {% endif %}
+                    </td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+{% endblock %}
+{% block javascript %}
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script>
+$(document).ready(function() {
+        var table = $('#outcomes').DataTable({
+            "pageLength": 50,
+            "order": [[ 0, "desc" ]]
+            });
+} );
+</script>
+{% endblock %}

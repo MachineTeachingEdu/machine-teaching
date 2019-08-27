@@ -28,6 +28,7 @@ class OnlineClass(models.Model):
 class Professor(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     prof_class = models.ManyToManyField(OnlineClass)
+    assistant = models.BooleanField(default=False)
 
     def __unicode__(self):
         return self.user
