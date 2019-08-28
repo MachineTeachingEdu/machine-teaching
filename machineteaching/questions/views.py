@@ -139,7 +139,7 @@ def get_student_solutions(request, id, chapter=None, problem=None):
     if problem:
         userlog = userlog.filter(problem=problem)
     return render(request, 'questions/past_problems.html', {
-        'past_problems': userlog, 'user': user})
+        'past_problems': userlog, 'student': student})
 
 @login_required
 def get_chapter_problems(request):
