@@ -34,10 +34,12 @@ def must_be_yours(model=None):
 
             # Must be yours or from your student
             is_professor = Professor.objects.filter(user=request.user)
+            LOGGER.info("Logged user is professor: %s" % bool(is_professor))
             # Test if user is professor and if student is in his/her class
-            user_professor = is_professor and (obj.user.userprofile.user_class in is_professor.prof_class.all())
+            user_professor = is_professor and (obj.user.userprofile.user_class in is_professor[0].prof_class.all())
+            LOGGER.info("Logged user is student professor: %s" % bool(user_professor))
 
-            if not (obj.user == request.user) or not user_professor:
+            if not (obj.user == request.user) and not user_professor:
                 raise PermissionDenied
             return view_func(request, *args, **kwargs)
         return _wrapped_view
@@ -145,7 +147,7 @@ def get_student_solutions(request, id, chapter=None, problem=None):
     if problem:
         userlog = userlog.filter(problem=problem)
     return render(request, 'questions/past_problems.html', {
-        'past_problems': userlog, 'student': student})
+        'past_problems': userlog, 'student': user})
 
 @login_required
 def get_chapter_problems(request):
