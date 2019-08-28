@@ -35,7 +35,7 @@ def must_be_yours(model=None):
             # Must be yours or from your student
             is_professor = Professor.objects.filter(user=request.user)
             # Test if user is professor and if student is in his/her class
-            user_professor = is_professor and (obj.user.userprofile.user_class in is_professor)
+            user_professor = is_professor and (obj.user.userprofile.user_class in is_professor.prof_class.all())
 
             if not (obj.user == request.user) or not user_professor:
                 raise PermissionDenied
