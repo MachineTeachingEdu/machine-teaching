@@ -1,8 +1,8 @@
 from django.db import models
 from django.db.models.aggregates import Count
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from picklefield.fields import PickledObjectField
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
 from django.conf import settings
 import random
@@ -36,6 +36,7 @@ class Professor(models.Model):
     def __str__(self):
         return "%s" % self.user
 
+
 class UserProfile(models.Model):
     PROGRAMMING = (("yes", "Yes"),
                    ("no", "No"))
@@ -52,7 +53,6 @@ class UserProfile(models.Model):
     user_class = models.ForeignKey(OnlineClass, on_delete=models.PROTECT,
                                    null=True)
     sequential = models.BooleanField(default=True)
-
 
     def __unicode__(self):
         return self.user
@@ -100,7 +100,7 @@ class Problem(models.Model):
     hint = models.TextField(blank=True)
     objects = ProblemManager()
     chapter = models.ForeignKey(Chapter, on_delete=models.PROTECT, null=True,
-            blank=True)
+                                blank=True)
     test_case_generator = models.TextField(blank=True, null=True)
 
     def __unicode__(self):
@@ -155,6 +155,16 @@ class UserLog(models.Model):
                                   default="D")
 
 
+class UserLogView(models.Model):
+    user = models.ForeignKey(User, on_delete=models.PROTECT, primary_key=True)
+    problem = models.ForeignKey(Problem, on_delete=models.PROTECT)
+    final_outcome = models.CharField(max_length=2)
+    timestamp = models.DateTimeField()
+
+    class Meta:
+        managed = False
+
+
 class UserModel(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     distribution = PickledObjectField()
@@ -192,15 +202,28 @@ def create_user_profile(sender, instance, created, **kwargs):
         instance.seed = u''.join(generator.choice(alphabet) for _ in range(81))
         instance.save()
 
+@receiver(post_save, sender=Professor)
+def add_professor_group(sender, instance, created, **kwargs):
+    group = Group.objects.get(name="Professor")
+    instance.user.groups.add(group)
+    instance.user.save()
+
+@receiver(post_delete, sender=Professor)
+def delete_professor_group(sender, instance, **kwargs):
+    group = Group.objects.get(name="Professor")
+    instance.user.groups.remove(group)
+    instance.user.save()
+
 @receiver(post_save, sender=Problem)
 def create_test_cases(sender, instance, created, **kwargs):
     # If generate test case is provided with the Problem, generate and
     # save the test cases
-    if instance.test_case_generator != None and \
+    if instance.test_case_generator is not None and \
             instance.test_case_generator != '':
 
         # Transform solution into python function
-        function_obj = compile(instance.test_case_generator, 'generate', 'exec')
+        function_obj = compile(instance.test_case_generator,
+                               'generate', 'exec')
         exec(function_obj)
 
         # Generate test cases

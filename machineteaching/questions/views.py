@@ -4,17 +4,17 @@ from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.models import User
 # from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.db.models.functions import Lower
 # import random
 import json
 from functools import wraps
-from collections import defaultdict
 import time
 
 from questions.models import (Problem, Solution, UserLog, UserProfile,
-                              Professor, OnlineClass)
+                              Professor, OnlineClass, UserLogView)
 from questions.forms import UserLogForm, SignUpForm, OutcomeForm
 from questions.get_problem import get_problem
 from questions.strategies import STRATEGIES_FUNC
@@ -50,9 +50,10 @@ def signup(request):
             user = form.save()
             user.username = form.cleaned_data.get('email')
             user.save()
-            user.refresh_from_db()  # load the profile instance created by the signal
+            user.refresh_from_db()  # load the instance created by the signal
             LOGGER.debug(form.cleaned_data.get('professor'))
-            professor = Professor.objects.get(pk=int(form.cleaned_data.get('professor')))
+            professor = Professor.objects.get(pk=int(form.cleaned_data.get(
+                'professor')))
             user.userprofile.professor = professor
             user.userprofile.programming = form.cleaned_data.get('programming')
             user.userprofile.accepted = form.cleaned_data.get('accepted')
@@ -69,7 +70,8 @@ def signup(request):
         form = SignUpForm()
     return render(request, 'registration/signup.html', {'form': form})
 
-#@permission_required('questions.can_add_problem', raise_exception=True)
+
+# @permission_required('questions.can_add_problem', raise_exception=True)
 @login_required
 def show_problem(request, problem_id):
     #try:
@@ -124,7 +126,20 @@ def save_user_log(request):
 @login_required
 def get_past_problems(request):
     past_problems = UserLog.objects.filter(user=request.user).order_by('timestamp')
-    return render(request, 'questions/past_problems.html', {'past_problems': past_problems})
+    return render(request, 'questions/past_problems.html', {
+        'past_problems': past_problems, 'user': request.user})
+
+@permission_required('questions.view_userlogview', raise_exception=True)
+@login_required
+def get_student_solutions(request, id, chapter=None, problem=None):
+    user = User.objects.get(pk=id)
+    userlog = UserLog.objects.filter(user_id=id)
+    if chapter:
+        userlog = userlog.filter(problem__chapter=chapter)
+    if problem:
+        userlog = userlog.filter(problem=problem)
+    return render(request, 'questions/past_problems.html', {
+        'past_problems': userlog, 'user': user})
 
 @login_required
 def get_chapter_problems(request):
@@ -144,54 +159,87 @@ def get_chapter_problems(request):
         'failed': failed
         })
 
+@permission_required('questions.view_userlogview', raise_exception=True)
 @login_required
 def show_outcome(request):
-    student_list = []
+    outcomes = []
     if request.method == 'POST':
         form = OutcomeForm(request.POST, user=request.user)
         if form.is_valid():
             onlineclass = form.cleaned_data['onlineclass']
             chapter = form.cleaned_data['chapter']
-            problems = Problem.objects.filter(chapter=chapter).order_by(
-                    'id')
-            students = UserProfile.objects.filter(user_class=onlineclass
-                    ).order_by(Lower('user__first_name').desc(),
-                               Lower('user__last_name').desc())
-            # For each student in class, let's check outcome for each problem
+
+            # Get class problems
+            problems = list(Problem.objects.filter(chapter=chapter).order_by(
+                    'id').values_list('id', flat=True))
+
+            # Get latest student outcome for every student in class
+            students = UserLogView.objects.filter(
+                user__userprofile__user_class=onlineclass,
+                problem_id__in=problems).order_by(
+                    Lower('user__first_name').asc(),
+                    Lower('user__last_name').asc(),
+                    'problem_id').values('user_id',
+                        'user__first_name', 'user__last_name',
+                        'problem_id', 'final_outcome', 'timestamp')
+
+            # For each student in class, let's organize it in a table
             start = time.time()
-            for student in students:
-                student_item = []
-                outcomes = defaultdict(int)
-                student_item.append("%s %s" % (
-                    student.user.first_name, student.user.last_name))
-                for problem in problems:
-                    problem_item = UserLog.objects.filter(user=student.user,
-                            problem=problem)
-                    # Priority if the student passed at any point
-                    passed = problem_item.filter(outcome="P").order_by('timestamp')
-                    if passed.count():
-                        student_item.append(("P", passed[0]))
-                        outcomes["P"] += 1
-                    elif problem_item.filter(outcome="F"):
-                        student_item.append(("F",))
-                        outcomes["F"] += 1
-                    elif problem_item.filter(outcome="S"):
-                        student_item.append(("S",))
-                        outcomes["S"] += 1
+            if students.count():
+                current_student = students[0]["user_id"]
+                student_name = "%s %s" % (students[0]["user__first_name"],
+                                          students[0]["user__last_name"])
+                outcome_student = [(None, None)]*len(problems)
+                for student in students:
+                    if current_student == student["user_id"]:
+                        outcome_student[
+                            problems.index(student["problem_id"])
+                        ] = (student["final_outcome"],
+                             student["timestamp"].isoformat())
+                    # Previous student is finished, lets start a new one
                     else:
-                        student_item.append(("N",))
-                        outcomes["N"] += 1
-#                student_item.append(json.dumps(outcomes))
-                student_list.append(student_item)
+                        only_outcomes = list(zip(*outcome_student))[0]
+                        student_row = {
+                            "name": (student_name, current_student),
+                            "outcomes": outcome_student,
+                            "total": {
+                                "P": only_outcomes.count("P"),
+                                "F": only_outcomes.count("F"),
+                                "S": only_outcomes.count("S")
+                            }
+                        }
+                        outcomes.append(student_row)
+                        # Get new student
+                        outcome_student = [(None,None)]*len(problems)
+                        current_student = student["user_id"]
+                        student_name = "%s %s" % (student["user__first_name"],
+                                                  student["user__last_name"])
+                        outcome_student[
+                            problems.index(student["problem_id"])
+                        ] = (student["final_outcome"],
+                             student["timestamp"].isoformat())
+                # Add last student
+                outcome_student[
+                    problems.index(student["problem_id"])
+                ] = (student["final_outcome"],
+                        student["timestamp"].isoformat())
+                student_row = {"name": (student_name, current_student),
+                                "outcomes": outcome_student,
+                                "total": {"P": outcome_student.count("P"),
+                                            "F": outcome_student.count("F"),
+                                            "S": outcome_student.count("S")}}
+                outcomes.append(student_row)
             end = time.time()
             LOGGER.info("Elapsed time: %d" % (end-start))
     else:
         form = OutcomeForm()
-        form.fields['onlineclass'].queryset = OnlineClass.objects.filter(
-            professor__user=request.user)
         problems = []
-    return render(request, 'questions/choose_class.html',
-            {'form': form, 'problems': problems, 'students':student_list})
+    form.fields['onlineclass'].queryset = OnlineClass.objects.filter(
+        professor__user=request.user).order_by('name')
+    LOGGER.info("Available classes: %s" % form.fields['onlineclass'].queryset)
+    LOGGER.info("Showing students and outcomes: %s" % json.dumps(outcomes))
+    return render(request, 'questions/outcomes.html',
+                  {'form': form, 'problems': problems, 'outcomes':outcomes})
 
 
 @login_required
@@ -199,7 +247,6 @@ def show_outcome(request):
 def get_user_solution(request, id):
     userlog = UserLog.objects.get(pk=id)
     return render(request, 'questions/past_solutions.html', {'log': userlog})
-
 
 @login_required
 def update_strategy(request):

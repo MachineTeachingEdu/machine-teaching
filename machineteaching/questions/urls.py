@@ -13,6 +13,13 @@ urlpatterns = [
     path('past_problems', views.get_past_problems, name='past_problems'),
     path('past_solutions/<int:id>', views.get_user_solution,
          name='past_solutions'),
+    path('student_solutions/<int:id>', views.get_student_solutions,
+         name='student_solutions'),
+    path('student_solutions/<int:id>/<int:chapter>', views.get_student_solutions,
+         name='student_solutions'),
+    path('student_solutions/<int:id>/<int:chapter>/<int:problem>',
+         views.get_student_solutions,
+         name='student_solutions'),
     path('chapters', views.get_chapter_problems, name='chapters'),
     path('outcomes', views.show_outcome, name='show_outcome'),
     path('terms_and_conditions', TemplateView.as_view(

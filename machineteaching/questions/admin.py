@@ -29,9 +29,18 @@ class UserLogAdmin(admin.ModelAdmin):
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
     list_display = ('user', 'professor', 'programming', 'strategy', 'accepted', 'seed')
+    search_fields = ['user']
+    list_filter = ('professor', 'programming', 'strategy')
+    autocomplete_fields = ['user']
+
+
+@admin.register(Professor)
+class ProfessorAdmin(admin.ModelAdmin):
+    list_display = ('user', 'assistant')
+    search_fields = ['user']
+    list_filter = ('assistant',)
 
 admin.site.register(Cluster)
 admin.site.register(UserModel)
-admin.site.register(Professor)
 admin.site.register(OnlineClass)
 admin.site.register(Chapter)

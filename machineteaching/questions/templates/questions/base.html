@@ -73,6 +73,11 @@
             <li class="nav-item">
             <a class="nav-link nav-pretty" href="{% url 'chapters' %}">Aulas</a>
             </li>
+            {% if perms.questions.view_userlogview %}
+            <li class="nav-item">
+            <a class="nav-link nav-pretty" href="{% url 'show_outcome' %}">Resultados<a>
+            </li>
+            {% endif %}
             <li class="nav-item">
                 {% if user.is_authenticated %}
                 <a class="nav-link nav-pretty" href="{% url 'logout'%}">Logout</a>
