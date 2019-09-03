@@ -112,3 +112,4 @@ bbc/
 hmm*/
 
 settings.py
+db_*.json
