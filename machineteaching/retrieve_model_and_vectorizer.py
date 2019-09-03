@@ -20,7 +20,7 @@ class RetrieveModelAndVectorizer(object):
     def connect(self):
         """ Connect to DB """
         connection = psycopg2.connect(user="machineteaching",
-                                      password="***REMOVED***",
+                                      password="",
                                       host="localhost",
                                       database="machineteaching")
         connection.autocommit = True
