@@ -113,3 +113,5 @@ hmm*/
 
 settings.py
 db_*.json
+db_*.sql
+db_*.dump
