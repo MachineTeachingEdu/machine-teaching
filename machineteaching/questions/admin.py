@@ -29,7 +29,7 @@ class UserLogAdmin(admin.ModelAdmin):
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
     list_display = ('user', 'professor', 'programming', 'strategy', 'accepted', 'seed')
-    search_fields = ['user']
+    search_fields = ['user__username', 'user__first_name', 'user__last_name']
     list_filter = ('professor', 'programming', 'strategy')
     autocomplete_fields = ['user']
 
