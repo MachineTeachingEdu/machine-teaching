@@ -5,14 +5,14 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
-# from django.conf import settings
+#from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.db.models.functions import Lower
+from django.utils import timezone
 # import random
 import json
 from functools import wraps
 import time
-
 from questions.models import (Problem, Solution, UserLog, UserProfile,
                               Professor, OnlineClass, UserLogView)
 from questions.forms import UserLogForm, SignUpForm, OutcomeForm
@@ -124,11 +124,16 @@ def get_next_problem(request):
 @login_required
 def save_user_log(request):
     form = UserLogForm(request.GET)
+    LOGGER.debug("Log received for user %s with outcome %s: %s",
+                 request.user,
+                 request.GET['outcome'],
+                 request.GET['solution'])
     if form.is_valid():
         log = form.save(commit=False)
         log.user = request.user
         log.save()
         return JsonResponse({'status': 'success'})
+    LOGGER.debug("Log failed")
     return JsonResponse({'status': 'failed'})
 
 @login_required
@@ -203,7 +208,8 @@ def show_outcome(request):
                         outcome_student[
                             problems.index(student["problem_id"])
                         ] = (student["final_outcome"],
-                             student["timestamp"].isoformat())
+                             timezone.localtime(student[
+                                 "timestamp"]).strftime("%Y-%m-%d %H:%M:%S"))
                     # Previous student is finished, lets start a new one
                     else:
                         only_outcomes = list(zip(*outcome_student))[0]
@@ -225,12 +231,14 @@ def show_outcome(request):
                         outcome_student[
                             problems.index(student["problem_id"])
                         ] = (student["final_outcome"],
-                             student["timestamp"].isoformat())
+                             timezone.localtime(student[
+                                 "timestamp"]).strftime("%Y-%m-%d %H:%M:%S"))
                 # Add last student
                 outcome_student[
                     problems.index(student["problem_id"])
                 ] = (student["final_outcome"],
-                        student["timestamp"].isoformat())
+                     timezone.localtime(student[
+                         "timestamp"]).strftime("%Y-%m-%d %H:%M:%S"))
                 student_row = {"name": (student_name, current_student),
                                 "outcomes": outcome_student,
                                 "total": {"P": outcome_student.count("P"),

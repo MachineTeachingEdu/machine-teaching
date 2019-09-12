@@ -19,7 +19,7 @@
     <tbody>
         {% for item in past_problems %}
         <tr> 
-            <td>{{ item.timestamp }}</td>
+            <td>{{ item.timestamp|date:'Y-m-d H:i:s'}}</td>
             <td>{{ item.problem.title }}</td>
             {% if item.outcome == 'P' %}
                 <td style="color:green">Passed</td>
@@ -44,7 +44,7 @@
 $(document).ready(function() {
         $('#problems').dataTable({
             "pageLength": 50,
-            "order": [[ 0, "asc" ]]
+            "order": [[ 0, "desc" ]]
             });
 } );
 </script>
