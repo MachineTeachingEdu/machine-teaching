@@ -123,11 +123,11 @@ def get_next_problem(request):
 
 @login_required
 def save_user_log(request):
-    form = UserLogForm(request.GET)
+    form = UserLogForm(request.POST)
     LOGGER.debug("Log received for user %s with outcome %s: %s",
                  request.user,
-                 request.GET['outcome'],
-                 request.GET['solution'])
+                 request.POST['outcome'],
+                 request.POST['solution'])
     if form.is_valid():
         log = form.save(commit=False)
         log.user = request.user

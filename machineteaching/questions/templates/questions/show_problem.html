@@ -69,7 +69,7 @@ START = "{% url 'start' %}";
 var next_url = '{% url 'next' %}';
 function save_log(outcome, seconds_in_code, seconds_to_begin, seconds_in_page){
     $.ajax({
-        type: "GET",
+        type: "POST",
         url: '{% url 'savelog' %}',
         data: {
             'problem': {{problem.id}},
@@ -78,7 +78,8 @@ function save_log(outcome, seconds_in_code, seconds_to_begin, seconds_in_page){
             'seconds_in_code': seconds_in_code,
             'seconds_to_begin': seconds_to_begin,
             'seconds_in_page': seconds_in_page,
-            'solution_lines': editor.lineCount()
+            'solution_lines': editor.lineCount(),
+            'csrfmiddlewaretoken': '{{ csrf_token }}'
         },
         dataType: 'json',
         success: function(data){
