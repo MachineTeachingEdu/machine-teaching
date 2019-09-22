@@ -26,7 +26,7 @@ class TestCaseAdmin(admin.ModelAdmin):
 @admin.register(UserLog)
 class UserLogAdmin(admin.ModelAdmin):
     list_display = ('user', 'problem', 'outcome', 'timestamp')
-    search_fields = ['problem', 'user__username', 'user__first_name',
+    search_fields = ['problem__title', 'user__username', 'user__first_name',
                      'user__last_name']
 
 
