@@ -1,5 +1,6 @@
 # DB
 from questions.models import Solution, Problem
+from django.conf import settings
 import psycopg2
 
 # Helpers
@@ -19,10 +20,10 @@ class RetrieveModelAndVectorizer(object):
 
     def connect(self):
         """ Connect to DB """
-        connection = psycopg2.connect(user="machineteaching",
-                                      password="",
-                                      host="localhost",
-                                      database="machineteaching")
+        connection = psycopg2.connect(user=settings.DATABASES['default']['USER'],
+                                      password=settings.DATABASES['default']['PASSWORD'],
+                                      host=settings.DATABASES['default']['HOST'],
+                                      database=settings.DATABASES['default']['NAME'])
         connection.autocommit = True
         self.cursor = connection.cursor()
 
@@ -30,8 +31,6 @@ class RetrieveModelAndVectorizer(object):
         # Cleaning database
         last_id = 132
         problems = Problem.objects.filter(id__gt=last_id)
-        solutions_obj = Solution.objects.filter(
-            problem__in=problems).update(ignore=True)
         print("Problems to be ignored: %d" % problems.count())
 
         problems = Problem.objects.filter(id__lte=last_id)

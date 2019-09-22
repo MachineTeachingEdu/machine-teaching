@@ -6,8 +6,9 @@ from .models import (Problem, Solution, TestCase, UserLog, Cluster, UserModel,
 # Register your models here.
 @admin.register(Problem)
 class ProblemAdmin(admin.ModelAdmin):
-    list_display = ('id','title', 'content')
+    list_display = ('id', 'title', 'content')
     search_fields = ['id', 'title']
+
 
 @admin.register(Solution)
 class SolutionAdmin(admin.ModelAdmin):
@@ -15,20 +16,24 @@ class SolutionAdmin(admin.ModelAdmin):
     search_fields = ['id', 'problem']
     list_filter = ('ignore', )
 
+
 @admin.register(TestCase)
 class TestCaseAdmin(admin.ModelAdmin):
     list_display = ('problem', 'content')
     autocomplete_fields = ['problem']
 
+
 @admin.register(UserLog)
 class UserLogAdmin(admin.ModelAdmin):
     list_display = ('user', 'problem', 'outcome', 'timestamp')
-    search_fields = ['problem']
+    search_fields = ['problem', 'user__username', 'user__first_name',
+                     'user__last_name']
 
 
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'professor', 'programming', 'strategy', 'accepted', 'seed')
+    list_display = ('user', 'professor', 'programming', 'strategy', 'accepted',
+                    'seed')
     search_fields = ['user__username', 'user__first_name', 'user__last_name']
     list_filter = ('professor', 'programming', 'strategy')
     autocomplete_fields = ['user']
@@ -39,6 +44,7 @@ class ProfessorAdmin(admin.ModelAdmin):
     list_display = ('user', 'assistant')
     search_fields = ['user']
     list_filter = ('assistant',)
+
 
 admin.site.register(Cluster)
 admin.site.register(UserModel)

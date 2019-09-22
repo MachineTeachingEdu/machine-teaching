@@ -110,6 +110,7 @@ images*/
 bbc-fulltext/
 bbc/
 hmm*/
+data/
 
 settings.py
 db_*.json
