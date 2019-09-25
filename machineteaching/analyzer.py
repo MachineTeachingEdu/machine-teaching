@@ -67,6 +67,6 @@ def python_analyzer(doc):
                         except KeyError:
                             not_found.append(token[1])
     #     print("not found: %s" % set(not_found))
-    except IndentationError:
+    except (IndentationError, tokenize.TokenError):
         pass
     return vectorizer._word_ngrams(words)
