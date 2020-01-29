@@ -12,6 +12,7 @@ allowed_itens = ['NAME', 'OP', 'INDENT', 'DEDENT', 'STRING', 'NUMBER']
 def python_analyzer(doc):
     words = []
     not_found = []
+    #print(vectorizer_params)
     vectorizer = CountVectorizer(**vectorizer_params)
     file = io.StringIO(doc)
     try:

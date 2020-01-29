@@ -11,9 +11,15 @@ def mp_worker(data):
     output = " Processs %s\tWaiting %s seconds" % (inputs, the_time)
     time.sleep(int(the_time))
     output += " Process %s\tDONE" % inputs
+    print(output)
     return output
 
 def mp_handler():
     p = multiprocessing.Pool(2)
     output = p.map(mp_worker, data)
     return output
+    
+if __name__ == '__main__':
+    print('oi')
+    outs = mp_handler()
+    print(outs)
