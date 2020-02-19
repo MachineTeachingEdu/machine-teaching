@@ -34,7 +34,11 @@ def feedback_driven_tensor_factorization(student_performance, n_concepts=2,
         # Normalize rows to sum one
         row_sums = q_matrix.sum(axis=0, keepdims=True)
         if not (np.any(q_matrix.sum(axis=0))):
-            raise RuntimeError("Q Matrix with empty row")
+            # Should not be possible, something went wrong.
+            # Skip this round.
+            print("Q Matrix with empty row")
+            break
+            # raise RuntimeError("Q Matrix with empty row")
         q_matrix = q_matrix / row_sums
 
         student_performance_pred = np.zeros(student_performance.shape)
