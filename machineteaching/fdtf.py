@@ -81,7 +81,11 @@ def feedback_driven_tensor_factorization(student_performance, n_concepts=2,
             # Normalize rows to sum one
             row_sums = q_matrix.sum(axis=0, keepdims=True)
             if not (np.all(row_sums)):
-                raise RuntimeError("Q Matrix with empty row")
+                # Should not be possible, something went wrong.
+                # Skip this round.
+                print("Q Matrix with empty row")
+                break
+                # raise RuntimeError("Q Matrix with empty row")
             q_matrix = q_matrix / row_sums
 
             # Y = TQ
@@ -102,7 +106,7 @@ def feedback_driven_tensor_factorization(student_performance, n_concepts=2,
                 best_q_matrix = q_matrix.copy()
                 best_error = error
 
-    if best_error == 9999:
-        raise RuntimeError("Could not converge")
+    # if best_error == 9999:
+        # raise RuntimeError("Could not converge")
     return (best_student_performance_pred, best_student_knowledge,
             best_q_matrix, best_error)
