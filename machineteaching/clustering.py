@@ -52,7 +52,8 @@ class Clustering(object):
 
     def nmf(self):
         """ Use NMF clustering method """
-        model = NMF(n_components=self.k, random_state=self.seed)
+        
+        model = NMF(n_components=self.k, random_state=self.seed, init='random')
         document_topic = model.fit_transform(self.X)
         word_topic = model.components_.T
 
