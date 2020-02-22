@@ -27,8 +27,8 @@ class NCutVectorizer(object):
     def get_feature_names(self):
         return self.vectorizer.get_feature_names()
 
-    def transform(object):
+    def transform(self, docs):
         train_data_features = self.vectorizer.transform(docs)
-        train_data_features = train_data_features.toarray()
+        train_data_features = train_data_features.todense()
         Y = np.dot(self.D, train_data_features.T)
         return Y.T

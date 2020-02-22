@@ -111,6 +111,7 @@ bbc-fulltext/
 bbc/
 hmm*/
 data/
+models/
 
 settings.py
 db_*.json
