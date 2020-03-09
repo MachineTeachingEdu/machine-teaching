@@ -12,19 +12,6 @@ import numpy as np
 
 
 # Create your models here.
-class OnlineClass(models.Model):
-    name = models.CharField(max_length=200, blank=False)
-
-    class Meta:
-        verbose_name_plural = 'OnlineClasses'
-
-    def __unicode__(self):
-        return self.name
-
-    def __str__(self):
-        return "%s" % self.name
-
-
 class Professor(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     prof_class = models.ManyToManyField(OnlineClass)
@@ -81,6 +68,20 @@ class Chapter(models.Model):
 
     def __str__(self):
         return "%d - %s" % (self.id, self.label)
+
+
+class OnlineClass(models.Model):
+    name = models.CharField(max_length=200, blank=False)
+    chapters = models.ManyToManyField(Chapter)
+
+    class Meta:
+        verbose_name_plural = 'OnlineClasses'
+
+    def __unicode__(self):
+        return self.name
+
+    def __str__(self):
+        return "%s" % self.name
 
 
 class ProblemManager(models.Manager):
