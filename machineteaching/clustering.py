@@ -196,8 +196,10 @@ class Clustering(object):
         return topic_distribution_df
 
 
-    def plot_topic_distribution(self, **kwargs):
-        self._plot_distribution(self.document_topic, range(0, self.X.shape[0]),
+    def plot_topic_distribution(self, document_topic=None, **kwargs):
+        if document_topic is None:
+            document_topic = self.document_topic
+        self._plot_distribution(document_topic, range(0, self.X.shape[0]),
                                 **kwargs)
 
 

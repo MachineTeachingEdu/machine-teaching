@@ -10,6 +10,8 @@ from sklearn.decomposition import PCA, TruncatedSVD
 import matplotlib.cm as cm
 import matplotlib.colors as mpl_colors
 from sklearn.metrics.pairwise import cosine_distances
+import matplotlib.markers as m
+
 
 class Plot2D(object):
     """ Reduce data to 2 dimensions to plot it."""
@@ -113,6 +115,12 @@ class Plot2D(object):
         fig, ax = plt.subplots(figsize=(13,9)) # set size
         ax.margins(0.05) # Optional, just adds 5% padding to the autoscaling
 
+        # set up markers
+        markers = []
+        idx = [2, 4, 12, 19]
+        for i in idx:
+            markers.append(list(m.MarkerStyle.markers.keys())[i])
+
         # Show pre-labeled (not by the student!!) samples with the respective color
         if show_clusters:
             #create data frame that has the result of the MDS plus the cluster numbers and titles
@@ -125,16 +133,16 @@ class Plot2D(object):
 
             #iterate through groups to layer the plot
             #note that I use the cluster_name and cluster_color dicts with the 'name' lookup to return the appropriate color/label
-            for name, group in groups:
+            for idx, (name, group) in enumerate(groups):
                 # Skip math and string categories
                 # They are all over the place. Not good manual label.
                 if name == 'math' or name == 'string':
                     continue
 
                 # Plot other categories
-                ax.plot(group.x, group.y, marker='o', linestyle='', ms=12,
+                ax.plot(group.x, group.y, linestyle='', ms=12,
                         label=name, color=self.cluster_colors[name],
-                        mec='none')
+                        mec='none', marker=markers[idx%len(markers)])
                 ax.set_aspect('auto')
                 ax.tick_params(\
                     axis= 'x',          # changes apply to the x-axis
