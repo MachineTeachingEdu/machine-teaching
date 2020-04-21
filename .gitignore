@@ -118,3 +118,5 @@ db_*.json
 db_*.sql
 db_*.dump
 edm2020/
+
+*.swp
