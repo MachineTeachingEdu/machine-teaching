@@ -120,3 +120,5 @@ db_*.dump
 edm2020/
 
 *.swp
+
+machineteaching/\.Rhistory
