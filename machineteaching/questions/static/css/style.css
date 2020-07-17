@@ -1,22 +1,904 @@
 body {
-    padding-top: 54px;
+    margin: 0;
+    font-family: 'Oxygen', sans-serif;
+}
+body a {
+    color: black;
+    display: block;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+.page-footer a {
+    color: black;
+    display: inline;
 }
 @media (min-width: 992px) {
     body {
-        padding-top: 56px;
     }
 }
-.btn-start {
-    font-size: 3.25rem;
-    
+h1 {
+    margin: 0;
 }
-
-.top-buffer { margin-top:5%; }
-.navbar-dark .navbar-nav .nav-pretty {
-    color: white;
-    text-shadow: none;
+p {
+    text-align: center;
 }
-
-.navbar-dark .navbar-nav .nav-nolink:hover{
+.navbar-toggler {
+    display: none;
+}
+.navbar {
+    background-color: black;
+    width: 100%;
+    height: 70px;
     color:white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.navbar-brand {
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+    font-weight: bolder;
+    margin-left: 30px;
+}
+.navbar ul {
+    display: flex;
+    margin-right: 30px;
+}
+.navbar ul li {
+    list-style-type: none;
+}
+.nav-link {
+    display: block;
+    color: white;
+    text-decoration: none;
+    font-weight: lighter;
+    cursor: pointer;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 7px;
+    padding-right: 7px;
+    border-radius: 3px;
+}
+
+.nav-link:hover {
+    color: black;
+    background: white;
+    transition: background 0.2s, color 0.2s;
+}
+.nav-nolink:hover {
+    color: white;
+    background: black;
+}
+.nav-nolink input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+.nav-nolink label {
+    cursor: pointer;
+    margin-left: 10px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-left: 7px;
+    padding-right: 7px;
+    border-radius: 3px;
+}
+.nav-nolink label:hover {
+    background-color: rgb(0, 98, 196);
+    transition: background 0.2s;
+}
+.nav-nolink input[type="radio"]:checked+label{
+    background-color: dodgerblue;
+}
+.nav-nolink {
+    cursor: auto;
+}
+.container {
+    width: 1140px;
+    padding-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.mt-5 {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+.jumbotron {
+    background: rgb(0, 0, 56);
+    color: white;
+    padding: 30px;
+    width: 1080px;
+    margin-top: 60px;
+    border-radius: 4px;
+    box-shadow: 0px 0px 20px gray;
+}
+.display-4 {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+#guidelines-title {
+    margin-top: 20px;
+}
+.page-footer {
+    margin-top: 50px;
+    margin-bottom: 30px;
+    text-align: center;
+    color: black;
+    font-size: 15px;
+}
+.lead {
+    text-align: left;
+}
+#problem_content p {
+    text-align: left;
+}
+.text-center {
+    text-align: center;
+}
+#problem_content {
+    text-align: left;
+}
+textarea {
+
+}
+.btn-lg {
+    background-color: rgb(42, 185, 106);
+    color: white;
+    margin-right: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 4px;
+    font-size: 20px;
+    border: none;
+    cursor: pointer;
+}
+.btn-lg:hover {
+    background-color: rgb(25, 134, 74);
+}
+.btn-primary {
+    background: dodgerblue;
+    font-weight: normal;
+    margin-right: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 4px;
+    font-size: 20px;
+    border: none;
+    cursor: pointer;
+}
+.btn-primary:hover {
+    background-color: rgb(0, 98, 196);
+}
+.btn-default {
+    background-color: rgb(77, 77, 77);
+    color: white;
+    margin-right: 15px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 4px;
+    font-size: 20px;
+    border: none;
+    cursor: pointer;
+}
+.btn-default:hover {
+    background-color: rgb(49, 49, 49);
+
+}
+.btn-start {
+    background-color: dodgerblue;
+    text-decoration: none;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 4px;
+    font-size: 30px;
+    font-weight: bold;
+    transition: background 0.2s;
+    margin-left: 500px;
+    margin-right: 500px;
+}
+.btn-start:hover {
+    background-color: rgb(0, 98, 196);
+}
+.table {
+    color: white;
+    width: 1140px;
+    padding-top: 30px;
+    padding-left: 40px;
+    padding-right: 40px;
+    background-color: rgb(0,0,56);
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    margin-top: 40px;
+    box-shadow: 0px 0px 10px rgb(173, 173, 173);
+    border-spacing: 0px;
+}
+th {
+    padding-bottom: 10px;
+    font-size: 20px;
+}
+tr:nth-child(even) td {
+    background: rgb(15,15,70);
+}
+td {
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+th {
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+td:first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+td:last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+th:nth-child(1) {
+    text-align: left;
+}
+td:nth-child(1) {
+    width: 400px;
+    font-size: 15px;
+}
+th:nth-child(2) {
+    text-align: left;
+}
+td:nth-child(3) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 30px;
+}
+.table-bordered {
+    color: white;
+    width: 1140px;
+    padding-top: 30px;
+    padding-bottom: 10px;
+    padding-left: 40px;
+    padding-right: 40px;
+    background-color: rgb(0,0,56);
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    margin-top: 40px;
+    box-shadow: 0px 0px 10px rgb(173, 173, 173);
+}
+h2 {
+    margin-top: 20px;
+    text-align: center;
+}
+.table-bordered td {
+}
+.table-bordered td:nth-child(3){
+    padding: 3px;
+    text-align: center;
+    width: 60px;
+    display: table-cell;
+}
+.table-bordered td:nth-child(4){
+    text-align: center;
+    width: 200px;
+}
+.table-bordered th:nth-child(2) {
+    text-align: left;
+    padding-left: 50px;
+}
+.table-bordered td:nth-child(2) {
+    text-align: left;
+    padding-left: 50px;
+}
+.table-bordered th:nth-child(1) {
+    text-align: center;
+}
+.table-bordered td:nth-child(1) {
+    font-size: 12px;
+    text-align: center;
+    width: 150px;
+}
+.table a {
+    color:white;
+    text-decoration: none;
+    background: rgb(0, 98, 196);
+    padding: 3px;
+    padding-left: 7px;
+    padding-right: 7px;
+    border-radius: 4px;
+    font-size: 15px;
+    display: inline;
+}
+.table a:hover {
+    color:white;
+    background: dodgerblue;
+
+}
+#problems_length {
+    display: flex;
+    justify-content: center;
+}
+#problems_filter {
+    display: flex;
+    justify-content: center;
+}
+#outcomes_length {
+    display: block;
+    width: 170px;
+    margin-right: auto;
+    margin-left: auto;
+}
+select {
+    background: #dcdcdc;
+    height: 35px;
+    cursor: pointer;
+    border: none;
+    color: black;
+    font-size: 17px;
+    padding: 5px;
+    padding-left: 8px;
+    border-radius: 5px;
+    margin-left: 10px;
+    margin-right: 5px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+#problems_length select, #outcomes_length select {
+    background: #dcdcdc;
+    height: 35px;
+    text-align: center;
+    cursor: pointer;
+    border: none;
+    color: black;
+    font-size: 17px;
+    padding: 4px;
+    padding-left: 5px;
+    border-radius: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+input {
+    background: #dcdcdc;
+    height: 35px;
+    border: none;
+    color: black;
+    font-size: 17px;
+    padding: 3px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 5px;
+    margin-left: 10px;
+    margin-right: 5px;
+}
+#problems_info {
+    background: rgb(0,0,56);
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    width: 1140px;
+    height: 20px;
+    color: white;
+    text-align: center;
+    font-size: 13px;
+    color: grey;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+#outcomes_info {
+    width: 100%;
+    height: 20px;
+    color: black;
+    text-align: center;
+    font-size: 13px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+#problems_wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 40px;
+}
+#outcomes_wrapper {
+    margin-top: 40px;
+}
+#problems_paginate {
+    padding-top: 40px;
+    text-align: center;
+    font-size: 16px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.paginate_button {
+    cursor: pointer;
+    display: inline;
+    margin-left: 5px;
+    margin-right: 5px;
+    padding: 7px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 4px;
+}
+.paginate_button:hover {
+    color: white;
+    background: black;
+    transition: background 0.2s, color 0.2s;
+}
+.current {
+    background: black;
+    color: white;
+}
+.text-white {
+    background: black;
+}
+.badge-success {
+    background: rgb(42, 185, 106);
+    padding: 3px;
+    padding-left: 7px;
+    padding-right: 7px;
+    border-radius: 4px;
+    display: block;
+    text-align: center;
+    font-size: 15px;
+}
+.badge-danger {
+    background: red;
+    padding: 3px;
+    padding-left: 7px;
+    padding-right: 7px;
+    border-radius: 4px;
+    display: block;
+    text-align: center;
+    font-size: 15px;
+}
+.badge-primary {
+    padding: 3px;
+    padding-left: 7px;
+    padding-right: 7px;
+    border-radius: 4px;
+    display: block;
+    text-align: center;
+    font-size: 15px;
+}
+.success {
+    background: rgb(42, 185, 106);
+    padding: 3px;
+    padding-left: 7px;
+    padding-right: 7px;
+    border-radius: 4px;
+    display: block;
+    text-align: center;
+    font-size: 15px;
+    margin-top: 10px;
+    margin-right: 15px;
+    padding-bottom: 5px;
+}
+.danger {
+    background: red;
+    padding: 3px;
+    padding-left: 7px;
+    padding-right: 7px;
+    border-radius: 4px;
+    display: block;
+    text-align: center;
+    font-size: 15px;
+    margin-top: 5px;
+    margin-right: 15px;
+    padding-bottom: 5px;
+}
+.primary {
+    background: white;
+    color: black;
+    padding: 3px;
+    padding-left: 7px;
+    padding-right: 7px;
+    border-radius: 4px;
+    display: block;
+    text-align: center;
+    font-size: 15px;
+    margin-top: 5px;
+    padding-bottom: 5px;
+    margin-right: 15px;
+    margin-bottom: 10px;
+}
+#testcase-div .badge-success {
+    width: 30px;
+    margin-top: 10px;
+}
+#testcase-div .badge-danger {
+    width: 60px;
+    margin-top: 10px;
+}
+.signupform {
+    background: rgb(0,0,56);
+    color: white;
+    width: 450px;
+    padding: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 15px;
+    text-align: center;
+    border-radius: 4px;
+    box-shadow: 0px 0px 20px gray;
+    padding-top: 20px;
+    padding-bottom: 40px;
+    line-height: 30px;
+}
+.signupform label {
+    margin-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 18px;
+    text-align: left;
+}
+.signupform input {
+    background: white;
+    width: 405px;
+    margin-bottom: 10px
+}
+.signupform select {
+    background: white;
+    width: 430px;
+    height: 45px;
+    margin-bottom: 10px;
+    padding-left: 10px;
+}
+.signupform checkbox {
+    justify-self: flex-end;
+}
+.signupform ul {
+    text-align: left;
+    font-size: 12px;
+}
+.signupform a {
+    color: white;
+    display: inline;
+}
+.signupform button {
+    background-color: rgb(0, 98, 196);
+    border: none;
+    color: white;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 5px;
+    font-size: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    cursor: pointer;
+}
+.signupform button:hover {
+    background-color: dodgerblue;
+}
+.loginform {
+    background: rgb(0,0,56);
+    color: white;
+    width: 450px;
+    padding: 30px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+    margin-bottom: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 15px;
+    text-align: right;
+    border-radius: 4px;
+    box-shadow: 0px 0px 20px gray;
+    line-height: 30px;
+}
+.loginform input {
+    background: white;
+    width: 405px;
+    margin-bottom: 10px
+}
+.loginform table {
+    font-size: 15px;
+    background: rgb(0,0,56);
+}
+.loginform tr:nth-child(even) {
+    background: rgb(0, 0, 56);
+}
+.loginform td {
+    width: 50px;
+    padding: 0;
+    background: rgb(0,0,56);
+    font-size: 15px;
+}
+.loginform table input {
+    margin-top: 10px;
+    width: 330px;
+}
+.loginform input[type="submit"] {
+    background-color: rgb(0, 98, 196);
+    border: none;
+    color: white;
+    height: 45px;
+    border-radius: 5px;
+    font-size: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    width: 100px;
+    cursor: pointer;
+}
+.loginform input[type="submit"]:hover {
+    background-color: dodgerblue;
+}
+.loginform tr:nth-child(even) td {
+    background: rgb(0,0,56);
+}
+.search-btn {
+    height: auto;
+}
+.outcomes-table {
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-bottom: 30px;
+    border-radius: 4px;
+}
+.dataTables_empty {
+    margin-top: 30px;
+    font-size: 20px;
+}
+.outcomes-table td {
+    width: auto;
+    padding:0;
+    padding-left: 20px;
+    text-align: center;
+    font-weight: normal;
+    font-size: 13px;
+    height: 120px;
+}
+.outcomes-table td:nth-child(1) {
+    padding-left: 15px;
+    padding-right: 5px;
+}
+
+.outcomes-table th {
+    text-align: center;
+}
+#outcomes_paginate {
+    display: block;
+    width: 500px;
+    text-align: center;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+#outcomes_filter {
+    display: block;
+    width: 310px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+}
+@media only screen and (max-width: 1270px) {
+    .navbar {
+        display: block;
+        height: auto;
+        padding-top: 30px;
+        padding-bottom: 10px;
+        width: 100%;
+        text-align: center;
+    }
+    .navbar-collapse{
+        display: flex;
+        justify-content: center;
+    }
+    .navbar-brand {
+        margin:0;
+        margin-bottom: 10px;
+        font-size: 30px;
+    }
+    .container{
+        width: 100%;
+    }
+    .table {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 0;
+        padding-top:40px;
+        padding-bottom: 10px;
+        border-radius: 0;
+        font-size: 17px;
+    }
+    .table td:nth-child(1) {
+        padding-left: 30px;
+        width: auto;
+    }
+    .table td:nth-child(2) {
+        padding-left: 10px;
+        width: auto;
+    }
+    .table th:nth-child(1) {
+        padding-left: 30px;
+    }
+    .table th:nth-child(2) {
+        padding-left: 10px;
+    }
+    .table-bordered {
+        width: 100%;
+    }
+    .table-bordered th:nth-child(1) {
+        display: none;
+    }
+    .table-bordered td:nth-child(1) {
+        display: none;
+    }
+    .table-bordered th:nth-child(2) {
+        padding-left: 30px;
+    }
+    .table-bordered td:nth-child(2) {
+        padding-left: 30px;
+    }
+    .table-bordered td:nth-child(3) {
+    }
+    .table-bordered td:nth-child(4) {
+        padding-right: 30px;
+        width: 300px;
+    }
+    td {
+        padding: 0;
+        padding-bottom: 20px;
+        padding-top: 20px;
+    }
+    tr:nth-child(even) td {
+        border-radius: 0;
+    }
+    #problems_info, #outcomes_info {
+        border-radius: 0;
+        width: 100%;
+    }
+    #problems_length {
+        margin-left: 30px;
+    }
+    #problems_filter {
+        margin-right: 30px;
+    }
+    .mt-5 {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+    #problem_content p {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+    .jumbotron {
+        width: 100%;
+        box-sizing: border-box;
+        border-radius: 0;
+        box-shadow: 0;
+    }
+    .btn-start {
+        width: 100px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+@media only screen and (max-width: 950px) {
+    .table a {
+        background: rgb(0,0,56);
+        text-decoration: white;
+        text-decoration: underline;
+        font-size: 13px;
+    }
+    .table td:nth-child(1) {
+        font-size: 13px;
+        color: rgb(200, 200, 200);
+        padding-right: 10px;
+    }
+    .table a:hover {
+        background: rgb(0,0,56);
+    }
+    #problems_paginate a {
+        padding:5px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    tr:nth-child(even) td {
+        background: rgb(0,0,56)
+    }
+    th {
+        font-size: 17px;
+    }
+    .badge-success {
+        font-size: 13px;
+    }
+    #problems_wrapper, #outcomes_wrapper {
+        justify-content: center;
+    }
+    #aula {
+        font-size: 15px;
+    }
+    #aula select {
+        width: 250px;
+    }
+    #problems_length {
+        margin-left: 30px;
+        font-size: 15px;
+    }
+    #outcomes_length {
+        font-size: 15px;
+    }
+    #problems_filter {
+        margin-right: 30px;
+        margin-left: 30px;
+        font-size: 15px;
+    }
+    #outcomes_filter {
+        font-size: 15px;
+    }
+    .nav-link {
+        font-size: 15px;
+        text-align: left;
+        margin-top: 10px;
+        display: block;
+    }
+    .navbar ul {
+        display: block;
+        margin-bottom: 30px;
+        width: 280px;
+    }
+    .nav-nolink {
+        margin-bottom: 20px;
+    }
+    .navbar-brand {
+        font-size: 25px;
+    }
+}
+@media only screen and (max-width: 540px) {
+    #problems_filter {
+        margin-top: 20px;
+    }
+    #id_chapter {
+        width: 250px;
+    }
+    .loginform {
+        width: 100%;
+        box-sizing: border-box;
+        border-radius: 0;
+    }
+    .loginform table input {
+        width: 200px;
+    }
+    .signupform {
+        width: 100%;
+        box-sizing: border-box;
+        border-radius: 0;
+    }
+    .signupform input {
+        width: 250px;
+    }
+    .signupform select {
+        width: 270px;
+    }
 }

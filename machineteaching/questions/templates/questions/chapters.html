@@ -1,12 +1,8 @@
 {% extends "questions/base.html" %}
 {% load static %}
-{% block header %}
-    <!-- Custom styles for this template -->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" />
-{% endblock %}
 {% block content %}
 <p><b>Aula:</b><span id="aula">Aula</span></p>
-<table id="problems" class="table table-striped table-bordered">
+<table id="problems" class="table table-striped">
     <thead>
         <tr>
             <th class="searchable">Aula</th>
