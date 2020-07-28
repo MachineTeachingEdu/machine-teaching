@@ -122,3 +122,5 @@ edm2020/
 *.swp
 
 machineteaching/\.Rhistory
+
+machineteaching/dump_db_basic/
