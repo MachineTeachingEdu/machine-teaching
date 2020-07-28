@@ -60,13 +60,15 @@ def signup(request):
             user.save()
             user.refresh_from_db()  # load the instance created by the signal
             LOGGER.debug(form.cleaned_data.get('professor'))
-            professor = Professor.objects.get(pk=int(form.cleaned_data.get(
-                'professor')))
-            user.userprofile.professor = professor
+            # Deprecated: student is now related to class, not to professor
+            # Kept in model for backwards compatibility
+            # professor = Professor.objects.get(pk=int(form.cleaned_data.get(
+            #     'professor')))
+            # user.userprofile.professor = professor
             user.userprofile.programming = form.cleaned_data.get('programming')
             user.userprofile.accepted = form.cleaned_data.get('accepted')
-            user_class = OnlineClass.objects.get(pk=int(form.cleaned_data.get(
-                'onlineclass')))
+            user_class = OnlineClass.objects.get(
+                class_code=form.cleaned_data.get('class_code'))
             user.userprofile.user_class = user_class
             user.userprofile.save()
             username = form.cleaned_data.get('email')
@@ -156,8 +158,9 @@ def get_student_solutions(request, id, chapter=None, problem=None):
 
 @login_required
 def get_chapter_problems(request):
-    problems = Problem.objects.filter(chapter__isnull=False).order_by(
-            '-chapter_id', 'id')
+    problems = Problem.objects.filter(
+        chapter__in=request.user.userprofile.user_class.chapter.all()
+    ).order_by('-chapter_id', 'id')
     # Get exercise where student passed
     passed = UserLog.objects.filter(user=request.user, outcome='P'
             ).values_list('problem_id', flat=True).distinct()

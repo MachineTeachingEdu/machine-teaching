@@ -4,6 +4,7 @@ from django.contrib.auth.models import User, Group
 from picklefield.fields import PickledObjectField
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
+from django.utils.crypto import get_random_string
 from django.conf import settings
 import random
 import json
@@ -13,19 +14,20 @@ import numpy as np
 
 # Create your models here.
 class Chapter(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     label = models.CharField(max_length=200, blank=False)
 
     def __unicode__(self):
         return self.label
 
     def __str__(self):
-        return "%d - %s" % (self.id, self.label)
+        return "%s" % self.label
 
 
 class OnlineClass(models.Model):
     name = models.CharField(max_length=200, blank=False)
-    chapters = models.ManyToManyField(Chapter)
+    chapter = models.ManyToManyField(Chapter)
+    class_code = models.CharField(unique=True, max_length=200, null=True)
     active = models.BooleanField(default=True)
 
     class Meta:
@@ -59,7 +61,7 @@ class UserProfile(models.Model):
                   ("sequential", "sequential"))
     user = models.OneToOneField(User, on_delete=models.PROTECT)
     professor = models.ForeignKey(Professor, on_delete=models.PROTECT,
-                                  null=True)
+                                  null=True, blank=True)
     programming = models.CharField(max_length=3, choices=PROGRAMMING)
     accepted = models.BooleanField(default=False)
     strategy = models.CharField(max_length=10, choices=STRATEGIES)
@@ -203,6 +205,16 @@ def create_user_profile(sender, instance, created, **kwargs):
         alphabet = u'9ABCDEFGHIJKLMNOPQRSTUVWXYZ'
         generator = SystemRandom()
         instance.seed = u''.join(generator.choice(alphabet) for _ in range(81))
+        instance.save()
+
+
+@receiver(post_save, sender=OnlineClass)
+def create_class_code(sender, instance, created, **kwargs):
+    if created:
+        # Generate random string code to identify OnlineClass
+        unique_id = get_random_string(length=9)
+        instance.class_code = '-'.join([
+            unique_id[i:i+3] for i in range(0, len(unique_id), 3)])
         instance.save()
 
 

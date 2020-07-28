@@ -32,10 +32,10 @@ class UserLogAdmin(admin.ModelAdmin):
 
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'professor', 'programming', 'strategy', 'accepted',
+    list_display = ('user', 'user_class', 'programming', 'strategy', 'accepted',
                     'seed')
     search_fields = ['user__username', 'user__first_name', 'user__last_name']
-    list_filter = ('professor', 'programming', 'strategy')
+    list_filter = ('user_class', 'programming', 'strategy')
     autocomplete_fields = ['user']
 
 
@@ -45,8 +45,11 @@ class ProfessorAdmin(admin.ModelAdmin):
     search_fields = ['user']
     list_filter = ('assistant',)
 
+@admin.register(OnlineClass)
+class OnlineClassAdmin(admin.ModelAdmin):
+    exclude = ('class_code',)
+    list_display = ('name', 'class_code', 'active')
 
 admin.site.register(Cluster)
 admin.site.register(UserModel)
-admin.site.register(OnlineClass)
 admin.site.register(Chapter)

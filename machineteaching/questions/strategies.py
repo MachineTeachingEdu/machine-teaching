@@ -1,7 +1,6 @@
 import logging
 import random
 from django.conf import settings
-from random import randint
 import numpy as np
 import pickle
 
@@ -11,12 +10,13 @@ from questions.sampling import get_next_sample
 LOGGER = logging.getLogger(__name__)
 CLUSTER_IDX = list(Cluster.objects.values_list('pk', flat=True).order_by('pk'))
 
-## STRATEGIES (random or eer)
+
+# STRATEGIES (random or eer)
 def random_strategy(user):
     # Set seed so we can always return to the same problem, even if page is refreshed
     random.seed(user.userprofile.seed)
 
-    ## Get random problem from available list that the user has not done yet
+    # Get random problem from available list that the user has not done yet
     done_problems = UserLog.objects.filter(user=user, outcome__in=("S", "P"),
             problem__solution__ignore=False).values_list('problem__id', flat=True).distinct()
     LOGGER.debug("User %s has done problems: %s", user.username, done_problems)
@@ -36,8 +36,9 @@ def random_strategy(user):
         problem_id = None
     return problem_id
 
+
 def eer_strategy(user):
-    ## TODO: Get user current status and calculate next best problem
+    # TODO: Get user current status and calculate next best problem
     # View to define starting problem. For the moment, let's always start with
     # the same problem
 
@@ -97,7 +98,7 @@ def sequential_strategy(user):
 
     # Go to next available problem
     try:
-        problem_id = Problem.objects.filter(chapter__isnull=False).exclude(
+        problem_id = Problem.objects.filter(chapter__in=user.userprofile.user_class.chapter.all()).exclude(
                 id__in=user_passed).order_by('id')[0].pk
     except IndexError:
         problem_id = None
