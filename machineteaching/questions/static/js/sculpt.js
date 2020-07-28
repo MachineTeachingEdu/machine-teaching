@@ -33,18 +33,23 @@ function evaluate(args, expected_results){
         }
         console.log(expected_results_parsed);
         eval_div.innerHTML += "Input: " + args[i] + "<br>Expected output: " + expected_results[i] + "<br>" + "Your output: " + answers[i] + "<br>";
-        if (JSON.stringify(expected_results_parsed, Object.keys(expected_results_parsed).sort()) == JSON.stringify(answers_parsed, Object.keys(answers_parsed).sort())){
-        //if (JSON.stringify(expected_results[i]) == JSON.stringify(answers[i])){
-            eval_div.innerHTML += '<span class="badge badge-success">OK</span><br><br>'
-        } else {
+        try {
+            if (JSON.stringify(expected_results_parsed, Object.keys(expected_results_parsed).sort()) == JSON.stringify(answers_parsed, Object.keys(answers_parsed).sort())){
+            //if (JSON.stringify(expected_results[i]) == JSON.stringify(answers[i])){
+                eval_div.innerHTML += '<span class="badge badge-success">OK</span><br><br>'
+            } else {
+                eval_div.innerHTML += '<span class="badge badge-danger">OOPS!</span><br><br>'
+                errors++;
+            };
+        } catch(e) {
             eval_div.innerHTML += '<span class="badge badge-danger">OOPS!</span><br><br>'
             errors++;
-        };
+        }
     }
 
     // If no errors are found, go to the next problem
     if (errors == 0) {
-        document.getElementById("next").style.background = 'green';
+        document.getElementById("next").classList.remove('btn-primary');
         document.getElementById("next").innerHTML = "Next";
         document.getElementById("next").onclick = gotoproblem;
         save_log('P', seconds_in_code, seconds_to_begin, seconds_in_page);
@@ -70,7 +75,7 @@ function runit(args, func, expected_results) {
    var mypre = document.getElementById("output");
    mypre.innerHTML = '';
    Sk.pre = "output";
-   Sk.configure({output:outf, read:builtinRead, __future__: Sk.python3});
+   Sk.configure({output:outf, read:builtinRead, __future__: Sk.python3, execLimit: 100});
    (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'mycanvas';
 
    // Extract data type from JSON 
@@ -140,8 +145,10 @@ lineNumbers: true,
 indentUnit: 4,
 tabMode: "spaces",
 matchBrackets: true,
-extraKeys: { Tab: betterTab }
+extraKeys: { Tab: betterTab },
+theme: "blackboard"
 });
+editor.setSize('100%',400)
 
 // Calculating time in page and code
 // Get when user stops typing

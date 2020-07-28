@@ -2,7 +2,7 @@
 
 {% block content %}
   <h2>Sign up</h2>
-  <form method="post">
+  <form class=signupform method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit">Sign up</button>

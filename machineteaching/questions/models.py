@@ -151,6 +151,7 @@ class UserLog(models.Model):
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
     solution = models.TextField(blank=True)
     outcome = models.CharField(max_length=2, choices=OUTCOMES)
+    console = models.TextField(blank=True)
     seconds_in_code = models.IntegerField()
     seconds_in_page = models.IntegerField()
     seconds_to_begin = models.IntegerField()
