@@ -12,10 +12,37 @@ import numpy as np
 
 
 # Create your models here.
+class Chapter(models.Model):
+    id = models.IntegerField(primary_key=True)
+    label = models.CharField(max_length=200, blank=False)
+
+    def __unicode__(self):
+        return self.label
+
+    def __str__(self):
+        return "%d - %s" % (self.id, self.label)
+
+
+class OnlineClass(models.Model):
+    name = models.CharField(max_length=200, blank=False)
+    chapters = models.ManyToManyField(Chapter)
+    active = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name_plural = 'OnlineClasses'
+
+    def __unicode__(self):
+        return self.name
+
+    def __str__(self):
+        return "%s" % self.name
+
+
 class Professor(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     prof_class = models.ManyToManyField(OnlineClass)
     assistant = models.BooleanField(default=False)
+    active = models.BooleanField(default=True)
 
     def __unicode__(self):
         return self.user
@@ -57,31 +84,6 @@ class Cluster(models.Model):
 
     def __str__(self):
         return "%d - %s" % (self.id, self.label)
-
-
-class Chapter(models.Model):
-    id = models.IntegerField(primary_key=True)
-    label = models.CharField(max_length=200, blank=False)
-
-    def __unicode__(self):
-        return self.label
-
-    def __str__(self):
-        return "%d - %s" % (self.id, self.label)
-
-
-class OnlineClass(models.Model):
-    name = models.CharField(max_length=200, blank=False)
-    chapters = models.ManyToManyField(Chapter)
-
-    class Meta:
-        verbose_name_plural = 'OnlineClasses'
-
-    def __unicode__(self):
-        return self.name
-
-    def __str__(self):
-        return "%s" % self.name
 
 
 class ProblemManager(models.Manager):
@@ -203,17 +205,20 @@ def create_user_profile(sender, instance, created, **kwargs):
         instance.seed = u''.join(generator.choice(alphabet) for _ in range(81))
         instance.save()
 
+
 @receiver(post_save, sender=Professor)
 def add_professor_group(sender, instance, created, **kwargs):
     group = Group.objects.get(name="Professor")
     instance.user.groups.add(group)
     instance.user.save()
 
+
 @receiver(post_delete, sender=Professor)
 def delete_professor_group(sender, instance, **kwargs):
     group = Group.objects.get(name="Professor")
     instance.user.groups.remove(group)
     instance.user.save()
+
 
 @receiver(post_save, sender=Problem)
 def create_test_cases(sender, instance, created, **kwargs):
