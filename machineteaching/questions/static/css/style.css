@@ -136,17 +136,19 @@ p {
 .lead {
     text-align: left;
 }
-#problem_content p {
-    text-align: left;
-}
 .text-center {
     text-align: center;
 }
 #problem_content {
+    display: block;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+#problem_content p {
     text-align: left;
 }
-textarea {
-
+#problem_content a {
+    display: inline;
 }
 .btn-lg {
     background-color: rgb(42, 185, 106);
@@ -785,10 +787,6 @@ input {
         margin-right: 30px;
     }
     .mt-5 {
-        padding-left: 30px;
-        padding-right: 30px;
-    }
-    #problem_content p {
         padding-left: 30px;
         padding-right: 30px;
     }
