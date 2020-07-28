@@ -82,6 +82,7 @@ function save_log(outcome, seconds_in_code, seconds_to_begin, seconds_in_page){
             'seconds_to_begin': seconds_to_begin,
             'seconds_in_page': seconds_in_page,
             'solution_lines': editor.lineCount(),
+            'console': document.getElementById("output").innerHTML,
             'csrfmiddlewaretoken': '{{ csrf_token }}'
         },
         dataType: 'json',

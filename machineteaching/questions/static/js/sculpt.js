@@ -33,13 +33,18 @@ function evaluate(args, expected_results){
         }
         console.log(expected_results_parsed);
         eval_div.innerHTML += "Input: " + args[i] + "<br>Expected output: " + expected_results[i] + "<br>" + "Your output: " + answers[i] + "<br>";
-        if (JSON.stringify(expected_results_parsed, Object.keys(expected_results_parsed).sort()) == JSON.stringify(answers_parsed, Object.keys(answers_parsed).sort())){
-        //if (JSON.stringify(expected_results[i]) == JSON.stringify(answers[i])){
-            eval_div.innerHTML += '<span class="badge badge-success">OK</span><br><br>'
-        } else {
+        try {
+            if (JSON.stringify(expected_results_parsed, Object.keys(expected_results_parsed).sort()) == JSON.stringify(answers_parsed, Object.keys(answers_parsed).sort())){
+            //if (JSON.stringify(expected_results[i]) == JSON.stringify(answers[i])){
+                eval_div.innerHTML += '<span class="badge badge-success">OK</span><br><br>'
+            } else {
+                eval_div.innerHTML += '<span class="badge badge-danger">OOPS!</span><br><br>'
+                errors++;
+            };
+        } catch(e) {
             eval_div.innerHTML += '<span class="badge badge-danger">OOPS!</span><br><br>'
             errors++;
-        };
+        }
     }
 
     // If no errors are found, go to the next problem
