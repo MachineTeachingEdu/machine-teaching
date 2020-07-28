@@ -14,11 +14,12 @@ class UserLogForm(ModelForm):
 class SignUpForm(UserCreationForm):
     PROGRAMMING = (("no", "No"),
                    ("yes", "Yes"))
-    PROFESSORS = Professor.objects.all().values_list(
-        "id", "user__first_name").order_by('user__first_name')
-    CLASSES = OnlineClass.objects.all().values_list("id", "name")
-    professor = forms.ChoiceField(choices=PROFESSORS)
-    onlineclass = forms.ChoiceField(choices=CLASSES, label="Class")
+    # PROFESSORS = Professor.objects.filter(active=True).values_list(
+    #     "id", "user__first_name").order_by('user__first_name')
+    # CLASSES = OnlineClass.objects.filter(active=True).values_list("id", "name")
+    # professor = forms.ChoiceField(choices=PROFESSORS)
+    # onlineclass = forms.ChoiceField(choices=CLASSES, label="Class")
+    class_code = forms.CharField()
     programming = forms.ChoiceField(choices=PROGRAMMING, label="Did you have any programming experience before this course?")
     accepted = forms.BooleanField(label=mark_safe('I accept the <a href="/terms_and_conditions">Terms and Conditions</a>'))
 
@@ -37,6 +38,12 @@ class SignUpForm(UserCreationForm):
         if email and User.objects.filter(email=email).exists():
             raise forms.ValidationError(u'Email addresses must be unique.')
         return email
+
+    def clean_class_code(self):
+        class_code = self.cleaned_data.get('class_code')
+        if not OnlineClass.objects.filter(class_code=class_code).exists():
+            raise forms.ValidationError(u'Invalid Class Code.')
+        return class_code
 
 class OutcomeForm(forms.Form):
     onlineclass = forms.ModelChoiceField(queryset=OnlineClass.objects.all(), label="Class")
