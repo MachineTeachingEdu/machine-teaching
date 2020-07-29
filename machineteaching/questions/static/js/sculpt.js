@@ -104,7 +104,10 @@ function runit(args, func, expected_results) {
    seconds_end_page = performance.now()
    seconds_in_page = Math.round((seconds_end_page - seconds_begin_page)/1000);
    console.log("seconds in page:" + seconds_in_page);
-   evaluate(args, expected_results);
+   setTimeout(function(){
+       evaluate(args, expected_results);
+   }, 2000);
+   
 };
 
 function skipit() {
