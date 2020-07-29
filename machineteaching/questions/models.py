@@ -10,12 +10,14 @@ import random
 import json
 from random import randint, SystemRandom
 import numpy as np
+from simple_history.models import HistoricalRecords
 
 
 # Create your models here.
 class Chapter(models.Model):
     id = models.AutoField(primary_key=True)
     label = models.CharField(max_length=200, blank=False)
+    history = HistoricalRecords()
 
     def __unicode__(self):
         return self.label
@@ -29,6 +31,7 @@ class OnlineClass(models.Model):
     chapter = models.ManyToManyField(Chapter)
     class_code = models.CharField(unique=True, max_length=200, null=True)
     active = models.BooleanField(default=True)
+    history = HistoricalRecords()
 
     class Meta:
         verbose_name_plural = 'OnlineClasses'
@@ -45,6 +48,7 @@ class Professor(models.Model):
     prof_class = models.ManyToManyField(OnlineClass)
     assistant = models.BooleanField(default=False)
     active = models.BooleanField(default=True)
+    history = HistoricalRecords()
 
     def __unicode__(self):
         return self.user
@@ -107,6 +111,7 @@ class Problem(models.Model):
     chapter = models.ForeignKey(Chapter, on_delete=models.PROTECT, null=True,
                                 blank=True)
     test_case_generator = models.TextField(blank=True, null=True)
+    history = HistoricalRecords()
 
     def __unicode__(self):
         return self.title
@@ -125,6 +130,7 @@ class Solution(models.Model):
     tip = models.TextField(blank=True,
                            default="#Start your python function here")
     cluster = models.ForeignKey(Cluster, on_delete=models.SET_NULL, null=True)
+    history = HistoricalRecords()
 
     def __unicode__(self):
         return self.problem.title
@@ -136,6 +142,7 @@ class Solution(models.Model):
 class TestCase(models.Model):
     problem = models.ForeignKey(Problem, on_delete=models.PROTECT)
     content = models.TextField(blank=False)
+    history = HistoricalRecords()
 
 
 class UserLog(models.Model):
