@@ -25,6 +25,7 @@ urlpatterns = [
     path('terms_and_conditions', TemplateView.as_view(
         template_name='questions/conditions.html'),
         name='terms_and_conditions'),
+    path('export', views.export, name='export'),
 
     # DEBUG PURPOSES
     path('<int:problem_id>/', views.show_problem, name='show_problem'),

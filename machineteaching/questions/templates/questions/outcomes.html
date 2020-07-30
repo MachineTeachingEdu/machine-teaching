@@ -3,10 +3,13 @@
 
 
 {% block content %}
-    <form action="{% url 'show_outcome' %}" method="post">
+    <div style="display: block; text-align: center; width: 100%">
+    <a class="export" href="{% url 'export' %}" style="margin-bottom: 20px">Exportar CSV</a>
+    </div>
+    <form action="{% url 'show_outcome' %}" method="post" class="formoutcomes">
         {% csrf_token %}
         {{ form.as_p }}
-        <div style="text-align: center;">
+        <div style="display: block; text-align: center; width: 100%">
         <input type="submit" value="Search" class="btn btn-primary btn-lg search-btn"/>
         </div>
     </form> 

@@ -1,6 +1,6 @@
 # from django.http import Http404, JsonResponse
 import logging
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth import login, authenticate
@@ -18,6 +18,7 @@ from questions.models import (Problem, Solution, UserLog, UserProfile,
 from questions.forms import UserLogForm, SignUpForm, OutcomeForm
 from questions.get_problem import get_problem
 from questions.strategies import STRATEGIES_FUNC
+import csv
 
 LOGGER = logging.getLogger(__name__)
 
@@ -277,3 +278,29 @@ def update_strategy(request):
         return JsonResponse({'status': 'success'})
     except Exception:
         return JsonResponse({'status': 'failed'})
+
+def export(request):
+    response = HttpResponse(content_type='text/csv')
+
+    writer = csv.writer(response) 
+    writer.writerow(['Student', 'Username', 'Problem', 'Outcome', 'Timestamp'])
+    students = UserLog.objects.all().order_by(
+                Lower('user__first_name').asc(),
+                Lower('user__last_name').asc(),
+                'problem_id').values(
+                    'user__first_name', 'user__last_name', 'user__username',
+                    'problem_id', 'problem__title', 'outcome', 'timestamp')
+
+    for student in students:
+        student = list(student.values())
+        outcomes = {'P':'Passed','F':'Failed','S':'Skipped'}
+        userlog = [str(student[0])+' '+student[1],
+            student[2],
+            str(student[3])+' - '+student[4],
+            outcomes[student[5]],
+            student[6].strftime("%Y-%m-%d %H:%M:%S")]
+        writer.writerow(userlog)
+
+    response['Content-Disposition'] = 'attachment; filename="userlog.csv"'
+    
+    return response
