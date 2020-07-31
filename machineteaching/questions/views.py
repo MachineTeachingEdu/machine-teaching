@@ -279,6 +279,7 @@ def update_strategy(request):
     except Exception:
         return JsonResponse({'status': 'failed'})
 
+@permission_required('questions.view_userlogview', raise_exception=True)
 def export(request):
     response = HttpResponse(content_type='text/csv')
 
