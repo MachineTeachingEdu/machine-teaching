@@ -2,6 +2,7 @@ from django.contrib import admin
 from .models import (Problem, Solution, TestCase, UserLog, Cluster, UserModel,
                      UserProfile, Professor, OnlineClass, Chapter)
 from simple_history.admin import SimpleHistoryAdmin
+from import_export.admin import ExportActionMixin
 
 
 # Register your models here.
@@ -25,7 +26,8 @@ class TestCaseAdmin(admin.ModelAdmin):
 
 
 @admin.register(UserLog)
-class UserLogAdmin(admin.ModelAdmin):
+class UserLogAdmin(ExportActionMixin, admin.ModelAdmin):
+    exclude = ('error_type',)
     list_display = ('user', 'problem', 'outcome', 'timestamp', 'user_class')
     search_fields = ['problem__title', 'user__username', 'user__first_name',
                      'user__last_name', 'user__userprofile__user_class__name']
