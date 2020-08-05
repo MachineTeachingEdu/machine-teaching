@@ -778,7 +778,9 @@ input {
     margin-left: auto;
     background: rgb(0,0,56);
     box-shadow: 0px 0px 20px gray;
-    padding: 20px;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
     border-radius: 4px;
     color: white;
     margin-top: 30px;
@@ -795,6 +797,10 @@ input {
 }
 .textbox input:hover {
     background-color: rgb(200,200,200);
+}
+code {
+    font-size: 17px;
+    color: midnightblue;
 }
 @media only screen and (max-width: 1270px) {
     .navbar {
