@@ -13,3 +13,4 @@ pandas
 seaborn
 jupyter
 django-simple-history
+django-import-export
