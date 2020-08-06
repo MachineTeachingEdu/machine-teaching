@@ -15,7 +15,7 @@ class ProblemAdmin(SimpleHistoryAdmin):
 @admin.register(Solution)
 class SolutionAdmin(SimpleHistoryAdmin):
     list_display = ('id', 'problem', 'content', 'cluster')
-    search_fields = ['id', 'problem']
+    search_fields = ['id', 'problem__title']
     list_filter = ('ignore', )
 
 
