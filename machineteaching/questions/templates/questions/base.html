@@ -3,107 +3,130 @@
 
 {% load static %}
 {% load i18n %}
-  <head>
+<head>
 
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
 
     <title>Machine Teaching Project</title>
 
-    <!-- Custom styles for this template -->
+    <!-- Custom styles -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
-      <link href="https://fonts.googleapis.com/css2?family=Oxygen&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
 
     {% block header %}
     {% endblock %}
 
-  </head>
+</head>
 
-  <body>
+<body>
+<!-- Loader -->
+<div class="loader"><img src="{% static 'img/loader.svg' %}" class="loader-img"></div>
 
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-          <a class="navbar-brand" href="/">{% trans "Machine Teaching Project" %}</a>
-        {% if user.is_authenticated %}
-        <div style="color:white"> Hello, {{user.first_name}} {{user.last_name}}</div>
-        {% endif %}
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
-            <!--<li class="nav-item active">-->
-              <!--<a class="nav-link" href="#">Home-->
-                <!--<span class="sr-only">(current)</span>-->
-              <!--</a>-->
-            <!--</li>-->
-            <!--<li class="nav-item">-->
-              <!--<a class="nav-link" href="#">About</a>-->
-            <!--</li>-->
-        {% if user.is_authenticated %}
-            <li class="nav-item">
-                <div class="nav-link nav-pretty nav-nolink">
-                Strategy:
+<!-- Navigation -->
+<nav class="navbar">
+    <a class="brand" href="/">{% trans "Machine Teaching Project" %}</a>
+    <!-- Strategy bar -->
+    {% if user.is_authenticated %}
+    <div class="strategy-div">
+        <div class="strategy">
+            STRATEGY
+            <div class="switch">
                 <input type="radio" name="sequential" value=1 id="1"
-                    {% if user.userprofile.sequential %} checked {% endif %}></input><label for="1">Sequential</label>
+                       {% if user.userprofile.sequential %} checked {% endif %}></input><label for="1">SEQUENTIAL</label>
                 <input type="radio" name="sequential" value=0 id="0"
-                {% if not user.userprofile.sequential %} checked {% endif %}></input><label for="0">Random</label>
-                </div>
-            </li>
-        {% endif %}
-            <li class="nav-item">
-            <a class="nav-link nav-pretty" href="{% url 'next' %}">Current problem</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link nav-pretty" href="{% url 'past_problems' %}">Past problems</a>
-            </li>
-            <!--<li class="nav-item">
-            <a class="nav-link nav-pretty" href="{% url 'evaluation_index' %}">Evaluation</a>
-            </li>-->
-            <li class="nav-item">
-            <a class="nav-link nav-pretty" href="{% url 'chapters' %}">Aulas</a>
-            </li>
-            {% if perms.questions.view_userlogview %}
-            <li class="nav-item">
-            <a class="nav-link nav-pretty" href="{% url 'show_outcome' %}">Resultados<a>
-            </li>
-            {% endif %}
-            <li class="nav-item">
-                {% if user.is_authenticated %}
-                <a class="nav-link nav-pretty" href="{% url 'logout'%}">Logout</a>
-                {% else %}
-                <a class="nav-link nav-pretty" href="{% url 'signup' %}" id="signup">Sign Up</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link nav-pretty" href="{% url 'login' %}" id="accountslogin">Login</a>
-                {% endif %}
-            </li>
-          </ul>
+                       {% if not user.userprofile.sequential %} checked {% endif %}></input><label for="0">RANDOM</label>
+            </div>
         </div>
-    </nav>
+    </div>
+    {% endif %}
 
-    <!-- Page Content -->
-    <div class="container">
-          {% block content %}
-          {% endblock %}
+    <!-- Menu -->
+    <div class="menu">
+        {% if user.is_authenticated %}
+        <a style="width: 220px" href="{% url 'next' %}">CURRENT PROBLEM</a>
+        <a style="width: 190px" href="{% url 'past_problems' %}">PAST PROBLEMS</a>
+        <a style="width: 100px" href="{% url 'chapters' %}">AULAS</a>
+        {% endif %}
+        {% if perms.questions.view_userlogview %}
+        <a style="width: 150px" href="{% url 'show_outcome' %}">RESULTADOS</a>
+        {% endif %}
+        {% if user.is_authenticated %}
+        <div class="user">Hello, {{user.first_name}} {{user.last_name}}<a style="width: 90px; height: 50px" href="{% url 'logout'%}" class="logout-btn">LOGOUT</a></div>
+        {% else %}
+        <a style="width: 100px" href="{% url 'signup' %}" id="signup">SIGNUP</a>
+        <a style="width: 100px" href="{% url 'login' %}" id="accountslogin"><button class="login-btn">LOGIN</button></a>
+        {% endif %}
     </div>
 
-    <!-- Bootstrap core JavaScript -->
-    <!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
-    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js"></script>
-    <!--<script src="{% static 'js/script.js' %}"></script>-->
-    <!--Start of Zendesk Chat Script-->
-    <script type="text/javascript">
+    <!-- Responsive menu -->
+    {% if user.is_authenticated %}
+    <div class="burger" onclick="openNav()">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+    </div>
+    <!-- Menu -->
+    <div class="menu2" id="menu">
+        <a style="width: 220px" href="{% url 'next' %}">CURRENT PROBLEM</a>
+        <a style="width: 190px" href="{% url 'past_problems' %}">PAST PROBLEMS</a>
+        <a style="width: 100px" href="{% url 'chapters' %}">AULAS</a>
+        {% endif %}
+        {% if perms.questions.view_userlogview %}
+        <a style="width: 150px" href="{% url 'show_outcome' %}">RESULTADOS</a>
+        {% endif %}
+        {% if user.is_authenticated %}
+        <div class="user">Hello, {{user.first_name}} {{user.last_name}}<a style="width: 90px; height: 50px" href="{% url 'logout'%}" class="logout-btn2">LOGOUT</a></div>
+        <!-- Dark/Light switch -->
+        <div class="theme-div2">
+            <div class="change-colors2" id="colors" onclick="toggleTheme()"></div>
+            <div id="theme2"></div>
+        </div>
+        {% else %}
+        <div id="theme2" style="display: none"></div>
+    </div>
+    <div class="login-menu">
+        <a style="width: 100px" href="{% url 'signup' %}" id="signup">SIGNUP</a>
+        <a style="width: 100px" href="{% url 'login' %}" id="accountslogin"><button class="login-btn">LOGIN</button></a>
+    </div>
+    {% endif %}
+
+    <!-- Dark/Light switch -->
+    <div class="theme-div" id="switch">
+        <div {% if user.is_authenticated %} class="change-colors" {% else %} class="change-colors3" {% endif %} id="colors" onclick="toggleTheme()"></div>
+        <div id="theme" style="display: none"></div>
+    </div>
+
+    <div id="x" onclick="closeNav()">X</div>
+
+</nav>
+
+
+<!-- Page Content -->
+<div class="container">
+    {% block content %}
+    {% endblock %}
+</div>
+
+<!-- Bootstrap core JavaScript -->
+<!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
+<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js"></script>
+<!--<script src="{% static 'js/script.js' %}"></script>-->
+<!--Start of Zendesk Chat Script-->
+<script type="text/javascript">
     window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
-    d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
+        d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
     _.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute("charset","utf-8");
-    $.src="https://v2.zopim.com/?64bHCyGA4wDlqZy77v5LXk9LOHCCnz9t";z.t=+new Date;$.
-    type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
-    </script>
-    <!--End of Zendesk Chat Script-->
-    <!-- Change between strategies -->
-    <script>
+        $.src="https://v2.zopim.com/?64bHCyGA4wDlqZy77v5LXk9LOHCCnz9t";z.t=+new Date;$.
+            type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
+</script>
+<!--End of Zendesk Chat Script-->
+<!-- Change between strategies -->
+<script>
     $("[name='sequential']").on('click', function(){
         $.ajax({
             type: "GET",
@@ -119,16 +142,86 @@
             },
             error: function (request, status, error) {
                 console.log(request.status);
-          }
+            }
         });
     });
-    </script>
 
-    {% block javascript %}
-    {% endblock %}
+    //Loader script
+    $(window).on("load",function(){
+        setTimeout(removeLoader, 500);
+        setTimeout(showFirst, 1000);
+        setTimeout(showSecond, 1500);
+        setTimeout(showThird, 2000);
+    });
+    function removeLoader() {
+        $(".loader").fadeOut("slow");
+    };
+    function showFirst() {
+        $(".show-first").fadeTo("slow",1);
+    };
+    function showSecond() {
+        $(".show-second").fadeTo("slow",1);
+    };
+    function showThird() {
+        $(".show-third").fadeTo("slow",1);
+    };
 
+    // function to set a given theme/color-scheme
+    function setTheme(themeName) {
+        localStorage.setItem('theme', themeName);
+        document.documentElement.className = themeName;
+    }
+
+    // function to toggle between light and dark theme
+    function toggleTheme() {
+        if (localStorage.getItem('theme') === 'theme-dark') {
+            setTheme('theme-light');
+            document.getElementById("theme").innerText = "DARK MODE"
+            document.getElementById("theme2").innerText = "DARK MODE"
+        } else {
+            setTheme('theme-dark');
+            document.getElementById("theme").innerText = "LIGHT MODE"
+            document.getElementById("theme2").innerText = "LIGHT MODE"
+        }
+    }
+
+    // Immediately invoked function to set the theme on initial load
+    (function () {
+        if (localStorage.getItem('theme') === 'theme-dark') {
+            setTheme('theme-dark');
+            document.getElementById("theme").innerText = "LIGHT MODE"
+            document.getElementById("theme2").innerText = "LIGHT MODE"
+        } else {
+            setTheme('theme-light');
+            document.getElementById("theme").innerText = "DARK MODE"
+            document.getElementById("theme2").innerText = "DARK MODE"
+        }
+    })();
+
+    document.getElementById("switch").onmouseenter = function () {
+        document.getElementById("theme").style.display = "block";
+    }
+    document.getElementById("switch").onmouseout = function () {
+        document.getElementById("theme").style.display = "none";
+    }
+
+    function openNav() {
+        document.getElementById("menu").style.width = "100%";
+        document.getElementById("menu").style.height = "100%";
+        document.getElementById("x").style.display = "flex";
+    }
+
+    function closeNav() {
+        document.getElementById("menu").style.width = "0";
+        document.getElementById("menu").style.height = "0";
+        document.getElementById("x").style.display = "none";
+    }
+</script>
+
+{% block javascript %}
+{% endblock %}
 <!-- Footer -->
-<footer class="page-footer font-small bg-dark pt-4 {% block footer %}{% endblock %}">
+<footer class="footer {% block footer %}{% endblock %}">
 
 
     <!-- Copyright -->
@@ -139,9 +232,10 @@
     </div>
     <!-- Copyright -->
 
-  </footer>
-  <!-- Footer -->
+</footer>
+<!-- Footer -->
 
-  </body>
+
+</body>
 
 </html>

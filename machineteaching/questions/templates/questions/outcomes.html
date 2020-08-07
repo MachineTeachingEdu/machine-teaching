@@ -3,51 +3,50 @@
 
 
 {% block content %}
-    <form action="{% url 'show_outcome' %}" method="post" class="formoutcomes">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <div style="display: block; text-align: center; width: 100%">
-        <input type="submit" value="Search" class="btn btn-primary btn-lg search-btn"/>
-        <input type="submit" value="Exportar CSV" class="export" formaction="{% url 'export' %}"/>
-        </div>
-    </form> 
-    {% if problems %}
+<form action="{% url 'show_outcome' %}" method="post" class="outcome-filter">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <div style="text-align: center;">
+        <input type="submit" value="SEARCH" class="search"/>
+        <input type="submit" value="EXPORTAR CSV" class="export" formaction="{% url 'export' %}"/>
+    </div>
+</form>
+{% if problems %}
+<table id="outcomes" class="outcomes">
+    <thead>
+    <tr>
+        <th class="searchable">Alunos</th>
+        {% for item in problems %}
+        <th>{{ forloop.counter }}.</th>
+        {% endfor %}
+        <th>Total</th>
+    </tr>
+    </thead>
 
-        <div style="display: block; overflow-x: auto; overflow-y: hidden; height: auto; width: 100%; box-sizing: border-box;"><table id="outcomes" class="table outcomes-table">
-            <thead>
-                <tr>
-                    <th class="searchable">Alunos</th>
-                    {% for item in problems %}
-                    <th>{{ forloop.counter }}.</th>
-                    {% endfor %}
-                    <th>Total</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                {% for student in outcomes %}
-                <tr> 
-                    <td> <a href={% url 'student_solutions' id=student.name.1 chapter=form.chapter.value%}>{{ student.name.0 }}</a> </td>
-                    {% for item in student.outcomes %}
-                    <td>
-                        {% if item.0 == "P" %} <span style="color: limegreen">Passed at <br>{{item.1}}</span>
-                        {% elif item.0 == "F" %} <span style="color: red">Failed</span>
-                        {% elif item.0 == "S" %} <span style="color: white">Skipped</span>
-                        {% elif item.0 == None %}{% else %}
-                        {{ item }}
-                        {% endif %}
-                    </td>
-                    {% endfor %}
-                    <td> 
-                        <span class="success">{{student.total.P}} Passed</span>
-                        <span class="danger">{{student.total.F}} Failed</span>
-                        <span class="primary">{{student.total.S}} Skipped</span>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table></div>
-    {% endif %}
+    <tbody>
+    {% for student in outcomes %}
+    <tr>
+        <td> <a href={% url 'student_solutions' id=student.name.1 chapter=form.chapter.value%}>{{ student.name.0 }}</a> </td>
+        {% for item in student.outcomes %}
+        <td>
+            {% if item.0 == "P" %} <span style="font-weight: normal; color: limegreen">Passed at <br>{{item.1}}</span>
+            {% elif item.0 == "F" %} <span style="font-weight: normal; color: red">Failed</span>
+            {% elif item.0 == "S" %} <span style="font-weight: normal; color: white">Skipped</span>
+            {% elif item.0 == None %}{% else %}
+            {{ item }}
+            {% endif %}
+        </td>
+        {% endfor %}
+        <td>
+            <span class="passed total">{{student.total.P}} Passed</span>
+            <span class="failed total">{{student.total.F}} Failed</span>
+            <span class="skipped total">{{student.total.S}} Skipped</span>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endif %}
 
 {% endblock %}
 {% block javascript %}
@@ -55,10 +54,10 @@
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script>
     console.log("{{form.chapter.value}}");
-$(document).ready(function() {
+    $(document).ready(function() {
         var table = $('#outcomes').DataTable({
             "pageLength": 50,
-            });
-} );
+        });
+    } );
 </script>
 {% endblock %}
