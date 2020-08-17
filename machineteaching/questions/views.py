@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 #from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.db.models.functions import Lower
-from django.utils import timezone
+from django.utils import timezone, translation
 # import random
 import json
 from functools import wraps
@@ -18,6 +18,7 @@ from questions.models import (Problem, Solution, UserLog, UserProfile,
 from questions.forms import UserLogForm, SignUpForm, OutcomeForm
 from questions.get_problem import get_problem
 from questions.strategies import STRATEGIES_FUNC
+
 import csv
 
 LOGGER = logging.getLogger(__name__)

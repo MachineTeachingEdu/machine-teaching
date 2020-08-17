@@ -31,7 +31,7 @@
         <td>
             {% if item.0 == "P" %} <span style="font-weight: normal; color: limegreen">Passed at <br>{{item.1}}</span>
             {% elif item.0 == "F" %} <span style="font-weight: normal; color: red">Failed</span>
-            {% elif item.0 == "S" %} <span style="font-weight: normal; color: white">Skipped</span>
+            {% elif item.0 == "S" %} <span style="font-weight: normal; color: var(--color4)">Skipped</span>
             {% elif item.0 == None %}{% else %}
             {{ item }}
             {% endif %}

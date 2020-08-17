@@ -1,0 +1,75 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-08-16 02:58-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: questions/templates/questions/base.html:32
+msgid "Machine Teaching Project"
+msgstr ""
+
+#: questions/templates/questions/base.html:37
+msgid "Strategy"
+msgstr "Estratégia"
+
+#: questions/templates/questions/base.html:40
+msgid "Sequential"
+msgstr "Sequecial"
+
+#: questions/templates/questions/base.html:42
+msgid "Random"
+msgstr "Aleatório"
+
+#: questions/templates/questions/base.html:51
+#: questions/templates/questions/base.html:75
+msgid "Current Problem"
+msgstr "Problema Atual"
+
+#: questions/templates/questions/base.html:52
+#: questions/templates/questions/base.html:76
+msgid "Past Problems"
+msgstr "Problemas Passados"
+
+#: questions/templates/questions/base.html:53
+#: questions/templates/questions/base.html:77
+msgid "Chapters"
+msgstr "Aulas"
+
+#: questions/templates/questions/base.html:56
+#: questions/templates/questions/base.html:80
+msgid "Outcomes"
+msgstr "Resultados"
+
+#: questions/templates/questions/base.html:59
+#: questions/templates/questions/base.html:83
+msgid "Hello"
+msgstr "Olá"
+
+#: questions/templates/questions/base.html:59
+#: questions/templates/questions/base.html:83
+msgid "Logout"
+msgstr "Sair"
+
+#: questions/templates/questions/base.html:61
+#: questions/templates/questions/base.html:93
+msgid "Signup"
+msgstr "Cadastro"
+
+#: questions/templates/questions/base.html:62
+#: questions/templates/questions/base.html:94
+msgid "Login"
+msgstr "Entrar"
