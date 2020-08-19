@@ -117,7 +117,7 @@ input:focus {
     font-weight: bold;
     transition: all 0.5s;
 }
-.menu2 {
+.menu-small {
     background-color: var(--color3);
     width: 0;
     height: 0;
@@ -135,7 +135,7 @@ input:focus {
     box-shadow: var(--shadow);
     text-transform: uppercase;
 }
-.menu2 a {
+.menu-small a {
     margin-left: 30px;
     padding-right: 20px;
     padding-left: 20px;
@@ -301,7 +301,7 @@ input:focus {
     font-weight: normal;
     z-index: 100;
 }
-.inferior2 {
+.inferior-small {
     padding: 40px;
     display: none;
     justify-content: space-between;
@@ -312,7 +312,7 @@ input:focus {
 }
 
 /* Select language button style */
-.lang, .lang2, .lang3 {
+.lang, lang-small {
     background: var(--icon3);
     background-size: 23px;
     background-repeat: no-repeat;
@@ -329,10 +329,10 @@ input:focus {
     align-items: center;
     color: var(--color4);
 }
-.lang, .lang3 {
+.lang {
     margin-bottom: 10px;
 }
-.lang:hover, .lang3:hover {
+.lang:hover {
     background: var(--icon4);
     background-size: 23px;
     background-repeat: no-repeat;
@@ -341,12 +341,12 @@ input:focus {
     transition: all 0.5s;
     color: var(--color2);
 }
-.lang2 {
+.lang-small {
     margin-bottom: 20px;
 }
 
 /* Change theme button style */
-.change-colors, .change-colors2, .change-colors3 {
+.change-colors, .change-colors-small {
     background: var(--icon);
     background-size: 23px;
     background-repeat: no-repeat;
@@ -364,10 +364,10 @@ input:focus {
     cursor: pointer;
     color: var(--color4);
 }
-.change-colors2 {
+.change-colors-small {
     margin-bottom: 20px;
 }
-.change-colors:hover, .change-colors3:hover {
+.change-colors:hover {
     background: var(--icon2);
     background-size: 23px;
     background-repeat: no-repeat;
@@ -1273,7 +1273,7 @@ select::-ms-expand { display: none; }
     .lang {
         display: none;
     }
-    .inferior2 {
+    .inferior-small {
         display: flex;
     }
     .strategy-div {
