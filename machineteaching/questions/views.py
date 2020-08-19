@@ -283,8 +283,8 @@ def update_strategy(request):
 @permission_required('questions.view_userlogview', raise_exception=True)
 def export(request):
     response = HttpResponse(content_type='text/csv')
-    writer = csv.writer(response) 
-    writer.writerow(['Student', 'Username', 'Problem', 'Outcome', 'Timestamp'])
+    writer = csv.writer(response)
+    writer.writerow(['Student', 'Problem', 'Outcome', 'Timestamp'])
     outcomes = []
     if request.method == 'POST':
         form = OutcomeForm(request.POST, user=request.user)
@@ -303,18 +303,17 @@ def export(request):
                 Lower('user__first_name').asc(),
                 Lower('user__last_name').asc(),
                 'problem_id').values(
-                    'user__first_name', 'user__last_name', 'user__username',
-                    'problem_id', 'problem__title', 'final_outcome', 'timestamp')
+                    'user__first_name', 'user__last_name', 'problem_id',
+                    'problem__title', 'final_outcome', 'timestamp')
 
-        for student in students:
-            student = list(student.values())
-            outcomes = {'P':'Passed','F':'Failed','S':'Skipped'}
-            userlog = [str(student[0])+' '+student[1],
-                student[2],
-                str(student[3])+' - '+student[4],
-                outcomes[student[5]],
-                student[6].strftime("%Y-%m-%d %H:%M:%S")]
-            writer.writerow(userlog)
+            for student in students:
+                student = list(student.values())
+                outcomes = {'P':'Passed','F':'Failed','S':'Skipped'}
+                userlog = [str(student[0])+' '+student[1],
+                    str(student[2])+' - '+student[3],
+                    outcomes[student[4]],
+                    timezone.localtime(student[5]).strftime("%Y-%m-%d %H:%M:%S")]
+                writer.writerow(userlog)
 
     else:
         form = OutcomeForm()
@@ -325,5 +324,5 @@ def export(request):
     LOGGER.info("Showing students and outcomes: %s" % json.dumps(outcomes))
 
     response['Content-Disposition'] = 'attachment; filename="userlog.csv"'
-    
+
     return response
