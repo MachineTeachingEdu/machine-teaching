@@ -8,6 +8,7 @@ def get_problem(problem_id):
     #try:
     # Get problem, test cases and solution
     problem = Problem.objects.get(pk=problem_id)
+    options = problem.options.split("\r\n\r\n")
     LOGGER.debug("Got problem %d", problem.id)
     test_case = TestCase.objects.filter(problem=problem)
     test_case = [json.loads(test.content) for test in test_case]
@@ -28,9 +29,11 @@ def get_problem(problem_id):
 
     context = {
         "problem": problem,
+        "options": options,
         "test_case": ["%s" % item for item in test_case],
         "expected_results": expected_results,
         "tip": solution.tip,
         "header": solution.header
     }
+
     return context

@@ -1,6 +1,6 @@
 # from django.http import Http404, JsonResponse
 import logging
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth import login, authenticate
@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 #from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.db.models.functions import Lower
-from django.utils import timezone
+from django.utils import timezone, translation
 # import random
 import json
 from functools import wraps
@@ -18,6 +18,8 @@ from questions.models import (Problem, Solution, UserLog, UserProfile,
 from questions.forms import UserLogForm, SignUpForm, OutcomeForm
 from questions.get_problem import get_problem
 from questions.strategies import STRATEGIES_FUNC
+
+import csv
 
 LOGGER = logging.getLogger(__name__)
 
@@ -277,3 +279,51 @@ def update_strategy(request):
         return JsonResponse({'status': 'success'})
     except Exception:
         return JsonResponse({'status': 'failed'})
+
+@permission_required('questions.view_userlogview', raise_exception=True)
+def export(request):
+    response = HttpResponse(content_type='text/csv')
+    writer = csv.writer(response) 
+    writer.writerow(['Student', 'Username', 'Problem', 'Outcome', 'Timestamp'])
+    outcomes = []
+    if request.method == 'POST':
+        form = OutcomeForm(request.POST, user=request.user)
+        if form.is_valid():
+            onlineclass = form.cleaned_data['onlineclass']
+            chapter = form.cleaned_data['chapter']
+
+            # Get class problems
+            problems = list(Problem.objects.filter(chapter=chapter).order_by(
+                    'id').values_list('id', flat=True))
+
+            # Get latest student outcome for every student in class
+            students = UserLogView.objects.filter(
+                user__userprofile__user_class=onlineclass,
+                problem_id__in=problems).order_by(
+                Lower('user__first_name').asc(),
+                Lower('user__last_name').asc(),
+                'problem_id').values(
+                    'user__first_name', 'user__last_name', 'user__username',
+                    'problem_id', 'problem__title', 'final_outcome', 'timestamp')
+
+        for student in students:
+            student = list(student.values())
+            outcomes = {'P':'Passed','F':'Failed','S':'Skipped'}
+            userlog = [str(student[0])+' '+student[1],
+                student[2],
+                str(student[3])+' - '+student[4],
+                outcomes[student[5]],
+                student[6].strftime("%Y-%m-%d %H:%M:%S")]
+            writer.writerow(userlog)
+
+    else:
+        form = OutcomeForm()
+        problems = []
+    form.fields['onlineclass'].queryset = OnlineClass.objects.filter(
+        professor__user=request.user).order_by('name')
+    LOGGER.info("Available classes: %s" % form.fields['onlineclass'].queryset)
+    LOGGER.info("Showing students and outcomes: %s" % json.dumps(outcomes))
+
+    response['Content-Disposition'] = 'attachment; filename="userlog.csv"'
+    
+    return response

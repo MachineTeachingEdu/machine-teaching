@@ -36,21 +36,21 @@ function evaluate(args, expected_results){
         try {
             if (JSON.stringify(expected_results_parsed, Object.keys(expected_results_parsed).sort()) == JSON.stringify(answers_parsed, Object.keys(answers_parsed).sort())){
             //if (JSON.stringify(expected_results[i]) == JSON.stringify(answers[i])){
-                eval_div.innerHTML += '<span class="badge badge-success">OK</span><br><br>'
+                eval_div.innerHTML += '<span class="sucess">OK</span><br><br>'
             } else {
-                eval_div.innerHTML += '<span class="badge badge-danger">OOPS!</span><br><br>'
+                eval_div.innerHTML += '<span class="danger">OOPS!</span><br><br>'
                 errors++;
             };
         } catch(e) {
-            eval_div.innerHTML += '<span class="badge badge-danger">OOPS!</span><br><br>'
+            eval_div.innerHTML += '<span class="danger">OOPS!</span><br><br>'
             errors++;
         }
     }
 
     // If no errors are found, go to the next problem
     if (errors == 0) {
-        document.getElementById("next").classList.remove('btn-primary');
-        document.getElementById("next").innerHTML = "Next";
+        document.getElementById("next").style.display = "inline";
+        document.getElementById("skip").style.display = "none";
         document.getElementById("next").onclick = gotoproblem;
         save_log('P', seconds_in_code, seconds_to_begin, seconds_in_page);
     } else {
@@ -149,9 +149,9 @@ indentUnit: 4,
 tabMode: "spaces",
 matchBrackets: true,
 extraKeys: { Tab: betterTab },
-theme: "blackboard"
+theme: "paraiso-dark"
 });
-editor.setSize('100%',400)
+editor.setSize('100%',300)
 
 // Calculating time in page and code
 // Get when user stops typing
