@@ -1,27 +1,27 @@
 {% extends "questions/base.html" %}
 {% load static %}
 {% block content %}
-<p><b>Aula:</b><span id="aula">Aula</span></p>
-<table id="problems" class="table table-striped">
+<h2>AULA <span id="aula">Aula</span></h2>
+<table id="problems" class="chapters">
     <thead>
-        <tr>
-            <th class="searchable">Aula</th>
-            <th class="searchable">Problema</th>
-            <th class="searchable">Resultado</th>
-        </tr>
+    <tr>
+        <th class="searchable">Aula</th>
+        <th class="searchable">Problema</th>
+        <th class="searchable">Resultado</th>
+    </tr>
     </thead>
 
     <tbody>
-        {% for item in problems %}
-        <tr> 
-            <td>{{ item.chapter }}</td>
-            <td><a href={% url 'show_problem' problem_id=item.id %}>{{ item.title }}</a></td>
-            <td>{% if item.id in passed %}<span class="badge badge-success">Passed</span>{% else %}
-                {% if item.id in skipped %}<span class="badge badge-primary">Skipped</span>{% endif %}
-                {% if item.id in failed %}<span class="badge badge-danger">Failed</span>{% endif %}
-                {% endif %}</td>
-        </tr>
-        {% endfor %}
+    {% for item in problems %}
+    <tr>
+        <td>{{ item.chapter }}</td>
+        <td><a href={% url 'show_problem' problem_id=item.id %}>{{ item.title }}</a></td>
+        <td>{% if item.id in passed %}<span class="passed">Passed</span>{% else %}
+            {% if item.id in skipped %}<span class="skipped">Skipped</span>{% endif %}
+            {% if item.id in failed %}<span class="failed">Failed</span>{% endif %}
+            {% endif %}</td>
+    </tr>
+    {% endfor %}
     </tbody>
 </table>
 {% endblock %}
@@ -29,25 +29,25 @@
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script>
-$(document).ready(function() {
+    $(document).ready(function() {
         var table = $('#problems').DataTable({
             "pageLength": 50,
             "order": [[ 0, "desc" ]]
-            });
+        });
 
         $("#aula").each( function ( i ) {
-        var select = $('<select><option value="">Todas</option></select>')
-            .appendTo( $(this).empty() )
-            .on( 'change', function () {
-                table.column( i )
-                    .search( $(this).val() )
-                    .draw();
+            var select = $('<select><option value="">Todas</option></select>')
+                .appendTo( $(this).empty() )
+                .on( 'change', function () {
+                    table.column( i )
+                        .search( $(this).val() )
+                        .draw();
+                } );
+
+            table.column( i ).data().unique().sort().each( function ( d, j ) {
+                select.append( '<option value="'+d+'">'+d+'</option>' )
             } );
- 
-        table.column( i ).data().unique().sort().each( function ( d, j ) {
-            select.append( '<option value="'+d+'">'+d+'</option>' )
         } );
     } );
-} );
 </script>
 {% endblock %}

@@ -100,8 +100,14 @@ class ProblemManager(models.Manager):
 
 
 class Problem(models.Model):
+    QUESTION_TYPES = (("C", "Code"),
+                      ("M", "Multiple Choice"),
+                      ("T", "Text"))
+
+    question_type = models.CharField(max_length=2, choices=QUESTION_TYPES, default="C")
     title = models.CharField(max_length=200, blank=False)
     content = models.TextField(blank=False)
+    options = models.TextField(blank=True)
     difficulty = models.CharField(max_length=200, blank=True)
     link = models.URLField(blank=True)
     retrieved_date = models.DateTimeField(blank=True)

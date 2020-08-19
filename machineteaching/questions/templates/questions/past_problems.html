@@ -3,32 +3,32 @@
 
 {% block content %}
 <h2>Nome: {{ student.first_name }} {{student.last_name}}</h2>
-<table id="problems" class="table table-bordered">
+<table id="problems" class="past-problems">
     <thead>
-        <tr>
-            <th>Timestamp</th>
-            <th class="searchable">Title</th>
-            <th class="searchable">Status</th>
-            <th>Solution</th>
-        </tr>
+    <tr>
+        <th>TIMESTAMP</th>
+        <th class="searchable">TITLE</th>
+        <th class="searchable">STATUS</th>
+        <th>SOLUTION</th>
+    </tr>
     </thead>
     <tbody>
-        {% for item in past_problems %}
-        <tr> 
-            <td>{{ item.timestamp|date:'Y-m-d H:i:s'}}</td>
-            <td>{{ item.problem.title }}</td>
-            {% if item.outcome == 'P' %}
-                <td style="color: limegreen">Passed</td>
-                <td><a href={% url 'past_solutions' id=item.id %}>See submitted solution</a></td>
-            {% elif item.outcome == 'F' %}
-                <td style="color:red">Failed</td>
-                <td><a href={% url 'past_solutions' id=item.id %}>See submitted solution</a></td>
-            {% else %}
-                <td style="color:white">Skipped</td>
-                <td></td>
-            {% endif %}
-        </tr>
-        {% endfor %}
+    {% for item in past_problems %}
+    <tr>
+        <td>{{ item.timestamp|date:'Y-m-d H:i:s'}}</td>
+        <td>{{ item.problem.title }}</td>
+        {% if item.outcome == 'P' %}
+        <td><span class="passed">PASSED</span></td>
+        <td><a href={% url 'past_solutions' id=item.id %}>See submitted solution</a></td>
+        {% elif item.outcome == 'F' %}
+        <td><span class="failed">FAILED</span></td>
+        <td><a href={% url 'past_solutions' id=item.id %}>See submitted solution</a></td>
+        {% else %}
+        <td><span class="skipped">SKIPPED</span></td>
+        <td></td>
+        {% endif %}
+    </tr>
+    {% endfor %}
     </tbody>
 </table>
 {% endblock %}
@@ -37,11 +37,11 @@
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script>
-$(document).ready(function() {
+    $(document).ready(function() {
         $('#problems').dataTable({
             "pageLength": 50,
             "order": [[ 0, "desc" ]]
-            });
-} );
+        });
+    } );
 </script>
 {% endblock %}
