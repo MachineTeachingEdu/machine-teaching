@@ -12,6 +12,9 @@ from random import randint, SystemRandom
 import numpy as np
 from simple_history.models import HistoricalRecords
 
+import multiprocessing
+import time
+
 
 # Create your models here.
 class Chapter(models.Model):
@@ -172,6 +175,52 @@ class UserLog(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     error_type = models.CharField(max_length=2, choices=ERROR_TYPE,
                                   default="D")
+
+    # Use with care, this is running user code in server and it is prone to
+    # code injection
+    def _get_score(self):
+        def run_student_solution(solution, header, args, return_dict):
+            # Run student solution
+            func_obj = compile(solution, "solution", "exec")
+            exec(func_obj)
+            answer = eval(header)(*args)
+            return_dict['answer'] = answer
+
+        solution = Solution.objects.filter(problem__id=self.problem.id,
+                                           ignore=False)[0]
+        test_case = TestCase.objects.filter(problem__id=self.problem.id)
+        test_case = [json.loads(test.content) for test in test_case]
+
+        # Run expected solution
+        func_obj = compile(solution.content, "solution", "exec")
+        exec(func_obj)
+        # For each test case, get expected output
+        expected_results = []
+        for args in test_case:
+            expected_results.append(eval(solution.header)(*args))
+
+        # For each test case, get output
+        correct_cases_count = 0
+        for idx, args in enumerate(test_case):
+            manager = multiprocessing.Manager()
+            return_dict = manager.dict()
+            p = multiprocessing.Process(target=run_student_solution,
+                                        args=(self.solution, solution.header,
+                                              args, return_dict))
+            p.start()
+            time.sleep(0.05)
+            if p.is_alive():
+                print("still running: solution:\n{}".format(solution))
+            p.terminate()
+            p.join()
+            if 'answer' in return_dict.keys():
+                if return_dict['answer'] == expected_results[idx]:
+                    correct_cases_count += 1
+        score = correct_cases_count/len(expected_results)
+        if self.outcome == 1:
+            assert score == 1
+        return score
+    score = property(_get_score)
 
 
 class UserLogView(models.Model):
