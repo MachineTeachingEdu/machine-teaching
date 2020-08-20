@@ -178,13 +178,19 @@ class UserLog(models.Model):
 
     # Use with care, this is running user code in server and it is prone to
     # code injection
-    def _get_score(self):
+    def _calculate_score(self):
         def run_student_solution(solution, header, args, return_dict):
-            # Run student solution
-            func_obj = compile(solution, "solution", "exec")
-            exec(func_obj)
-            answer = eval(header)(*args)
-            return_dict['answer'] = answer
+            try:
+                # Run student solution
+                func_obj = compile(solution, "solution", "exec")
+                exec(func_obj)
+                answer = eval(header)(*args)
+                return_dict['answer'] = answer
+            except (NameError, IndentationError, TabError, SyntaxError,
+                    TypeError, IndexError, KeyError, AttributeError,
+                    ValueError) as err:
+                return_dict['answer'] = 0
+                return_dict['error'] = str(type(err))
 
         solution = Solution.objects.filter(problem__id=self.problem.id,
                                            ignore=False)[0]
@@ -201,6 +207,7 @@ class UserLog(models.Model):
 
         # For each test case, get output
         correct_cases_count = 0
+        error_exception = None
         for idx, args in enumerate(test_case):
             manager = multiprocessing.Manager()
             return_dict = manager.dict()
@@ -208,19 +215,32 @@ class UserLog(models.Model):
                                         args=(self.solution, solution.header,
                                               args, return_dict))
             p.start()
-            time.sleep(0.05)
+            time.sleep(0.07)
             if p.is_alive():
-                print("still running: solution:\n{}".format(solution))
+                print("still running: solution:\n{} - {}".format(solution, self))
             p.terminate()
             p.join()
             if 'answer' in return_dict.keys():
                 if return_dict['answer'] == expected_results[idx]:
                     correct_cases_count += 1
-        score = correct_cases_count/len(expected_results)
+            if 'error' in return_dict.keys():
+                error_exception = return_dict['error']
+
+        outcome_score = correct_cases_count/len(expected_results)
+        return outcome_score, error_exception
+
+    def _get_score(self):
+        outcome_score, _ = self._calculate_score()
         if self.outcome == 1:
-            assert score == 1
-        return score
-    score = property(_get_score)
+            assert outcome_score == 1
+        return outcome_score
+
+    def _get_exception(self):
+        _, error_exception = self._calculate_score()
+        return error_exception
+
+    outcome_score = property(_get_score)
+    error_exception = property(_get_exception)
 
 
 class UserLogView(models.Model):
