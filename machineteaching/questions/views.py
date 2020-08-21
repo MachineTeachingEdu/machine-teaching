@@ -307,12 +307,11 @@ def export(request):
                     'problem__title', 'final_outcome', 'timestamp')
 
             for student in students:
-                student = list(student.values())
                 outcomes = {'P':'Passed','F':'Failed','S':'Skipped'}
-                userlog = [str(student[0])+' '+student[1],
-                    str(student[2])+' - '+student[3],
-                    outcomes[student[4]],
-                    timezone.localtime(student[5]).strftime("%Y-%m-%d %H:%M:%S")]
+                userlog = [str(student['user__first_name'])+' '+student['user__last_name'],
+                    str(student['problem_id'])+' - '+student['problem__title'],
+                    outcomes[student['final_outcome']],
+                    timezone.localtime(student['timestamp']).strftime("%Y-%m-%d %H:%M:%S")]
                 writer.writerow(userlog)
 
     else:
