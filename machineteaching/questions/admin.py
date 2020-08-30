@@ -45,8 +45,7 @@ class UserLogAdmin(ExportActionMixin, admin.ModelAdmin):
 
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'user_class', 'programming', 'strategy', 'accepted',
-                    'seed')
+    list_display = ('user', 'user_class', 'programming', 'accepted', 'read')
     search_fields = ['user__username', 'user__first_name', 'user__last_name']
     list_filter = ('user_class', 'programming', 'strategy')
     autocomplete_fields = ['user']

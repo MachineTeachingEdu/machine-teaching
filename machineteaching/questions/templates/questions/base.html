@@ -11,7 +11,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Machine Teaching Project</title>
+    <title>Machine Teaching</title>
 
     <!-- Custom styles -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
@@ -28,7 +28,7 @@
 
 <!-- Navigation -->
 <nav class="navbar">
-    <a class="brand" href="/">{% trans "Machine Teaching Project" %}</a>
+    <a class="brand" href="/">Machine Teaching</a>
     <!-- Strategy bar -->
     {% if user.is_authenticated %}
     <div class="strategy-div">
@@ -232,7 +232,8 @@
     <!-- Copyright -->
     </div>
     <div class="footer-copyright text-center py-3 ">
-        Check the <a href="{% url 'terms_and_conditions'%}">Terms and Conditions</a>
+        {% blocktrans %}Check the {% endblocktrans %}<a href="{% url 'terms_and_conditions'%}">{% blocktrans %}Terms and Conditions{% endblocktrans %}</a>{% blocktrans %} and the {% endblocktrans %}<a href="{% url 'privacy' %}">{% blocktrans %}Privacy Policy{% endblocktrans %}</a>
+        <br><a href="{% url 'about'%}">{% blocktrans %}About this research{% endblocktrans %}</a>
         <br>© {% now "Y" %} Copyright: <a href="/">machineteaching.tech</a>
     </div>
     <!-- Copyright -->

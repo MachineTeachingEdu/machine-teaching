@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
 # from django.urls import reverse
 from questions.models import UserLog, Professor, OnlineClass, Chapter
+from django.utils.translation import gettext as _
 
 class UserLogForm(ModelForm):
     class Meta:
@@ -21,7 +22,8 @@ class SignUpForm(UserCreationForm):
     # onlineclass = forms.ChoiceField(choices=CLASSES, label="Class")
     class_code = forms.CharField()
     programming = forms.ChoiceField(choices=PROGRAMMING, label="Did you have any programming experience before this course?")
-    accepted = forms.BooleanField(label=mark_safe('I accept the <a href="/terms_and_conditions">Terms and Conditions</a>'))
+    accepted = forms.BooleanField(label=mark_safe(_('I accept the ') + '<a href="/terms_and_conditions">' + _('Terms and Conditions') + '</a>'))
+    read = forms.BooleanField(label=mark_safe(_('I\'ve read the ') + '<a href="/privacy">' + _('Privacy Policy') + '</a>'))
 
     def __init__(self, *args, **kwargs):
         super(SignUpForm, self).__init__(*args, **kwargs)
