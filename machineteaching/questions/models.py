@@ -128,7 +128,7 @@ class Problem(models.Model):
 
 class Solution(models.Model):
     content = models.TextField(blank=False)
-    header = models.TextField(blank=False)
+    header = models.TextField(blank=True, null=True)
     problem = models.ForeignKey(Problem, on_delete=models.PROTECT)
     link = models.URLField(blank=True, null=True)
     retrieved_date = models.DateTimeField(blank=False)
