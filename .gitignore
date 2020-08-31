@@ -128,3 +128,5 @@ machineteaching/dump_db_basic/
 machineteaching/machineteaching/dev_settings\.py
 
 machineteaching/db\.sqlite3
+
+machineteaching/similarity\.pkl
