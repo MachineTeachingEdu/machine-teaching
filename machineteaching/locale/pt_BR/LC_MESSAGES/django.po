@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-16 02:58-0300\n"
+"POT-Creation-Date: 2020-09-02 19:07-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,58 +18,336 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: questions/templates/questions/base.html:32
+#: questions/forms.py:16
+msgid "No"
+msgstr "Não"
+
+#: questions/forms.py:17
+msgid "Yes"
+msgstr "Sim"
+
+#: questions/forms.py:23
+msgid "Class code"
+msgstr "Código da turma"
+
+#: questions/forms.py:24
+msgid "Did you have any programming experience before this course?"
+msgstr "Você teve alguma experiência com programação antes desse curso?"
+
+#: questions/forms.py:25
+msgid "I accept the <a href=/terms_and_conditions>Terms and Conditions</a>"
+msgstr "Eu aceito os <a href=/terms_and_conditions>Termos e Condições</a>"
+
+#: questions/forms.py:40
+msgid "Email addresses must be unique."
+msgstr "O endereço de email deve ser único."
+
+#: questions/forms.py:46
+msgid "Invalid Class Code."
+msgstr "Código da turma inválido"
+
+#: questions/forms.py:50
+msgid "Class"
+msgstr "Turma"
+
+#: questions/forms.py:51 questions/templates/questions/chapters.html:6
+#: questions/templates/questions/chapters.html:10
+msgid "Chapter"
+msgstr "Aula"
+
+#: questions/forms.py:60
+msgid "You don't have authorization to view this class."
+msgstr "Você não tem autorização para ver essa aula."
+
+#: questions/templates/questions/base.html:31
 msgid "Machine Teaching Project"
 msgstr ""
 
-#: questions/templates/questions/base.html:37
+#: questions/templates/questions/base.html:36
 msgid "Strategy"
 msgstr "Estratégia"
 
-#: questions/templates/questions/base.html:40
+#: questions/templates/questions/base.html:39
+#: questions/templates/questions/finished.html:7
+#: questions/templates/questions/finished.html:12
 msgid "Sequential"
 msgstr "Sequencial"
 
-#: questions/templates/questions/base.html:42
+#: questions/templates/questions/base.html:41
+#: questions/templates/questions/finished.html:10
+#: questions/templates/questions/finished.html:12
 msgid "Random"
 msgstr "Aleatório"
 
-#: questions/templates/questions/base.html:51
-#: questions/templates/questions/base.html:75
+#: questions/templates/questions/base.html:50
+#: questions/templates/questions/base.html:74
 msgid "Current Problem"
 msgstr "Problema Atual"
 
-#: questions/templates/questions/base.html:52
-#: questions/templates/questions/base.html:76
+#: questions/templates/questions/base.html:51
+#: questions/templates/questions/base.html:75
 msgid "Past Problems"
 msgstr "Problemas Passados"
 
-#: questions/templates/questions/base.html:53
-#: questions/templates/questions/base.html:77
+#: questions/templates/questions/base.html:52
+#: questions/templates/questions/base.html:76
+#: questions/templates/questions/finished.html:9
 msgid "Chapters"
 msgstr "Aulas"
 
-#: questions/templates/questions/base.html:56
-#: questions/templates/questions/base.html:80
+#: questions/templates/questions/base.html:55
+#: questions/templates/questions/base.html:79
 msgid "Outcomes"
 msgstr "Resultados"
 
-#: questions/templates/questions/base.html:59
-#: questions/templates/questions/base.html:83
+#: questions/templates/questions/base.html:58
+#: questions/templates/questions/base.html:82
 msgid "Hello"
 msgstr "Olá"
 
-#: questions/templates/questions/base.html:59
-#: questions/templates/questions/base.html:83
+#: questions/templates/questions/base.html:58
+#: questions/templates/questions/base.html:82
 msgid "Logout"
 msgstr "Sair"
 
-#: questions/templates/questions/base.html:61
+#: questions/templates/questions/base.html:60
 #: questions/templates/questions/base.html:93
 msgid "Signup"
 msgstr "Cadastro"
 
-#: questions/templates/questions/base.html:62
+#: questions/templates/questions/base.html:61
 #: questions/templates/questions/base.html:94
+#: questions/templates/registration/login.html:6
+#: questions/templates/registration/login.html:25
 msgid "Login"
 msgstr "Entrar"
+
+#: questions/templates/questions/base.html:181
+#: questions/templates/questions/base.html:182
+#: questions/templates/questions/base.html:198
+#: questions/templates/questions/base.html:199
+msgid "Dark mode"
+msgstr "Escurecer"
+
+#: questions/templates/questions/base.html:185
+#: questions/templates/questions/base.html:186
+#: questions/templates/questions/base.html:194
+#: questions/templates/questions/base.html:195
+msgid "Light mode"
+msgstr "Clarear"
+
+#: questions/templates/questions/base.html:235
+msgid "Check the"
+msgstr "Leia os"
+
+#: questions/templates/questions/base.html:235
+msgid "Terms and Conditions"
+msgstr "Termos e Condições"
+
+#: questions/templates/questions/chapters.html:11
+msgid "Problem"
+msgstr "Problema"
+
+#: questions/templates/questions/chapters.html:12
+msgid "Outcome"
+msgstr "Resultado"
+
+#: questions/templates/questions/chapters.html:21
+#: questions/templates/questions/outcomes.html:41
+#: questions/templates/questions/past_problems.html:23
+msgid "Passed"
+msgstr "Passou"
+
+#: questions/templates/questions/chapters.html:22
+#: questions/templates/questions/outcomes.html:34
+#: questions/templates/questions/outcomes.html:43
+#: questions/templates/questions/past_problems.html:29
+msgid "Skipped"
+msgstr "Pulou"
+
+#: questions/templates/questions/chapters.html:23
+#: questions/templates/questions/outcomes.html:33
+#: questions/templates/questions/outcomes.html:42
+#: questions/templates/questions/past_problems.html:26
+msgid "Failed"
+msgstr "Falhou"
+
+#: questions/templates/questions/conditions.html:5
+msgid "Terms and conditions"
+msgstr "Termos e Condições"
+
+#: questions/templates/questions/conditions.html:9
+msgid ""
+"By signing up, the user agrees that all the data provided to the website may "
+"be used as anonymous data in this research. Your professor may also choose "
+"to share related information that they might find useful to the research, "
+"such as exams and assignments grades."
+msgstr ""
+"Ao se cadastrar, o usuário concorda que todos os dados fornecidos no site "
+"poderão ser utilizados como dados anônimos nesta pesquisa. Seu professor "
+"também pode optar por compartilhar informações que podem ser úteis para a "
+"pesquisa, como provas e notas de trabalhos."
+
+#: questions/templates/questions/conditions.html:11
+msgid ""
+"The information we collect is not shared or sold to other organizations for "
+"commercial purposes."
+msgstr ""
+"As informações que coletamos não são compartilhadas ou vendidas a outras "
+"organizações para fins comerciais."
+
+#: questions/templates/questions/finished.html:6
+msgid "You finished all available problems in"
+msgstr "Você terminou todos os problemas disponíveis no modo"
+
+#: questions/templates/questions/finished.html:7
+msgid "mode. You can:"
+msgstr " Você pode:"
+
+#: questions/templates/questions/finished.html:9
+#: questions/templates/questions/finished.html:10
+msgid "Go to"
+msgstr "Ir para o modo"
+
+#: questions/templates/questions/finished.html:9
+msgid "and come back to skipped problems."
+msgstr "e voltar aos problemas pulados."
+
+#: questions/templates/questions/finished.html:10
+msgid "mode and try other problems."
+msgstr " e tentar outros problemas."
+
+#: questions/templates/questions/finished.html:12
+msgid "mode. You can go to "
+msgstr ". Você pode ir para o modo "
+
+#: questions/templates/questions/finished.html:12
+msgid "mode and do new problems."
+msgstr " e fazer novos problemas."
+
+#: questions/templates/questions/outcomes.html:10
+msgid "Search"
+msgstr "Pesquisar"
+
+#: questions/templates/questions/outcomes.html:11
+msgid "Export CSV"
+msgstr "Exportar CSV"
+
+#: questions/templates/questions/outcomes.html:18
+msgid "Students"
+msgstr "Alunos"
+
+#: questions/templates/questions/outcomes.html:22
+msgid "Total"
+msgstr "Total"
+
+#: questions/templates/questions/outcomes.html:32
+msgid "Passed at"
+msgstr "Passou em"
+
+#: questions/templates/questions/past_problems.html:11
+msgid "Timestamp"
+msgstr "Timestamp"
+
+#: questions/templates/questions/past_problems.html:12
+msgid "Title"
+msgstr "Título"
+
+#: questions/templates/questions/past_problems.html:13
+msgid "Status"
+msgstr "Status"
+
+#: questions/templates/questions/past_problems.html:14
+msgid "Solution"
+msgstr "Solução"
+
+#: questions/templates/questions/past_problems.html:24
+#: questions/templates/questions/past_problems.html:27
+msgid "See submitted solution"
+msgstr "Ver solução enviada"
+
+#: questions/templates/questions/show_problem.html:28
+msgid "Run"
+msgstr "Executar"
+
+#: questions/templates/questions/show_problem.html:29
+#: questions/templates/questions/show_problem.html:51
+#: questions/templates/questions/show_problem.html:68
+msgid "Next"
+msgstr "Próximo"
+
+#: questions/templates/questions/show_problem.html:30
+#: questions/templates/questions/show_problem.html:52
+#: questions/templates/questions/show_problem.html:69
+msgid "Skip"
+msgstr "Pular"
+
+#: questions/templates/questions/show_problem.html:50
+#: questions/templates/questions/show_problem.html:67
+msgid "Answer"
+msgstr "Responder"
+
+#: questions/templates/questions/show_problem.html:63
+msgid "Type output here"
+msgstr "Digite a saída aqui"
+
+#: questions/templates/registration/login.html:17
+msgid "Please login to see this page."
+msgstr "Por favor, entre para ver essa página."
+
+#: questions/templates/registration/login.html:22
+msgid "Password"
+msgstr "Senha"
+
+#: questions/templates/registration/login.html:24
+msgid "Forgot password?"
+msgstr "Esqueceu a senha?"
+
+#: questions/templates/registration/password_reset_complete.html:6
+msgid "Your password has been set. You may go ahead and "
+msgstr "Sua senha foi redefinida. Você pode ir em frente e "
+
+#: questions/templates/registration/password_reset_complete.html:6
+msgid "sign in"
+msgstr "fazer login"
+
+#: questions/templates/registration/password_reset_complete.html:6
+msgid " now."
+msgstr " agora."
+
+#: questions/templates/registration/password_reset_confirm.html:6
+msgid "Change password"
+msgstr "Redefinir senha"
+
+#: questions/templates/registration/password_reset_confirm.html:10
+msgid "Change"
+msgstr "Redefinir"
+
+#: questions/templates/registration/password_reset_done.html:6
+msgid ""
+"We've emailed you instructions for setting your password, if an account "
+"exists with the email you entered. You should receive them shortly."
+msgstr ""
+"Enviamos por e-mail instruções para redefinir sua senha, se existir uma "
+"conta com o e-mail que você digitou. Você deve recebê-las em breve."
+
+#: questions/templates/registration/password_reset_done.html:9
+msgid ""
+"If you don't receive an email, please make sure you've entered the address "
+"you registered with, and check your spam folder."
+msgstr ""
+"Se você não recebeu um e-mail, certifique-se de inserir o endereço com o "
+"qual se cadastrou e verifique sua caixa de spam."
+
+#: questions/templates/registration/password_reset_form.html:7
+msgid "Forgot Password"
+msgstr "Esqueceu a senha"
+
+#: questions/templates/registration/password_reset_form.html:12
+msgid "Submit"
+msgstr "Enviar"
+
+#: questions/templates/registration/signup.html:5
+#: questions/templates/registration/signup.html:9
+msgid "Sign up"
+msgstr "Cadastrar"

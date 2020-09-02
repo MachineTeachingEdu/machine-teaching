@@ -1,5 +1,6 @@
 {% extends "questions/base.html" %}
 {% load static %}
+{% load i18n %}
 {% load escape_doublequote %}
 {% block header %}
 <!-- Custom styles for this template -->
@@ -24,9 +25,9 @@
         <textarea id="code" cols="80" rows="10" style="">{{tip}}</textarea><br />
         <div id="result"></div>
         <div style="text-align: center;">
-            <button type="button" onclick="runit({{test_case|safe|escape_doublequote}}, '{{header}}', {{expected_results|safe|escape_doublequote}})">RUN ▶</button>
-            <button type="button" onclick="gotoproblem()" id="next" style="margin-left: 20px; display: none">NEXT</button>
-            </br><a onclick="skipit()" id="skip">SKIP</a>
+            <button type="button" onclick="runit({{test_case|safe|escape_doublequote}}, '{{header}}', {{expected_results|safe|escape_doublequote}})">{% trans "Run" %} ▶</button>
+            <button type="button" onclick="gotoproblem()" id="next" style="margin-left: 20px; display: none">{% trans "Next" %}</button>
+            </br><a onclick="skipit()" id="skip">{% trans "Skip" %}</a>
         </div>
     </div>
 </form>
@@ -46,9 +47,9 @@
         </div>
         {% endfor %}
         <div style="text-align: center;">
-            <button type="button" onclick="answer()">RESPONDER</button>
-            <button type="button" onclick="gotoproblem()" id="next" style="margin-left: 20px; display: none">NEXT</button>
-            </br><a onclick="skipit()" id="skip">SKIP</a>
+            <button type="button" onclick="answer()">{% trans "Answer" %}</button>
+            <button type="button" onclick="gotoproblem()" id="next" style="margin-left: 20px; display: none">{% trans "Next" %}</button>
+            </br><a onclick="skipit()" id="skip">{% trans "Skip" %}</a>
         </div>
     </form>
 </div>
@@ -59,13 +60,13 @@
 <div class="textbox">
     <form onkeydown="return event.key != 'Enter';">
         <div>
-            <input id="ans" id="text" placeholder="TYPE OUTPUT HERE">
+            <input id="ans" id="text" placeholder="{% trans 'Type output here' %}">
             <div id="result"></div>
         </div>
         <div style="text-align: center;">
-            <button type="button" onclick="answer()">RESPONDER</button>
-            <button type="button" onclick="gotoproblem()" id="next" style="margin-left: 20px; display: none">NEXT</button>
-            </br><a onclick="skipit()" id="skip">SKIP</a>
+            <button type="button" onclick="answer()">{% trans "Answer" %}</button>
+            <button type="button" onclick="gotoproblem()" id="next" style="margin-left: 20px; display: none">{% trans "Next" %}</button>
+            </br><a onclick="skipit()" id="skip">{% trans "Skip" %}</a>
         </div>
     </form>
 </div>

@@ -300,6 +300,7 @@ input:focus {
     font-size: 15px;
     font-weight: normal;
     z-index: 100;
+    text-transform: uppercase;
 }
 .inferior-small {
     padding: 40px;
@@ -454,6 +455,7 @@ input:focus {
 }
 .loginform {
     box-sizing: border-box;
+    text-transform: uppercase;
 }
 .loginform input {
     margin-bottom: 20px;
@@ -472,11 +474,15 @@ input:focus {
     background-color: var(--color2);
     color: var(--color4);
     border-radius: 30px;
-    width: 100px;
-    font-size: 15px;
+    width: auto;
+    padding: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 20px;
     font-weight: normal;
     box-shadow: var(--shadow);
     cursor: pointer;
+    text-transform: uppercase;
 }
 .loginform input[type="submit"]:hover {
     background: var(--color4);
@@ -587,13 +593,14 @@ input:focus {
     color: var(--color4);
     border-radius: 30px;
     border: none;
+    padding: 20px;
     padding-top: 10px;
     padding-bottom: 10px;
-    width: 100px;
-    font-size: 15px;
+    font-size: 20px;
     font-weight: normal;
     box-shadow: var(--shadow);
     cursor: pointer;
+    text-transform: uppercase;
 }
 .signupform button:hover {
     background: var(--color4);
@@ -638,15 +645,16 @@ input:focus {
     color: var(--color4);
     border-radius: 30px;
     border: none;
-    width: 100px;
+    width: auto;
     margin-bottom: 20px;
     padding: 10px;
     padding-right: 20px;
     padding-left: 20px;
-    font-size: 15px;
+    font-size: 20px;
     font-weight: normal;
     box-shadow: var(--shadow);
     cursor: pointer;
+    text-transform: uppercase;
 }
 .resetform button:hover {
     background: var(--color4);
@@ -676,12 +684,13 @@ input:focus {
     border: none;
     margin-bottom: 20px;
     padding: 13px;
-    padding-right: 20px;
-    padding-left: 20px;
+    padding-right: 25px;
+    padding-left: 25px;
     font-size: 20px;
     font-weight: normal;
     box-shadow: var(--shadow);
     cursor: pointer;
+    text-transform: uppercase;
 }
 .code button:hover {
     background: var(--color4);
@@ -691,6 +700,7 @@ input:focus {
 .code a {
     font-size: 17px;
     cursor: pointer;
+    text-transform: uppercase;
 }
 .code a:hover {
     font-weight: 500;
@@ -814,6 +824,7 @@ input:focus {
     font-weight: normal;
     box-shadow: var(--shadow);
     cursor: pointer;
+    text-transform: uppercase;
 }
 .multiple-c button:hover {
     background: var(--color4);
@@ -823,6 +834,7 @@ input:focus {
 .multiple-c a {
     font-size: 17px;
     cursor: pointer;
+    text-transform: uppercase;
 }
 .multiple-c a:hover {
     font-weight: 500;
@@ -871,6 +883,7 @@ input:focus {
     font-weight: normal;
     box-shadow: var(--shadow);
     cursor: pointer;
+    text-transform: uppercase;
 }
 .textbox button:hover {
     background: var(--color4);
@@ -880,6 +893,7 @@ input:focus {
 .textbox a {
     font-size: 17px;
     cursor: pointer;
+    text-transform: uppercase;
 }
 .textbox a:hover {
     font-weight: 500;
@@ -943,6 +957,7 @@ td{
 th {
     padding: 25px;
     padding-bottom: 20px;
+    text-transform: uppercase;
 }
 tr:nth-child(even) td {
     background-color: var(--color5);
@@ -1062,6 +1077,7 @@ select::-ms-expand {display: none;}
     border-radius: 30px;
     box-shadow: var(--shadow);
     font-weight: normal;
+    text-transform: uppercase;
 }
 .next:hover, .previous:hover {
     background: var(--color4);
@@ -1081,6 +1097,9 @@ select::-ms-expand {display: none;}
 .past-problems td:nth-child(2), .past-problems th:nth-child(2) {
     text-align: left;
     text-transform: none;
+}
+.past-problems th:nth-child(2) {
+    text-transform: uppercase;
 }
 
 /* Chapters page styles */
@@ -1194,15 +1213,15 @@ select::-ms-expand { display: none; }
     color: var(--color4);
     border-radius: 30px;
     border: none;
-    width: 130px;
     margin-bottom: 20px;
     padding: 13px;
-    padding-right: 20px;
-    padding-left: 20px;
+    padding-right: 25px;
+    padding-left: 25px;
     font-size: 20px;
     font-weight: normal;
     box-shadow: var(--shadow);
     cursor: pointer;
+    text-transform: uppercase;
 }
 .search:hover {
     background: var(--color4);
@@ -1219,6 +1238,7 @@ select::-ms-expand { display: none; }
     display: block;
     margin-left: auto;
     margin-right: auto;
+    text-transform: uppercase;
 }
 .export:hover {
     font-weight: 500;
@@ -1247,6 +1267,9 @@ select::-ms-expand { display: none; }
     width: 100px;
 }
 
+.terms {
+    padding: 30px;
+}
 
 
 
@@ -1424,10 +1447,12 @@ select::-ms-expand { display: none; }
     }
     th {
         padding: 0;
+        text-transform: uppercase;
     }
     table .passed, .failed, .skipped {
         font-size: 13px;
         font-weight: normal;
+        text-transform: uppercase;
     }
 
     /* Past problems page styles */
@@ -1504,11 +1529,13 @@ select::-ms-expand { display: none; }
     .signupform label {
         margin-bottom: 20px;
         text-align: center;
+        width: auto;
     }
     .signupform input {
         width: 100%;
     }
     .signupform select {
         width: 100%;
+        background: white;
     }
 }
