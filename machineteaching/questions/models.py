@@ -115,8 +115,7 @@ class Problem(models.Model):
     crawler = models.CharField(max_length=200, blank=True)
     hint = models.TextField(blank=True)
     objects = ProblemManager()
-    chapter = models.ForeignKey(Chapter, on_delete=models.PROTECT, null=True,
-                                blank=True)
+    chapter = models.ManyToManyField(Chapter)
     test_case_generator = models.TextField(blank=True, null=True)
     history = HistoricalRecords()
 
