@@ -100,10 +100,11 @@ def sequential_strategy(user):
     try:
         problem_id = Problem.objects.filter(chapter__in=user.userprofile.user_class.chapter.all()).exclude(
                 id__in=user_passed).order_by('id')[0].pk
+        LOGGER.debug("Selecting problem %d from sequential strategy", problem_id)
     except IndexError:
         problem_id = None
+        LOGGER.debug("No problems left in sequential strategy")
 
-    LOGGER.debug("Selecting problem %d from sequential strategy", problem_id)
     return problem_id
 
 

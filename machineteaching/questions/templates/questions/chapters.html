@@ -16,7 +16,11 @@
     <tbody>
     {% for item in problems %}
     <tr>
-        <td>{% for chapter in item.chapter.all %}{{ chapter }}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+        <td>{% for chapter in item.chapter.all %}
+            {% if chapter.label in chapters %}{{ chapter }}
+                {% if not forloop.last %}, {% endif %}
+            {% endif %}{% endfor %}
+        </td>
         <td><a href={% url 'show_problem' problem_id=item.id %}>{{ item.title }}</a></td>
         <td>{% if item.id in passed %}<span class="passed">{% trans "Passed" %}</span>{% else %}
             {% if item.id in skipped %}<span class="skipped">{% trans "Skipped" %}</span>{% endif %}
