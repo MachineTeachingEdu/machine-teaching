@@ -7,19 +7,69 @@
 {% endblock %}
 {% block content %}
 <!-- Problem statement -->
-<div class="problem">
-    <h2>{{ log.problem.title }}</h2>
+<div class="problem" {% if problem.question_type == "M" or "T" %} style="max-width: 700px; margin-left: auto; margin-right: auto" {% endif %}>
+    <h2>{{ problem.title }}</h2>
     <p>
-        {{ log.problem.content|linebreaks }}
+        {{ problem.content|linebreaks }}
     </p>
 </div>
 
+{% if log.problem.question_type == "C" %}
 <!-- Code -->
 <div class="code">
     <form>
         <textarea id="code" cols="80" rows="10">{{log.solution}}</textarea>
+        <div id="result">
+          	{% if log.outcome == "P" %}
+            <span class="correct" style="margin-top: 30px;">✓</span>
+            {% else %}
+            <div class="wrong" style=" margin-top: 30px;">X</div> 
+            {% endif %}
+        </div>
     </form>
 </div>
+
+{% elif log.problem.question_type == "M" %}
+<!-- Multiple choice -->
+<div class="multiple-c"style="padding-top: 70px;">
+    <form>
+        {% for item in options %}
+        <div class="option">
+            <input type="radio" id="{{item}}" disabled {% if item == log.solution %} checked {% endif %}>
+            <label for="{{item}}">
+                <span class="checkmark"></span>
+                <span class="item">{{item|linebreaks}}</span>
+                <div class="result" id="result_{{item}}">
+                	{% if item == log.solution %}{% if item == solution %}
+                	<div class="correct">✓</div>
+                	{% else %}
+                	<div class="wrong">X</div> 
+                	{% endif %}{% endif %}
+                </div>
+            </label>
+        </div>
+        {% endfor %}
+    </form>
+</div>
+
+
+{% elif log.problem.question_type == "T" %}
+<!-- Textbox -->
+<div class="textbox" style="padding: 20px;">
+    <form onkeydown="return event.key != 'Enter';">
+            <input id="ans" id="text" value="{{log.solution}}" disabled style="margin: 0;">
+            <div id="result">
+            	{% if log.outcome == "P" %}
+                <span class="correct" style="margin-bottom: 20px; margin-top: 20px;">✓</span>
+                {% else %}
+                <div class="wrong" style="margin-bottom: 20px; margin-top: 20px;">X</div> 
+                {% endif %}
+            </div>
+    </form>
+</div>
+
+{% endif %}
+
 {% endblock %}
 
 {% block javascript %}

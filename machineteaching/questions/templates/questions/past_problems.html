@@ -1,15 +1,17 @@
 {% extends "questions/base.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
+{{ get_current_language }}
 <h2>Nome: {{ student.first_name }} {{student.last_name}}</h2>
 <table id="problems" class="past-problems">
     <thead>
     <tr>
-        <th>TIMESTAMP</th>
-        <th class="searchable">TITLE</th>
-        <th class="searchable">STATUS</th>
-        <th>SOLUTION</th>
+        <th>{% trans "Timestamp" %}</th>
+        <th class="searchable">{% trans "Title" %}</th>
+        <th class="searchable">{% trans "Status" %}</th>
+        <th>{% trans "Solution" %}</th>
     </tr>
     </thead>
     <tbody>
@@ -18,13 +20,13 @@
         <td>{{ item.timestamp|date:'Y-m-d H:i:s'}}</td>
         <td>{{ item.problem.title }}</td>
         {% if item.outcome == 'P' %}
-        <td><span class="passed">PASSED</span></td>
-        <td><a href={% url 'past_solutions' id=item.id %}>See submitted solution</a></td>
+        <td><span class="passed">{% trans "Passed" %}</span></td>
+        <td><a href={% url 'past_solutions' id=item.id %}>{% trans "See submitted solution" %}</a></td>
         {% elif item.outcome == 'F' %}
-        <td><span class="failed">FAILED</span></td>
-        <td><a href={% url 'past_solutions' id=item.id %}>See submitted solution</a></td>
+        <td><span class="failed">{% trans "Failed" %}</span></td>
+        <td><a href={% url 'past_solutions' id=item.id %}>{% trans "See submitted solution" %}</a></td>
         {% else %}
-        <td><span class="skipped">SKIPPED</span></td>
+        <td><span class="skipped">{% trans "Skipped" %}</span></td>
         <td></td>
         {% endif %}
     </tr>
@@ -40,7 +42,29 @@
     $(document).ready(function() {
         $('#problems').dataTable({
             "pageLength": 50,
-            "order": [[ 0, "desc" ]]
+            "order": [[ 0, "desc" ]],
+            {% get_current_language as language %}
+            {% if language == 'pt-br' %}
+            "language": {
+                    "sEmptyTable": "Nenhum registro encontrado",
+                    "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                    "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sInfoThousands": ".",
+                    "sLengthMenu": "mostrar_MENU_ por página",
+                    "sLoadingRecords": "Carregando...",
+                    "sProcessing": "Processando...",
+                    "sZeroRecords": "Nenhum registro encontrado",
+                    "sSearch": "Pesquisar",
+                    "oPaginate": {
+                        "sNext": "Próximo",
+                        "sPrevious": "Anterior",
+                        "sFirst": "Primeiro",
+                        "sLast": "Último"
+                    }
+                }
+            {% endif %}
         });
     } );
 </script>

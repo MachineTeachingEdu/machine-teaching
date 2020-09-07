@@ -1,13 +1,15 @@
 {% extends "questions/base.html" %}
 {% load static %}
+{% load i18n %}
+
 {% block content %}
-<h2>AULA <span id="aula">Aula</span></h2>
+<h2>{% trans "Chapter" %} <span id="aula"></span></h2>
 <table id="problems" class="chapters">
     <thead>
     <tr>
-        <th class="searchable">Aula</th>
-        <th class="searchable">Problema</th>
-        <th class="searchable">Resultado</th>
+        <th class="searchable">{% trans "Chapter" %}</th>
+        <th class="searchable">{% trans "Problem" %}</th>
+        <th class="searchable">{% trans "Outcome" %}</th>
     </tr>
     </thead>
 
@@ -16,9 +18,9 @@
     <tr>
         <td>{{ item.chapter }}</td>
         <td><a href={% url 'show_problem' problem_id=item.id %}>{{ item.title }}</a></td>
-        <td>{% if item.id in passed %}<span class="passed">Passed</span>{% else %}
-            {% if item.id in skipped %}<span class="skipped">Skipped</span>{% endif %}
-            {% if item.id in failed %}<span class="failed">Failed</span>{% endif %}
+        <td>{% if item.id in passed %}<span class="passed">{% trans "Passed" %}</span>{% else %}
+            {% if item.id in skipped %}<span class="skipped">{% trans "Skipped" %}</span>{% endif %}
+            {% if item.id in failed %}<span class="failed">{% trans "Failed" %}</span>{% endif %}
             {% endif %}</td>
     </tr>
     {% endfor %}
@@ -32,7 +34,29 @@
     $(document).ready(function() {
         var table = $('#problems').DataTable({
             "pageLength": 50,
-            "order": [[ 0, "desc" ]]
+            "order": [[ 0, "desc" ]],
+            {% get_current_language as language %}
+            {% if language == 'pt-br' %}
+            "language": {
+                    "sEmptyTable": "Nenhum registro encontrado",
+                    "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                    "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sInfoThousands": ".",
+                    "sLengthMenu": "mostrar_MENU_ por página",
+                    "sLoadingRecords": "Carregando...",
+                    "sProcessing": "Processando...",
+                    "sZeroRecords": "Nenhum registro encontrado",
+                    "sSearch": "Pesquisar",
+                    "oPaginate": {
+                        "sNext": "Próximo",
+                        "sPrevious": "Anterior",
+                        "sFirst": "Primeiro",
+                        "sLast": "Último"
+                    }
+                }
+            {% endif %}
         });
 
         $("#aula").each( function ( i ) {

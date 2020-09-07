@@ -1,25 +1,25 @@
 {% extends "questions/base.html" %}
 {% load static %}
-
+{% load i18n %}
 
 {% block content %}
 <form action="{% url 'show_outcome' %}" method="post" class="outcome-filter">
     {% csrf_token %}
     {{ form.as_p }}
     <div style="text-align: center;">
-        <input type="submit" value="SEARCH" class="search"/>
-        <input type="submit" value="EXPORTAR CSV" class="export" formaction="{% url 'export' %}"/>
+        <input type="submit" value="{% trans 'Search' %}" class="search"/>
+        <input type="submit" value="{% trans 'Export CSV' %}" class="export" formaction="{% url 'export' %}"/>
     </div>
 </form>
 {% if problems %}
 <table id="outcomes" class="outcomes">
     <thead>
     <tr>
-        <th class="searchable">Alunos</th>
+        <th class="searchable">{% trans 'Students' %}</th>
         {% for item in problems %}
         <th>{{ forloop.counter }}.</th>
         {% endfor %}
-        <th>Total</th>
+        <th>{% trans "Total" %}</th>
     </tr>
     </thead>
 
@@ -29,18 +29,18 @@
         <td> <a href={% url 'student_solutions' id=student.name.1 chapter=form.chapter.value%}>{{ student.name.0 }}</a> </td>
         {% for item in student.outcomes %}
         <td>
-            {% if item.0 == "P" %} <span style="font-weight: normal; color: limegreen">Passed at <br>{{item.1}}</span>
-            {% elif item.0 == "F" %} <span style="font-weight: normal; color: red">Failed</span>
-            {% elif item.0 == "S" %} <span style="font-weight: normal; color: var(--color4)">Skipped</span>
+            {% if item.0 == "P" %} <span style="font-weight: normal; color: limegreen">{% trans "Passed at" %} <br>{{item.1}}</span>
+            {% elif item.0 == "F" %} <span style="font-weight: normal; color: red">{% trans "Failed" %}</span>
+            {% elif item.0 == "S" %} <span style="font-weight: normal; color: var(--color4)">{% trans "Skipped" %}</span>
             {% elif item.0 == None %}{% else %}
             {{ item }}
             {% endif %}
         </td>
         {% endfor %}
         <td>
-            <span class="passed total">{{student.total.P}} Passed</span>
-            <span class="failed total">{{student.total.F}} Failed</span>
-            <span class="skipped total">{{student.total.S}} Skipped</span>
+            <span class="passed total">{{student.total.P}} {% trans "Passed" %}</span>
+            <span class="failed total">{{student.total.F}} {% trans "Failed" %}</span>
+            <span class="skipped total">{{student.total.S}} {% trans "Skipped" %}</span>
         </td>
     </tr>
     {% endfor %}
@@ -57,6 +57,28 @@
     $(document).ready(function() {
         var table = $('#outcomes').DataTable({
             "pageLength": 50,
+            {% get_current_language as language %}
+            {% if language == 'pt-br' %}
+            "language": {
+                    "sEmptyTable": "Nenhum registro encontrado",
+                    "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                    "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sInfoThousands": ".",
+                    "sLengthMenu": "mostrar_MENU_ por página",
+                    "sLoadingRecords": "Carregando...",
+                    "sProcessing": "Processando...",
+                    "sZeroRecords": "Nenhum registro encontrado",
+                    "sSearch": "Pesquisar",
+                    "oPaginate": {
+                        "sNext": "Próximo",
+                        "sPrevious": "Anterior",
+                        "sFirst": "Primeiro",
+                        "sLast": "Último"
+                    }
+                }
+            {% endif %}
         });
     } );
 </script>

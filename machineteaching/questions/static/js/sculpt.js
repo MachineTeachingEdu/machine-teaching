@@ -10,6 +10,12 @@ function builtinRead(x) {
     return Sk.builtinFiles["files"][x];
 }
 
+function correct() {
+    document.getElementById("next").style.display = "inline";
+    document.getElementById("skip").style.display = "none";
+    document.getElementById("next").onclick = gotoproblem;
+}
+
 function evaluate(args, expected_results){
     eval_div = document.getElementById("evaluation");
     eval_div.innerHTML = "";
@@ -49,11 +55,11 @@ function evaluate(args, expected_results){
 
     // If no errors are found, go to the next problem
     if (errors == 0) {
-        document.getElementById("next").style.display = "inline";
-        document.getElementById("skip").style.display = "none";
-        document.getElementById("next").onclick = gotoproblem;
+        correct()
+        document.getElementById("result").innerHTML = '<span class="correct" style="margin-bottom: 30px; margin-left: auto; margin-right: auto">✓</span>';
         save_log('P', seconds_in_code, seconds_to_begin, seconds_in_page);
     } else {
+        document.getElementById("result").innerHTML = '<div class="wrong" style="margin-bottom: 30px; margin-left: auto; margin-right: auto">X</div>';
         save_log('F', seconds_in_code, seconds_to_begin, seconds_in_page);
     };
 }
@@ -104,9 +110,7 @@ function runit(args, func, expected_results) {
    seconds_end_page = performance.now()
    seconds_in_page = Math.round((seconds_end_page - seconds_begin_page)/1000);
    console.log("seconds in page:" + seconds_in_page);
-   setTimeout(function(){
-       evaluate(args, expected_results);
-   }, 2000);
+   evaluate(args, expected_results);
    
 };
 
@@ -120,9 +124,7 @@ function skipit() {
 
    save_log('S', seconds_in_code, seconds_to_begin, seconds_in_page);
 
-   setTimeout(function(){
-       gotoproblem();
-   }, 2000);
+   gotoproblem();
 };
 
 function gotoproblem() {
@@ -139,19 +141,21 @@ function betterTab(cm) {
     }
 }
 
+try {
 // Set pretty Python editor
-var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-mode: {name: "python",
-    version: 2,
-    singleLineStringErrors: false},
-lineNumbers: true,
-indentUnit: 4,
-tabMode: "spaces",
-matchBrackets: true,
-extraKeys: { Tab: betterTab },
-theme: "paraiso-dark"
-});
-editor.setSize('100%',300)
+    var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+    mode: {name: "python",
+        version: 2,
+        singleLineStringErrors: false},
+    lineNumbers: true,
+    indentUnit: 4,
+    tabMode: "spaces",
+    matchBrackets: true,
+    extraKeys: { Tab: betterTab },
+    theme: "paraiso-dark"
+    });
+    editor.setSize('100%',300)
+} catch {}
 
 // Calculating time in page and code
 // Get when user stops typing

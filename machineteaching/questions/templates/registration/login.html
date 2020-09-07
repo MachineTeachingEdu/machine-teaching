@@ -1,8 +1,9 @@
 {% extends 'questions/base.html' %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
-<h2>Login</h2>
+<h2>{% trans "Login" %}</h2>
 <div class="login-div">
     {% if form.errors %}
     <p style="color: red">Your username and password didn't match. Please try again.</p>
@@ -10,18 +11,18 @@
 
     {% if next %}
     {% if user.is_authenticated %}
-    <p>Your account doesn't have access to this page. To proceed,
-        please login with an account that has access.</p>
+    <p>{% trans "Your account doesn't have access to this page. To proceed,
+        please login with an account that has access." %}</p>
     {% else %}
-    <p>Please login to see this page.</p>
+    <p>{% trans "Please login to see this page." %}</p>
     {% endif %}
     {% endif %}
     <form method="post" class="loginform" action="{% url 'login' %}">
         {% csrf_token %}
-        <div>E-MAIL</div>{{ form.username }}<div>PASSWORD</div>{{ form.password }}
+        <div>E-MAIL</div>{{ form.username }}<div>{% trans "Password" %}</div>{{ form.password }}
         <div style="display: flex; justify-content: space-between; align-items: center">
-            <a href="{% url 'password_reset' %}">FORGOT PASSWORD</a>
-            <input type="submit" value="LOGIN" />
+            <a href="{% url 'password_reset' %}">{% trans "Forgot password?" %}</a>
+            <input type="submit" value="{% trans 'Login' %}" />
         </div>
         <input type="hidden" name="next" value="{{ next }}" />
     </form>

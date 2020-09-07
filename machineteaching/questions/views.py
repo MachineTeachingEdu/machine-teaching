@@ -268,7 +268,9 @@ def show_outcome(request):
 @must_be_yours(model=UserLog)
 def get_user_solution(request, id):
     userlog = UserLog.objects.get(pk=id)
-    return render(request, 'questions/past_solutions.html', {'log': userlog})
+    context = get_problem(userlog.problem_id)
+    context.update({'log': userlog})
+    return render(request, 'questions/past_solutions.html', context)
 
 @login_required
 def update_strategy(request):

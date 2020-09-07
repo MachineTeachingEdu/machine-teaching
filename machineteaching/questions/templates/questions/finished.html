@@ -1,14 +1,14 @@
 {% extends "questions/base.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block content %}
-<div><h2>Você terminou todos os problemas disponíveis no modo 
-        {% if user.userprofile.sequential %} <b>Sequential</b>. Você pode:
+<div>{% trans "You finished all available problems in" %}
+        {% if user.userprofile.sequential %} <b>{% trans "Sequential" %}</b>{% trans "mode. You can:" %}
         <ul>
-            <li> Ir em <a href="{% url 'chapters' %}"> Aulas </a> e voltar para os exercícios que pulou.</li>
-            <li> Ir para o modo <b>Random</b> e tentar outros exercícios.
+            <li> {% trans "Go to" %} <a href="{% url 'chapters' %}"> {% trans "Chapters" %} </a> {% trans "and come back to skipped problems." %}e voltar para os exercícios que pulou.</li>
+            <li> {% trans "Go to" %} <b>{% trans "Random" %}</b>{% trans "mode and try other problems." %}
         </ul>
-        {% else %} <b>Random</b>. Você pode ir para o modo <b>Sequential</b> e fazer novos exercícios. {% endif %}
-    </h2>
+        {% else %} <b>{% trans "Random" %}</b>{% trans "mode. You can go to " %}<b>{% trans "Sequential" %}</b>{% trans "mode and do new problems." %} {% endif %}
 </div>
 {% endblock %}
