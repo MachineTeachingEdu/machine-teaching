@@ -1,5 +1,6 @@
 {% extends "questions/base.html" %}
 {% load static %}
+{% load i18n %}
 {% load escape_doublequote %}
 {% block header %}
 <!-- Custom styles for this template -->
@@ -9,71 +10,63 @@
 {% endblock %}
 {% block content %}
 
-{% if problem.question_type == "C" %}
 <!-- Problem statement -->
-<div class="problem">
+<div class="problem" {% if problem.question_type == "M" or problem.question_type == "T" %} style="max-width: 700px; margin-left: auto; margin-right: auto" {% endif %}>
     <h2>{{ problem.title }}</h2>
     <span id="problem_content">
         {{ problem.content|linebreaks}}
     </span>
 </div>
+
+{% if problem.question_type == "C" %}
 <!-- Code -->
 <form>
     <div class="code">
         <textarea id="code" cols="80" rows="10" style="">{{tip}}</textarea><br />
+        <div id="result"></div>
         <div style="text-align: center;">
-            <button type="button" onclick="runit({{test_case|safe|escape_doublequote}}, '{{header}}', {{expected_results|safe|escape_doublequote}})">RUN ▶</button>
-            <button type="button" onclick="gotoproblem()" id="next" style="margin-left: 20px; display: none">NEXT</button>
-            </br><a onclick="skipit()" id="skip">SKIP</a>
+            <button type="button" onclick="runit({{test_case|safe|escape_doublequote}}, '{{header}}', {{expected_results|safe|escape_doublequote}})">{% trans "Run" %} ▶</button>
+            <button type="button" onclick="gotoproblem()" id="next" style="margin-left: 20px; display: none">{% trans "Next" %}</button>
+            </br><a onclick="skipit()" id="skip">{% trans "Skip" %}</a>
         </div>
     </div>
 </form>
 
 {% elif problem.question_type == "M" %}
-<!-- Problem statement -->
-<div class="problem" style="max-width: 700px; margin-left: auto; margin-right: auto">
-    <h2>{{ problem.title }}</h2>
-    <span id="problem_content">
-        {{ problem.content|linebreaks}}
-    </span>
-</div>
 <!-- Multiple choice -->
 <div class="multiple-c">
     <form>
         {% for item in options %}
         <div class="option">
-            <input type="radio" name="choice" value="{{item}}" id="{{item}}">
+            <input type="radio" name="choice" id="{{item}}">
             <label for="{{item}}">
                 <span class="checkmark"></span>
-                <span>{{item|linebreaks}}</span>
+                <span class="item">{{item|linebreaks}}</span>
+                <div class="result" id="result_{{item}}"></div>
             </label>
         </div>
         {% endfor %}
         <div style="text-align: center;">
-            <button type="button" onclick="">RESPONDER</button>
-            </br><a onclick="skipit()" id="skip">SKIP</a>
+            <button type="button" onclick="answer()">{% trans "Answer" %}</button>
+            <button type="button" onclick="gotoproblem()" id="next" style="margin-left: 20px; display: none">{% trans "Next" %}</button>
+            </br><a onclick="skipit()" id="skip">{% trans "Skip" %}</a>
         </div>
     </form>
 </div>
 
 
 {% elif problem.question_type == "T" %}
-<!-- Problem statement -->
-<div class="problem" style="max-width: 700px; margin-left: auto; margin-right: auto">
-    <h2>{{ problem.title }}</h2>
-    <span id="problem_content">
-        {{ problem.content|linebreaks}}
-    </span>
-</div>
 <!-- Textbox -->
 <div class="textbox">
-    <form>
+    <form onkeydown="return event.key != 'Enter';">
         <div>
-            <input name="answer" placeholder="TYPE OUTPUT HERE">
+            <input id="ans" id="text" placeholder="{% trans 'Type output here' %}">
+            <div id="result"></div>
         </div>
         <div style="text-align: center;">
-            <button type="button" onclick="">RESPONDER</button>
-            </br><a onclick="skipit()" id="skip">SKIP</a>
+            <button type="button" onclick="answer()">{% trans "Answer" %}</button>
+            <button type="button" onclick="gotoproblem()" id="next" style="margin-left: 20px; display: none">{% trans "Next" %}</button>
+            </br><a onclick="skipit()" id="skip">{% trans "Skip" %}</a>
         </div>
     </form>
 </div>
@@ -114,18 +107,37 @@
     START = "{% url 'start' %}";
     var next_url = '{% url 'next' %}';
     function save_log(outcome, seconds_in_code, seconds_to_begin, seconds_in_page){
+
+        {% if problem.question_type == "M" %}{% for item in options %}
+        if (document.getElementById("{{item}}").checked) {
+            solution = "{{item}}";
+        }
+        {% endfor %}{% endif %}
+
         $.ajax({
             type: "POST",
             url: '{% url 'savelog' %}',
             data: {
                 'problem': {{problem.id}},
-        'solution': editor.getValue(),
-            'outcome': outcome,
-            'seconds_in_code': seconds_in_code,
-            'seconds_to_begin': seconds_to_begin,
-            'seconds_in_page': seconds_in_page,
-            'solution_lines': editor.lineCount(),
-            'csrfmiddlewaretoken': '{{ csrf_token }}'
+                {% if problem.question_type == "C" %}
+                'solution': editor.getValue(),
+                {% elif problem.question_type == "M" %}
+                'solution': solution,
+                {% elif problem.question_type == "T" %}
+                'solution': document.getElementById("ans").value,
+                {% endif %}
+                'outcome': outcome,
+                'seconds_in_code': seconds_in_code,
+                'seconds_to_begin': seconds_to_begin,
+                'seconds_in_page': seconds_in_page,
+                {% if problem.question_type == "C" %}
+                'solution_lines': editor.lineCount(),
+                {% elif problem.question_type == "M" %}
+                'solution_lines': 0,
+                {% elif problem.question_type == "T" %}
+                'solution_lines': 0,
+                {% endif %}
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
     },
         dataType: 'json',
             success: function(data){
@@ -143,5 +155,37 @@
         html      = converter.makeHtml(text);
     $("#problem_content").html(html);
     console.log($("#problem_content").html())
+
+    function answer() {
+        {% if problem.question_type == "M" %}
+        if (document.getElementById("{{solution}}").checked) {
+            correct()
+            document.getElementById("result_{{solution}}").innerHTML = '<div class="correct">✓</div>';
+            outcome = 'P';
+        } else {
+            {% for item in options %}
+            if (document.getElementById("{{item}}").checked) {
+                document.getElementById("result_{{item}}").innerHTML = '<div class="wrong">X</div>';
+            }
+            {% endfor %}
+            outcome = 'F';
+        }
+        {% elif problem.question_type == "T" %}
+        result_div = document.getElementById("result")
+        if (document.getElementById("ans").value == "{{solution}}") {
+            correct()
+            result_div.innerHTML = '<span class="correct" style="margin-bottom: 30px; margin-left: auto; margin-right: auto">✓</span>';
+            outcome = 'P';
+        } else {
+            result_div.innerHTML = '<div class="wrong" style="margin-bottom: 30px; margin-left: auto; margin-right: auto">X</div>';
+            outcome = 'F';
+        }
+        {% endif %}
+
+        seconds_end_page = performance.now()
+        seconds_in_page = Math.round((seconds_end_page - seconds_begin_page)/1000);
+        console.log("seconds in page:" + seconds_in_page);
+        save_log(outcome, seconds_in_code, seconds_to_begin, seconds_in_page);
+    }
 </script>
 {% endblock %}

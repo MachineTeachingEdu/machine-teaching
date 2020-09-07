@@ -178,12 +178,12 @@
     function toggleTheme() {
         if (localStorage.getItem('theme') === 'theme-dark') {
             setTheme('theme-light');
-            document.getElementById("theme").innerText = "DARK MODE"
-            document.getElementById("theme2").innerText = "DARK MODE"
+            document.getElementById("theme").innerText = "{% trans "Dark mode" %}"
+            document.getElementById("theme2").innerText = "{% trans "Dark mode" %}"
         } else {
             setTheme('theme-dark');
-            document.getElementById("theme").innerText = "LIGHT MODE"
-            document.getElementById("theme2").innerText = "LIGHT MODE"
+            document.getElementById("theme").innerText = "{% trans "Light mode" %}"
+            document.getElementById("theme2").innerText = "{% trans "Light mode" %}"
         }
     }
 
@@ -191,12 +191,12 @@
     (function () {
         if (localStorage.getItem('theme') === 'theme-dark') {
             setTheme('theme-dark');
-            document.getElementById("theme").innerText = "LIGHT MODE"
-            document.getElementById("theme-small").innerText = "LIGHT MODE"
+            document.getElementById("theme").innerText = "{% trans "Light mode" %}"
+            document.getElementById("theme-small").innerText = "{% trans "Light mode" %}"
         } else {
             setTheme('theme-light');
-            document.getElementById("theme").innerText = "DARK MODE"
-            document.getElementById("theme-small").innerText = "DARK MODE"
+            document.getElementById("theme").innerText = "{% trans "Dark mode" %}"
+            document.getElementById("theme-small").innerText = "{% trans "Dark mode" %}"
         }
     })();
 
