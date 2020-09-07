@@ -16,7 +16,11 @@
     <tbody>
     {% for item in problems %}
     <tr>
-        <td>{{ item.chapter }}</td>
+        <td>{% for chapter in item.chapter.all %}
+            {% if chapter.label in chapters %}{{ chapter }}
+                {% if not forloop.last %}, {% endif %}
+            {% endif %}{% endfor %}
+        </td>
         <td><a href={% url 'show_problem' problem_id=item.id %}>{{ item.title }}</a></td>
         <td>{% if item.id in passed %}<span class="passed">{% trans "Passed" %}</span>{% else %}
             {% if item.id in skipped %}<span class="skipped">{% trans "Skipped" %}</span>{% endif %}
@@ -59,6 +63,8 @@
             {% endif %}
         });
 
+        var chapters = {{ chapters|safe }};
+
         $("#aula").each( function ( i ) {
             var select = $('<select><option value="">Todas</option></select>')
                 .appendTo( $(this).empty() )
@@ -68,7 +74,7 @@
                         .draw();
                 } );
 
-            table.column( i ).data().unique().sort().each( function ( d, j ) {
+            chapters.forEach( function ( d, j ) {
                 select.append( '<option value="'+d+'">'+d+'</option>' )
             } );
         } );

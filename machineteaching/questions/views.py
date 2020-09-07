@@ -161,9 +161,9 @@ def get_student_solutions(request, id, chapter=None, problem=None):
 
 @login_required
 def get_chapter_problems(request):
+    available_chapters = request.user.userprofile.user_class.chapter.all()
     problems = Problem.objects.filter(
-        chapter__in=request.user.userprofile.user_class.chapter.all()
-    ).order_by('-chapter_id', 'id')
+        chapter__in=available_chapters).distinct()
     # Get exercise where student passed
     passed = UserLog.objects.filter(user=request.user, outcome='P'
             ).values_list('problem_id', flat=True).distinct()
@@ -171,11 +171,19 @@ def get_chapter_problems(request):
             ).values_list('problem_id', flat=True).distinct()
     failed = UserLog.objects.filter(user=request.user, outcome='F'
             ).values_list('problem_id', flat=True).distinct()
+    # Get available chapters
+    chapters = []
+    for item in problems:
+        chapters.extend(item.chapter.filter(id__in=available_chapters
+                                            ).values_list('label', flat=True))
+    chapters = list(set(chapters))
+
     return render(request, 'questions/chapters.html', {
         'problems': problems,
         'passed': passed,
         'skipped': skipped,
-        'failed': failed
+        'failed': failed,
+        'chapters': chapters
         })
 
 @permission_required('questions.view_userlogview', raise_exception=True)
