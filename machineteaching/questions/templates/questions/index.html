@@ -1,23 +1,23 @@
 {% extends "questions/base.html" %}
+{% load i18n %}
 {% block content %}
 <div class="welcome-div">
-    <h1 class="welcome show-first">Welcome to the</br>Machine Teaching Project</h1>
-    <a href="{% url 'start' %}" class="show-second">START</a>
+    <h1 class="welcome show-first">{% blocktrans %}Welcome to {% endblocktrans %}</br>Machine Teaching</h1>
+    <a href="{% url 'start' %}" class="show-second">{% blocktrans %}START{% endblocktrans %}</a>
+    <a href="{% url 'about' %}" class="show-second">{% blocktrans %}ABOUT{% endblocktrans %}</a>
 </div>
-<div class="guidelines-div show-third">
-    <div> This system uses machine learning to create a transparent
-        student model. By transparent, we aim at building
-        a model that teachers and students can visualize and
-        understand which specific content a student has mastered or
-        is struggling with.
-    </div>
-    <h2>Guidelines:</h2>
-    <div>
-        <ul>
-            <li>All the Python challenges in this system are expected to be solved using Python 3.</li>
-            <li>You <span style="color:red">CAN'T</span> come back to the problems that you skip or pass.</li>
-            <li>However, you may try the same problem as many times as you want if you fail.</li>
-        </ul>
-    </div>
+<h2 class="show-third" style="text-align:left">{% blocktrans %}Our goals:{% endblocktrans %}</h2>
+<div>
+    <ol>
+        <div class="guidelines-div show-third">
+            <li>{% blocktrans %}Improve teaching methodologies{% endblocktrans %}</li>
+        </div>
+        <div class="guidelines-div show-third">
+            <li> {% blocktrans %}Understand students' learning processes {% endblocktrans %}</li>
+        </div>
+        <div class="guidelines-div show-third">
+            <li>{% blocktrans %}Stimulate students to learn the Python language {% endblocktrans %}</li>
+        </div>
+    </ol>
 </div>
 {% endblock %}

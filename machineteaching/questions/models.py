@@ -68,6 +68,7 @@ class UserProfile(models.Model):
                                   null=True, blank=True)
     programming = models.CharField(max_length=3, choices=PROGRAMMING)
     accepted = models.BooleanField(default=False)
+    read = models.BooleanField(default=False)
     strategy = models.CharField(max_length=10, choices=STRATEGIES)
     seed = models.CharField(max_length=81)
     user_class = models.ForeignKey(OnlineClass, on_delete=models.PROTECT,

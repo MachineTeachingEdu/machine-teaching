@@ -431,8 +431,12 @@ input:focus {
 }
 .guidelines-div {
     background-color: var(--color3);
-    padding: 40px;
+    padding: 20px;
+    padding-left: 40px;
     border-radius: 10px;
+    margin: 0 0 6px 0;
+    font-size: 20px;
+    font-weight: 400;
 }
 .guidelines-div h2 {
     font-size: 20px;
@@ -574,11 +578,11 @@ input:focus {
 #id_programming {
     width: 100px;
 }
-#id_accepted {
+#id_accepted, #id_read {
     width: 20px;
     cursor: pointer;
 }
-.signupform label[for="id_accepted"] {
+.signupform label[for="id_accepted"],.signupform label[for="id_read"] {
     width: auto;
     font-size: 15px;
 }
@@ -1217,7 +1221,16 @@ select::-ms-expand { display: none; }
     width: 100px;
 }
 
+/* About page styles */
 
+.research {
+    font-size:larger;
+    text-align: justify;
+}
+
+.highlight {
+    font-weight: bold;
+}
 
 
 
@@ -1313,7 +1326,7 @@ select::-ms-expand { display: none; }
         margin-bottom: 50px;
     }
     .welcome-div a {
-        margin: 0;
+        margin: 6px;
     }
     .guidelines-div {
         box-sizing: border-box;

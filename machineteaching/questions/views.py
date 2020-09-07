@@ -69,6 +69,7 @@ def signup(request):
             # user.userprofile.professor = professor
             user.userprofile.programming = form.cleaned_data.get('programming')
             user.userprofile.accepted = form.cleaned_data.get('accepted')
+            user.userprofile.read = form.cleaned_data.get('read')
             user_class = OnlineClass.objects.get(
                 class_code=form.cleaned_data.get('class_code'))
             user.userprofile.user_class = user_class
