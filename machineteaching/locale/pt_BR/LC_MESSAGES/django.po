@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-07 18:06-0300\n"
+"POT-Creation-Date: 2020-09-10 09:25-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -64,7 +64,8 @@ msgstr "Código da turma inválido"
 msgid "Class"
 msgstr "Turma"
 
-#: questions/forms.py:53 questions/templates/questions/chapters.html:6
+#: questions/forms.py:53 questions/models.py:30
+#: questions/templates/questions/chapters.html:6
 #: questions/templates/questions/chapters.html:10
 msgid "Chapter"
 msgstr "Aula"
@@ -72,6 +73,66 @@ msgstr "Aula"
 #: questions/forms.py:62
 msgid "You don't have authorization to view this class."
 msgstr "Você não tem autorização para ver essa aula."
+
+#: questions/models.py:31 questions/templates/questions/base.html:52
+#: questions/templates/questions/base.html:76
+#: questions/templates/questions/finished.html:9
+msgid "Chapters"
+msgstr "Aulas"
+
+#: questions/models.py:42
+#, fuzzy
+#| msgid "Class"
+msgid "OnlineClass"
+msgstr "Turma"
+
+#: questions/models.py:43
+msgid "OnlineClasses"
+msgstr "Turmas"
+
+#: questions/models.py:66
+msgid "Professors"
+msgstr "Professores"
+
+#: questions/models.py:94
+msgid "User profile"
+msgstr "Perfil do usuário"
+
+#: questions/models.py:95
+msgid "User profiles"
+msgstr "Perfis dos usuários"
+
+#: questions/models.py:142 questions/templates/questions/chapters.html:11
+msgid "Problem"
+msgstr "Problema"
+
+#: questions/models.py:143
+msgid "Problems"
+msgstr "Problemas"
+
+#: questions/models.py:165 questions/templates/questions/past_problems.html:14
+msgid "Solution"
+msgstr "Solução"
+
+#: questions/models.py:166
+msgid "Solutions"
+msgstr "Soluções"
+
+#: questions/models.py:175
+msgid "Test Case"
+msgstr "Caso de Teste"
+
+#: questions/models.py:176
+msgid "Test Cases"
+msgstr "Casos de Teste"
+
+#: questions/models.py:202
+msgid "User log"
+msgstr "Log do usuário"
+
+#: questions/models.py:203
+msgid "User logs"
+msgstr "Logs dos usuários"
 
 #: questions/templates/questions/about.html:5
 msgid "ABOUT THIS RESEARCH"
@@ -207,12 +268,6 @@ msgstr "Problema Atual"
 msgid "Past Problems"
 msgstr "Problemas Passados"
 
-#: questions/templates/questions/base.html:52
-#: questions/templates/questions/base.html:76
-#: questions/templates/questions/finished.html:9
-msgid "Chapters"
-msgstr "Aulas"
-
 #: questions/templates/questions/base.html:55
 #: questions/templates/questions/base.html:79
 msgid "Outcomes"
@@ -266,28 +321,24 @@ msgstr " e a "
 msgid "About this research"
 msgstr "Sobre a pesquisa"
 
-#: questions/templates/questions/chapters.html:11
-msgid "Problem"
-msgstr "Problema"
-
 #: questions/templates/questions/chapters.html:12
 msgid "Outcome"
 msgstr "Resultado"
 
-#: questions/templates/questions/chapters.html:21
+#: questions/templates/questions/chapters.html:25
 #: questions/templates/questions/outcomes.html:41
 #: questions/templates/questions/past_problems.html:23
 msgid "Passed"
 msgstr "Passou"
 
-#: questions/templates/questions/chapters.html:22
+#: questions/templates/questions/chapters.html:26
 #: questions/templates/questions/outcomes.html:34
 #: questions/templates/questions/outcomes.html:43
 #: questions/templates/questions/past_problems.html:29
 msgid "Skipped"
 msgstr "Pulou"
 
-#: questions/templates/questions/chapters.html:23
+#: questions/templates/questions/chapters.html:27
 #: questions/templates/questions/outcomes.html:33
 #: questions/templates/questions/outcomes.html:42
 #: questions/templates/questions/past_problems.html:26
@@ -533,10 +584,6 @@ msgstr "Título"
 #: questions/templates/questions/past_problems.html:13
 msgid "Status"
 msgstr "Status"
-
-#: questions/templates/questions/past_problems.html:14
-msgid "Solution"
-msgstr "Solução"
 
 #: questions/templates/questions/past_problems.html:24
 #: questions/templates/questions/past_problems.html:27
@@ -806,7 +853,7 @@ msgstr "Senha"
 
 #: questions/templates/registration/login.html:24
 msgid "Forgot password?"
-msgstr "Esqueci a senha?"
+msgstr "Esqueceu a senha?"
 
 #: questions/templates/registration/password_reset_complete.html:6
 msgid "Your password has been set. You may go ahead and "
@@ -856,6 +903,31 @@ msgstr "Enviar"
 #: questions/templates/registration/signup.html:9
 msgid "Sign up"
 msgstr "Cadastrar"
+
+#, fuzzy
+#~| msgid "Problem"
+#~ msgid "Problem123"
+#~ msgstr "Problema"
+
+#, fuzzy
+#~| msgid "Solution"
+#~ msgid "Solution123"
+#~ msgstr "Solução"
+
+#, fuzzy
+#~| msgid "Chapter"
+#~ msgid "Chapter123"
+#~ msgstr "Aula"
+
+#, fuzzy
+#~| msgid "Chapter"
+#~ msgid "chapter"
+#~ msgstr "Aula"
+
+#, fuzzy
+#~| msgid "Chapter"
+#~ msgid "chapters"
+#~ msgstr "Aulas"
 
 #~ msgid "I accept the <a href=/terms_and_conditions>Terms and Conditions</a>"
 #~ msgstr "Eu aceito os <a href=/terms_and_conditions>Termos e Condições</a>"
