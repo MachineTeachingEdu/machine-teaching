@@ -50,6 +50,12 @@ class UserProfileAdmin(admin.ModelAdmin):
     list_filter = ('user_class', 'programming', 'strategy')
     autocomplete_fields = ['user']
 
+    def get_queryset(self, request):
+        qs = super(UserProfileAdmin, self).get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(user_class__professor__user=request.user)
+
 
 @admin.register(Professor)
 class ProfessorAdmin(SimpleHistoryAdmin):

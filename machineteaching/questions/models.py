@@ -11,6 +11,7 @@ import json
 from random import randint, SystemRandom
 import numpy as np
 from simple_history.models import HistoricalRecords
+from django.utils.translation import ugettext_lazy as _
 
 
 # Create your models here.
@@ -25,6 +26,10 @@ class Chapter(models.Model):
     def __str__(self):
         return "%s" % self.label
 
+    class Meta:
+        verbose_name = _('Chapter')
+        verbose_name_plural = _('Chapters')
+
 
 class OnlineClass(models.Model):
     name = models.CharField(max_length=200, blank=False)
@@ -34,7 +39,8 @@ class OnlineClass(models.Model):
     history = HistoricalRecords()
 
     class Meta:
-        verbose_name_plural = 'OnlineClasses'
+        verbose_name = _('OnlineClass')
+        verbose_name_plural = _('OnlineClasses')
 
     def __unicode__(self):
         return self.name
@@ -55,6 +61,9 @@ class Professor(models.Model):
 
     def __str__(self):
         return "%s" % self.user
+
+    class Meta:
+        verbose_name_plural = _('Professors')
 
 
 class UserProfile(models.Model):
@@ -80,6 +89,10 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return "%s" % self.user
+
+    class Meta:
+        verbose_name = _('User profile')
+        verbose_name_plural = _('User profiles')
 
 
 class Cluster(models.Model):
@@ -125,6 +138,10 @@ class Problem(models.Model):
     def __str__(self):
         return "%d - %s" % (self.id, self.title)
 
+    class Meta:
+        verbose_name = _('Problem')
+        verbose_name_plural = _('Problems')
+
 
 class Solution(models.Model):
     content = models.TextField(blank=False)
@@ -144,11 +161,19 @@ class Solution(models.Model):
     def __str__(self):
         return self.problem.title
 
+    class Meta:
+        verbose_name = _('Solution')
+        verbose_name_plural = _('Solutions')
+
 
 class TestCase(models.Model):
     problem = models.ForeignKey(Problem, on_delete=models.PROTECT)
     content = models.TextField(blank=False)
     history = HistoricalRecords()
+
+    class Meta:
+        verbose_name = _('Test Case')
+        verbose_name_plural = _('Test Cases')
 
 
 class UserLog(models.Model):
@@ -172,6 +197,10 @@ class UserLog(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     error_type = models.CharField(max_length=2, choices=ERROR_TYPE,
                                   default="D")
+
+    class Meta:
+        verbose_name = _('User log')
+        verbose_name_plural = _('User logs')
 
 
 class UserLogView(models.Model):
