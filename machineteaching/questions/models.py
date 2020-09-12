@@ -36,6 +36,7 @@ class OnlineClass(models.Model):
     chapter = models.ManyToManyField(Chapter)
     class_code = models.CharField(unique=True, max_length=200, null=True)
     active = models.BooleanField(default=True)
+    start_date = models.DateField(blank=True)
     history = HistoricalRecords()
 
     class Meta:
@@ -83,6 +84,7 @@ class UserProfile(models.Model):
     user_class = models.ForeignKey(OnlineClass, on_delete=models.PROTECT,
                                    null=True)
     sequential = models.BooleanField(default=True)
+    history = HistoricalRecords()
 
     def __unicode__(self):
         return self.user
