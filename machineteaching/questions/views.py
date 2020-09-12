@@ -151,7 +151,8 @@ def get_past_problems(request):
 @login_required
 def get_student_solutions(request, id, chapter=None, problem=None):
     user = User.objects.get(pk=id)
-    userlog = UserLog.objects.filter(user_id=id)
+    userlog = UserLog.objects.filter(
+        user_id=id, timestamp__gte=user.userprofile.user_class.start_date)
     if chapter:
         userlog = userlog.filter(problem__chapter=chapter)
     if problem:
@@ -165,12 +166,15 @@ def get_chapter_problems(request):
     problems = Problem.objects.filter(
         chapter__in=available_chapters).distinct()
     # Get exercise where student passed
-    passed = UserLog.objects.filter(user=request.user, outcome='P'
-            ).values_list('problem_id', flat=True).distinct()
-    skipped = UserLog.objects.filter(user=request.user, outcome='S'
-            ).values_list('problem_id', flat=True).distinct()
-    failed = UserLog.objects.filter(user=request.user, outcome='F'
-            ).values_list('problem_id', flat=True).distinct()
+    userlog = UserLog.objects.filter(
+        user=request.user,
+        timestamp__gte=request.user.userprofile.user_class.start_date)
+    passed = userlog.filter(outcome='P').values_list('problem_id', flat=True
+                                              ).distinct()
+    skipped = userlog.filter(outcome='S').values_list('problem_id', flat=True
+                                              ).distinct()
+    failed = userlog.filter(outcome='F').values_list('problem_id', flat=True
+                                              ).distinct()
     # Get available chapters
     chapters = []
     for item in problems:
@@ -203,12 +207,15 @@ def show_outcome(request):
             # Get latest student outcome for every student in class
             students = UserLogView.objects.filter(
                 user__userprofile__user_class=onlineclass,
-                problem_id__in=problems).order_by(
-                    Lower('user__first_name').asc(),
-                    Lower('user__last_name').asc(),
-                    'problem_id').values('user_id',
-                        'user__first_name', 'user__last_name',
-                        'problem_id', 'final_outcome', 'timestamp')
+                problem_id__in=problems, timestamp__gte=onlineclass.start_date
+            ).order_by(Lower('user__first_name').asc(),
+                       Lower('user__last_name').asc(),
+                       'problem_id').values('user_id',
+                                            'user__first_name',
+                                            'user__last_name',
+                                            'problem_id',
+                                            'final_outcome',
+                                            'timestamp')
 
             # For each student in class, let's organize it in a table
             start = time.time()
@@ -253,11 +260,13 @@ def show_outcome(request):
                 ] = (student["final_outcome"],
                      timezone.localtime(student[
                          "timestamp"]).strftime("%Y-%m-%d %H:%M:%S"))
+                only_outcomes = list(zip(*outcome_student))[0]
                 student_row = {"name": (student_name, current_student),
                                 "outcomes": outcome_student,
-                                "total": {"P": outcome_student.count("P"),
-                                            "F": outcome_student.count("F"),
-                                            "S": outcome_student.count("S")}}
+                                "total": {"P": only_outcomes.count("P"),
+                                            "F": only_outcomes.count("F"),
+                                            "S": only_outcomes.count("S")}}
+                print(student_row)
                 outcomes.append(student_row)
             end = time.time()
             LOGGER.info("Elapsed time: %d" % (end-start))
@@ -310,12 +319,15 @@ def export(request):
             # Get latest student outcome for every student in class
             students = UserLogView.objects.filter(
                 user__userprofile__user_class=onlineclass,
-                problem_id__in=problems).order_by(
-                Lower('user__first_name').asc(),
-                Lower('user__last_name').asc(),
-                'problem_id').values(
-                    'user__first_name', 'user__last_name', 'problem_id',
-                    'problem__title', 'final_outcome', 'timestamp')
+                problem_id__in=problems, timestamp__gte=onlineclass.start_date
+            ).order_by(Lower('user__first_name').asc(),
+                       Lower('user__last_name').asc(),
+                       'problem_id').values('user__first_name',
+                                            'user__last_name',
+                                            'problem_id',
+                                            'problem__title',
+                                            'final_outcome',
+                                            'timestamp')
 
             for student in students:
                 outcomes = {'P':'Passed','F':'Failed','S':'Skipped'}

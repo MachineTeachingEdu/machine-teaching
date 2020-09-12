@@ -69,6 +69,7 @@ class ProfessorAdmin(SimpleHistoryAdmin):
             return qs
         return qs.filter(active=True)
 
+
 @admin.register(OnlineClass)
 class OnlineClassAdmin(SimpleHistoryAdmin):
     exclude = ('class_code',)
