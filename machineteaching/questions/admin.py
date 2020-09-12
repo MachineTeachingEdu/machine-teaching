@@ -59,9 +59,9 @@ class UserProfileAdmin(admin.ModelAdmin):
 
 @admin.register(Professor)
 class ProfessorAdmin(SimpleHistoryAdmin):
-    list_display = ('user', 'assistant')
+    list_display = ('user', 'assistant', 'active')
     search_fields = ['user']
-    list_filter = ('assistant',)
+    list_filter = ('assistant', 'active')
 
     def get_queryset(self, request):
         qs = super(ProfessorAdmin, self).get_queryset(request)
@@ -73,7 +73,8 @@ class ProfessorAdmin(SimpleHistoryAdmin):
 @admin.register(OnlineClass)
 class OnlineClassAdmin(SimpleHistoryAdmin):
     exclude = ('class_code',)
-    list_display = ('name', 'class_code', 'active')
+    list_display = ('name', 'class_code', 'active', 'start_date')
+    list_filter = ('active',)
 
     def get_queryset(self, request):
         qs = super(OnlineClassAdmin, self).get_queryset(request)
