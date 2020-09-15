@@ -8,14 +8,20 @@ from import_export.admin import ExportActionMixin
 # Register your models here.
 @admin.register(Problem)
 class ProblemAdmin(SimpleHistoryAdmin):
-    list_display = ('id', 'title', 'content')
+    list_display = ('id', 'title', 'content', 'chapter_all')
     search_fields = ['id', 'title']
+    list_filter = ('chapter',)
+    filter_horizontal = ('chapter',)
+
+    def chapter_all(self, obj):
+        return ", ".join(list(obj.chapter.all().values_list(
+            "label", flat=True)))
 
 
 @admin.register(Solution)
 class SolutionAdmin(SimpleHistoryAdmin):
     list_display = ('id', 'problem', 'content', 'cluster')
-    search_fields = ['id', 'problem__title']
+    search_fields = ['id', 'problem__title', 'problem__id']
     list_filter = ('ignore', )
 
 
