@@ -68,7 +68,7 @@ class UserProfileAdmin(admin.ModelAdmin):
 @admin.register(Professor)
 class ProfessorAdmin(SimpleHistoryAdmin):
     list_display = ('user', 'assistant', 'active')
-    search_fields = ['user']
+    search_fields = ['user__username', 'user__first_name', 'user__last_name']
     list_filter = ('assistant', 'active')
 
     def get_queryset(self, request):
