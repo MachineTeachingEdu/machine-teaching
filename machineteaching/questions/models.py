@@ -126,7 +126,7 @@ class Problem(models.Model):
     options = models.TextField(blank=True)
     difficulty = models.CharField(max_length=200, blank=True)
     link = models.URLField(blank=True)
-    retrieved_date = models.DateTimeField(blank=True)
+    retrieved_date = models.DateTimeField(blank=True, auto_now_add=True)
     crawler = models.CharField(max_length=200, blank=True)
     hint = models.TextField(blank=True)
     objects = ProblemManager()
@@ -150,11 +150,12 @@ class Solution(models.Model):
     header = models.TextField(blank=True, null=True)
     problem = models.ForeignKey(Problem, on_delete=models.PROTECT)
     link = models.URLField(blank=True, null=True)
-    retrieved_date = models.DateTimeField(blank=False)
+    retrieved_date = models.DateTimeField(blank=False, auto_now_add=True)
     ignore = models.BooleanField(default=False)
     tip = models.TextField(blank=True,
                            default="#Start your python function here")
-    cluster = models.ForeignKey(Cluster, on_delete=models.SET_NULL, null=True)
+    cluster = models.ForeignKey(Cluster, on_delete=models.SET_NULL,
+                                null=True, blank=True)
     history = HistoricalRecords()
 
     def __unicode__(self):
