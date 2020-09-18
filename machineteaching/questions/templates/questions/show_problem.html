@@ -137,7 +137,6 @@
                 {% elif problem.question_type == "T" %}
                 'solution_lines': 0,
                 {% endif %}
-                'console': document.getElementById("output").innerHTML,
                 'csrfmiddlewaretoken': '{{ csrf_token }}'
     },
         dataType: 'json',
