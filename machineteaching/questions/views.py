@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
+from django.contrib.messages import success, error
 #from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.db.models.functions import Lower
@@ -14,8 +15,8 @@ import json
 from functools import wraps
 import time
 from questions.models import (Problem, Solution, UserLog, UserProfile,
-                              Professor, OnlineClass, UserLogView)
-from questions.forms import UserLogForm, SignUpForm, OutcomeForm
+                              Professor, OnlineClass, UserLogView, Chapter)
+from questions.forms import UserLogForm, SignUpForm, OutcomeForm, ChapterForm, ProblemForm, SolutionForm
 from questions.get_problem import get_problem
 from questions.strategies import STRATEGIES_FUNC
 
@@ -161,10 +162,24 @@ def get_student_solutions(request, id, chapter=None, problem=None):
         'past_problems': userlog, 'student': user})
 
 @login_required
-def get_chapter_problems(request):
+def get_chapter_problems(request, chapter=None):
     available_chapters = request.user.userprofile.user_class.chapter.all()
-    problems = Problem.objects.filter(
-        chapter__in=available_chapters).distinct()
+    try:
+        chapter = Chapter.objects.get(pk=chapter)
+        problems = Problem.objects.filter(chapter=chapter).distinct()
+    except:
+        problems = Problem.objects.filter(chapter__in=available_chapters).distinct()
+    
+    if request.method == "POST":
+        form = ChapterForm(request.POST, instance=chapter)
+        if form.is_valid():
+            chapter = form.save(commit=False)
+            chapter.save()
+            return redirect('chapters', chapter=chapter.id)
+
+    else:
+        form = ChapterForm(instance=chapter)
+
     # Get exercise where student passed
     userlog = UserLog.objects.filter(
         user=request.user,
@@ -175,20 +190,36 @@ def get_chapter_problems(request):
                                               ).distinct()
     failed = userlog.filter(outcome='F').values_list('problem_id', flat=True
                                               ).distinct()
-    # Get available chapters
-    chapters = []
-    for item in problems:
-        chapters.extend(item.chapter.filter(id__in=available_chapters
-                                            ).values_list('label', flat=True))
-    chapters = list(set(chapters))
 
     return render(request, 'questions/chapters.html', {
         'problems': problems,
         'passed': passed,
         'skipped': skipped,
         'failed': failed,
-        'chapters': chapters
+        'available_chapters': available_chapters,
+        'chapter': chapter,
+        'form': form
         })
+
+@permission_required('questions.view_userlogview', raise_exception=True)
+@login_required
+def new_chapter(request):
+    if request.method == "POST":
+        form = ChapterForm(request.POST)
+        if form.is_valid():
+            chapter = form.save(commit=False)
+            chapter.save()
+            request.user.userprofile.user_class.chapter.add(chapter)
+            return redirect('chapters', chapter=chapter.id)
+    else:
+        form = ChapterForm()
+    return redirect('chapters', chapter=chapter.id)
+
+@permission_required('questions.view_userlogview', raise_exception=True)
+def delete_chapter(request, chapter):
+    chapter = Chapter.objects.get(pk=chapter)
+    chapter.delete()
+    return redirect('chapters')
 
 @permission_required('questions.view_userlogview', raise_exception=True)
 @login_required
@@ -348,3 +379,32 @@ def export(request):
     response['Content-Disposition'] = 'attachment; filename="userlog.csv"'
 
     return response
+
+@permission_required('questions.view_userlogview', raise_exception=True)
+def new_problem(request):
+    if request.method == 'POST':
+        problem_form = ProblemForm(request.POST)
+        solution_form = SolutionForm(request.POST)
+        if problem_form.is_valid() and solution_form.is_valid():
+            problem = problem_form.save()
+            problem.save()
+            solution = solution_form.save(commit=False)
+            solution.content = solution_form.cleaned_data.get('solution')
+            solution.problem_id = problem.id
+            solution.save()
+            success(request, problem.title+' was added')
+
+    else:
+        problem_form = ProblemForm()
+        solution_form = SolutionForm()
+
+    chapters = request.user.userprofile.user_class.chapter.all()
+
+    return render(request, 'questions/new_problem.html',{
+        'problem_form': problem_form,
+        'solution_form': solution_form,
+        'chapters': chapters
+        })
+
+
+

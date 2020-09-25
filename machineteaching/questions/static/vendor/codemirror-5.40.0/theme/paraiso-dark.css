@@ -35,7 +35,6 @@
 
 .cm-s-paraiso-dark span.cm-variable { color: dodgerblue; }
 .cm-s-paraiso-dark span.cm-variable-2 { color: #06b6ef; }
-.cm-s-paraiso-dark span.cm-def { color: var(--color4); }
 .cm-s-paraiso-dark span.cm-bracket { color: #b9b6b0; }
 .cm-s-paraiso-dark span.cm-tag { color: #ef6155; }
 .cm-s-paraiso-dark span.cm-link { color: #815ba4; }
