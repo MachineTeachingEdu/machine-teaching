@@ -1704,13 +1704,17 @@ select::-ms-expand { display: none; }
     color: var(--color1);
     transition: all 0.3s;
 }
-.message {
+.menssage {
     text-align: center;
     font-weight: 400;
     margin-bottom: 30px;
+    text-transform: uppercase;
 }
 #success {
     color: #00bb00;
+}
+#error {
+    color: red;
 }
 
 /* Media Queries */

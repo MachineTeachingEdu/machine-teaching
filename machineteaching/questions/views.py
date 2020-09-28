@@ -15,7 +15,7 @@ import json
 from functools import wraps
 import time
 from questions.models import (Problem, Solution, UserLog, UserProfile,
-                              Professor, OnlineClass, UserLogView, Chapter)
+                              Professor, OnlineClass, UserLogView, Chapter, TestCase)
 from questions.forms import UserLogForm, SignUpForm, OutcomeForm, ChapterForm, ProblemForm, SolutionForm
 from questions.get_problem import get_problem
 from questions.strategies import STRATEGIES_FUNC
@@ -387,12 +387,17 @@ def new_problem(request):
         solution_form = SolutionForm(request.POST)
         if problem_form.is_valid() and solution_form.is_valid():
             problem = problem_form.save()
-            problem.save()
             solution = solution_form.save(commit=False)
+
+            problem.question_type = solution_form.cleaned_data.get('question_type')
             solution.content = solution_form.cleaned_data.get('solution')
             solution.problem_id = problem.id
+            
+            problem.save()
             solution.save()
             success(request, problem.title+' was added')
+        else:
+            error(request, 'The problem was not added')
 
     else:
         problem_form = ProblemForm()

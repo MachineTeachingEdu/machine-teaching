@@ -6,7 +6,7 @@
 
 <h2>{% trans 'Chapter' %}
     <span id="aula">
-        <select id="chapter">
+        <select id="id_chapter">
             <option selected="selected" value="all">{% trans 'All' %}</option>
             {% for item in available_chapters %}
             <option {% if item == chapter %}selected="selected"{% endif %} value="{{ item.id }}">{{ item }}</option>
@@ -93,8 +93,8 @@
                 }
             {% endif %}
         } );
-        $('#chapter').on('change', function(){
-            var select = document.getElementById("chapter");
+        $('#id_chapter').on('change', function(){
+            var select = document.getElementById("id_chapter");
             var chapter = select.options[select.selectedIndex].value;
             if (chapter === "all") {
                 window.location.href = "{% url 'chapters' %}";
@@ -107,7 +107,7 @@
 
 
     var input = document.getElementById('form')
-    var select = document.getElementById('chapter')
+    var select = document.getElementById('id_chapter')
     var add = document.getElementById('add')
     {% if chapter != none %}
     var del = document.getElementById('delete')

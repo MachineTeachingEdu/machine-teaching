@@ -11,7 +11,7 @@
 
 {% if messages %}
     {% for message in messages %}
-    <div class="message" {% if message.tags %} id="{{ message.tags }}"{% endif %}>{{ message }}</div>
+    <div class="menssage" {% if message.tags %} id="{{ message.tags }}"{% endif %}>{{ message }}</div>
     {% endfor %}
 {% endif %}
 
@@ -19,12 +19,12 @@
     {% csrf_token %}
     
     <div id="title">
-    <input type="text" name="title" placeholder="{% trans 'Title' %}" id="id_title" required></div>
+    <input type="text" name="title" value="{{problem.title}}" placeholder="{% trans 'Title' %}" id="id_title" required></div>
 
     <div id="container">
     <span>
     <div class="label">{% trans 'Question type' %}</div>
-    {{ problem_form.question_type }}
+    {{ solution_form.question_type }}
     </span>
 
     <span>
@@ -51,6 +51,9 @@
     <div class="label">{% trans 'Solution' %}</div>
     <div class="textarea">
     <textarea id="code" name="solution"></textarea>
+    {% for menssage in solution_form.solution.errors %}
+    <span style="color: red; font-weight: normal; margin:10px;">{{ menssage }}</span></br>
+    {% endfor %}
     </div>
 
     <div id="container3">
