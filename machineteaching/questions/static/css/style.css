@@ -666,6 +666,154 @@ input, select, textarea {
     transition: all 0.3s;
 }
 
+/* Tables styles */
+table {
+    width: 100%;
+    padding: 40px;
+    margin-top: 20px;
+    border-collapse: collapse;
+    text-transform: uppercase;
+}
+td{
+    padding: 10px;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+th {
+    padding: 25px;
+    padding-bottom: 20px;
+    text-transform: uppercase;
+}
+tr:nth-child(even) td {
+    background-color: var(--color5);
+}
+table a {
+    font-weight: normal;
+    text-decoration: none;
+    font-size: 15px;
+}
+table a:hover {
+    font-weight: bold;
+}
+table .passed, .failed, .skipped {
+    text-align: center;
+    font-size: 15px;
+    padding-bottom: 5px;
+    padding-top: 6px;
+    padding-right: 10px;
+    padding-left: 10px;
+    border-radius: 20px;
+    font-weight: 300;
+}
+table .passed {
+    background-color: #00bb00;
+    color: white;
+}
+table .failed {
+    background-color: red;
+    color: white;
+}
+table .skipped {
+    color: var(--color4);
+}
+.dataTables_wrapper {
+    background-color: var(--color3);
+    padding-top: 40px;
+    border-radius: 10px;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+.dataTables_length, .dataTables_filter {
+    width: 50%;
+    text-transform: uppercase;
+    font-size: 17px;
+}
+.dataTables_filter input {
+    -webkit-appearance: none;
+}
+.dataTables_length select {
+    background: white;
+    border-radius: 30px;
+    border: none;
+    box-shadow: var(--shadow);
+    width: 70px;
+    height: 40px;
+    margin-left: 10px;
+    margin-right: 10px;
+    text-align: center;
+    font-size: 20px;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    text-align-last:center;
+}
+select::-ms-expand {display: none;}
+.dataTables_filter input {
+    border-radius: 30px;
+    border: none;
+    box-shadow: var(--shadow);
+    width: 50%;
+    height: 40px;
+    padding: 10px;
+    padding-bottom: 12px;
+    padding-left: 20px;
+    margin-left: 20px;
+    font-size: 17px;
+}
+.dataTables_info {
+    width: 100%;
+    padding-bottom: 40px;
+    padding-top: 20px;
+    font-size: 14px;
+    text-align: center;
+    text-transform: uppercase;
+}
+.dataTables_paginate {
+    width: 100%;
+    padding-bottom: 50px;
+    text-align: center;
+    text-transform: uppercase;
+}
+.dataTables_paginate a {
+    margin-right: 15px;
+    margin-left: 15px;
+    cursor: pointer;
+}
+.paginate_button {
+    width: 30px;
+}
+.paginate_button:hover {
+    font-weight: bold;
+}
+.next {
+    width: 40px;
+}
+.previous {
+    width: 70px;
+}
+.next, .previous {
+    background: var(--color2);
+    color: var(--color4);
+    font-size: 15px;
+    padding: 18px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-radius: 30px;
+    box-shadow: var(--shadow);
+    font-weight: normal;
+    text-transform: uppercase;
+}
+.next:hover, .previous:hover {
+    background: var(--color4);
+    color: var(--color2);
+    transition: all 0.2s;
+    font-weight: normal;
+}
+.current {
+    font-weight: bold;
+}
+
 /* Problem page styles */
 .problem img {
     padding: 20px;
@@ -926,171 +1074,32 @@ input, select, textarea {
 #evaluation {
     background-color: var(--color3);
     padding: 40px;
+    box-sizing: border-box;
+    display: block;
     border-radius: 10px;
+}
+#evaluation tr:nth-child(even) td {
+    background: none;
+}
+#evaluation td:nth-child(2) {
+    font-family: monospace;
 }
 .sucess, .danger {
     padding: 5px;
     padding-left: 10px;
     padding-right: 10px;
-    margin-top: 10px;
+    margin-bottom: 20px;
     display: inline-block;
     border-radius: 30px;
     color: white;
     font-weight: normal;
+    font-family: 'Roboto', sans-serif;
 }
 .sucess {
     background-color: #00bb00;
 }
 .danger {
     background-color: red;
-}
-
-/* Tables styles */
-table {
-    width: 100%;
-    padding: 40px;
-    margin-top: 20px;
-    border-collapse: collapse;
-    text-transform: uppercase;
-}
-td{
-    padding: 10px;
-    padding-left: 25px;
-    padding-right: 25px;
-}
-th {
-    padding: 25px;
-    padding-bottom: 20px;
-    text-transform: uppercase;
-}
-tr:nth-child(even) td {
-    background-color: var(--color5);
-}
-table a {
-    font-weight: normal;
-    text-decoration: none;
-    font-size: 15px;
-}
-table a:hover {
-    font-weight: bold;
-}
-table .passed, .failed, .skipped {
-    text-align: center;
-    font-size: 15px;
-    padding-bottom: 5px;
-    padding-top: 6px;
-    padding-right: 10px;
-    padding-left: 10px;
-    border-radius: 20px;
-    font-weight: 300;
-}
-table .passed {
-    background-color: #00bb00;
-    color: white;
-}
-table .failed {
-    background-color: red;
-    color: white;
-}
-table .skipped {
-    color: var(--color4);
-}
-.dataTables_wrapper {
-    background-color: var(--color3);
-    padding-top: 40px;
-    border-radius: 10px;
-    text-align: center;
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-}
-.dataTables_length, .dataTables_filter {
-    width: 50%;
-    text-transform: uppercase;
-    font-size: 17px;
-}
-.dataTables_filter input {
-    -webkit-appearance: none;
-}
-.dataTables_length select {
-    background: white;
-    border-radius: 30px;
-    border: none;
-    box-shadow: var(--shadow);
-    width: 70px;
-    height: 40px;
-    margin-left: 10px;
-    margin-right: 10px;
-    text-align: center;
-    font-size: 20px;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    text-align-last:center;
-}
-select::-ms-expand {display: none;}
-.dataTables_filter input {
-    border-radius: 30px;
-    border: none;
-    box-shadow: var(--shadow);
-    width: 50%;
-    height: 40px;
-    padding: 10px;
-    padding-bottom: 12px;
-    padding-left: 20px;
-    margin-left: 20px;
-    font-size: 17px;
-}
-.dataTables_info {
-    width: 100%;
-    padding-bottom: 40px;
-    padding-top: 20px;
-    font-size: 14px;
-    text-align: center;
-    text-transform: uppercase;
-}
-.dataTables_paginate {
-    width: 100%;
-    padding-bottom: 50px;
-    text-align: center;
-    text-transform: uppercase;
-}
-.dataTables_paginate a {
-    margin-right: 15px;
-    margin-left: 15px;
-    cursor: pointer;
-}
-.paginate_button {
-    width: 30px;
-}
-.paginate_button:hover {
-    font-weight: bold;
-}
-.next {
-    width: 40px;
-}
-.previous {
-    width: 70px;
-}
-.next, .previous {
-    background: var(--color2);
-    color: var(--color4);
-    font-size: 15px;
-    padding: 18px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    border-radius: 30px;
-    box-shadow: var(--shadow);
-    font-weight: normal;
-    text-transform: uppercase;
-}
-.next:hover, .previous:hover {
-    background: var(--color4);
-    color: var(--color2);
-    transition: all 0.2s;
-    font-weight: normal;
-}
-.current {
-    font-weight: bold;
 }
 
 /* Past problems page styles */
