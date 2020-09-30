@@ -169,7 +169,7 @@ def get_chapter_problems(request, chapter=None):
         problems = Problem.objects.filter(chapter=chapter).distinct()
     except:
         problems = Problem.objects.filter(chapter__in=available_chapters).distinct()
-    
+
     if request.method == "POST":
         form = ChapterForm(request.POST, instance=chapter)
         if form.is_valid():
@@ -241,6 +241,7 @@ def show_outcome(request):
                 problem_id__in=problems, timestamp__gte=onlineclass.start_date
             ).order_by(Lower('user__first_name').asc(),
                        Lower('user__last_name').asc(),
+                       'user_id',
                        'problem_id').values('user_id',
                                             'user__first_name',
                                             'user__last_name',
@@ -392,7 +393,7 @@ def new_problem(request):
             problem.question_type = solution_form.cleaned_data.get('question_type')
             solution.content = solution_form.cleaned_data.get('solution')
             solution.problem_id = problem.id
-            
+
             problem.save()
             solution.save()
             success(request, problem.title+' was added')
