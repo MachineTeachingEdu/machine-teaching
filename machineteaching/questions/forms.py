@@ -5,7 +5,8 @@ from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
 # from django.urls import reverse
-from questions.models import UserLog, Professor, OnlineClass, Chapter
+from questions.models import UserLog, Professor, OnlineClass, Chapter, Problem, Solution
+from questions.get_problem import get_problem
 from django.utils.translation import gettext as _
 
 class UserLogForm(ModelForm):
@@ -52,7 +53,7 @@ class OutcomeForm(forms.Form):
     onlineclass = forms.ModelChoiceField(queryset=OnlineClass.objects.all(), label=_(u'Class'))
     chapter = forms.ModelChoiceField(queryset=Chapter.objects.all(), label=_(u'Chapter'))
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs): 
         self.user = kwargs.pop('user', None)
         super(OutcomeForm, self).__init__(*args, **kwargs)
 
@@ -61,3 +62,42 @@ class OutcomeForm(forms.Form):
         if onlineclass not in OnlineClass.objects.filter(professor__user=self.user):
             raise forms.ValidationError(_(u'You don\'t have authorization to view this class.'))
         return onlineclass
+
+class ChapterForm(forms.ModelForm):
+    class Meta:
+        model = Chapter
+        fields = ['label']
+
+class ProblemForm(forms.ModelForm):
+    class Meta:
+        model = Problem
+        fields = ['title','content','options','chapter','test_case_generator']
+
+class SolutionForm(forms.ModelForm):
+    QUESTION_TYPES = (("C", _("Code")),
+                   ("M", _("Multiple Choice")),
+                   ("T", _("Text")))
+    solution = forms.CharField(widget=forms.Textarea)
+    question_type = forms.ChoiceField(choices=QUESTION_TYPES)
+        
+    def __init__(self, *args, **kwargs):
+        super(SolutionForm, self).__init__(*args, **kwargs)
+        self.fields['problem'].required = False
+
+    class Meta:
+        model = Solution
+        fields = ['header','problem','tip','cluster']
+
+    def clean(self):
+        solution = self.cleaned_data.get('solution')
+        question_type = self.cleaned_data.get('question_type')
+
+        if question_type == "C":
+            try:
+                function_obj = compile(solution, 'solution', 'exec')
+                exec(function_obj)
+            except Exception as e:
+                self.add_error("solution", e)
+        return self.cleaned_data
+
+

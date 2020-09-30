@@ -17,8 +17,8 @@ function correct() {
 }
 
 function evaluate(args, expected_results){
-    eval_div = document.getElementById("evaluation");
-    eval_div.innerHTML = "";
+    eval_table = document.getElementById("evaluation");
+    eval_table.innerHTML = "";
     answers = document.getElementById("output").innerHTML.split("\n");
     errors = 0;
 
@@ -38,17 +38,17 @@ function evaluate(args, expected_results){
             expected_results_parsed = expected_results[i];
         }
         console.log(expected_results_parsed);
-        eval_div.innerHTML += "Input: " + args[i] + "<br>Expected output: " + expected_results[i] + "<br>" + "Your output: " + answers[i] + "<br>";
+        eval_table.innerHTML += "<tr><td>Input:</td><td>" + args[i] + "</td></tr><tr><td>Expected output:</td><td>" + expected_results[i] + "</td></tr><tr><td>Your output:</td><td>" + answers[i] + "</td></tr>";
         try {
             if (JSON.stringify(expected_results_parsed, Object.keys(expected_results_parsed).sort()) == JSON.stringify(answers_parsed, Object.keys(answers_parsed).sort())){
             //if (JSON.stringify(expected_results[i]) == JSON.stringify(answers[i])){
-                eval_div.innerHTML += '<span class="sucess">OK</span><br><br>'
+                eval_table.innerHTML += '<tr><td></td><td><span class="sucess">OK</span></td></tr>'
             } else {
-                eval_div.innerHTML += '<span class="danger">OOPS!</span><br><br>'
+                eval_table.innerHTML += '<tr><td></td><td><span class="danger">OOPS!</span></td></tr>'
                 errors++;
             };
         } catch(e) {
-            eval_div.innerHTML += '<span class="danger">OOPS!</span><br><br>'
+            eval_table.innerHTML += '<tr><td></td><td><span class="danger">OOPS!</span></td></tr>'
             errors++;
         }
     }

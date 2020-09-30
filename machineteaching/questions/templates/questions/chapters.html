@@ -3,11 +3,43 @@
 {% load i18n %}
 
 {% block content %}
-<h2>{% trans "Chapter" %} <span id="aula"></span></h2>
+
+<h2>{% trans 'Chapter' %}
+    <span id="aula">
+        <select id="id_chapter">
+            <option selected="selected" value="all">{% trans 'All' %}</option>
+            {% for item in available_chapters %}
+            <option {% if item == chapter %}selected="selected"{% endif %} value="{{ item.id }}">{{ item }}</option>
+            {% endfor %}
+        </select>
+        {% if perms.questions.view_userlogview %}
+        <form style="display: inline;" method="post">
+        <span id="form" style="display: none;">
+        {% csrf_token %}
+        {{ form.as_p }}
+        </span>
+        {% if chapter != none %}
+        <a id="edit" onclick="edit()">{% trans 'Edit chapter' %}</a>
+        <div>
+        <input id="update" type="submit" formaction="" class="delete" value="{% trans 'Update' %}">
+        <input id="delete" type="submit" formaction="{% url 'delete_chapter' chapter=chapter.id %}" value="{% trans 'Delete' %}">
+        </div>
+        {% endif %}
+        <input id="add" type="submit" formaction="{% url 'new_chapter' %}" value="{% trans 'Add' %}">
+        {% endif %}
+    </form>
+    </span>
+    </h2>
+{% if perms.questions.view_userlogview %}
+<div class="edit">
+<a onclick="new_chapter()" id="btn"><b>+ </b>{% trans 'Add Chapter' %}</a>
+<a id="btn2" href="{% url 'new' %}"><b>+ </b>{% trans 'Add Problem' %}</a>
+</div>
+{% endif %}
 <table id="problems" class="chapters">
     <thead>
     <tr>
-        <th class="searchable">{% trans "Chapter" %}</th>
+        <th>{% trans "Chapter" %}</th>
         <th class="searchable">{% trans "Problem" %}</th>
         <th class="searchable">{% trans "Outcome" %}</th>
     </tr>
@@ -17,9 +49,8 @@
     {% for item in problems %}
     <tr>
         <td>{% for chapter in item.chapter.all %}
-            {% if chapter.label in chapters %}{{ chapter }}
-                {% if not forloop.last %}, {% endif %}
-            {% endif %}{% endfor %}
+            {{ chapter }}
+            {% endfor %}
         </td>
         <td><a href={% url 'show_problem' problem_id=item.id %}>{{ item.title }}</a></td>
         <td>{% if item.id in passed %}<span class="passed">{% trans "Passed" %}</span>{% else %}
@@ -61,23 +92,69 @@
                     }
                 }
             {% endif %}
-        });
-
-        var chapters = {{ chapters|safe }};
-
-        $("#aula").each( function ( i ) {
-            var select = $('<select><option value="">Todas</option></select>')
-                .appendTo( $(this).empty() )
-                .on( 'change', function () {
-                    table.column( i )
-                        .search( $(this).val() )
-                        .draw();
-                } );
-
-            chapters.forEach( function ( d, j ) {
-                select.append( '<option value="'+d+'">'+d+'</option>' )
-            } );
         } );
+        $('#id_chapter').on('change', function(){
+            var select = document.getElementById("id_chapter");
+            var chapter = select.options[select.selectedIndex].value;
+            if (chapter === "all") {
+                window.location.href = "{% url 'chapters' %}";
+            }
+            else {
+                window.location.href = "{% url 'chapters' %}"+"/"+chapter;
+            }
+        });
     } );
+
+
+    var input = document.getElementById('form')
+    var select = document.getElementById('id_chapter')
+    var add = document.getElementById('add')
+    {% if chapter != none %}
+    var del = document.getElementById('delete')
+    var update = document.getElementById('update')
+    var btn2 = document.getElementById('edit')
+    {% endif %}
+    var btn = document.getElementById('btn')
+    var btn3 = document.getElementById('btn2')
+
+    function new_chapter() {
+        if (add.style.display === "none") {
+            document.getElementById("id_label").value = "";
+            input.style.display = "inline";
+            select.style.display = "none";
+            add.style.display = "block";
+            btn.innerHTML = "{% trans 'Cancel' %}";
+            btn2.style.display = "none";
+            btn3.style.display = "none";
+        } else {
+            document.getElementById("id_label").value = "{{chapter.label}}";
+            input.style.display = "none";
+            select.style.display = "inline";
+            add.style.display = "none";
+            btn.innerHTML = "<b>+ </b>{% trans 'Add chapter' %}";
+            btn2.style.display = "inline";
+            btn3.style.display = "inline";
+        }
+    };
+
+    function edit() {
+        if (update.style.display === "none") {
+            input.style.display = "inline";
+            select.style.display = "none";
+            del.style.display = "inline";
+            update.style.display = "inline";
+            btn.style.display = "none";
+            btn2.innerHTML = "{% trans 'Cancel' %}";
+            btn3.style.display = "none";
+        } else {
+            input.style.display = "none";
+            select.style.display = "inline";
+            del.style.display = "none";
+            update.style.display = "none";
+            btn.style.display = "inline";
+            btn2.innerHTML = "{% trans 'Edit chapter' %}";
+            btn3.style.display = "inline";
+        }
+    };
 </script>
 {% endblock %}

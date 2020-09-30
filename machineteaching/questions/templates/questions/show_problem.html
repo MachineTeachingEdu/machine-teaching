@@ -86,7 +86,7 @@
     <!-- Test cases -->
     <div style="display:none" id="testcase-div">
         <h2>Test cases</h2>
-        <div id="evaluation"></div>
+        <table id="evaluation"></table>
     </div>
     <!--{{test_case}}-->
 </div>
@@ -132,6 +132,7 @@
                 'seconds_in_page': seconds_in_page,
                 {% if problem.question_type == "C" %}
                 'solution_lines': editor.lineCount(),
+                'console': document.getElementById("output").innerHTML,
                 {% elif problem.question_type == "M" %}
                 'solution_lines': 0,
                 {% elif problem.question_type == "T" %}
