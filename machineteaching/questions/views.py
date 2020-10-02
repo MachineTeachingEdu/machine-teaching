@@ -232,8 +232,9 @@ def show_outcome(request):
             chapter = form.cleaned_data['chapter']
 
             # Get class problems
-            problems = list(Problem.objects.filter(chapter=chapter).order_by(
-                    'id').values_list('id', flat=True))
+            problems_all = Problem.objects.filter(chapter=chapter).order_by(
+                    'title', 'id')
+            problems = list(problems_all.values_list('id', flat=True))
 
             # Get latest student outcome for every student in class
             students = UserLogView.objects.filter(
@@ -242,6 +243,7 @@ def show_outcome(request):
             ).order_by(Lower('user__first_name').asc(),
                        Lower('user__last_name').asc(),
                        'user_id',
+                       'problem__title',
                        'problem_id').values('user_id',
                                             'user__first_name',
                                             'user__last_name',
@@ -298,19 +300,18 @@ def show_outcome(request):
                                 "total": {"P": only_outcomes.count("P"),
                                             "F": only_outcomes.count("F"),
                                             "S": only_outcomes.count("S")}}
-                print(student_row)
                 outcomes.append(student_row)
             end = time.time()
             LOGGER.info("Elapsed time: %d" % (end-start))
     else:
         form = OutcomeForm()
-        problems = []
+        problems_all = []
     form.fields['onlineclass'].queryset = OnlineClass.objects.filter(
         professor__user=request.user).order_by('name')
     LOGGER.info("Available classes: %s" % form.fields['onlineclass'].queryset)
     LOGGER.info("Showing students and outcomes: %s" % json.dumps(outcomes))
     return render(request, 'questions/outcomes.html',
-                  {'form': form, 'problems': problems, 'outcomes':outcomes})
+                  {'form': form, 'problems': problems_all, 'outcomes':outcomes})
 
 
 @login_required

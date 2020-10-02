@@ -17,7 +17,7 @@
     <tr>
         <th class="searchable">{% trans 'Students' %}</th>
         {% for item in problems %}
-        <th>{{ forloop.counter }}.</th>
+        <th>{{ item.title }}.</th>
         {% endfor %}
         <th>{% trans "Total" %}</th>
     </tr>
