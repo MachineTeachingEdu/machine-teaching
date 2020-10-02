@@ -293,7 +293,7 @@ input, select, textarea {
     position: fixed;
     bottom: 30px;
     left: 30px;
-    width: 300px;
+    width: 155px;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
@@ -695,7 +695,7 @@ table a {
 table a:hover {
     font-weight: bold;
 }
-table .passed, .failed, .skipped {
+.passed, .failed, .skipped {
     text-align: center;
     font-size: 15px;
     padding-bottom: 5px;
@@ -705,15 +705,15 @@ table .passed, .failed, .skipped {
     border-radius: 20px;
     font-weight: 300;
 }
-table .passed {
+.passed {
     background-color: #00bb00;
     color: white;
 }
-table .failed {
+.failed {
     background-color: red;
     color: white;
 }
-table .skipped {
+.skipped {
     color: var(--color4);
 }
 .dataTables_wrapper {
@@ -1725,6 +1725,64 @@ select::-ms-expand { display: none; }
 #error {
     color: red;
 }
+/* Solutions page styles */
+.solutions {
+    background-color: var(--color3);
+    padding: 0;
+    padding-top: 90px;
+    padding-left: 0;
+    box-sizing: border-box;
+    display: block;
+    border-radius: 10px;
+    overflow: auto;
+    text-align: center;
+    text-transform: uppercase;
+}
+.solutions .row {
+    display: flex;
+    height: 400px;
+}
+.solutions .row:nth-child(1) {
+    height: 50px;
+    width: 600px;
+    font-weight: bold;
+    position: absolute;
+    margin-top: -50px;
+    background-color: var(--color3);
+}
+.solutions .row:nth-child(1) div:nth-child(1) {
+    width: 250px;
+}
+.solutions .row:nth-child(1) div:nth-child(2) {
+    text-align: left;
+}
+.solutions .solution {
+    margin-left: 15px;
+    margin-right: 15px;
+}
+.solutions .CodeMirror {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: solid 1px rgb(150,150,150);
+    text-transform: none;
+    padding-top: 10px;
+    border-radius: 10px;
+    text-align: left;
+}
+.solutions .fixed {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--color3);
+    z-index: 100;
+    width: 250px;
+    height: 400px;
+}
+
+
+
+
 
 /* Media Queries */
 @media only screen and (max-width: 1690px) {
@@ -1899,7 +1957,7 @@ select::-ms-expand { display: none; }
         padding: 0;
         text-transform: uppercase;
     }
-    table .passed, .failed, .skipped {
+    .passed, .failed, .skipped {
         font-size: 13px;
         font-weight: normal;
         text-transform: uppercase;

@@ -322,6 +322,37 @@ def get_user_solution(request, id):
     context.update({'log': userlog})
     return render(request, 'questions/past_solutions.html', context)
 
+
+@permission_required('questions.view_userlogview', raise_exception=True)
+def show_solutions(request, problem_id):
+    logs = UserLog.objects.filter(
+                problem_id=problem_id).order_by('user_id',
+                                                '-timestamp').values('user_id',
+                                                                     'user__first_name',
+                                                                     'user__last_name',
+                                                                     'solution',
+                                                                     'outcome',
+                                                                     'timestamp')
+    if logs.count():
+        current_student = logs[0]["user_id"]
+        student_name = "%s %s" % (logs[0]["user__first_name"],
+                                  logs[0]["user__last_name"])
+        students = []
+        student = {'name':student_name,'logs':[]}
+        for log in logs:
+            if log["user_id"] != current_student:
+                students.append(student)
+                current_student = log["user_id"]
+                student_name = "%s %s" % (log["user__first_name"],
+                                          log["user__last_name"])
+                student = {'name':student_name,'logs':[]}
+            student['logs'].append(log)
+    problem = get_problem(problem_id)
+
+    return render(request, 'questions/solutions.html', {'problem': problem,
+                                                        'students': students})
+
+
 @login_required
 def update_strategy(request):
     try:
@@ -412,6 +443,5 @@ def new_problem(request):
         'solution_form': solution_form,
         'chapters': chapters
         })
-
 
 

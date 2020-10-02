@@ -1,0 +1,69 @@
+{% extends "questions/base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block header %}
+{% for student in students %}
+{% endfor %}
+<!-- Custom styles for this template -->
+<link rel="stylesheet" type="text/css" href="{% static 'vendor/codemirror-5.40.0/lib/codemirror.css' %}" />
+<link rel="stylesheet" type="text/css" href="{% static 'vendor/codemirror-5.40.0/theme/paraiso-dark.css' %}" />
+{% endblock %}
+{% block content %}
+<h2>{{ problem.problem.title }}</h2>
+{% if students %}
+<div class="solutions">
+    <div class="row">
+        <div>{% trans 'Student' %}<br>({% trans 'Submissions'  %})</div>
+        <div>{% trans 'Solutions' %}</div>
+    </div>
+
+    {% for student in students %}
+    <div class="row">
+        <div class="fixed">{{ student.name }} ({{ student.logs | length }})</div>
+        <div style="margin-left: 250px; display: flex; align-items: center;">
+        {% for log in student.logs %}
+        <div class="solution">
+            <span style="display:inline-block; margin-bottom: 20px;">{{ log.timestamp }}</span>
+            <textarea class="code">{{ log.solution }}</textarea>
+            {% if log.outcome == "P" %}
+            <span class="passed">{% trans "Passed" %}</span>
+            {% elif log.outcome == "F" %}
+            <span class="failed">{% trans "Failed" %}</span>
+            {% elif log.outcome == "S" %}
+            <span class="skipped">{% trans "Skipped" %}</span>
+            {% endif %}
+        </div>
+        {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% endblock %}
+{% block javascript %}
+<script src="{% static 'vendor/codemirror-5.40.0/lib/codemirror.js' %}"></script>
+<script src="{% static 'vendor/codemirror-5.40.0/mode/python/python.js' %}"></script>
+
+<script src="{% static 'js/sculpt.js' %}"></script>
+<script>
+    var textareas = document.querySelectorAll(".code");
+
+    for (var i = 0; i < textareas.length; i++) {
+        editor = CodeMirror.fromTextArea(textareas[i], {
+            mode: {name: "python",
+                version: 2,
+                singleLineStringErrors: false},
+            lineNumbers: true,
+            indentUnit: 4,
+            tabMode: "spaces",
+            matchBrackets: true,
+            extraKeys: { Tab: betterTab },
+            theme: "paraiso-dark"
+            });
+            editor.setSize(450,250)
+        }
+
+</script>
+{% endblock %}

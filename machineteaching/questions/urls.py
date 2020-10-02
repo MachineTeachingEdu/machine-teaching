@@ -28,6 +28,7 @@ urlpatterns = [
     path('delete_chapter/<int:chapter>', views.delete_chapter, name='delete_chapter'),
     path('new', views.new_problem, name='new'),
     path('outcomes', views.show_outcome, name='show_outcome'),
+    path('solutions/<int:problem_id>', views.show_solutions, name='solutions'),
     path('terms_and_conditions', TemplateView.as_view(
         template_name='questions/conditions.html'),
         name='terms_and_conditions'),
