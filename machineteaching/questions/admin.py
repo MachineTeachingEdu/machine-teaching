@@ -23,7 +23,7 @@ class ProblemAdmin(SimpleHistoryAdmin):
 class SolutionAdmin(SimpleHistoryAdmin):
     list_display = ('id', 'problem', 'content', 'cluster')
     search_fields = ['id', 'problem__title', 'problem__id']
-    list_filter = ('ignore', )
+    list_filter = ('ignore', 'problem__chapter')
     exclude = ('link',)
 
 
@@ -36,10 +36,13 @@ class TestCaseAdmin(admin.ModelAdmin):
 @admin.register(UserLog)
 class UserLogAdmin(ExportActionMixin, admin.ModelAdmin):
     exclude = ('error_type',)
-    list_display = ('user', 'problem', 'outcome', 'timestamp', 'user_class')
+    list_display = ('user_name', 'problem', 'outcome', 'timestamp', 'user_class')
     search_fields = ['problem__title', 'user__username', 'user__first_name',
                      'user__last_name', 'user__userprofile__user_class__name']
     list_filter = ('outcome', 'problem__chapter')
+
+    def user_name(self, obj):
+        return obj.user.first_name + ' ' + obj.user.last_name
 
     def user_class(self, obj):
         return obj.user.userprofile.user_class
@@ -53,10 +56,13 @@ class UserLogAdmin(ExportActionMixin, admin.ModelAdmin):
 
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'user_class', 'programming', 'accepted', 'read')
+    list_display = ('user_name', 'user_class', 'programming', 'accepted', 'read')
     search_fields = ['user__username', 'user__first_name', 'user__last_name']
     list_filter = ('user_class', 'programming', 'strategy')
     autocomplete_fields = ['user']
+
+    def user_name(self, obj):
+        return obj.user.first_name + ' ' + obj.user.last_name
 
     def get_queryset(self, request):
         qs = super(UserProfileAdmin, self).get_queryset(request)
