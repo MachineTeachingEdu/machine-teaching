@@ -326,6 +326,7 @@ def get_user_solution(request, id):
 @permission_required('questions.view_userlogview', raise_exception=True)
 def show_solutions(request, problem_id):
     logs = UserLog.objects.filter(
+                user__userprofile__user_class__in=OnlineClass.objects.filter(professor__user=request.user),
                 problem_id=problem_id).order_by('user_id',
                                                 '-timestamp').values('user_id',
                                                                      'user__first_name',
@@ -333,11 +334,11 @@ def show_solutions(request, problem_id):
                                                                      'solution',
                                                                      'outcome',
                                                                      'timestamp')
+    students = []
     if logs.count():
         current_student = logs[0]["user_id"]
         student_name = "%s %s" % (logs[0]["user__first_name"],
                                   logs[0]["user__last_name"])
-        students = []
         student = {'name':student_name,'logs':[]}
         for log in logs:
             if log["user_id"] != current_student:

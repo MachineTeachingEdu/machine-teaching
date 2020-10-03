@@ -17,7 +17,7 @@
     <tr>
         <th class="searchable">{% trans 'Students' %}</th>
         {% for item in problems %}
-        <th>{{ item.title }}.</th>
+        <th><a href="{% if item.question_type == "C" %}{% url 'solutions' problem_id=item.id %}{% else%}#{% endif %}">{{ item.title }}</th>
         {% endfor %}
         <th>{% trans "Total" %}</th>
     </tr>
