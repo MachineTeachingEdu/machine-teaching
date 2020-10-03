@@ -225,6 +225,7 @@ def delete_chapter(request, chapter):
 @login_required
 def show_outcome(request):
     outcomes = []
+    onlineclass = None
     if request.method == 'POST':
         form = OutcomeForm(request.POST, user=request.user)
         if form.is_valid():
@@ -311,7 +312,7 @@ def show_outcome(request):
     LOGGER.info("Available classes: %s" % form.fields['onlineclass'].queryset)
     LOGGER.info("Showing students and outcomes: %s" % json.dumps(outcomes))
     return render(request, 'questions/outcomes.html',
-                  {'form': form, 'problems': problems_all, 'outcomes':outcomes})
+                  {'form': form, 'problems': problems_all, 'outcomes':outcomes, 'class':onlineclass})
 
 
 @login_required
@@ -324,9 +325,9 @@ def get_user_solution(request, id):
 
 
 @permission_required('questions.view_userlogview', raise_exception=True)
-def show_solutions(request, problem_id):
+def show_solutions(request, problem_id, class_id):
     logs = UserLog.objects.filter(
-                user__userprofile__user_class__in=OnlineClass.objects.filter(professor__user=request.user),
+                user__userprofile__user_class=class_id,
                 problem_id=problem_id).order_by('user_id',
                                                 '-timestamp').values('user_id',
                                                                      'user__first_name',
