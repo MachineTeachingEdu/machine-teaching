@@ -10,7 +10,6 @@
 
 
 <h2>{% trans 'Add problem' %}</h2>
-
 {% if messages %}
     {% for message in messages %}
     <div class="menssage" {% if message.tags %} id="{{ message.tags }}"{% endif %}>{{ message }}</div>
@@ -183,5 +182,7 @@ function setSolution(id) {
     $("[name='solution']").attr("name","");
     $(id).attr("name","solution");
 }
+
+$("[value='{{problem_form.chapter.value.0}}']").attr("selected","");
 </script>
 {% endblock %}
