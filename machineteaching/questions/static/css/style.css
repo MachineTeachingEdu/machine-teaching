@@ -15,7 +15,7 @@
 }
 .theme-light {
     --color1: white;
-    --color2: rgb(240,240,240);
+    --color2: rgb(230,230,230);
     --color3: rgb(230,230,230);
     --color4: rgb(27,40,55);
     --color5: rgb(240,240,240);
@@ -203,7 +203,6 @@ input, select, textarea {
 }
 .user {
     background-color: var(--color2);
-    box-shadow: var(--shadow);
     font-size: 15px;
     height: 50px;
     margin-left: 40px;
@@ -246,7 +245,6 @@ input, select, textarea {
     display: flex;
     border-radius: 30px;
     margin-left: 10px;
-    box-shadow: var(--shadow);
     padding: 8px;
     padding-top: 8px;
     padding-bottom: 8px;
@@ -286,6 +284,7 @@ input, select, textarea {
     background-color: var(--color4);
     font-weight: normal;
     transition: all 0.5s;
+    box-shadow: var(--shadow);
 }
 
 /*Inferior bar style */
@@ -324,7 +323,6 @@ input, select, textarea {
     padding-left: 45px;
     padding-right: 20px;
     border-radius: 40px;
-    box-shadow: var(--shadow);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -358,7 +356,6 @@ input, select, textarea {
     padding-left: 45px;
     padding-right: 20px;
     border-radius: 40px;
-    box-shadow: var(--shadow);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -427,7 +424,6 @@ input, select, textarea {
 .welcome-div a:hover {
     background-color: var(--color2);
     color: var(--color4);
-    box-shadow: var(--shadow);
     transition: all 0.3s;
 }
 .guidelines-div {
@@ -857,6 +853,11 @@ select::-ms-expand {display: none;}
 .code a:hover {
     font-weight: 500;
     transition: all 0.2s;
+}
+#running {
+    display: none; 
+    text-transform: uppercase; 
+    text-align: center;
 }
 .multiple-c {
     background-color: var(--color3);

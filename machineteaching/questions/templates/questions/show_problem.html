@@ -24,11 +24,12 @@
     <div class="code">
         <textarea id="code" cols="80" rows="10" style="">{{tip}}</textarea><br />
         <div id="result"></div>
-        <div style="text-align: center;">
+        <div style="text-align: center;" id="buttons">
             <button type="button" onclick="runit({{test_case|safe|escape_doublequote}}, '{{header}}', {{expected_results|safe|escape_doublequote}})">{% trans "Run" %} ▶</button>
             <button type="button" onclick="gotoproblem()" id="next" style="margin-left: 20px; display: none">{% trans "Next" %}</button>
             </br><a onclick="skipit()" id="skip">{% trans "Skip" %}</a>
         </div>
+        <div id="running">{% trans "Running function" %}...</div>
     </div>
 </form>
 

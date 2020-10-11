@@ -62,6 +62,14 @@ function evaluate(args, expected_results){
         document.getElementById("result").innerHTML = '<div class="wrong" style="margin-bottom: 30px; margin-left: auto; margin-right: auto">X</div>';
         save_log('F', seconds_in_code, seconds_to_begin, seconds_in_page);
     };
+
+    //Display buttons and hide loader
+    document.getElementById("buttons").style.display="block";
+    document.getElementById("running").style.display="none";
+
+    // Display result divs
+    document.getElementById("output-div").style.display="block";
+    document.getElementById("testcase-div").style.display="block";
 }
 // Here's everything you need to run a python program in skulpt
 // grab the code from your textarea
@@ -70,9 +78,9 @@ function evaluate(args, expected_results){
 // call Sk.importMainWithBody()
 function runit(args, func, expected_results) {
 
-   // Display result divs
-   document.getElementById("output-div").style.display="block";
-   document.getElementById("testcase-div").style.display="block";
+   //Hide buttons and display loader
+   document.getElementById("buttons").style.display="none";
+   document.getElementById("running").style.display="block";
 
    // Get code
    var prog = editor.getValue();
