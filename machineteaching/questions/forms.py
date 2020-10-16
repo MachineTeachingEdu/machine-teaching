@@ -4,8 +4,9 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
 from django.utils.translation import ugettext_lazy as _
+import random
 # from django.urls import reverse
-from questions.models import UserLog, Professor, OnlineClass, Chapter, Problem, Solution
+from questions.models import UserLog, Professor, OnlineClass, Chapter, Problem, Solution, create_test_cases
 from questions.get_problem import get_problem
 from django.utils.translation import gettext as _
 
@@ -69,9 +70,25 @@ class ChapterForm(forms.ModelForm):
         fields = ['label']
 
 class ProblemForm(forms.ModelForm):
+
     class Meta:
         model = Problem
-        fields = ['title','content','options','chapter','test_case_generator']
+        fields = ['title','content','options','chapter', 'test_case_generator']
+
+    def clean(self):
+        test_case_generator = self.cleaned_data.get('test_case_generator')
+        try:
+            # Transform solution into python function
+            function_obj = compile(test_case_generator,
+                                   'generate', 'exec')
+            exec(function_obj)
+
+            # Generate test cases
+            test_cases = eval('generate')()
+
+        except Exception as e:
+            self.add_error("test_case_generator", e)
+        return self.cleaned_data
 
 class SolutionForm(forms.ModelForm):
     QUESTION_TYPES = (("C", _("Code")),

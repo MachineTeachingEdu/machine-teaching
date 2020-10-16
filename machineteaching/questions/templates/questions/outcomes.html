@@ -56,6 +56,10 @@
     console.log("{{form.chapter.value}}");
     $(document).ready(function() {
         var table = $('#outcomes').DataTable({
+            "columnDefs": [{
+                targets: "_all",
+                orderable: false
+            }],
             "pageLength": 50,
             {% get_current_language as language %}
             {% if language == 'pt-br' %}

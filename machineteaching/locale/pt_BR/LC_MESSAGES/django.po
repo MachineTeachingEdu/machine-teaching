@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-09-10 09:25-0300\n"
+"POT-Creation-Date: 2020-10-16 01:45-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,61 +18,75 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: questions/forms.py:17
+#: questions/forms.py:19
 msgid "No"
 msgstr "Não"
 
-#: questions/forms.py:18
+#: questions/forms.py:20
 msgid "Yes"
 msgstr "Sim"
 
-#: questions/forms.py:24
+#: questions/forms.py:26
 msgid "Class code"
 msgstr "Código da turma"
 
-#: questions/forms.py:25
+#: questions/forms.py:27
 msgid "Did you have any programming experience before this course?"
 msgstr "Você teve alguma experiência com programação antes desse curso?"
 
-#: questions/forms.py:26
+#: questions/forms.py:28
 msgid "I accept the "
 msgstr "Eu aceito os "
 
-#: questions/forms.py:26 questions/templates/questions/base.html:235
+#: questions/forms.py:28 questions/templates/questions/base.html:235
 #: questions/templates/questions/conditions.html:89
 msgid "Terms and Conditions"
 msgstr "Termos e Condições"
 
-#: questions/forms.py:27
+#: questions/forms.py:29
 msgid "I've read the "
 msgstr "Eu li a "
 
-#: questions/forms.py:27 questions/templates/questions/base.html:235
+#: questions/forms.py:29 questions/templates/questions/base.html:235
 #: questions/templates/questions/privacy.html:166
 msgid "Privacy Policy"
 msgstr "Política de Privacidade"
 
-#: questions/forms.py:42
+#: questions/forms.py:44
 msgid "Email addresses must be unique."
 msgstr "O endereço de email deve ser único."
 
-#: questions/forms.py:48
+#: questions/forms.py:50
 msgid "Invalid Class Code."
 msgstr "Código da turma inválido"
 
-#: questions/forms.py:52
+#: questions/forms.py:54
 msgid "Class"
 msgstr "Turma"
 
-#: questions/forms.py:53 questions/models.py:30
-#: questions/templates/questions/chapters.html:6
-#: questions/templates/questions/chapters.html:10
+#: questions/forms.py:55 questions/models.py:30
+#: questions/templates/questions/chapters.html:7
+#: questions/templates/questions/chapters.html:41
+#: questions/templates/questions/edit_problem.html:24
+#: questions/templates/questions/new_problem.html:32
 msgid "Chapter"
 msgstr "Aula"
 
-#: questions/forms.py:62
+#: questions/forms.py:64
 msgid "You don't have authorization to view this class."
 msgstr "Você não tem autorização para ver essa aula."
+
+#: questions/forms.py:94
+msgid "Code"
+msgstr ""
+
+#: questions/forms.py:95
+msgid "Multiple Choice"
+msgstr ""
+
+#: questions/forms.py:96
+msgid "Text"
+msgstr ""
 
 #: questions/models.py:31 questions/templates/questions/base.html:52
 #: questions/templates/questions/base.html:76
@@ -80,57 +94,59 @@ msgstr "Você não tem autorização para ver essa aula."
 msgid "Chapters"
 msgstr "Aulas"
 
-#: questions/models.py:42
+#: questions/models.py:43
 #, fuzzy
 #| msgid "Class"
 msgid "OnlineClass"
 msgstr "Turma"
 
-#: questions/models.py:43
+#: questions/models.py:44
 msgid "OnlineClasses"
 msgstr "Turmas"
 
-#: questions/models.py:66
+#: questions/models.py:67
 msgid "Professors"
 msgstr "Professores"
 
-#: questions/models.py:94
+#: questions/models.py:96
 msgid "User profile"
 msgstr "Perfil do usuário"
 
-#: questions/models.py:95
+#: questions/models.py:97
 msgid "User profiles"
 msgstr "Perfis dos usuários"
 
-#: questions/models.py:142 questions/templates/questions/chapters.html:11
+#: questions/models.py:144 questions/templates/questions/chapters.html:42
 msgid "Problem"
 msgstr "Problema"
 
-#: questions/models.py:143
+#: questions/models.py:145
 msgid "Problems"
 msgstr "Problemas"
 
-#: questions/models.py:165 questions/templates/questions/past_problems.html:14
+#: questions/models.py:168 questions/templates/questions/edit_problem.html:44
+#: questions/templates/questions/new_problem.html:52
+#: questions/templates/questions/past_problems.html:14
 msgid "Solution"
 msgstr "Solução"
 
-#: questions/models.py:166
+#: questions/models.py:169 questions/templates/questions/solutions.html:18
 msgid "Solutions"
 msgstr "Soluções"
 
-#: questions/models.py:175
+#: questions/models.py:178
 msgid "Test Case"
 msgstr "Caso de Teste"
 
-#: questions/models.py:176
+#: questions/models.py:179
 msgid "Test Cases"
 msgstr "Casos de Teste"
 
-#: questions/models.py:202
+#: questions/models.py:205
 msgid "User log"
 msgstr "Log do usuário"
 
-#: questions/models.py:203
+#: questions/models.py:206
 msgid "User logs"
 msgstr "Logs dos usuários"
 
@@ -321,29 +337,68 @@ msgstr " e a "
 msgid "About this research"
 msgstr "Sobre a pesquisa"
 
-#: questions/templates/questions/chapters.html:12
+#: questions/templates/questions/chapters.html:10
+msgid "All"
+msgstr "Todas"
+
+#: questions/templates/questions/chapters.html:22
+#: questions/templates/questions/chapters.html:151
+msgid "Edit chapter"
+msgstr "Editar aula"
+
+#: questions/templates/questions/chapters.html:24
+msgid "Update"
+msgstr "Atualizar"
+
+#: questions/templates/questions/chapters.html:27
+#: questions/templates/questions/edit_problem.html:84
+#: questions/templates/questions/new_problem.html:102
+msgid "Add"
+msgstr "Adicionar"
+
+#: questions/templates/questions/chapters.html:34
+msgid "Add Chapter"
+msgstr "Adicionar aula"
+
+#: questions/templates/questions/chapters.html:35
+msgid "Add Problem"
+msgstr "Adicionar problema"
+
+#: questions/templates/questions/chapters.html:43
 msgid "Outcome"
 msgstr "Resultado"
 
-#: questions/templates/questions/chapters.html:25
+#: questions/templates/questions/chapters.html:55
 #: questions/templates/questions/outcomes.html:41
 #: questions/templates/questions/past_problems.html:23
+#: questions/templates/questions/solutions.html:30
 msgid "Passed"
 msgstr "Passou"
 
-#: questions/templates/questions/chapters.html:26
+#: questions/templates/questions/chapters.html:56
 #: questions/templates/questions/outcomes.html:34
 #: questions/templates/questions/outcomes.html:43
 #: questions/templates/questions/past_problems.html:29
+#: questions/templates/questions/solutions.html:34
 msgid "Skipped"
 msgstr "Pulou"
 
-#: questions/templates/questions/chapters.html:27
+#: questions/templates/questions/chapters.html:57
 #: questions/templates/questions/outcomes.html:33
 #: questions/templates/questions/outcomes.html:42
 #: questions/templates/questions/past_problems.html:26
+#: questions/templates/questions/solutions.html:32
 msgid "Failed"
 msgstr "Falhou"
+
+#: questions/templates/questions/chapters.html:124
+#: questions/templates/questions/chapters.html:144
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: questions/templates/questions/chapters.html:132
+msgid "Add chapter"
+msgstr "Adicionar aula"
 
 #: questions/templates/questions/conditions.html:5
 msgid "TERMS AND CONDITIONS"
@@ -496,6 +551,78 @@ msgstr "Se você ainda possui alguma dúvida ou preocupações sobre este "
 msgid "please contact us at: "
 msgstr "contate-nos em:"
 
+#: questions/templates/questions/edit_problem.html:10
+#: questions/templates/questions/new_problem.html:12
+msgid "Add problem"
+msgstr "Adicionar problema"
+
+#: questions/templates/questions/edit_problem.html:15
+#: questions/templates/questions/new_problem.html:23
+#: questions/templates/questions/past_problems.html:12
+msgid "Title"
+msgstr "Título"
+
+#: questions/templates/questions/edit_problem.html:19
+#: questions/templates/questions/new_problem.html:27
+msgid "Question type"
+msgstr "Tipo de questão"
+
+#: questions/templates/questions/edit_problem.html:34
+#: questions/templates/questions/new_problem.html:42
+msgid "Cluster"
+msgstr "Cluster"
+
+#: questions/templates/questions/edit_problem.html:40
+#: questions/templates/questions/new_problem.html:48
+msgid "Content"
+msgstr "Conteúdo"
+
+#: questions/templates/questions/edit_problem.html:52
+#: questions/templates/questions/new_problem.html:62
+msgid "Header"
+msgstr "Header"
+
+#: questions/templates/questions/edit_problem.html:56
+#: questions/templates/questions/new_problem.html:66
+msgid "Tip"
+msgstr "Dica"
+
+#: questions/templates/questions/edit_problem.html:61
+#: questions/templates/questions/new_problem.html:71
+msgid "Test case generator"
+msgstr "Gerador de casos de teste"
+
+#: questions/templates/questions/edit_problem.html:69
+#: questions/templates/questions/new_problem.html:87
+msgid "Options"
+msgstr "Opções"
+
+#: questions/templates/questions/edit_problem.html:70
+#: questions/templates/questions/new_problem.html:88
+msgid "Select the correct option"
+msgstr "Selecione a opção correta"
+
+#: questions/templates/questions/edit_problem.html:72
+#: questions/templates/questions/edit_problem.html:124
+#: questions/templates/questions/new_problem.html:90
+#: questions/templates/questions/new_problem.html:142
+msgid "Option"
+msgstr "Opção"
+
+#: questions/templates/questions/edit_problem.html:75
+#: questions/templates/questions/new_problem.html:93
+msgid "Add Option"
+msgstr "Adicionar opção"
+
+#: questions/templates/questions/edit_problem.html:80
+#: questions/templates/questions/edit_problem.html:81
+#: questions/templates/questions/new_problem.html:98
+#: questions/templates/questions/new_problem.html:99
+#: questions/templates/questions/show_problem.html:51
+#: questions/templates/questions/show_problem.html:68
+msgid "Answer"
+msgstr "Responder"
+
 #: questions/templates/questions/finished.html:6
 msgid "You finished all available problems in"
 msgstr "Você terminou todos os problemas disponíveis no modo"
@@ -576,10 +703,6 @@ msgstr "Passou em"
 #: questions/templates/questions/past_problems.html:11
 msgid "Timestamp"
 msgstr "Timestamp"
-
-#: questions/templates/questions/past_problems.html:12
-msgid "Title"
-msgstr "Título"
 
 #: questions/templates/questions/past_problems.html:13
 msgid "Status"
@@ -823,25 +946,32 @@ msgid "Run"
 msgstr "Executar"
 
 #: questions/templates/questions/show_problem.html:29
-#: questions/templates/questions/show_problem.html:51
-#: questions/templates/questions/show_problem.html:68
+#: questions/templates/questions/show_problem.html:52
+#: questions/templates/questions/show_problem.html:69
 msgid "Next"
 msgstr "Próximo"
 
 #: questions/templates/questions/show_problem.html:30
-#: questions/templates/questions/show_problem.html:52
-#: questions/templates/questions/show_problem.html:69
+#: questions/templates/questions/show_problem.html:53
+#: questions/templates/questions/show_problem.html:70
 msgid "Skip"
 msgstr "Pular"
 
-#: questions/templates/questions/show_problem.html:50
-#: questions/templates/questions/show_problem.html:67
-msgid "Answer"
-msgstr "Responder"
+#: questions/templates/questions/show_problem.html:32
+msgid "Running function"
+msgstr "Executando função"
 
-#: questions/templates/questions/show_problem.html:63
+#: questions/templates/questions/show_problem.html:64
 msgid "Type output here"
 msgstr "Digite a saída aqui"
+
+#: questions/templates/questions/solutions.html:17
+msgid "Student"
+msgstr "Aluno"
+
+#: questions/templates/questions/solutions.html:17
+msgid "Submissions"
+msgstr "Submissões"
 
 #: questions/templates/registration/login.html:17
 msgid "Please login to see this page."
@@ -917,11 +1047,6 @@ msgstr "Cadastrar"
 #, fuzzy
 #~| msgid "Chapter"
 #~ msgid "Chapter123"
-#~ msgstr "Aula"
-
-#, fuzzy
-#~| msgid "Chapter"
-#~ msgid "chapter"
 #~ msgstr "Aula"
 
 #, fuzzy
