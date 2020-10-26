@@ -343,6 +343,7 @@ def show_solutions(request, problem_id, class_id):
                                           log["user__last_name"])
                 student = {'name':student_name,'logs':[]}
             student['logs'].append(log)
+        students.append(student)
     problem = get_problem(problem_id)
 
     return render(request, 'questions/solutions.html', {'problem': problem,
