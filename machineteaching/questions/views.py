@@ -322,7 +322,9 @@ def get_user_solution(request, id):
 def show_solutions(request, problem_id, class_id):
     logs = UserLog.objects.filter(
                 user__userprofile__user_class=class_id,
-                problem_id=problem_id).order_by('user_id',
+                problem_id=problem_id).order_by('user__first_name',
+                                                'user__last_name',
+                                                'user_id',
                                                 '-timestamp').values('user_id',
                                                                      'user__first_name',
                                                                      'user__last_name',
