@@ -60,7 +60,7 @@
     <div id="container3">
     <div>
     <div class="label">{% trans 'Header' %}</div>
-    <input type="text" name="header" id="id_header">
+    <input type="text" name="header" value="{{solution_form.header.value|default_if_none:""}}" id="id_header">
     </div>
 
     <div class="label">{% trans 'Tip' %}</div>
@@ -76,6 +76,9 @@
     for i in range(num_tests):
         tests.append([random.randint(0, 10)])
     return tests</textarea>
+    {% for message in problem_form.test_case_generator.errors %}
+    <span style="color: red; font-weight: normal; margin:10px;">{{ message }}</span></br>
+    {% endfor %}
     </div>
     </div>
     </div>
@@ -125,7 +128,7 @@
     extraKeys: { Tab: betterTab },
     theme: "paraiso-dark"
     });
-    editor2.setSize('100%',185)
+    editor2.setSize('100%',145)
 
 $(document).ready(function() {
 

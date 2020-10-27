@@ -216,12 +216,6 @@ def new_chapter(request):
     return redirect('chapters', chapter=chapter.id)
 
 @permission_required('questions.view_userlogview', raise_exception=True)
-def delete_chapter(request, chapter):
-    chapter = Chapter.objects.get(pk=chapter)
-    chapter.delete()
-    return redirect('chapters')
-
-@permission_required('questions.view_userlogview', raise_exception=True)
 @login_required
 def show_outcome(request):
     outcomes = []
@@ -349,6 +343,7 @@ def show_solutions(request, problem_id, class_id):
                                           log["user__last_name"])
                 student = {'name':student_name,'logs':[]}
             student['logs'].append(log)
+        students.append(student)
     problem = get_problem(problem_id)
 
     return render(request, 'questions/solutions.html', {'problem': problem,
@@ -423,14 +418,12 @@ def new_problem(request):
         if problem_form.is_valid() and solution_form.is_valid():
             problem = problem_form.save()
             solution = solution_form.save(commit=False)
-
             problem.question_type = solution_form.cleaned_data.get('question_type')
             solution.content = solution_form.cleaned_data.get('solution')
             solution.problem_id = problem.id
-
             problem.save()
             solution.save()
-            success(request, problem.title+' was added')
+
         else:
             error(request, 'The problem was not added')
 
@@ -445,5 +438,3 @@ def new_problem(request):
         'solution_form': solution_form,
         'chapters': chapters
         })
-
-
