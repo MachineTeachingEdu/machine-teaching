@@ -1,6 +1,7 @@
 import logging
 from questions.models import Problem, Solution, TestCase
 import json
+import copy
 
 LOGGER = logging.getLogger(__name__)
 
@@ -22,7 +23,9 @@ def get_problem(problem_id):
         exec(function_obj)
 
         # For each test case, get expected output
-        for args in test_case:
+        for args_case in test_case:
+            # Make list deepcopy
+            args = copy.deepcopy(args_case)
             expected_results.append(str(eval(solution.header)(*args)))
         #print(expected_results)
         #except Problem.DoesNotExist:
