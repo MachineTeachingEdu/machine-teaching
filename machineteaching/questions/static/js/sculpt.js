@@ -2,7 +2,7 @@
 // to a pre element.
 function outf(text) {
     var mypre = document.getElementById("output");
-    mypre.innerHTML = mypre.innerHTML + text + '\n';
+    mypre.innerHTML = mypre.innerHTML + text;
 }
 function builtinRead(x) {
     if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
@@ -100,11 +100,11 @@ function runit(args, func, expected_results) {
        console.log(item);
        //prog_args = prog + "\nprint(" + func + "(*" + JSON.stringify(item) + "))";
        //prog_args = prog + "\nprint(" + func + "(*" + item + "))";
-       prog_args = `try:
-        ` + prog +`
+       prog_args = prog + `
+try:
     print(` + func + `(*` + item + `))
 except Exception as err:
-        print(err)`
+    print(err)`
        console.log(prog_args);
        var myPromise = Sk.misceval.asyncToPromise(function() {
            return Sk.importMainWithBody("<stdin>", false, prog_args, true);
