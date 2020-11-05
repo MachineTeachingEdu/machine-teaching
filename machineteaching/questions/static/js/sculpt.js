@@ -99,7 +99,12 @@ function runit(args, func, expected_results) {
        item = args[i];
        console.log(item);
        //prog_args = prog + "\nprint(" + func + "(*" + JSON.stringify(item) + "))";
-       prog_args = prog + "\nprint(" + func + "(*" + item + "))";
+       //prog_args = prog + "\nprint(" + func + "(*" + item + "))";
+       prog_args = prog + `
+try:
+    print(` + func + `(*` + item + `))
+except Exception as err:
+    print(repr(err))`
        console.log(prog_args);
        var myPromise = Sk.misceval.asyncToPromise(function() {
            return Sk.importMainWithBody("<stdin>", false, prog_args, true);
@@ -110,7 +115,7 @@ function runit(args, func, expected_results) {
       },
            function(err) {
            console.log(err.toString());
-           document.getElementById("output").innerHTML = err.toString();
+           document.getElementById("output").innerHTML += err.toString();
        });
    };
 
