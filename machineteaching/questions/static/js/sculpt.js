@@ -1,8 +1,11 @@
 // output functions are configurable.  This one just appends some text
 // to a pre element.
+
+correct_results = [];
 function outf(text) {
-    var mypre = document.getElementById("output");
-    mypre.innerHTML = mypre.innerHTML + text;
+    correct_results.push(text);
+/*    var mypre = document.getElementById("output");
+    mypre.innerHTML = mypre.innerHTML + text;*/
 }
 function builtinRead(x) {
     if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
@@ -24,20 +27,20 @@ function evaluate(args, expected_results){
 
     // For each test, compare results
     for (i = 0; i < expected_results.length; i++){
-        console.log(answers[i]);
+        //console.log(answers[i]);
         try {
             answers_parsed = JSON.parse(answers[i].replace(/'/g, '"'));
         }
         catch(e) {
             answers_parsed = answers[i];
         }
-        console.log(answers_parsed)
+        //console.log(answers_parsed)
         try {
             expected_results_parsed = JSON.parse(expected_results[i].replace(/'/g, '"'));
         } catch(e) {
             expected_results_parsed = expected_results[i];
         }
-        console.log(expected_results_parsed);
+        //console.log(expected_results_parsed);
         eval_table.innerHTML += "<tr><td>Input:</td><td>" + args[i] + "</td></tr><tr><td>Expected output:</td><td>" + expected_results[i] + "</td></tr><tr><td>Your output:</td><td>" + answers[i] + "</td></tr>";
         try {
             if (JSON.stringify(expected_results_parsed, Object.keys(expected_results_parsed).sort()) == JSON.stringify(answers_parsed, Object.keys(answers_parsed).sort())){
@@ -88,6 +91,7 @@ function runit(args, func, expected_results) {
    // Prepare output display
    var mypre = document.getElementById("output");
    mypre.innerHTML = '';
+   let results = [];
    Sk.pre = "output";
    Sk.configure({output:outf, read:builtinRead, __future__: Sk.python3, execLimit: 300});
    (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'mycanvas';
@@ -97,35 +101,56 @@ function runit(args, func, expected_results) {
 
    for (i = 0; i < args.length; i++) {
        item = args[i];
-       console.log(item);
+       //console.log(item);
        //prog_args = prog + "\nprint(" + func + "(*" + JSON.stringify(item) + "))";
-       //prog_args = prog + "\nprint(" + func + "(*" + item + "))";
-       prog_args = prog + `
-try:
-    print(` + func + `(*` + item + `))
-except Exception as err:
-    print(repr(err))`
+       prog_args = prog + "\nprint(" + func + "(*" + item + "))";
+       // prog_args = prog + `
+// try:
+    // print(` + func + `(*` + item + `))
+// except Exception as err:
+    // print(repr(err))`
        console.log(prog_args);
        var myPromise = Sk.misceval.asyncToPromise(function() {
            return Sk.importMainWithBody("<stdin>", false, prog_args, true);
        });
        myPromise.then(function(mod) {
+           results.push('success');
            console.log('success');
-           console.log(document.getElementById("output").innerHTML);
+           //console.log(document.getElementById("output").innerHTML);
       },
            function(err) {
+           results.push(err.toString() + '\n');
            console.log(err.toString());
-           document.getElementById("output").innerHTML += err.toString();
+           /*document.getElementById("output").innerHTML += err.toString() + '\n';*/
        });
    };
 
-   // Evaluate results
-   seconds_end_page = performance.now()
-   seconds_in_page = Math.round((seconds_end_page - seconds_begin_page)/1000);
-   console.log("seconds in page:" + seconds_in_page);
+   // Wait for async run to finish
    setTimeout(function(){
+       //Write results in console
+       var final_results = [];
+       var correct_items = 0;
+       console.log(results);
+       console.log(results.length);
+       console.log(correct_results);
+       for (i = 0; i < args.length; i++) {
+               console.log(results[0])
+           if (results[i] == 'success') {
+               final_results.push(correct_results[correct_items]);
+               correct_items++;
+           } else {
+               final_results.push(results[i]);
+           }
+       }
+       console.log(final_results);
+       mypre.innerHTML = final_results.join('');
+
+       // Evaluate results
+       seconds_end_page = performance.now()
+       seconds_in_page = Math.round((seconds_end_page - seconds_begin_page)/1000);
+       console.log("seconds in page:" + seconds_in_page);
        evaluate(args, expected_results);
-   }, 2000);
+       }, 2000);
 };
 
 function skipit() {
