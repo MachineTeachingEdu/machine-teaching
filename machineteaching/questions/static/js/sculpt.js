@@ -104,7 +104,7 @@ function runit(args, func, expected_results) {
 try:
     print(` + func + `(*` + item + `))
 except Exception as err:
-    print(err)`
+    print(repr(err))`
        console.log(prog_args);
        var myPromise = Sk.misceval.asyncToPromise(function() {
            return Sk.importMainWithBody("<stdin>", false, prog_args, true);
