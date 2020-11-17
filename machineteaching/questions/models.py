@@ -105,7 +105,8 @@ class OnlineClass(models.Model):
 class Deadline(models.Model):
     deadline = models.DateTimeField(blank=False, null=False)
     chapter = models.ForeignKey(Chapter, on_delete=models.CASCADE)
-    onlineclass = models.ManyToManyField(OnlineClass)
+    onlineclass = models.ManyToManyField(OnlineClass,
+                                         limit_choices_to={'active': True})
     history = HistoricalRecords()
 
     class Meta:
