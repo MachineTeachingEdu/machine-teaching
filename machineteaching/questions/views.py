@@ -15,8 +15,10 @@ import json
 from functools import wraps
 import time
 from questions.models import (Problem, Solution, UserLog, UserProfile,
-                              Professor, OnlineClass, UserLogView, Chapter, TestCase)
-from questions.forms import UserLogForm, SignUpForm, OutcomeForm, ChapterForm, ProblemForm, SolutionForm
+                              Professor, OnlineClass, UserLogView, Chapter,
+                              Deadline)
+from questions.forms import (UserLogForm, SignUpForm, OutcomeForm, ChapterForm,
+                             ProblemForm, SolutionForm)
 from questions.get_problem import get_problem
 from questions.strategies import STRATEGIES_FUNC
 
@@ -163,11 +165,16 @@ def get_student_solutions(request, id, chapter=None, problem=None):
 
 @login_required
 def get_chapter_problems(request, chapter=None):
-    available_chapters = request.user.userprofile.user_class.chapter.all()
-    try:
+    LOGGER.debug("Chapter: %s" % chapter)
+    onlineclass = request.user.userprofile.user_class
+    deadline_chapters = Deadline.objects.filter(onlineclass=onlineclass
+                                                ).values_list('chapter',
+                                                              flat=True)
+    available_chapters = Chapter.objects.filter(id__in=deadline_chapters)
+    if chapter is not None:
         chapter = Chapter.objects.get(pk=chapter)
         problems = Problem.objects.filter(chapter=chapter).distinct()
-    except:
+    else:
         problems = Problem.objects.filter(chapter__in=available_chapters).distinct()
 
     if request.method == "POST":
