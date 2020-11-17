@@ -3,17 +3,15 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
-from django.utils.translation import ugettext_lazy as _
-import random
-# from django.urls import reverse
-from questions.models import UserLog, Professor, OnlineClass, Chapter, Problem, Solution, create_test_cases
-from questions.get_problem import get_problem
 from django.utils.translation import gettext as _
+from questions.models import UserLog, OnlineClass, Chapter, Problem, Solution
+
 
 class UserLogForm(ModelForm):
     class Meta:
         model = UserLog
         exclude = ['timestamp', 'user', 'error_type']
+
 
 class SignUpForm(UserCreationForm):
     PROGRAMMING = (("no", _("No")),
@@ -50,11 +48,12 @@ class SignUpForm(UserCreationForm):
             raise forms.ValidationError(_(u'Invalid Class Code.'))
         return class_code
 
+
 class OutcomeForm(forms.Form):
     onlineclass = forms.ModelChoiceField(queryset=OnlineClass.objects.all(), label=_(u'Class'))
     chapter = forms.ModelChoiceField(queryset=Chapter.objects.all(), label=_(u'Chapter'))
 
-    def __init__(self, *args, **kwargs): 
+    def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
         super(OutcomeForm, self).__init__(*args, **kwargs)
 
@@ -96,7 +95,7 @@ class SolutionForm(forms.ModelForm):
                    ("T", _("Text")))
     solution = forms.CharField(widget=forms.Textarea)
     question_type = forms.ChoiceField(choices=QUESTION_TYPES)
-        
+
     def __init__(self, *args, **kwargs):
         super(SolutionForm, self).__init__(*args, **kwargs)
         self.fields['problem'].required = False
@@ -116,5 +115,3 @@ class SolutionForm(forms.ModelForm):
             except Exception as e:
                 self.add_error("solution", e)
         return self.cleaned_data
-
-

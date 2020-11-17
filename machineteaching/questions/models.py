@@ -31,9 +31,61 @@ class Chapter(models.Model):
         verbose_name_plural = _('Chapters')
 
 
+class ProblemManager(models.Manager):
+    def random(self):
+        count = self.aggregate(count=Count('id'))['count']
+        random_index = randint(0, count - 1)
+        return self.all()[random_index]
+
+
+class Problem(models.Model):
+    QUESTION_TYPES = (("C", "Code"),
+                      ("M", "Multiple Choice"),
+                      ("T", "Text"))
+
+    question_type = models.CharField(max_length=2, choices=QUESTION_TYPES, default="C")
+    title = models.CharField(max_length=200, blank=False)
+    content = models.TextField(blank=False)
+    options = models.TextField(blank=True)
+    difficulty = models.CharField(max_length=200, blank=True)
+    link = models.URLField(blank=True)
+    retrieved_date = models.DateTimeField(blank=True, auto_now_add=True)
+    crawler = models.CharField(max_length=200, blank=True)
+    hint = models.TextField(blank=True)
+    objects = ProblemManager()
+    chapter = models.ManyToManyField(Chapter, through='ExerciseSet')
+    test_case_generator = models.TextField(blank=True, null=True)
+    history = HistoricalRecords()
+
+    def __unicode__(self):
+        return self.title
+
+    def __str__(self):
+        return "%d - %s" % (self.id, self.title)
+
+    class Meta:
+        verbose_name = _('Problem')
+        verbose_name_plural = _('Problems')
+
+class ExerciseSet(models.Model):
+    chapter = models.ForeignKey(Chapter, on_delete=models.CASCADE)
+    problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
+    order = models.PositiveIntegerField()
+
+    def __unicode__(self):
+        return "%d - %s" % (self.order, self.problem)
+
+    def __str__(self):
+        return "%d - %s" % (self.order, self.problem)
+
+    class Meta:
+        verbose_name = _('Exercise Set')
+        verbose_name_plural = _('Exercises Sets')
+
+
 class OnlineClass(models.Model):
     name = models.CharField(max_length=200, blank=False)
-    chapter = models.ManyToManyField(Chapter)
+    # chapter = models.ManyToManyField(Chapter)
     class_code = models.CharField(unique=True, max_length=200, null=True)
     active = models.BooleanField(default=True)
     start_date = models.DateField(blank=True)
@@ -50,9 +102,26 @@ class OnlineClass(models.Model):
         return "%s" % self.name
 
 
+class Deadline(models.Model):
+    deadline = models.DateTimeField(blank=False, null=False)
+    chapter = models.ForeignKey(Chapter, on_delete=models.CASCADE)
+    onlineclass = models.ManyToManyField(OnlineClass)
+    history = HistoricalRecords()
+
+    class Meta:
+        verbose_name = _('Deadline')
+        verbose_name_plural = _('Deadlines')
+
+    def __unicode__(self):
+        return "%s - %s" % (self.chapter, self.deadline)
+
+    def __str__(self):
+        return "%s - %s" % (self.chapter, self.deadline)
+
+
 class Professor(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    prof_class = models.ManyToManyField(OnlineClass)
+    prof_class = models.ManyToManyField(OnlineClass, related_name='professor')
     assistant = models.BooleanField(default=False)
     active = models.BooleanField(default=True)
     history = HistoricalRecords()
@@ -106,43 +175,6 @@ class Cluster(models.Model):
 
     def __str__(self):
         return "%d - %s" % (self.id, self.label)
-
-
-class ProblemManager(models.Manager):
-    def random(self):
-        count = self.aggregate(count=Count('id'))['count']
-        random_index = randint(0, count - 1)
-        return self.all()[random_index]
-
-
-class Problem(models.Model):
-    QUESTION_TYPES = (("C", "Code"),
-                      ("M", "Multiple Choice"),
-                      ("T", "Text"))
-
-    question_type = models.CharField(max_length=2, choices=QUESTION_TYPES, default="C")
-    title = models.CharField(max_length=200, blank=False)
-    content = models.TextField(blank=False)
-    options = models.TextField(blank=True)
-    difficulty = models.CharField(max_length=200, blank=True)
-    link = models.URLField(blank=True)
-    retrieved_date = models.DateTimeField(blank=True, auto_now_add=True)
-    crawler = models.CharField(max_length=200, blank=True)
-    hint = models.TextField(blank=True)
-    objects = ProblemManager()
-    chapter = models.ManyToManyField(Chapter)
-    test_case_generator = models.TextField(blank=True, null=True)
-    history = HistoricalRecords()
-
-    def __unicode__(self):
-        return self.title
-
-    def __str__(self):
-        return "%d - %s" % (self.id, self.title)
-
-    class Meta:
-        verbose_name = _('Problem')
-        verbose_name_plural = _('Problems')
 
 
 class Solution(models.Model):
