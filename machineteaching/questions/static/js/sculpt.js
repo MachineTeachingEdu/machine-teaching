@@ -143,6 +143,8 @@ function runit(args, func, expected_results) {
            }
        }
        console.log(final_results);
+       // Empty correct_results
+       correct_results = []
        mypre.innerHTML = final_results.join('');
 
        // Evaluate results

@@ -43,7 +43,8 @@ class Problem(models.Model):
                       ("M", "Multiple Choice"),
                       ("T", "Text"))
 
-    question_type = models.CharField(max_length=2, choices=QUESTION_TYPES, default="C")
+    question_type = models.CharField(max_length=2, choices=QUESTION_TYPES,
+                                     default="C")
     title = models.CharField(max_length=200, blank=False)
     content = models.TextField(blank=False)
     options = models.TextField(blank=True)
@@ -66,6 +67,7 @@ class Problem(models.Model):
     class Meta:
         verbose_name = _('Problem')
         verbose_name_plural = _('Problems')
+
 
 class ExerciseSet(models.Model):
     chapter = models.ForeignKey(Chapter, on_delete=models.CASCADE)
@@ -260,6 +262,17 @@ class UserModel(models.Model):
         return "%s" % self.user
 
 
+class UserLogError(models.Model):
+    userlog = models.ForeignKey(UserLog, on_delete=models.CASCADE)
+    error = models.CharField(max_length=255)
+
+    def __unicode__(self):
+        return "%s: %s" % (self.userlog.user, self.error)
+
+    def __str__(self):
+        return "%s: %s" % (self.userlog.user, self.error)
+
+
 @receiver(post_save, sender=User)
 def create_user_model(sender, instance, created, **kwargs):
     if created:
@@ -338,3 +351,19 @@ def create_test_cases(sender, instance, created, **kwargs):
                 test_case.problem = instance
                 test_case.content = json.dumps(item)
                 test_case.save()
+
+
+@receiver(post_save, sender=UserLog)
+def create_userlog_error(sender, instance, created, **kwargs):
+    if instance.outcome == 'F' and instance.console != '':
+        user_errors = instance.console.split('\n')
+        # TODO: This is considering that Python errors have the word Error on
+        # them. More elaborate strategies to log this are welcome.
+        clean_errors = list(set([error.split(":")[0] for error in
+                            user_errors if "Error" in error.split(":")[0]]))
+        # Add error to Log Error model
+        for error in clean_errors:
+            log_error = UserLogError()
+            log_error.userlog = instance
+            log_error.error = error
+            log_error.save()
