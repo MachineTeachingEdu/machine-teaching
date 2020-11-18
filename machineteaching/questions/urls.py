@@ -22,7 +22,7 @@ urlpatterns = [
          views.get_student_solutions,
          name='student_solutions'),
     path('chapters', views.get_chapter_problems, name='chapters'),
-    path('chapters/<int:chapter>', views.get_chapter_problems, name='chapters'),
+    path('chapters/<int:chapter>', views.show_chapter, name='show_chapter'),
     path('new_chapter', views.new_chapter, name='new_chapter'),
     path('new', views.new_problem, name='new'),
     path('outcomes', views.show_outcome, name='show_outcome'),

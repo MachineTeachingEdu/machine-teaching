@@ -1,24 +1,12 @@
 from django.contrib import admin
 from .models import (Problem, Solution, TestCase, UserLog, Cluster, UserModel,
-                     UserProfile, Professor, OnlineClass, Chapter)
+                     UserProfile, Professor, OnlineClass, Chapter, Deadline,
+                     ExerciseSet, UserLogError)
 from simple_history.admin import SimpleHistoryAdmin
 from import_export.admin import ExportActionMixin
 
 
 # Register your models here.
-@admin.register(Problem)
-class ProblemAdmin(SimpleHistoryAdmin):
-    list_display = ('id', 'title', 'content', 'chapter_all', 'question_type')
-    search_fields = ['id', 'title']
-    list_filter = ('chapter', 'question_type')
-    filter_horizontal = ('chapter',)
-    exclude = ('crawler', 'hint')
-
-    def chapter_all(self, obj):
-        return ", ".join(list(obj.chapter.all().values_list(
-            "label", flat=True)))
-
-
 @admin.register(Solution)
 class SolutionAdmin(SimpleHistoryAdmin):
     list_display = ('id', 'problem', 'content', 'cluster')
@@ -89,7 +77,6 @@ class OnlineClassAdmin(SimpleHistoryAdmin):
     exclude = ('class_code',)
     list_display = ('name', 'class_code', 'active', 'start_date')
     list_filter = ('active',)
-    filter_horizontal = ('chapter',)
 
     def get_queryset(self, request):
         qs = super(OnlineClassAdmin, self).get_queryset(request)
@@ -97,6 +84,42 @@ class OnlineClassAdmin(SimpleHistoryAdmin):
             return qs
         return qs.filter(active=True)
 
+
+class ExerciseSetInline(admin.TabularInline):
+    model = ExerciseSet
+    extra = 1
+
+
+@admin.register(Problem)
+class ProblemAdmin(SimpleHistoryAdmin):
+    list_display = ('id', 'title', 'content', 'chapter_all', 'question_type')
+    search_fields = ['id', 'title']
+    list_filter = ('chapter', 'question_type')
+    filter_horizontal = ('chapter',)
+    exclude = ('crawler', 'hint')
+    inlines = (ExerciseSetInline,)
+
+    def chapter_all(self, obj):
+        return ", ".join(list(obj.chapter.all().values_list(
+            "label", flat=True)))
+
+
+@admin.register(Chapter)
+class ChapterAdmin(SimpleHistoryAdmin):
+    inlines = (ExerciseSetInline,)
+
+
+@admin.register(Deadline)
+class DeadlineAdmin(SimpleHistoryAdmin):
+    filter_horizontal = ('onlineclass',)
+
+    def get_queryset(self, request):
+        qs = super(DeadlineAdmin, self).get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(onlineclass__professor__user=request.user)
+
+
 admin.site.register(Cluster)
 admin.site.register(UserModel)
-admin.site.register(Chapter, SimpleHistoryAdmin)
+admin.site.register(UserLogError)

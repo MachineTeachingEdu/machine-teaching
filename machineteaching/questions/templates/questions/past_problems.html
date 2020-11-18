@@ -1,71 +1,78 @@
 {% extends "questions/base.html" %}
 {% load static %}
 {% load i18n %}
-
 {% block content %}
-{{ get_current_language }}
-<h2>Nome: {{ student.first_name }} {{student.last_name}}</h2>
-<table id="problems" class="past-problems">
+<div class="col col-12">
+  <div class="card">
+    <table id="past-problems">
     <thead>
-    <tr>
-        <th>{% trans "Timestamp" %}</th>
         <th class="searchable">{% trans "Title" %}</th>
+        <th>{% trans "Day" %}</th>
+        <th>{% trans "Time" %}</th>
         <th class="searchable">{% trans "Status" %}</th>
         <th>{% trans "Solution" %}</th>
-    </tr>
     </thead>
     <tbody>
     {% for item in past_problems %}
     <tr>
-        <td>{{ item.timestamp|date:'Y-m-d H:i:s'}}</td>
         <td>{{ item.problem.title }}</td>
+        <td>{{ item.timestamp|date:'d/m/Y'}}</td>
+        <td>{{ item.timestamp|date:'H:m'}}</td>
         {% if item.outcome == 'P' %}
-        <td><span class="passed">{% trans "Passed" %}</span></td>
-        <td><a href={% url 'past_solutions' id=item.id %}>{% trans "See submitted solution" %}</a></td>
+        <td>
+            <span class="badge success">
+            {% blocktrans %}Passed{% endblocktrans %}
+            </span></td>
+        <td><a class="link" href={% url 'past_solutions' id=item.id %}>{% trans "See submitted solution" %}</a></td>
         {% elif item.outcome == 'F' %}
-        <td><span class="failed">{% trans "Failed" %}</span></td>
-        <td><a href={% url 'past_solutions' id=item.id %}>{% trans "See submitted solution" %}</a></td>
+        <td>
+            <span class="badge danger">
+            {% blocktrans %}Failed{% endblocktrans %}
+            </span></td>
+        <td><a class="link" href="{% url 'past_solutions' id=item.id %}">{% trans "See submitted solution" %}</a></td>
         {% else %}
-        <td><span class="skipped">{% trans "Skipped" %}</span></td>
+        <td>
+            <span class="badge warning">
+            {% blocktrans %}Skipped{% endblocktrans %}
+            </span></td>
         <td></td>
         {% endif %}
     </tr>
     {% endfor %}
     </tbody>
 </table>
+</div>
+</div>
 {% endblock %}
-
 {% block javascript %}
-<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-<script>
-    $(document).ready(function() {
-        $('#problems').dataTable({
-            "pageLength": 50,
-            "order": [[ 0, "desc" ]],
-            {% get_current_language as language %}
-            {% if language == 'pt-br' %}
-            "language": {
-                    "sEmptyTable": "Nenhum registro encontrado",
-                    "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
-                    "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
-                    "sInfoFiltered": "(Filtrados de _MAX_ registros)",
-                    "sInfoPostFix": "",
-                    "sInfoThousands": ".",
-                    "sLengthMenu": "mostrar_MENU_ por página",
-                    "sLoadingRecords": "Carregando...",
-                    "sProcessing": "Processando...",
-                    "sZeroRecords": "Nenhum registro encontrado",
-                    "sSearch": "Pesquisar",
-                    "oPaginate": {
-                        "sNext": "Próximo",
-                        "sPrevious": "Anterior",
-                        "sFirst": "Primeiro",
-                        "sLast": "Último"
-                    }
-                }
-            {% endif %}
-        });
-    } );
+<script type="text/javascript">
+//table settings
+$('#past-problems').DataTable({
+    "bInfo": false,
+    {% get_current_language as language %}
+    {% if language == 'pt-br' %}
+    "language": {
+            "sEmptyTable": "Nenhum registro encontrado",
+            "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+            "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+            "sInfoPostFix": "",
+            "sInfoThousands": ".",
+            "sLengthMenu": "mostrar_MENU_ por página",
+            "sLoadingRecords": "Carregando...",
+            "sProcessing": "Processando...",
+            "sZeroRecords": "Nenhum registro encontrado",
+            "sSearch": "Pesquisar",
+            "oPaginate": {
+                "sNext": "Próximo",
+                "sPrevious": "Anterior",
+                "sFirst": "Primeiro",
+                "sLast": "Último"
+            }
+        }
+    {% endif %}
+});
+$('.dataTables_filter').html('');
+//<input type="text" aria-controls="past-problems" placeholder="Pesquisar" id="search">
 </script>
 {% endblock %}

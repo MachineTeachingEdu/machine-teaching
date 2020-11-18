@@ -1,0 +1,71 @@
+{% load static %}
+{% load i18n %}
+{% get_current_language as language %}
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <title>{{title}} | Machine Teaching</title>
+        <meta charset="utf-8">
+
+        <!-- stylesheets -->
+        <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}" />
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+        <!-- scripts -->
+        <script type="text/javascript">
+              //logos
+              const ufrj = '{% static "img/logo/ufrj.png" %}'
+              const cnpq = '{% static "img/logo/cnpq.svg" %}'
+              const faperj = '{% static "img/logo/faperj.jpg" %}'
+              const dcc = '{% static "img/logo/dcc.png" %}'
+              const coppe = '{% static "img/logo/coppe.jpg" %}'
+              const pesc = '{% static "img/logo/pesc.png" %}'
+        </script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="{% static 'js/script.js' %}"></script>
+        <script src="{% static 'js/footer.js' %}"></script>
+        <script type="text/javascript" src="codemirror-5.58.2/lib/codemirror.js"></script>
+        <script type="text/javascript" src="codemirror-5.58.2/mode/python/python.js"></script>
+
+      </head>
+      <body>
+
+        <!-- header -->
+        <div class="bg">
+        <div class="landing">
+          <div class="header">
+            <a href="http://machineteaching.tech"><div class="mt">Machine Teaching</div></a>
+            <span class="change-language" onclick="changeLanguage('{{language}}')">
+                {% if language == 'en' %}Português
+                {% else %}English{% endif %}
+                <img src="{% static 'img/earth.png' %}">
+            </span>
+          </div>
+
+      <!-- content -->
+      {% block content %}
+      {% endblock %}
+
+      <!-- footer -->
+      <div class="footer" style="border-bottom: none;">
+          <div class="footer-left">Machine Teaching</div>
+          <div class="footer-right">
+            {% blocktrans %}Check the {% endblocktrans %}
+            <span onclick="showConditions('{{language}}')">
+            {% blocktrans %}Terms and Conditions{% endblocktrans %}
+            </span>
+            {% blocktrans %}and the {% endblocktrans %}
+            <span onclick="showPrivacy('{{language}}')">
+            {% blocktrans %}Privacy Policy{% endblocktrans %}
+            </span> | 
+            <span onclick="showAbout('{{language}}')">
+            {% blocktrans %}About this research{% endblocktrans %}
+            </span> | 
+            {% blocktrans %}© 2020 Copyright: <a href="http://machineteaching.tech">machineteaching.tech{% endblocktrans %}</a>
+          </div>
+        </div>
+
+      </div>
+      </div>
+    </body>
+</html>

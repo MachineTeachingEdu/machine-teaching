@@ -13,15 +13,15 @@ function builtinRead(x) {
     return Sk.builtinFiles["files"][x];
 }
 
-function correct() {
-    document.getElementById("next").style.display = "inline";
-    document.getElementById("skip").style.display = "none";
-    document.getElementById("next").onclick = gotoproblem;
+function passed() {
+  $('#next').attr('class', 'primary');
+  $('#next').attr('onclick', 'gotoproblem()');
+  $('#errors').css('color', '#CCCCCC');
 }
 
 function evaluate(args, expected_results){
-    eval_table = document.getElementById("evaluation");
-    eval_table.innerHTML = "";
+    eval_div = document.getElementById("evaluation");
+    eval_div.innerHTML = "";
     answers = document.getElementById("output").innerHTML.split("\n");
     errors = 0;
 
@@ -41,38 +41,64 @@ function evaluate(args, expected_results){
             expected_results_parsed = expected_results[i];
         }
         //console.log(expected_results_parsed);
-        eval_table.innerHTML += "<tr><td>Input:</td><td>" + args[i] + "</td></tr><tr><td>Expected output:</td><td>" + expected_results[i] + "</td></tr><tr><td>Your output:</td><td>" + answers[i] + "</td></tr>";
+        eval_div.innerHTML += `<div class="card test-case">
+                               <h3>${i+1}</h3>
+                               <div id="outcome-${i+1}"></div>
+                               <table>
+                                 <tr>
+                                   <td class="col-4">Input:</td>
+                                   <td class="col-8">${args[i]}</td>
+                                 </tr>
+                                 <tr>
+                                   <td class="col-4">Expected output:</td>
+                                   <td class="col-8">${expected_results[i]}</td>
+                                 </tr>
+                                 <tr>
+                                   <td class="col-4">Your output:</td>
+                                   <td class="col-8">${answers[i]}</td>
+                                 </tr>
+                               </table>
+                               </div>`;
+        var outcome = document.getElementById(`outcome-${i+1}`);
         try {
             if (JSON.stringify(expected_results_parsed, Object.keys(expected_results_parsed).sort()) == JSON.stringify(answers_parsed, Object.keys(answers_parsed).sort())){
             //if (JSON.stringify(expected_results[i]) == JSON.stringify(answers[i])){
-                eval_table.innerHTML += '<tr><td></td><td><span class="sucess">OK</span></td></tr>'
+                outcome.innerHTML += '<div class="badge success">Passed</div>'
             } else {
-                eval_table.innerHTML += '<tr><td></td><td><span class="danger">OOPS!</span></td></tr>'
+                outcome.innerHTML += '<div class="badge danger">Failed</div>'
                 errors++;
             };
         } catch(e) {
-            eval_table.innerHTML += '<tr><td></td><td><span class="danger">OOPS!</span></td></tr>'
+            outcome.innerHTML += '<div class="badge danger">Failed</div>'
             errors++;
         }
     }
 
+    $('#run').show();
+    $('.loader').hide();
+    $('.loader div').attr('style', 'width: 0;');
+
+    // Display test case result
+    $('.result').css('display','flex');
+    $('#outcome').html(`
+        <div ">${Math.round(expected_results.length-errors)}</div>
+        <div class="task-progress2">
+            <div class="passed" style="width:${100-100*errors/expected_results.length}%"></div>
+        </div>
+        <div id="errors">
+        ${Math.round(errors)}
+        </div>`);
+    $('#next').remove();
+    $('.result').append('<button type="button" onclick="gotoproblem()" class="primary disabled" id="next">Next</button>');
+
     // If no errors are found, go to the next problem
     if (errors == 0) {
-        correct()
-        document.getElementById("result").innerHTML = '<span class="correct" style="margin-bottom: 30px; margin-left: auto; margin-right: auto">✓</span>';
+        passed()
         save_log('P', seconds_in_code, seconds_to_begin, seconds_in_page);
     } else {
-        document.getElementById("result").innerHTML = '<div class="wrong" style="margin-bottom: 30px; margin-left: auto; margin-right: auto">X</div>';
         save_log('F', seconds_in_code, seconds_to_begin, seconds_in_page);
     };
 
-    //Display buttons and hide loader
-    document.getElementById("buttons").style.display="block";
-    document.getElementById("running").style.display="none";
-
-    // Display result divs
-    document.getElementById("output-div").style.display="block";
-    document.getElementById("testcase-div").style.display="block";
 }
 // Here's everything you need to run a python program in skulpt
 // grab the code from your textarea
@@ -80,10 +106,9 @@ function evaluate(args, expected_results){
 // configure the output function
 // call Sk.importMainWithBody()
 function runit(args, func, expected_results) {
-
-   //Hide buttons and display loader
-   document.getElementById("buttons").style.display="none";
-   document.getElementById("running").style.display="block";
+  $('#run').hide();
+  $('.loader').show();
+  $('.loader div').animate({width: '100%'}, 2000);
 
    // Get code
    var prog = editor.getValue();
@@ -143,6 +168,8 @@ function runit(args, func, expected_results) {
            }
        }
        console.log(final_results);
+       // Empty correct_results
+       correct_results = []
        mypre.innerHTML = final_results.join('');
 
        // Evaluate results

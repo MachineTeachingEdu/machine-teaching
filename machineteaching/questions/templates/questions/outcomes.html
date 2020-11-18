@@ -3,21 +3,35 @@
 {% load i18n %}
 
 {% block content %}
-<form action="{% url 'show_outcome' %}" method="post" class="outcome-filter">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <div style="text-align: center;">
-        <input type="submit" value="{% trans 'Search' %}" class="search"/>
-        <input type="submit" value="{% trans 'Export CSV' %}" class="export" formaction="{% url 'export' %}"/>
-    </div>
-</form>
+<div class="col col-12">
+<div class="card">
+    <form action="{% url 'show_outcome' %}" method="post" class="outcomes-form">
+        {% csrf_token %}
+        <h3>Pesquisar</h3>
+        <div class="search">
+            <div class="col-4">
+                <h4>Turma</h4>
+                {{ form.onlineclass }}
+            </div>
+            <div class="col-4">
+                <h4>Aula</h4>
+                {{ form.chapter }}
+            </div>
+        </div>
+        <div style="text-align: center;">
+            <button type="submit" class="primary">Pesquisar</button>
+            <input type="button" class="link" style="margin-left: 2rem; margin-right: 2rem; border: none;" formaction="{% url 'export' %}" value="Exportar CSV">
+        </div>
+    </form>
+</div>
 {% if problems %}
+<div class="card" style="overflow-x: auto; padding-bottom: 2rem">
 <table id="outcomes" class="outcomes">
     <thead>
     <tr>
         <th class="searchable">{% trans 'Students' %}</th>
         {% for item in problems %}
-        <th><a href="{% if item.question_type == "C" %}{% url 'solutions' problem_id=item.id class_id=class.id %}{% else%}#{% endif %}">{{ item.title }}</th>
+        <th><a class="link" href="{% if item.question_type == "C" %}{% url 'solutions' problem_id=item.id class_id=class.id %}{% else%}#{% endif %}">{{ item.title }}</a></th>
         {% endfor %}
         <th>{% trans "Total" %}</th>
     </tr>
@@ -26,64 +40,67 @@
     <tbody>
     {% for student in outcomes %}
     <tr>
-        <td> <a href={% url 'student_solutions' id=student.name.1 chapter=form.chapter.value%}>{{ student.name.0 }}</a> </td>
+        <td> <a class="link" href={% url 'student_solutions' id=student.name.1 chapter=form.chapter.value%}>{{ student.name.0 }}</a> </td>
         {% for item in student.outcomes %}
         <td>
-            {% if item.0 == "P" %} <span style="font-weight: normal; color: limegreen">{% trans "Passed at" %} <br>{{item.1}}</span>
-            {% elif item.0 == "F" %} <span style="font-weight: normal; color: red">{% trans "Failed" %}</span>
-            {% elif item.0 == "S" %} <span style="font-weight: normal; color: var(--color4)">{% trans "Skipped" %}</span>
+            {% if item.0 == "P" %}
+            <span class="badge success">{% trans "Passed at" %}</span><br>
+            <span class="badge success">{{item.1}}</span>
+            {% elif item.0 == "F" %}
+            <span class="badge danger">{% trans "Failed" %}</span>
+            {% elif item.0 == "S" %}
+            <span class="badge warning">{% trans "Skipped" %}</span>
             {% elif item.0 == None %}{% else %}
             {{ item }}
             {% endif %}
         </td>
         {% endfor %}
         <td>
-            <span class="passed total">{{student.total.P}} {% trans "Passed" %}</span>
-            <span class="failed total">{{student.total.F}} {% trans "Failed" %}</span>
-            <span class="skipped total">{{student.total.S}} {% trans "Skipped" %}</span>
+            <span class="badge success">{{student.total.P}} {% trans "Passed" %}</span>
+            <span class="badge danger">{{student.total.F}} {% trans "Failed" %}</span>
+            <span class="badge warning">{{student.total.S}} {% trans "Skipped" %}</span>
         </td>
     </tr>
     {% endfor %}
     </tbody>
 </table>
+</div>
 {% endif %}
-
+</div>
 {% endblock %}
 {% block javascript %}
-<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script>
-    console.log("{{form.chapter.value}}");
-    $(document).ready(function() {
-        var table = $('#outcomes').DataTable({
-            "columnDefs": [{
-                targets: "_all",
-                orderable: false
-            }],
-            "pageLength": 50,
-            {% get_current_language as language %}
-            {% if language == 'pt-br' %}
-            "language": {
-                    "sEmptyTable": "Nenhum registro encontrado",
-                    "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
-                    "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
-                    "sInfoFiltered": "(Filtrados de _MAX_ registros)",
-                    "sInfoPostFix": "",
-                    "sInfoThousands": ".",
-                    "sLengthMenu": "mostrar_MENU_ por página",
-                    "sLoadingRecords": "Carregando...",
-                    "sProcessing": "Processando...",
-                    "sZeroRecords": "Nenhum registro encontrado",
-                    "sSearch": "Pesquisar",
-                    "oPaginate": {
-                        "sNext": "Próximo",
-                        "sPrevious": "Anterior",
-                        "sFirst": "Primeiro",
-                        "sLast": "Último"
-                    }
-                }
-            {% endif %}
-        });
-    } );
+console.log("{{form.chapter.value}}");
+$('#outcomes').DataTable({
+    "columnDefs": [{
+        targets: "_all",
+        orderable: false
+    }],
+    "bInfo": false,
+    "order": [[ 0, "desc" ]],
+    "pageLength": 50,
+    {% get_current_language as language %}
+    {% if language == 'pt-br' %}
+    "language": {
+    "sEmptyTable": "Nenhum registro encontrado",
+    "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+    "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+    "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+    "sInfoPostFix": "",
+    "sInfoThousands": ".",
+    "sLengthMenu": "mostrar_MENU_ por página",
+    "sLoadingRecords": "Carregando...",
+    "sProcessing": "Processando...",
+    "sZeroRecords": "Nenhum registro encontrado",
+    "sSearch": "Pesquisar",
+    "oPaginate": {
+         "sNext": "Próximo",
+        "sPrevious": "Anterior",
+        "sFirst": "Primeiro",
+        "sLast": "Último"
+    }
+}
+{% endif %}
+});
 </script>
 {% endblock %}

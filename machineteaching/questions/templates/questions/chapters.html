@@ -1,156 +1,114 @@
 {% extends "questions/base.html" %}
 {% load static %}
 {% load i18n %}
-
 {% block content %}
+<div class="col col-4">
+    <div class="card" style="padding: 0.7rem 1rem">
+        <input type="text" name="search" placeholder="Pesquisar" id="search">
+    </div>
 
-<h2>{% trans 'Chapter' %}
-    <span id="aula">
-        <select id="id_chapter">
-            <option selected="selected" value="all">{% trans 'All' %}</option>
-            {% for item in available_chapters %}
-            <option {% if item == chapter %}selected="selected"{% endif %} value="{{ item.id }}">{{ item }}</option>
-            {% endfor %}
-        </select>
-        {% if perms.questions.view_userlogview %}
-        <form style="display: inline;" method="post">
-        <span id="form" style="display: none;">
-        {% csrf_token %}
-        {{ form.as_p }}
-        </span>
-        {% if chapter != none %}
-        <a id="edit" onclick="edit()">{% trans 'Edit chapter' %}</a>
-        <div>
-        <input id="update" type="submit" formaction="" class="delete" value="{% trans 'Update' %}">
+    <!-- chapters -->
+    {% for chapter in chapters.0 %}
+    <div class="card">
+        <div style="display: flex; align-items: center;">
+            <h3 class="col-9"><a href="{% url 'show_chapter' chapter=chapter.0.id %}" class="title-link">
+                {{ chapter.0 }}
+            </a></h3>
+        <!--<div class="task-progress col-3"><div style="width: 100%; background: var(--green)"></div></div>-->
         </div>
-        {% endif %}
-        <input id="add" type="submit" formaction="{% url 'new_chapter' %}" value="{% trans 'Add' %}">
-        {% endif %}
-    </form>
-    </span>
-    </h2>
-{% if perms.questions.view_userlogview %}
-<div class="edit">
-<a onclick="new_chapter()" id="btn"><b>+ </b>{% trans 'Add Chapter' %}</a>
-<a id="btn2" href="{% url 'new' %}"><b>+ </b>{% trans 'Add Problem' %}</a>
-</div>
-{% endif %}
-<table id="problems" class="chapters">
-    <thead>
-    <tr>
-        <th>{% trans "Chapter" %}</th>
-        <th class="searchable">{% trans "Problem" %}</th>
-        <th class="searchable">{% trans "Outcome" %}</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    {% for item in problems %}
-    <tr>
-        <td>{% for chapter in item.chapter.all %}
-            {{ chapter }}
+        <table>
+            {% for problem in chapter.1 %}
+            <tr class="row chapter" onclick="window.location='{% url 'show_problem' problem_id=problem.id %}';"> 
+                <td class="col-8">{{ problem.title }}</td>
+                <td class="col-4" style="text-align: right;">
+                    {% if problem.id in passed %}
+                    <span class="badge success">
+                    {% blocktrans %}Passed{% endblocktrans %}
+                    </span>
+                    {% elif problem.id in failed %}
+                    <span class="badge danger">
+                    {% blocktrans %}Failed{% endblocktrans %}
+                    </span>
+                    {% elif problem.id in skipped %}
+                    <span class="badge warning">
+                    {% blocktrans %}Skipped{% endblocktrans %}
+                    </span>
+                    {% endif %}
+                </td>
+            </tr>
             {% endfor %}
-        </td>
-        <td><a href={% url 'show_problem' problem_id=item.id %}>{{ item.title }}</a></td>
-        <td>{% if item.id in passed %}<span class="passed">{% trans "Passed" %}</span>{% else %}
-            {% if item.id in skipped %}<span class="skipped">{% trans "Skipped" %}</span>{% endif %}
-            {% if item.id in failed %}<span class="failed">{% trans "Failed" %}</span>{% endif %}
-            {% endif %}</td>
-    </tr>
+        </table>
+    </div>
     {% endfor %}
-    </tbody>
-</table>
+</div>
+<div class="col col-4">
+    {% for chapter in chapters.1 %}
+    <div class="card">
+        <div style="display: flex; align-items: center;">
+            <h3 class="col-9"><a href="{% url 'show_chapter' chapter=chapter.0.id %}" class="title-link">
+                {{ chapter.0 }}
+            </a></h3>
+        <!--<div class="task-progress col-3"><div style="width: 100%; background: var(--green)"></div></div>-->
+        </div>
+        <table>
+            {% for problem in chapter.1 %}
+            <tr class="row chapter" onclick="window.location='{% url 'show_problem' problem_id=problem.id %}';"> 
+                <td class="col-8">{{ problem.title }}</td>
+                <td class="col-4" style="text-align: right;">
+                    {% if problem.id in passed %}
+                    <span class="badge success">
+                    {% blocktrans %}Passed{% endblocktrans %}
+                    </span>
+                    {% elif problem.id in failed %}
+                    <span class="badge danger">
+                    {% blocktrans %}Failed{% endblocktrans %}
+                    </span>
+                    {% elif problem.id in skipped %}
+                    <span class="badge warning">
+                    {% blocktrans %}Skipped{% endblocktrans %}
+                    </span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% endfor %}
+</div>
+<div class="col col-4">
+    {% for chapter in chapters.2 %}
+    <div class="card">
+        <div style="display: flex; align-items: center;">
+            <h3 class="col-9"><a href="{% url 'show_chapter' chapter=chapter.0.id %}" class="title-link">
+                {{ chapter.0 }}
+            </a></h3>
+        <!--<div class="task-progress col-3"><div style="width: 100%; background: var(--green)"></div></div>-->
+        </div>
+        <table>
+            {% for problem in chapter.1 %}
+            <tr class="row chapter" onclick="window.location='{% url 'show_problem' problem_id=problem.id %}';"> 
+                <td class="col-8">{{ problem.title }}</td>
+                <td class="col-4" style="text-align: right;">
+                    {% if problem.id in passed %}
+                    <span class="badge success">
+                    {% blocktrans %}Passed{% endblocktrans %}
+                    </span>
+                    {% elif problem.id in failed %}
+                    <span class="badge danger">
+                    {% blocktrans %}Failed{% endblocktrans %}
+                    </span>
+                    {% elif problem.id in skipped %}
+                    <span class="badge warning">
+                    {% blocktrans %}Skipped{% endblocktrans %}
+                    </span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    {% endfor %}
+</div>
 {% endblock %}
 {% block javascript %}
-<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-<script>
-    $(document).ready(function() {
-        var table = $('#problems').DataTable({
-            "pageLength": 50,
-            "order": [[ 0, "desc" ]],
-            {% get_current_language as language %}
-            {% if language == 'pt-br' %}
-            "language": {
-                    "sEmptyTable": "Nenhum registro encontrado",
-                    "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
-                    "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
-                    "sInfoFiltered": "(Filtrados de _MAX_ registros)",
-                    "sInfoPostFix": "",
-                    "sInfoThousands": ".",
-                    "sLengthMenu": "mostrar_MENU_ por página",
-                    "sLoadingRecords": "Carregando...",
-                    "sProcessing": "Processando...",
-                    "sZeroRecords": "Nenhum registro encontrado",
-                    "sSearch": "Pesquisar",
-                    "oPaginate": {
-                        "sNext": "Próximo",
-                        "sPrevious": "Anterior",
-                        "sFirst": "Primeiro",
-                        "sLast": "Último"
-                    }
-                }
-            {% endif %}
-        } );
-        $('#id_chapter').on('change', function(){
-            var select = document.getElementById("id_chapter");
-            var chapter = select.options[select.selectedIndex].value;
-            if (chapter === "all") {
-                window.location.href = "{% url 'chapters' %}";
-            }
-            else {
-                window.location.href = "{% url 'chapters' %}"+"/"+chapter;
-            }
-        });
-    } );
-
-
-    var input = document.getElementById('form')
-    var select = document.getElementById('id_chapter')
-    var add = document.getElementById('add')
-    {% if chapter != none %}
-    var update = document.getElementById('update')
-    var btn2 = document.getElementById('edit')
-    {% endif %}
-    var btn = document.getElementById('btn')
-    var btn3 = document.getElementById('btn2')
-
-    function new_chapter() {
-        if (add.style.display === "none") {
-            document.getElementById("id_label").value = "";
-            input.style.display = "inline";
-            select.style.display = "none";
-            add.style.display = "block";
-            btn.innerHTML = "{% trans 'Cancel' %}";
-            btn2.style.display = "none";
-            btn3.style.display = "none";
-        } else {
-            document.getElementById("id_label").value = "{{chapter.label}}";
-            input.style.display = "none";
-            select.style.display = "inline";
-            add.style.display = "none";
-            btn.innerHTML = "<b>+ </b>{% trans 'Add chapter' %}";
-            btn2.style.display = "inline";
-            btn3.style.display = "inline";
-        }
-    };
-
-    function edit() {
-        if (update.style.display === "none") {
-            input.style.display = "inline";
-            select.style.display = "none";
-            update.style.display = "inline";
-            btn.style.display = "none";
-            btn2.innerHTML = "{% trans 'Cancel' %}";
-            btn3.style.display = "none";
-        } else {
-            input.style.display = "none";
-            select.style.display = "inline";
-            update.style.display = "none";
-            btn.style.display = "inline";
-            btn2.innerHTML = "{% trans 'Edit chapter' %}";
-            btn3.style.display = "inline";
-        }
-    };
-</script>
 {% endblock %}

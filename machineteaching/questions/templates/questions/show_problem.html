@@ -2,109 +2,110 @@
 {% load static %}
 {% load i18n %}
 {% load escape_doublequote %}
-{% block header %}
-<!-- Custom styles for this template -->
-<link rel="stylesheet" type="text/css" href="{% static 'vendor/codemirror-5.40.0/lib/codemirror.css' %}" />
-<link rel="stylesheet" type="text/css" href="{% static 'vendor/codemirror-5.40.0/theme/paraiso-dark.css' %}" />
-<link rel="stylesheet" type="text/css" href="{% static 'vendor/codemirror-5.40.0/theme/paraiso-light.css' %}" />
-{% endblock %}
 {% block content %}
+<div class="col col-5">
 
-<!-- Problem statement -->
-<div class="problem" {% if problem.question_type == "M" or problem.question_type == "T" %} style="max-width: 700px; margin-left: auto; margin-right: auto" {% endif %}>
-    <h2>{{ problem.title }}</h2>
-    <span id="problem_content">
-        {{ problem.content|linebreaks}}
-    </span>
-</div>
-
-{% if problem.question_type == "C" %}
-<!-- Code -->
-<form>
-    <div class="code">
-        <textarea id="code" cols="80" rows="10" style="">{{tip}}</textarea><br />
-        <div id="result"></div>
-        <div style="text-align: center;" id="buttons">
-            <button type="button" onclick="runit({{test_case|safe|escape_doublequote}}, '{{header}}', {{expected_results|safe|escape_doublequote}})">{% trans "Run" %} ▶</button>
-            <button type="button" onclick="gotoproblem()" id="next" style="margin-left: 20px; display: none">{% trans "Next" %}</button>
-            </br><a onclick="skipit()" id="skip">{% trans "Skip" %}</a>
-        </div>
-        <div id="running">{% trans "Running function" %}...</div>
-    </div>
-</form>
-
-{% elif problem.question_type == "M" %}
-<!-- Multiple choice -->
-<div class="multiple-c">
-    <form>
-        {% for item in options %}
-        <div class="option">
-            <input type="radio" name="choice" id="{{item}}">
-            <label for="{{item}}">
-                <span class="checkmark"></span>
-                <span class="item">{{item|linebreaks}}</span>
-                <div class="result" id="result_{{item}}"></div>
-            </label>
-        </div>
-        {% endfor %}
-        <div style="text-align: center;">
-            <button type="button" onclick="answer()">{% trans "Answer" %}</button>
-            <button type="button" onclick="gotoproblem()" id="next" style="margin-left: 20px; display: none">{% trans "Next" %}</button>
-            </br><a onclick="skipit()" id="skip">{% trans "Skip" %}</a>
-        </div>
-    </form>
-</div>
-
-
-{% elif problem.question_type == "T" %}
-<!-- Textbox -->
-<div class="textbox">
-    <form onkeydown="return event.key != 'Enter';">
+    <!-- problem statement -->
+    <div class="card statement">
         <div>
-            <input id="ans" id="text" placeholder="{% trans 'Type output here' %}">
-            <div id="result"></div>
+        <h3 class="col-10">{{ problem.title }}</h3>
+        <div class="col-2"><a class="link" onclick="skipit()">{% blocktrans %}Skip{% endblocktrans %}</a></div>
         </div>
+        <span id="problem_content">{{ problem.content|linebreaks }}</span>
+    </div>
+
+    <div class="card result">
+        <h3>Test cases</h3>
+        <div id="outcome">
+        </div>
+    </div>
+
+    <!-- test cases -->
+    <div class="col-12" id="evaluation">
+    </div>
+
+</div>
+<div class="col col-7">
+
+    <!-- code -->
+    <div class="card">
+        <textarea class="code" id="code" name="solution" autofocus="true" style="display: none;">{{tip}}</textarea>
         <div style="text-align: center;">
-            <button type="button" onclick="answer()">{% trans "Answer" %}</button>
-            <button type="button" onclick="gotoproblem()" id="next" style="margin-left: 20px; display: none">{% trans "Next" %}</button>
-            </br><a onclick="skipit()" id="skip">{% trans "Skip" %}</a>
+            <button class="primary" id="run" onclick="runit({{test_case|safe|escape_doublequote}}, '{{header}}', {{expected_results|safe|escape_doublequote}})">
+            {% blocktrans %}Run{% endblocktrans %}
+            </button>
+            <div class="loader" style="display: none;">
+                <div></div>
+            </div>
         </div>
-    </form>
-</div>
-
-{% endif %}
-
-<div class="run">
-    <!-- Output -->
-    <div style="display:none" id="output-div">
-        <h2>Output</h2>
-        <pre id="output">
-          </pre>
     </div>
-    <!-- If you want turtle graphics include a canvas -->
-    <!--<div id="mycanvas"></div> -->
 
-    <!-- Test cases -->
-    <div style="display:none" id="testcase-div">
-        <h2>Test cases</h2>
-        <table id="evaluation"></table>
+    <!-- output -->
+    <div style="display: none;" id="output-div">
+        <pre id="output"></pre>
     </div>
-    <!--{{test_case}}-->
-</div>
 
+    <!-- interactive -->
+    <div class="card interactive">
+        <textarea class="" id="interactive" cols="85" rows="1" style="display: none;"></textarea>
+    </div>
+
+</div>
 {% endblock %}
-
 
 {% block javascript %}
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js" type="text/javascript"></script>
-<script src="http://www.skulpt.org/js/skulpt.min.js" type="text/javascript"></script>
-<script src="http://www.skulpt.org/js/skulpt-stdlib.js" type="text/javascript"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js" type="text/javascript"></script>
-<script src="{% static 'vendor/codemirror-5.40.0/lib/codemirror.js' %}"></script>
-<script src="{% static 'vendor/codemirror-5.40.0/mode/python/python.js' %}"></script>
-
-<script src="{% static 'js/sculpt.js' %}"></script>
+<script src="{% static 'js/repl.js' %}"></script>
 <script>
+    var textareas = document.querySelectorAll(".code");
+
+    //code editor
+    for (var i = 0; i < textareas.length; i++) {
+        if (textareas[i].classList.contains('interactive')) {
+            lineNumbers = false
+        } else {
+            lineNumbers = true
+        }
+        var editor = CodeMirror.fromTextArea(textareas[i], {
+            mode: {name: "python",
+                version: 2,
+                singleLineStringErrors: false},
+            lineNumbers: lineNumbers,
+            indentUnit: 4,
+            tabMode: "spaces",
+            matchBrackets: true
+    });
+    editor.setSize('100%',300);
+    }
+
+    //load student solution in the interactive
+    /*$('#run').click(function() {
+        var solution = $(".CodeMirror")[0].CodeMirror.getValue()
+        //begin inputting solution text into interactive
+        var cm = $(".CodeMirror")[1].CodeMirror;
+        var doc = cm.getDoc();
+        var cursor = doc.getCursor();
+        var line = doc.getLine(cursor.line);
+        cm.replaceRange("", { line, ch: 0 }, { line });
+        var pos = {
+            line: cursor.line
+        };
+
+        if (line.length === 0) {
+            // check if the line is empty
+            // add the data
+            doc.replaceRange(solution, pos);
+        } else {
+            // add a new line and the data
+            doc.replaceRange('\n' + data, pos);
+        }
+
+        cm.focus();
+
+        var e = $.Event('keydown', { keyCode: 13 });
+        $(document).trigger(e);
+    });*/
+    
+    //save log
     START = "{% url 'start' %}";
     var next_url = '{% url 'next' %}';
     function save_log(outcome, seconds_in_code, seconds_to_begin, seconds_in_page){
@@ -158,36 +159,9 @@
     $("#problem_content").html(html);
     console.log($("#problem_content").html())
 
-    function answer() {
-        {% if problem.question_type == "M" %}
-        if (document.getElementById("{{solution}}").checked) {
-            correct()
-            document.getElementById("result_{{solution}}").innerHTML = '<div class="correct">✓</div>';
-            outcome = 'P';
-        } else {
-            {% for item in options %}
-            if (document.getElementById("{{item}}").checked) {
-                document.getElementById("result_{{item}}").innerHTML = '<div class="wrong">X</div>';
-            }
-            {% endfor %}
-            outcome = 'F';
-        }
-        {% elif problem.question_type == "T" %}
-        result_div = document.getElementById("result")
-        if (document.getElementById("ans").value == "{{solution}}") {
-            correct()
-            result_div.innerHTML = '<span class="correct" style="margin-bottom: 30px; margin-left: auto; margin-right: auto">✓</span>';
-            outcome = 'P';
-        } else {
-            result_div.innerHTML = '<div class="wrong" style="margin-bottom: 30px; margin-left: auto; margin-right: auto">X</div>';
-            outcome = 'F';
-        }
-        {% endif %}
-
-        seconds_end_page = performance.now()
-        seconds_in_page = Math.round((seconds_end_page - seconds_begin_page)/1000);
-        console.log("seconds in page:" + seconds_in_page);
-        save_log(outcome, seconds_in_code, seconds_to_begin, seconds_in_page);
-    }
+    seconds_end_page = performance.now()
+    seconds_in_page = Math.round((seconds_end_page - seconds_begin_page)/1000);
+    console.log("seconds in page:" + seconds_in_page);
+    save_log(outcome, seconds_in_code, seconds_to_begin, seconds_in_page);
 </script>
 {% endblock %}

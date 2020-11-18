@@ -1,0 +1,35 @@
+{% extends "questions/base.html" %}
+{% load static %}
+{% load i18n %}
+{% block content %}
+<div class="col col-7">
+    <div class="card">
+      <h3 style="margin-bottom: 1rem">{% blocktrans %}Problems{% endblocktrans %}</h3>
+      <table>
+        {% for problem in problems %}
+        <tr class="row" onclick="window.location='{% url 'show_problem' problem_id=problem.id %}';">
+          <td class="col-8">{{ problem.title }}</td>
+          <td class="col-4" style="text-align: right;">
+            {% if problem.id in passed %}
+            <span class="badge success">
+            {% blocktrans %}Passed{% endblocktrans %}
+            </span>
+            {% elif problem.id in failed %}
+            <span class="badge danger">
+            {% blocktrans %}Failed{% endblocktrans %}
+            </span>
+            {% elif problem.id in skipped %}
+            <span class="badge warning">
+            {% blocktrans %}Skipped{% endblocktrans %}
+            </span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+        </table>
+    </div>
+</div>
+<div class="col col-5"></div>
+{% endblock %}
+{% block javascript %}
+{% endblock %}

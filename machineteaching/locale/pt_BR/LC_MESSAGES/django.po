@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-16 01:45-0300\n"
+"POT-Creation-Date: 2020-11-07 16:25-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -67,7 +67,6 @@ msgstr "Turma"
 #: questions/forms.py:55 questions/models.py:30
 #: questions/templates/questions/chapters.html:7
 #: questions/templates/questions/chapters.html:41
-#: questions/templates/questions/edit_problem.html:24
 #: questions/templates/questions/new_problem.html:32
 msgid "Chapter"
 msgstr "Aula"
@@ -124,8 +123,7 @@ msgstr "Problema"
 msgid "Problems"
 msgstr "Problemas"
 
-#: questions/models.py:168 questions/templates/questions/edit_problem.html:44
-#: questions/templates/questions/new_problem.html:52
+#: questions/models.py:168 questions/templates/questions/new_problem.html:52
 #: questions/templates/questions/past_problems.html:14
 msgid "Solution"
 msgstr "Solução"
@@ -334,6 +332,8 @@ msgid " and the "
 msgstr " e a "
 
 #: questions/templates/questions/base.html:236
+#: questions/templates/questions/index.html:44
+#: questions/templates/questions/index.html:48
 msgid "About this research"
 msgstr "Sobre a pesquisa"
 
@@ -351,7 +351,6 @@ msgid "Update"
 msgstr "Atualizar"
 
 #: questions/templates/questions/chapters.html:27
-#: questions/templates/questions/edit_problem.html:84
 #: questions/templates/questions/new_problem.html:102
 msgid "Add"
 msgstr "Adicionar"
@@ -551,78 +550,6 @@ msgstr "Se você ainda possui alguma dúvida ou preocupações sobre este "
 msgid "please contact us at: "
 msgstr "contate-nos em:"
 
-#: questions/templates/questions/edit_problem.html:10
-#: questions/templates/questions/new_problem.html:12
-msgid "Add problem"
-msgstr "Adicionar problema"
-
-#: questions/templates/questions/edit_problem.html:15
-#: questions/templates/questions/new_problem.html:23
-#: questions/templates/questions/past_problems.html:12
-msgid "Title"
-msgstr "Título"
-
-#: questions/templates/questions/edit_problem.html:19
-#: questions/templates/questions/new_problem.html:27
-msgid "Question type"
-msgstr "Tipo de questão"
-
-#: questions/templates/questions/edit_problem.html:34
-#: questions/templates/questions/new_problem.html:42
-msgid "Cluster"
-msgstr "Cluster"
-
-#: questions/templates/questions/edit_problem.html:40
-#: questions/templates/questions/new_problem.html:48
-msgid "Content"
-msgstr "Conteúdo"
-
-#: questions/templates/questions/edit_problem.html:52
-#: questions/templates/questions/new_problem.html:62
-msgid "Header"
-msgstr "Header"
-
-#: questions/templates/questions/edit_problem.html:56
-#: questions/templates/questions/new_problem.html:66
-msgid "Tip"
-msgstr "Dica"
-
-#: questions/templates/questions/edit_problem.html:61
-#: questions/templates/questions/new_problem.html:71
-msgid "Test case generator"
-msgstr "Gerador de casos de teste"
-
-#: questions/templates/questions/edit_problem.html:69
-#: questions/templates/questions/new_problem.html:87
-msgid "Options"
-msgstr "Opções"
-
-#: questions/templates/questions/edit_problem.html:70
-#: questions/templates/questions/new_problem.html:88
-msgid "Select the correct option"
-msgstr "Selecione a opção correta"
-
-#: questions/templates/questions/edit_problem.html:72
-#: questions/templates/questions/edit_problem.html:124
-#: questions/templates/questions/new_problem.html:90
-#: questions/templates/questions/new_problem.html:142
-msgid "Option"
-msgstr "Opção"
-
-#: questions/templates/questions/edit_problem.html:75
-#: questions/templates/questions/new_problem.html:93
-msgid "Add Option"
-msgstr "Adicionar opção"
-
-#: questions/templates/questions/edit_problem.html:80
-#: questions/templates/questions/edit_problem.html:81
-#: questions/templates/questions/new_problem.html:98
-#: questions/templates/questions/new_problem.html:99
-#: questions/templates/questions/show_problem.html:51
-#: questions/templates/questions/show_problem.html:68
-msgid "Answer"
-msgstr "Responder"
-
 #: questions/templates/questions/finished.html:6
 msgid "You finished all available problems in"
 msgstr "Você terminou todos os problemas disponíveis no modo"
@@ -652,33 +579,94 @@ msgstr ". Você pode ir para o modo "
 msgid "mode and do new problems."
 msgstr " e fazer novos problemas."
 
-#: questions/templates/questions/index.html:5
+#: questions/templates/questions/index.html:18
 msgid "Welcome to "
 msgstr "Bem-vindo ao"
 
-#: questions/templates/questions/index.html:6
-msgid "START"
-msgstr "INICIAR"
+#: questions/templates/questions/index.html:19
+msgid "Start"
+msgstr ""
 
-#: questions/templates/questions/index.html:7
-msgid "ABOUT"
-msgstr "SOBRE"
+#: questions/templates/questions/index.html:20
+msgid "Create account"
+msgstr ""
 
-#: questions/templates/questions/index.html:9
+#: questions/templates/questions/index.html:21
 msgid "Our goals:"
 msgstr "Nossos objetivos:"
 
-#: questions/templates/questions/index.html:13
+#: questions/templates/questions/index.html:26
 msgid "Improve teaching methodologies"
 msgstr "Melhorar metodologias de aprendizado"
 
-#: questions/templates/questions/index.html:16
+#: questions/templates/questions/index.html:32
 msgid "Understand students' learning processes "
 msgstr "Entender os processos de aprendizado dos alunos"
 
-#: questions/templates/questions/index.html:19
+#: questions/templates/questions/index.html:38
 msgid "Stimulate students to learn the Python language "
-msgstr "Estimular o aprendizado da linguagem de programação Python"
+msgstr "Estimular o aprendizado da linguagem Python"
+
+#: questions/templates/questions/index.html:48
+msgid "Check the Terms and Conditions and the Privacy Policy"
+msgstr ""
+
+#: questions/templates/questions/new_problem.html:12
+msgid "Add problem"
+msgstr "Adicionar problema"
+
+#: questions/templates/questions/new_problem.html:23
+#: questions/templates/questions/past_problems.html:12
+msgid "Title"
+msgstr "Título"
+
+#: questions/templates/questions/new_problem.html:27
+msgid "Question type"
+msgstr "Tipo de questão"
+
+#: questions/templates/questions/new_problem.html:42
+msgid "Cluster"
+msgstr "Cluster"
+
+#: questions/templates/questions/new_problem.html:48
+msgid "Content"
+msgstr "Conteúdo"
+
+#: questions/templates/questions/new_problem.html:62
+msgid "Header"
+msgstr "Header"
+
+#: questions/templates/questions/new_problem.html:66
+msgid "Tip"
+msgstr "Dica"
+
+#: questions/templates/questions/new_problem.html:71
+msgid "Test case generator"
+msgstr "Gerador de casos de teste"
+
+#: questions/templates/questions/new_problem.html:87
+msgid "Options"
+msgstr "Opções"
+
+#: questions/templates/questions/new_problem.html:88
+msgid "Select the correct option"
+msgstr "Selecione a opção correta"
+
+#: questions/templates/questions/new_problem.html:90
+#: questions/templates/questions/new_problem.html:142
+msgid "Option"
+msgstr "Opção"
+
+#: questions/templates/questions/new_problem.html:93
+msgid "Add Option"
+msgstr "Adicionar opção"
+
+#: questions/templates/questions/new_problem.html:98
+#: questions/templates/questions/new_problem.html:99
+#: questions/templates/questions/show_problem.html:51
+#: questions/templates/questions/show_problem.html:68
+msgid "Answer"
+msgstr "Responder"
 
 #: questions/templates/questions/outcomes.html:10
 msgid "Search"
@@ -1033,6 +1021,12 @@ msgstr "Enviar"
 #: questions/templates/registration/signup.html:9
 msgid "Sign up"
 msgstr "Cadastrar"
+
+#~ msgid "START"
+#~ msgstr "INICIAR"
+
+#~ msgid "ABOUT"
+#~ msgstr "SOBRE"
 
 #, fuzzy
 #~| msgid "Problem"
