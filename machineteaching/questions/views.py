@@ -16,7 +16,7 @@ from functools import wraps
 import time
 from questions.models import (Problem, Solution, UserLog, UserProfile,
                               Professor, OnlineClass, UserLogView, Chapter,
-                              Deadline)
+                              Deadline, UserLogError)
 from questions.forms import (UserLogForm, SignUpForm, OutcomeForm, ChapterForm,
                              ProblemForm, SolutionForm)
 from questions.get_problem import get_problem
@@ -222,6 +222,20 @@ def get_chapter_problems(request, chapter=None):
 def show_chapter(request, chapter):
     chapter = Chapter.objects.get(pk=chapter)
     problems = Problem.objects.filter(chapter=chapter).distinct()
+    onlineclass = request.user.userprofile.user_class
+    deadline = Deadline.objects.filter(onlineclass=onlineclass,
+                                       chapter=chapter).values_list('deadline')[0][0]
+    deadline_day = deadline.strftime("%d/%m/%Y")
+    deadline_time = deadline.strftime("%H:%M")
+    userlogs = UserLog.objects.filter(problem__in=problems)
+    errors = UserLogError.objects.filter(userlog__in=userlogs).values_list('error')
+    counter = {}
+    for error in errors:
+        if error in counter:
+            counter[error] += 1
+        else:
+            counter[error] = 1
+    main_errors = sorted(counter, key=counter.get, reverse=True)[:2]
 
     # Get exercise where student passed
     userlog = UserLog.objects.filter(
@@ -237,6 +251,8 @@ def show_chapter(request, chapter):
     return render(request, 'questions/show_chapter.html', {
         'title': chapter,
         'problems': problems,
+        'deadline': {'day': deadline_day, 'time': deadline_time},
+        'errors': main_errors,
         'passed': passed,
         'skipped': skipped,
         'failed': failed

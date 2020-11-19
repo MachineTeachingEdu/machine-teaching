@@ -29,7 +29,59 @@
         </table>
     </div>
 </div>
-<div class="col col-5"></div>
+<div class="col col-5 chapter-dashboard">
+    <div style="display: flex;">
+    <div style="width: 50%">
+      <div class="card" style="margin-right: 1rem;">
+        <h3>Progresso</h3>
+        <div class="task-progress2 col-3">
+          <div id="progress-bar"></div>
+        </div>
+        <div id="progress" class="percent"></div>
+      </div>
+    </div>
+        <div style="width: 50%">
+            <div class="card" style="margin-left: 1rem; border-left: 4px solid var(--yellow);">
+                <h3>Entrega</h3>
+                <h1 style="margin-bottom: 0.5rem; margin-top: 0.5rem">
+                    {{deadline.day}}
+                </h1>
+                <h2 style="margin-bottom: 0; font-weight: 300">
+                    {{deadline.time}}
+                </h2> 
+            </div>
+        </div>
+    </div>
+    <div style="display: flex;">
+    <div style="width: 50%">
+      {% if errors|length == 0 %}
+      {% else %}
+      <div class="card" style="margin-right: 1rem; border-left: 4px solid var(--red);">
+        <h3>Erros mais comuns</h3>
+        <h1 style="margin-bottom: 0.5rem; margin-top: 0.5rem;">
+        {{errors.0.0}}
+        </h1>
+        <h2 style="margin-bottom: 0; font-weight: 300">
+        {{errors.1.0}}
+        </h2>
+      </div>
+      {% endif %} 
+    </div>
+      <div style="width: 50%;"></div>
+  </div>
+    </div>
+</div>
 {% endblock %}
 {% block javascript %}
+<script type="text/javascript">
+    var total = {{problems|length}};
+    var passed = $('.success').length;
+    var progress = Math.round(100*passed/total);
+
+    $('#progress').html(progress+'%');
+    $('#progress-bar').attr('style','width: '+progress+'%;');
+    if (progress == 100) {
+        $('#progress-bar').attr('style','width: 100%; background: var(--green);');
+    }
+</script>
 {% endblock %}

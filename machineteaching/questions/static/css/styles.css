@@ -801,7 +801,7 @@ option {
 .task-progress2 div {
     height: 100%;
     background: var(--primary);
-    border-radius: 10px 0 0 10px;
+    border-radius: 10px;
 }
 .task-progress2 .passed {
     background: var(--green);
@@ -1047,6 +1047,13 @@ option {
 .solution .CodeMirror {
     margin-top: 1rem;
 }
+/* dashboards */
+.chapter-dashboard .card {
+    height: 10rem;
+}
+
+
+
 
 
 /* media queries */
