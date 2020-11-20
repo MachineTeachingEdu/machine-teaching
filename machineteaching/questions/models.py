@@ -145,15 +145,15 @@ class UserProfile(models.Model):
     STRATEGIES = (("random", "random"),
                   ("eer", "eer"),
                   ("sequential", "sequential"))
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    professor = models.ForeignKey(Professor, on_delete=models.CASCADE,
+    user = models.OneToOneField(User, on_delete=models.PROTECT)
+    professor = models.ForeignKey(Professor, on_delete=models.PROTECT,
                                   null=True, blank=True)
     programming = models.CharField(max_length=3, choices=PROGRAMMING)
     accepted = models.BooleanField(default=False)
     read = models.BooleanField(default=False)
     strategy = models.CharField(max_length=10, choices=STRATEGIES)
     seed = models.CharField(max_length=81)
-    user_class = models.ForeignKey(OnlineClass, on_delete=models.CASCADE,
+    user_class = models.ForeignKey(OnlineClass, on_delete=models.PROTECT,
                                    null=True)
     sequential = models.BooleanField(default=True)
     history = HistoricalRecords()
@@ -183,7 +183,7 @@ class Cluster(models.Model):
 class Solution(models.Model):
     content = models.TextField(blank=False)
     header = models.TextField(blank=True, null=True)
-    problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
+    problem = models.ForeignKey(Problem, on_delete=models.PROTECT)
     link = models.URLField(blank=True, null=True)
     retrieved_date = models.DateTimeField(blank=False, auto_now_add=True)
     ignore = models.BooleanField(default=False)
@@ -205,7 +205,7 @@ class Solution(models.Model):
 
 
 class TestCase(models.Model):
-    problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
+    problem = models.ForeignKey(Problem, on_delete=models.PROTECT)
     content = models.TextField(blank=False)
     history = HistoricalRecords()
 
@@ -242,8 +242,8 @@ class UserLog(models.Model):
 
 
 class UserLogView(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, primary_key=True)
-    problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.PROTECT, primary_key=True)
+    problem = models.ForeignKey(Problem, on_delete=models.PROTECT)
     final_outcome = models.CharField(max_length=2)
     timestamp = models.DateTimeField()
 
