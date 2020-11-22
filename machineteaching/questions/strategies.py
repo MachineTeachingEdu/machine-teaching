@@ -4,7 +4,7 @@ from django.conf import settings
 import numpy as np
 import pickle
 
-from questions.models import Problem, Solution, UserLog, UserModel, Cluster
+from questions.models import Problem, Solution, UserLog, UserModel, Cluster, ExerciseSet
 from questions.sampling import get_next_sample
 
 LOGGER = logging.getLogger(__name__)
@@ -98,8 +98,8 @@ def sequential_strategy(user):
 
     # Go to next available problem
     try:
-        problem_id = Problem.objects.filter(chapter__in=user.userprofile.user_class.chapter.all()).exclude(
-                id__in=user_passed).order_by('id')[0].pk
+        problem_id = ExerciseSet.objects.filter(chapter__in=user.userprofile.user_class.chapter.all()).exclude(
+                problem__in=user_passed).order_by('chapter','order').values_list('problem')[0][0]
         LOGGER.debug("Selecting problem %d from sequential strategy", problem_id)
     except IndexError:
         problem_id = None

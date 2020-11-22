@@ -3,9 +3,28 @@
 {% load i18n %}
 {% block content %}
 <div class="col col-4">
+
+    {% if perms.questions.view_userlogview %}
+    <!-- new chapter -->
+    <div class="card add" style="padding: 0.7rem 1rem">
+        <h3>{% blocktrans %}Add chapter{% endblocktrans %}</h3>
+        <form action="{% url 'new_chapter' %}" method="POST">
+            <div class="col-8">
+                <input type="text" name="label" placeholder="{% blocktrans %}Name{% endblocktrans %}" required="">
+            </div>
+            <div class="col-4">
+                <input type="date" name="deadline" required>
+            </div>
+            <div class="col-12">
+                <button class="primary" type="submit">{% blocktrans %}Add{% endblocktrans %}</button>
+            </div>
+        </form>
+    </div>
+    {% else %}
     <div class="card" style="padding: 0.7rem 1rem">
         <input type="text" name="search" placeholder="Pesquisar" id="search">
     </div>
+    {% endif %}
 
     <!-- chapters -->
     {% for chapter in chapters.0 %}
@@ -17,19 +36,19 @@
         <!--<div class="task-progress col-3"><div style="width: 100%; background: var(--green)"></div></div>-->
         </div>
         <table>
-            {% for problem in chapter.1 %}
-            <tr class="row chapter" onclick="window.location='{% url 'show_problem' problem_id=problem.id %}';"> 
-                <td class="col-8">{{ problem.title }}</td>
-                <td class="col-4" style="text-align: right;">
-                    {% if problem.id in passed %}
+            {% for exerciseset in chapter.1 %}
+            <tr class="row chapter" onclick="window.location='{% url 'show_problem' problem_id=exerciseset.problem.id %}';"> 
+                <td class="col-9">{{ exerciseset.problem.title }}</td>
+                <td class="col-3" style="text-align: right;">
+                    {% if exerciseset.problem.id in passed %}
                     <span class="badge success">
                     {% blocktrans %}Passed{% endblocktrans %}
                     </span>
-                    {% elif problem.id in failed %}
+                    {% elif exerciseset.problem.id in failed %}
                     <span class="badge danger">
                     {% blocktrans %}Failed{% endblocktrans %}
                     </span>
-                    {% elif problem.id in skipped %}
+                    {% elif exerciseset.problem.id in skipped %}
                     <span class="badge warning">
                     {% blocktrans %}Skipped{% endblocktrans %}
                     </span>
@@ -51,19 +70,19 @@
         <!--<div class="task-progress col-3"><div style="width: 100%; background: var(--green)"></div></div>-->
         </div>
         <table>
-            {% for problem in chapter.1 %}
-            <tr class="row chapter" onclick="window.location='{% url 'show_problem' problem_id=problem.id %}';"> 
-                <td class="col-8">{{ problem.title }}</td>
-                <td class="col-4" style="text-align: right;">
-                    {% if problem.id in passed %}
+            {% for exerciseset in chapter.1 %}
+            <tr class="row chapter" onclick="window.location='{% url 'show_problem' problem_id=exerciseset.problem.id %}';"> 
+                <td class="col-9">{{ exerciseset.problem.title }}</td>
+                <td class="col-3" style="text-align: right;">
+                    {% if exerciseset.problem.id in passed %}
                     <span class="badge success">
                     {% blocktrans %}Passed{% endblocktrans %}
                     </span>
-                    {% elif problem.id in failed %}
+                    {% elif exerciseset.problem.id in failed %}
                     <span class="badge danger">
                     {% blocktrans %}Failed{% endblocktrans %}
                     </span>
-                    {% elif problem.id in skipped %}
+                    {% elif exerciseset.problem.id in skipped %}
                     <span class="badge warning">
                     {% blocktrans %}Skipped{% endblocktrans %}
                     </span>
@@ -85,19 +104,19 @@
         <!--<div class="task-progress col-3"><div style="width: 100%; background: var(--green)"></div></div>-->
         </div>
         <table>
-            {% for problem in chapter.1 %}
-            <tr class="row chapter" onclick="window.location='{% url 'show_problem' problem_id=problem.id %}';"> 
-                <td class="col-8">{{ problem.title }}</td>
-                <td class="col-4" style="text-align: right;">
-                    {% if problem.id in passed %}
+            {% for exerciseset in chapter.1 %}
+            <tr class="row chapter" onclick="window.location='{% url 'show_problem' problem_id=exerciseset.problem.id %}';"> 
+                <td class="col-9">{{ exerciseset.problem.title }}</td>
+                <td class="col-3" style="text-align: right;">
+                    {% if exerciseset.problem.id in passed %}
                     <span class="badge success">
                     {% blocktrans %}Passed{% endblocktrans %}
                     </span>
-                    {% elif problem.id in failed %}
+                    {% elif exerciseset.problem.id in failed %}
                     <span class="badge danger">
                     {% blocktrans %}Failed{% endblocktrans %}
                     </span>
-                    {% elif problem.id in skipped %}
+                    {% elif exerciseset.problem.id in skipped %}
                     <span class="badge warning">
                     {% blocktrans %}Skipped{% endblocktrans %}
                     </span>

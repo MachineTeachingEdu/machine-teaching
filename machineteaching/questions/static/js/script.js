@@ -1,15 +1,24 @@
+//chapter edit
+function edit() {
+    $('.cancel, .save, .handle').show();
+    $('.edit').hide();
+};
+function cancel() {
+    $('.cancel, .save, .handle').hide();
+    $('.edit').show();
+    $('tbody').sortable('cancel');
+}
+
 //close menu
 function closeMenu() {
     $('.content').attr('style', 'width: 100%');
-    $('.close').html('>');
-    $('.close').attr('onclick', 'openMenu()');
+    $('.close').html('>').attr('onclick', 'openMenu()');
 };
 
 //open menu
 function openMenu() {
     $('.content').attr('style', 'width: calc(100% - 220px)');
-    $('.close').html('<');  
-    $('.close').attr('onclick', 'closeMenu()');
+    $('.close').html('<').attr('onclick', 'closeMenu()');
 };
 
 if (window.matchMedia("(max-width:1300px)").matches) {

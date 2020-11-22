@@ -207,22 +207,6 @@ function betterTab(cm) {
     }
 }
 
-try {
-// Set pretty Python editor
-    var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-    mode: {name: "python",
-        version: 2,
-        singleLineStringErrors: false},
-    lineNumbers: true,
-    indentUnit: 4,
-    tabMode: "spaces",
-    matchBrackets: true,
-    extraKeys: { Tab: betterTab },
-    theme: "paraiso-dark"
-    });
-    editor.setSize('100%',300)
-} catch {}
-
 // Calculating time in page and code
 // Get when user stops typing
 var delay = (function(){

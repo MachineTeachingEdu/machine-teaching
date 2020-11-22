@@ -9,6 +9,7 @@ def get_problem(problem_id):
     #try:
     # Get problem, test cases and solution
     problem = Problem.objects.get(pk=problem_id)
+    problem.content = problem.content.replace('\`','`').replace('`','\`').replace('(<','(').replace('>)',')')
     options = problem.options.split("\r\n\r\n")
     LOGGER.debug("Got problem %d", problem.id)
     test_case = TestCase.objects.filter(problem=problem)

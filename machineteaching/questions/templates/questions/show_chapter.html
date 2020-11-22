@@ -3,30 +3,59 @@
 {% load i18n %}
 {% block content %}
 <div class="col col-7">
-    <div class="card">
-      <h3 style="margin-bottom: 1rem">{% blocktrans %}Problems{% endblocktrans %}</h3>
+    <div class="card chapter-list">
+      <h3 class="col-8">{% blocktrans %}Problems{% endblocktrans %}</h3>
+      <div class="col-4">
+        {% if perms.questions.view_userlogview %}
+        <a class="link edit" onclick="edit()">{% blocktrans %}Edit{% endblocktrans %}</a>
+        <a class="link cancel" onclick="cancel()" style="display: none;">{% blocktrans %}Cancel{% endblocktrans %}</a>
+        <button class="primary save" onclick="save()" style="margin: 0 0 0.5rem 0.5rem; display: none;">{% blocktrans %}Save{% endblocktrans %}</button>
+        {% endif %}
+      </div>
       <table>
-        {% for problem in problems %}
-        <tr class="row" onclick="window.location='{% url 'show_problem' problem_id=problem.id %}';">
-          <td class="col-8">{{ problem.title }}</td>
-          <td class="col-4" style="text-align: right;">
-            {% if problem.id in passed %}
+        <tbody>
+        {% for item in problems %}
+        <tr class="row" id="{{ item.problem.id }}">
+          <td class="col-9" onclick="window.location='{% url 'show_problem' problem_id=item.problem.id %}';">
+             {{ item.problem.title }}
+          </td>
+          <td class="col-3" onclick="window.location='{% url 'show_problem' problem_id=item.problem.id %}';" style="text-align: right;">
+            {% if item.problem.id in passed %}
             <span class="badge success">
             {% blocktrans %}Passed{% endblocktrans %}
             </span>
-            {% elif problem.id in failed %}
+            {% elif item.problem.id in failed %}
             <span class="badge danger">
             {% blocktrans %}Failed{% endblocktrans %}
             </span>
-            {% elif problem.id in skipped %}
+            {% elif item.problem.id in skipped %}
             <span class="badge warning">
             {% blocktrans %}Skipped{% endblocktrans %}
             </span>
             {% endif %}
           </td>
+          <td class="handle" style="display: none;">
+            <div class="drag">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+          </td>
         </tr>
         {% endfor %}
+        </tbody>
         </table>
+        {% if perms.questions.view_userlogview %}
+        <div class="col-12" style="display: flex; justify-content: space-between; align-items: center; margin-top: 1rem">
+            {% if messages %}
+            {% for message in messages %}
+            <div {% if message.tags %} id="{{ message.tags }}"{% endif %}>{{ message }}</div>
+            {% endfor %}
+            {% endif %}
+            <div></div>
+            <a class="link add" href="{% url 'new' chapter=chapter.id %}">+ {% blocktrans %}Add problem{% endblocktrans %}</a>
+        </div>
+        {% endif %}
     </div>
 </div>
 <div class="col col-5 chapter-dashboard">
@@ -41,14 +70,10 @@
       </div>
     </div>
         <div style="width: 50%">
-            <div class="card" style="margin-left: 1rem; border-left: 4px solid var(--yellow);">
+            <div class="card deadline">
                 <h3>Entrega</h3>
-                <h1 style="margin-bottom: 0.5rem; margin-top: 0.5rem">
-                    {{deadline.day}}
-                </h1>
-                <h2 style="margin-bottom: 0; font-weight: 300">
-                    {{deadline.time}}
-                </h2> 
+                <h1></h1>
+                <h2></h2> 
             </div>
         </div>
     </div>
@@ -70,18 +95,47 @@
       <div style="width: 50%;"></div>
   </div>
     </div>
-</div>
 {% endblock %}
 {% block javascript %}
 <script type="text/javascript">
     var total = {{problems|length}};
     var passed = $('.success').length;
     var progress = Math.round(100*passed/total);
-
     $('#progress').html(progress+'%');
     $('#progress-bar').attr('style','width: '+progress+'%;');
     if (progress == 100) {
         $('#progress-bar').attr('style','width: 100%; background: var(--green);');
+    }
+    
+    {% get_current_language as language %}
+    var deadline = '{{deadline}}'{% if language == 'pt-br' %}.split(/ de \d{4} às /){% else %}.split(/, \d{4}, /){% endif %};
+    var day = deadline[0];
+    var time = deadline[1];
+    $('.deadline h1').html(day);
+    $('.deadline h2').html(time);
+
+    $('tbody').sortable({
+        handle: ".handle",
+        axis: 'y',
+        tolerance: "pointer",
+        items: "> .row",
+        distance: 5,
+        containment: "parent",
+        update: function(event, ui) {
+            data = $(this).sortable('toArray').toString();
+        }
+    }).disableSelection();
+
+
+    function save() {
+        console.log('New order: '+data);
+        $.ajax({
+            url: "{% url 'show_chapter' chapter=chapter.id %}",
+            type: "POST",
+            data: data
+        });
+        $('.cancel, .save, .handle').hide();
+        $('.edit').show();
     }
 </script>
 {% endblock %}

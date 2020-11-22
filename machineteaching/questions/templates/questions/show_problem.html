@@ -9,9 +9,10 @@
     <div class="card statement">
         <div>
         <h3 class="col-10">{{ problem.title }}</h3>
-        <div class="col-2"><a class="link" onclick="skipit()">{% blocktrans %}Skip{% endblocktrans %}</a></div>
+        <div class="col-2">
+            <a class="link" onclick="skipit()">{% blocktrans %}Skip{% endblocktrans %}</a></div>
         </div>
-        <span id="problem_content">{{ problem.content|linebreaks }}</span>
+        <span id="problem_content"></span>
     </div>
 
     <div class="card result">
