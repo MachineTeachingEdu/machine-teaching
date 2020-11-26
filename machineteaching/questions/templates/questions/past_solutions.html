@@ -99,5 +99,13 @@
     });
     editor.setSize('100%',300);
     }
+
+    
+    // Load markdown
+    var converter = new showdown.Converter({'simplifiedAutoLink': true}),
+        text      = `{{problem.content}}`,
+        html      = converter.makeHtml(text);
+    $("#problem_content").html(html);
+    console.log($("#problem_content").html())
 </script>
 {% endblock %}

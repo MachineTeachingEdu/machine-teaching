@@ -86,6 +86,7 @@ textarea::-moz-selection { background: #B5DCFF; }
 .sidebar {
 	width: 220px;
     height: 100%;
+    padding-bottom: 3rem;
     position: fixed;
     z-index: 1;
     left: 0;
@@ -139,7 +140,7 @@ textarea::-moz-selection { background: #B5DCFF; }
 .menu-item:hover {
 	background-color: rgb(75,84,92);
 }
-.menu-selected, input[type="radio"]:checked+label {
+.menu-selected, .menu input[type="radio"]:checked+label {
 	background-color: rgb(63,71,78);
 }
 .menu a {
@@ -1044,8 +1045,9 @@ code {
     justify-content: center !important;
     float: none !important;
 }
-.paginate_enabled_next, 
-.paginate_enabled_previous {
+.dataTables_wrapper
+.dataTables_paginate
+.paginate_button {
     text-decoration: none;
     color: #2196F3 !important;
     background: #ffffff;
@@ -1055,20 +1057,69 @@ code {
     cursor: pointer;
     float: none;
     height: auto;
+    border: none !important;
+    box-shadow: none !important;
+    margin: 0.5rem !important;
 }
-.paginate_enabled_next:hover, 
-.paginate_enabled_previous:hover {
+.dataTables_wrapper
+.dataTables_paginate
+.paginate_button:hover {
     background: rgb(39,152,243,0.15);
+    color: #2196F3 !important;
 }
-.paginate_enabled_next:active, 
-.paginate_enabled_previous:active {
+.dataTables_wrapper
+.dataTables_paginate
+.paginate_button:active {
     background: rgb(39,152,243,0.3);
+    color: #2196F3 !important;
+}
+.dataTables_wrapper 
+.dataTables_paginate 
+.paginate_button.current, 
+.dataTables_wrapper 
+.dataTables_paginate 
+.paginate_button.current:hover {
+    background: rgb(39,152,243,0.3) !important;
+    font-weight: 300 !important;
+    color: #2196F3 !important;
+}
+table.dataTable.no-footer {
+    border: none !important;
+}
+.dataTables_paginate {
+    border: none !important;
 }
 .paginate_disabled_next, 
 .paginate_disabled_previous {
     background: #ffffff;
     padding: 0.3rem 0.5rem;
     cursor: auto;
+}
+.filter {
+    margin-bottom: 1rem
+}
+.filter input {
+    display: none;
+}
+.filter label {
+    margin-left: 1rem;
+}
+.filter label span {
+    cursor: pointer !important;
+    transition: all 0.2s;
+}
+.filter label span:hover {
+    background: rgb(39,152,243,0.15);
+    color: var(--primary);
+}
+
+.filter label span:active {
+    background: rgb(39,152,243,0.3);
+    color: var(--primary);
+}
+.filter input:checked+label span {
+    background: rgb(39,152,243,0.15);
+    color: var(--primary);
 }
 
 /* outcomes table */
@@ -1167,8 +1218,7 @@ code {
     width: 6rem;
 }
 #id_header {
-    width: calc(100% - 1rem);
-    height: 1.8rem
+    width: 100%
 }
 #id_tip {
     width: 100%;
@@ -1190,10 +1240,73 @@ code {
 #success {
     color: var(--green);
 }
+/* dashboards */
+.times, .errors {
+    height: calc(50% - 2rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.times h3, .errors h3, .chapters h3 {
+    margin-bottom: 0
+}
+.times .student h1 {
+    text-align: center;
+    margin: 0;
+    font-size: 2.2rem;
+}
+.times .student h2 {
+    text-align: center;
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 200;
+}
+.times .class h1 {
+    text-align: center;
+    margin: 0;
+    font-size: 1.5rem;
+}
+.times .class h2 {
+    text-align: center;
+    margin: 0.2rem 0 0 0;
+    font-size: 1.1rem;
+    font-weight: 200;
+}
+.chapters {
+    height: 25rem;
+}
+.chapters table tr:nth-child(1) td {
+    padding: 0.5rem 1rem;
+}
+.errors {
+    border-left: 4px solid var(--red);
+}
+.errors h1 {
+    text-align: center;
+    margin: 0;
+    font-size: 2.5rem;
+}
+.errors h2 {
+    text-align: center;
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 200;
+}
+.chapters *, .errors * {
+    cursor: default !important;
+}
+.modebar{
+    display: none !important;
+}
 
 
 
 
+
+.zopim {
+    left: 15px !important;
+    font-family: 'Nunito' !important;
+}
 
 
 

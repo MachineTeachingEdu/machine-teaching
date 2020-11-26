@@ -4,6 +4,28 @@
 {% block content %}
 <div class="col col-12">
   <div class="card">
+    <div class="filter">
+        {% blocktrans %}Filtrar{% endblocktrans %}
+        <input id="passed" type="checkbox" name="filter" value="{% blocktrans %}Passed{% endblocktrans %}">
+        <label for="passed">
+            <span class="badge success">
+            {% blocktrans %}Passed{% endblocktrans %}
+            </span>
+        </label>
+        <input id="failed" type="checkbox" name="filter" value="{% blocktrans %}Failed{% endblocktrans %}">
+        <label for="failed">
+            <span class="badge danger">
+            {% blocktrans %}Failed{% endblocktrans %}
+            </span>
+        </label>
+        <input id="skipped" type="checkbox" name="filter" value="{% blocktrans %}Skipped{% endblocktrans %}">
+        <label for="skipped">
+            <span class="badge warning">
+            {% blocktrans %}Skipped{% endblocktrans %}
+            </span>
+        </label>
+            <input type="text" name="search" id="search">
+    </div>
     <table id="past-problems">
     <thead>
         <th class="searchable">{% trans "Title" %}</th>
@@ -47,7 +69,7 @@
 {% block javascript %}
 <script type="text/javascript">
 //table settings
-$('#past-problems').DataTable({
+var table = $('#past-problems').DataTable({
     "bInfo": false,
     {% get_current_language as language %}
     {% if language == 'pt-br' %}
@@ -72,7 +94,15 @@ $('#past-problems').DataTable({
         }
     {% endif %}
 });
-$('.dataTables_filter').html('');
-//<input type="text" aria-controls="past-problems" placeholder="Pesquisar" id="search">
+
+$('#past-problems_filter').hide();
+
+$('input[type="checkbox"]').on('click', function() {
+    var filter = [];
+    $('.filter input:checked').each(function() {
+        filter.push($(this).val());
+    });
+    table.search(filter.join('|'), true, false).draw();
+});
 </script>
 {% endblock %}

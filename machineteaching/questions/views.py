@@ -21,6 +21,7 @@ from questions.models import (Problem, Solution, UserLog, UserProfile,
 from questions.forms import (UserLogForm, SignUpForm, OutcomeForm, ChapterForm,
                              ProblemForm, SolutionForm)
 from questions.get_problem import get_problem
+from questions.get_dashboards import get_student_dashboard
 from questions.strategies import STRATEGIES_FUNC
 
 import csv
@@ -172,7 +173,7 @@ def get_chapter_problems(request):
     deadline_chapters = Deadline.objects.filter(onlineclass=onlineclass
                                                 ).values_list('chapter',
                                                               flat=True)
-    available_chapters = Chapter.objects.filter(id__in=deadline_chapters).order_by('-id')
+    available_chapters = Chapter.objects.filter(id__in=deadline_chapters).order_by('-deadline')
 
     chapters = []
     problems = []
@@ -291,9 +292,12 @@ def new_chapter(request):
         form = ChapterForm()
     return redirect('chapters')
 
-@permission_required('questions.view_userlogview', raise_exception=True)
 @login_required
 def show_outcome(request):
+    if not request.user.has_perm('questions.view_userlogview'):
+        context = get_student_dashboard(request.user)
+        return render(request, 'questions/student_dashboard.html', context)
+
     outcomes = []
     onlineclass = None
     if request.method == 'POST':
