@@ -7,20 +7,20 @@
 <div class="card">
     <form action="{% url 'show_outcome' %}" method="post" class="outcomes-form">
         {% csrf_token %}
-        <h3>Pesquisar</h3>
+        <h3>{% blocktrans %}Search{% endblocktrans %}</h3>
         <div class="search">
             <div class="col-4">
-                <h4>Turma</h4>
+                <h4>{% blocktrans %}Class{% endblocktrans %}</h4>
                 {{ form.onlineclass }}
             </div>
             <div class="col-4">
-                <h4>Aula</h4>
+                <h4>{% blocktrans %}Chapter{% endblocktrans %}</h4>
                 {{ form.chapter }}
             </div>
         </div>
         <div style="text-align: center;">
-            <button type="submit" class="primary">Pesquisar</button>
-            <input type="submit" class="link" style="margin-left: 2rem; margin-right: 2rem; border: none;" formaction="{% url 'export' %}" value="Exportar CSV">
+            <button type="submit" class="primary">{% blocktrans %}Search{% endblocktrans %}</button>
+            <input type="submit" class="link" style="margin-left: 2rem; margin-right: 2rem; border: none;" formaction="{% url 'export' %}" value="{% blocktrans %}Export CSV{% endblocktrans %}">
         </div>
     </form>
 </div>

@@ -16,7 +16,7 @@
     </div>
 
     <div class="card result">
-        <h3>Test cases</h3>
+        <h3>{% blocktrans %}Test cases{% endblocktrans %}</h3>
         <div id="outcome">
         </div>
     </div>
@@ -28,6 +28,7 @@
 </div>
 <div class="col col-7">
 
+    {% if problem.question_type == 'C' %}
     <!-- code -->
     <div class="card">
         <textarea class="code" id="code" name="solution" autofocus="true" style="display: none;">{{tip}}</textarea>
@@ -51,12 +52,55 @@
         <textarea class="" id="interactive" cols="85" rows="1" style="display: none;"></textarea>
     </div>
 
+    {% elif problem.question_type == 'M' %}
+    <!-- options -->
+    <div class="card">
+        <div class="options">
+            {% for option in options %}
+            <input type="radio" name="option" class="option" id="o{{ forloop.counter }}" value="{{ option }}" style="display: none;">
+            <label for="o{{ forloop.counter }}" class="option-label">{{option|linebreaks}}</label>
+            {% endfor %}
+        </div>
+        <div style="text-align: center;">
+            <button class="primary" id="answer" onclick="answer()">
+            {% blocktrans %}Answer{% endblocktrans %}
+            </button>
+            <button class="primary" id="next" onclick="gotoproblem()" style="display: none;">
+            {% blocktrans %}Next{% endblocktrans %}
+            </button>
+        </div>
+    </div>
+
+    {% else %}
+    <!-- text input -->
+    <div class="card">
+        <h3>{% blocktrans %}Answer{% endblocktrans %}</h3>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <input type="text" id="text" class="col-10" style="margin-right: 1rem">
+            <button class="primary col-2" id="answer" onclick="answer()">
+            {% blocktrans %}Answer{% endblocktrans %}
+            </button>
+            <button class="primary col-2" id="next" onclick="gotoproblem()" style="display: none;">
+            {% blocktrans %}Next{% endblocktrans %}
+            </button>
+        </div>
+    </div>
+
+    {% endif %}
+
 </div>
 {% endblock %}
 
 {% block javascript %}
 <script src="{% static 'js/repl.js' %}"></script>
 <script>
+    const next = '{% blocktrans %}Next{% endblocktrans %}';
+    const input = '{% blocktrans %}Input:{% endblocktrans %}';
+    const expected_output = '{% blocktrans %}Expected output:{% endblocktrans %}';
+    const your_output = '{% blocktrans %}Your output:{% endblocktrans %}';
+    const passed_txt = '{% blocktrans %}Passed{% endblocktrans %}';
+    const failed_txt = '{% blocktrans %}Failed{% endblocktrans %}';
+
     var textareas = document.querySelectorAll(".code");
 
     //code editor
@@ -111,9 +155,9 @@
     var next_url = '{% url 'next' %}';
     function save_log(outcome, seconds_in_code, seconds_to_begin, seconds_in_page){
 
-        {% if problem.question_type == "M" %}{% for item in options %}
-        if (document.getElementById("{{item}}").checked) {
-            solution = "{{item}}";
+        {% if problem.question_type == "M" %}{% for option in options %}
+        if (document.getElementById("o{{forloop.counter}}").checked) {
+            solution = "{{option}}";
         }
         {% endfor %}{% endif %}
 
@@ -127,7 +171,7 @@
                 {% elif problem.question_type == "M" %}
                 'solution': solution,
                 {% elif problem.question_type == "T" %}
-                'solution': document.getElementById("ans").value,
+                'solution': $('#text').val(),
                 {% endif %}
                 'outcome': outcome,
                 'seconds_in_code': seconds_in_code,
@@ -152,6 +196,36 @@
         }
     });
     }
+
+    function answer() {
+        {% if problem.question_type == 'M' %}
+        var solution = '{{ solution|linebreaks }}';
+        var id = $('.option:checked').attr('id');
+        var option = $('label[for="'+id+'"]').html();
+        if (option == solution) {
+            $('.option-label').attr('style','');
+            $('.option-label[for="'+id+'"]').attr('style','color: var(--green); border-color: var(--green);');
+            $('#answer').hide();
+            $('#next').show();
+            save_log('P', seconds_in_code, seconds_to_begin, seconds_in_page);
+        } else {
+            $('.option-label[for="'+id+'"]').attr('style','color: var(--red); border-color: var(--red);');
+            save_log('F', seconds_in_code, seconds_to_begin, seconds_in_page);
+        }
+        {% elif  problem.question_type == 'T' %}
+        var solution = '{{ solution }}';
+        var answer = $('#text').val();
+        if (answer == solution) {
+            $('#text').attr('style','margin-right: 1rem; color: var(--green); border-color: var(--green);');
+            $('#answer').hide();
+            $('#next').show();
+            save_log('P', seconds_in_code, seconds_to_begin, seconds_in_page);
+        } else {
+            $('#text').attr('style','margin-right: 1rem; color: var(--red); border-color: var(--red);');
+            save_log('F', seconds_in_code, seconds_to_begin, seconds_in_page);
+        }
+        {% endif %}
+    };
 
     // Load markdown
     var converter = new showdown.Converter({'simplifiedAutoLink': true}),

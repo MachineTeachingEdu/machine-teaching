@@ -74,7 +74,10 @@
 
         <!-- footer --->
         <div class="footer" style="border-bottom: none;">
-            <div class="footer-left">Machine Teaching</div>
+            <div class="footer-left"><span class="footer-brand">Machine Teaching</span><span class="change-language" onclick="changeLanguage('{{language}}')">
+                {% if language == 'en' %}Português
+                {% else %}English{% endif %}
+                <img src="{% static 'img/earth.png' %}"></span></div>
                 <div class="footer-right">
                 {% blocktrans %}Check the {% endblocktrans %}
                 <span onclick="showConditions('{{language}}')">

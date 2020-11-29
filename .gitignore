@@ -129,3 +129,5 @@ machineteaching/machineteaching/dev_settings\.py
 machineteaching/db\.sqlite3
 
 machineteaching/similarity\.pkl
+*.bkp
+machineteaching/questions/.DS_Store

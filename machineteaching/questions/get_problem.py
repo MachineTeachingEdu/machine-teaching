@@ -2,6 +2,7 @@ import logging
 from questions.models import Problem, Solution, TestCase
 import json
 import copy
+from django.utils.translation import gettext as _
 
 LOGGER = logging.getLogger(__name__)
 
@@ -40,7 +41,7 @@ def get_problem(problem_id):
         "expected_results": expected_results,
         "tip": solution.tip,
         "header": solution.header,
-        "title": 'Problem'
+        "title": _('Problem')
     }
 
     return context

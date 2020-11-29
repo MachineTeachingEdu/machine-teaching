@@ -19,7 +19,9 @@
             </div>
             <div class="col-4">
                 <select id="id_question_type" name="{{ solution_form.question_type.name }}">
-                    <option value="{{ solution_form.question_type.field.choices.0.0 }}">{{ solution_form.question_type.field.choices.0.1 }}</option>
+                    <option id="c" value="{{ solution_form.question_type.field.choices.0.0 }}">{% blocktrans %}Code{% endblocktrans %}</option>
+                    <option id="m" value="{{ solution_form.question_type.field.choices.1.0 }}">{% blocktrans %}Multiple choice{% endblocktrans %}</option>
+                    <option id="t" value="{{ solution_form.question_type.field.choices.2.0 }}">{% blocktrans %}Text{% endblocktrans %}</option>
                 </select>
             </div></div>
             <textarea id="id_content" name="{{ problem_form.content.name }}" style="display: none;"></textarea>
@@ -38,7 +40,7 @@
         {% endif %}
         <div style="display: flex; justify-content: space-between;">
         <div>
-        <select name="{{ problem_form.chapter.name }}" id="id_chapter" required="">
+        <select name="{{ problem_form.chapter.name }}" id="id_chapter" required="required">
             <option disabled selected>{% trans 'Chapter' %}</option>
             {% for item in problem_form.chapter.field.choices %}
             <option value="{{ item.0 }}" {% if item.0 == chapter %}selected{% endif %}>{{ item.1 }}</option>
@@ -53,7 +55,7 @@
     </div>
 
 </div>
-<div class="col col-7">
+<div class="col col-7 c">
 
     <!-- solution -->
     <div class="card">
@@ -68,7 +70,7 @@
 
     <div class="col-5">
     <div class="card" style="margin-right: 1rem; height: 18rem">
-        <input type="text" name="{{ solution_form.header.name }}" value="{{solution_form.header.value|default_if_none:''}}" id="id_header" placeholder="{% blocktrans %}Header{% endblocktrans %}" required>
+        <input type="text" name="{{ solution_form.header.name }}" value="{{solution_form.header.value|default_if_none:''}}" id="id_header" placeholder="{% blocktrans %}Header{% endblocktrans %}" required="required">
         <textarea name="{{ solution_form.tip.name }}" id="id_tip" placeholder="{% blocktrans %}Tip{% endblocktrans %}">{{solution_form.tip.value|default_if_none:''}}</textarea>
         <select id="id_cluster" name="{{ solution_form.cluster.name }}">
             <option disabled selected>{% trans 'Cluster' %}</option>
@@ -96,11 +98,46 @@
     </div>
 
 </div>
+<div class="col col-7 m" style="display: none;">
+    <div class="card">
+        <h3 style="margin-bottom: 0.5rem">{% blocktrans %}Options{% endblocktrans %}</h3>
+        <div class="options">
+            <div class="option">
+                <input type="radio" name="radio" id="p1" style="display: none;">
+                <label for="p1" id="label"><div></div></label>
+                <textarea class="option_content" name="" id="op1"></textarea>
+            </div>
+        </div>
+        <div style="text-align: right;">
+        <a class="link add"><b>+</b> {% trans 'Add Option' %}</a></div>
+        <textarea id="id_options" name="options" style="display: none;"></textarea>
+    </div>
+</div>
+<div class="col col-7 t" style="display: none;">
+    <div class="card">
+        <h3 style="margin-bottom: 0.5rem">{% blocktrans %}Correct answer{% endblocktrans %}</h3>
+        <input type="text" id="text"></div>
+    </div>
 </form>
 {% endblock %}
 {% block javascript %}
 <script type="text/javascript" src="{% static 'js/image-tool.js' %}"></script>
 <script>
+    //change question type
+    function change() {
+        var selected = $('option:selected').attr('id');
+        $('.col.col-7').hide();
+        $('.'+selected).show();
+        if (selected != 'c') {
+            $("#id_header").removeAttr('required');
+        } else {
+            $("#id_header").attr('required','required');
+        }
+    };
+    $('#id_question_type').on('change', function() {change()});
+
+    change();
+
     //quill editor
     var toolbarOptions = [['bold',
                            'italic',
@@ -136,6 +173,21 @@
     var html = '{{problem_form.html.value|default_if_none:''|safe}}';
     $(".ql-editor").html(html);
 
+    var x = 2;
+    $('.add').click(function() {
+        $('.options').append(`
+            <div class="option" id="d`+x+`">
+                <input type="radio" name="radio" id="p${x}" style="display: none;">
+                <label for="p${x}" id="label"><div></div></label>
+                <textarea class="option_content" name="" id="op${x}"></textarea>
+                <div><a class="link delete" onclick="remove('#d`+x+`')">{% blocktrans %}Delete{% endblocktrans %}</a></div>
+            </div>`);
+        x++;
+    });
+    function remove(div) {
+        $(div).remove();
+    };
+
     //submitting form
     $('.primary').click(function() {
         var converter = new showdown.Converter();
@@ -144,6 +196,27 @@
         $('#html').html(html);
         var md = converter.makeMarkdown(html);
         $('#id_content').html(md);
+        $('[name="solution"]').attr('name','');
+        var type = $('#id_question_type').val();
+
+        if (type == 'C') {
+            $('#code').attr('name','solution');
+        } else if (type == 'M') {
+            //update options
+            $('#id_options').html('');
+            var solution = '';
+            $('.option_content').each(function() {
+                $('#id_options').append($(this).val()+'\n\n');
+            });
+            //get solution
+            $('.options input').attr('name','solution');
+            var id = $('.options input:checked').attr('id');
+            var solution = $('#o'+id).val();
+            $('.options input:checked').val(solution);
+            console.log($('.options input:checked').val());
+        } else {
+            $('#text').attr('name','solution');
+        };
         $('#id_form').submit();
     });
 
@@ -165,75 +238,5 @@
         editor.setSize('100%',300);
     }
     }
-    // var editor2 = CodeMirror.fromTextArea(document.getElementById("code2"), {
-    // mode: {name: "python",
-    //     version: 2,
-    //     singleLineStringErrors: false},
-    // lineNumbers: true,
-    // indentUnit: 4,
-    // tabMode: "spaces",
-    // matchBrackets: true,
-    // extraKeys: { Tab: betterTab },
-    // theme: "paraiso-dark"
-    // });
-    // editor2.setSize('100%',145)
-
-// $(document).ready(function() {
-
-//     var wrapper = $(".options");
-//     var add_button = $(".add");
-
-//     var x = 1;
-//     $(add_button).click(function(e) {
-//         e.preventDefault();
-//         x++;
-//         $(wrapper).append('<div id="option"><input type="radio" name="radio" class="op" id="r'+x+'"><label for="r'+x+'" onclick="setSolution(\'#op'+x+'\')">✓</label><textarea class="op_content" id="op'+x+'" onchange="writeOptions()" placeholder="{% trans 'Option' %} '+x+'"></textarea><a href="#" class="delete">Delete</a></div>');
-//     });
-
-//     $(wrapper).on("click", ".delete", function(e) {
-//         e.preventDefault();
-//         $(this).parent('div').remove();
-//         x--;
-//         writeOptions()
-//     });
-
-//     $(".CodeMirror")
-//         .css("background-color","white")
-//         .css("color", "black");
-//     $(".CodeMirror-gutters").css("background", "white");
-// });
-
-
-// $('select[name="question_type"]').on('change', function() {
-//   if(this.value == "C") {
-//     $('#solution_code').show();
-//     $('#solution_options, #solution_text').hide();
-//     $("[name='solution']").attr("name","");
-//     $('#code').attr("name","solution");
-//   } else if(this.value == "M") {
-//     $('#solution_options').show();
-//     $('#solution_code, #solution_text').hide();
-//     $("[name='solution']").attr("name","");
-//     $('#op1').attr("name","solution");
-//   } else if(this.value == "T") {
-//     $('#solution_code, #solution_options').hide();
-//     $('#solution_text').show();
-//     $("[name='solution']").attr("name","");
-//     $('#text').attr("name","solution");
-//   } else {}
-// });
-
-// function writeOptions() {
-//     var text = $(".op_content").map(function() {
-//         return this.value;}).get().join('\n\n')
-//     $('#options').text(text);
-// };
-
-// function setSolution(id) {
-//     $("[name='solution']").attr("name","");
-//     $(id).attr("name","solution");
-// }
-
-// $("[value='{{problem_form.chapter.value.0}}']").attr("selected","");
 </script>
 {% endblock %}

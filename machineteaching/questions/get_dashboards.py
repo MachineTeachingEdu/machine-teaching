@@ -8,6 +8,7 @@ from statistics import mean
 
 from questions.models import (Chapter, Problem, UserLog,
                              UserLogView, User)
+from django.utils.translation import gettext as _
 
 
 def get_student_dashboard(user):
@@ -39,7 +40,7 @@ def get_student_dashboard(user):
                                         final_outcome='S')
 
     #problems plot data
-    labels = ["Passed", "Failed", "Skipped", "No attempt"]
+    labels = [_("Passed"), _("Failed"), _("Skipped"), _("No attempt")]
     student_values = [len(user_passed),
                       len(user_failed),
                       len(user_skipped),
@@ -60,7 +61,7 @@ def get_student_dashboard(user):
     fig.add_trace(go.Pie(labels=labels,
                          values=student_values, 
                          title=dict(
-                            text="You",
+                            text=_("You"),
                             font=dict(family="Nunito", size=40, color='rgb(76,83,90)')),
                          textinfo="none",
                          hole=.9,
@@ -70,7 +71,7 @@ def get_student_dashboard(user):
     fig.add_trace(go.Pie(labels=labels,
                          values=class_values, 
                          title=dict(
-                            text="Your class",
+                            text=_("Your class"),
                             font=dict(family="Nunito", size=17, color='rgb(76,83,90)')),
                          textinfo="none",
                          hole=.85,
@@ -126,47 +127,66 @@ def get_student_dashboard(user):
         if len(passed) > 0:
             problem_errors = []
             for problem in problems:
-                passed = passed.filter(problem=problem).values_list('timestamp')
+                timestamp = passed.get(problem=problem).timestamp
                 errors = UserLog.objects.filter(user=user,
                                                 problem=problem,
                                                 outcome='F',
-                                                timestamp__lte=passed)
+                                                timestamp__lte=timestamp)
                 problem_errors.append(len(errors))
             chapter_errors = mean(problem_errors)
             student_errors.append(chapter_errors)
             labels.append(chapter.label)
 
-    errors = round(mean(student_errors))
+    average_errors = round(mean(student_errors))
 
-    # class_errors = [6,6,5,5,4,5,4,4]
+    class_errors = []
+    for chapter in chapters:
+        problems = Problem.objects.filter(chapter=chapter)
+        passed = UserLogView.objects.filter(user__in=students,
+                                            problem__in=problems,
+                                            final_outcome='P')
+        if len(passed) > 0:
+            problem_errors = []
+            for problem in problems:
+                passed = passed.filter(problem=problem)
+                errors = 0
+                for log in passed:
+                    log_errors = UserLog.objects.filter(user__in=students,
+                                                        problem=problem,
+                                                        outcome='F',
+                                                        timestamp__lte=log.timestamp)
+                    errors += len(log_errors)
+                problem_errors.append(errors)
+            chapter_errors = mean(problem_errors)
+            class_errors.append(chapter_errors)
 
     #color settings
-    # colors = []
-    # for i in range(len(student_errors)):
-    #     if student_errors[i] == class_errors[i]:
-    #         colors.append('#2196F3');
-    #     elif student_errors[i] < class_errors[i]:
-    #         colors.append('rgb(84, 210, 87)')
-    #     else:
-    #         colors.append('rgb(255, 65, 65)')
+    colors = []
+    for i in range(len(student_errors)):
+        if student_errors[i] == class_errors[i]:
+            colors.append('#2196F3');
+        elif student_errors[i] < class_errors[i]:
+            colors.append('rgb(84, 210, 87)')
+        else:
+            colors.append('rgb(255, 65, 65)')
 
     #generating errors plot
     fig2 = go.Figure()
 
-    # fig2.add_trace(go.Scatter(name='Your class',
-    #                           x=labels,
-    #                           y=class_errors,
-    #                           line_shape='linear',
-    #                           line = dict(color='rgb(200,200,200)', width=5),
-    #                           marker = dict(size=15, color='rgb(200,200,200)'),
-    #                           hoverinfo='none'))
+    fig2.add_trace(go.Scatter(name=_('Your class'),
+                              x=labels,
+                              y=class_errors,
+                              line_shape='linear',
+                              line = dict(color='rgb(200,200,200)', width=5),
+                              marker = dict(size=15, color='rgb(200,200,200)'),
+                              hoverinfo='none'))
 
-    fig2.add_trace(go.Scatter(name='You',
+    fig2.add_trace(go.Scatter(name=_('You'),
                               x=labels,
                               y=student_errors,
                               line_shape='linear',
                               line = dict(color='#2196F3', width=5),
-                              marker = dict(size=15, color='#2196F3'),
+                              marker = dict(size=15, color=colors),
                               hoverinfo='none'))
     
     fig2.update_layout(autosize=True,
@@ -189,12 +209,12 @@ def get_student_dashboard(user):
                           font=dict(size=16)
                        ),
                        plot_bgcolor='white',
-                       xaxis_title='Chapter',
+                       xaxis_title=_('Chapter'),
                        xaxis = dict(
                          fixedrange = True,
                          tickmode = 'linear',
                          dtick = 1),
-                       yaxis_title='Errors',
+                       yaxis_title=_('Errors'),
                        yaxis = dict(
                          fixedrange = True,
                          tickmode = 'linear',
@@ -223,23 +243,22 @@ def get_student_dashboard(user):
             time = (passed[0].timestamp - userlog[0].timestamp).days
         else:
             time = None
-        chapter_table.append({'label': chapter.label, 'progress': progress, 'time': time})
+        chapter_table.append({'chapter': chapter, 'progress': progress, 'time': time})
 
     # Chapter times plot
     labels = []
     student_times = []
     for chapter in chapter_table:
         if chapter['time']:
-            labels.append(chapter['label'])
+            labels.append(chapter['chapter'].label)
             student_times.append(chapter['time'])
-
+ 
     class_times = []
     for item in chapter_table:
         if item['time']:
-            chapter = Chapter.objects.get(label=item['label'])
-            chapter_problems = Problem.objects.filter(chapter=chapter)
+            chapter_problems = Problem.objects.filter(chapter=item['chapter'])
             students = User.objects.filter(userprofile__user_class=onlineclass)
-            student_times = []
+            times = []
             for student in students:
                   userlog = UserLog.objects.filter(
                                             user=student,
@@ -251,37 +270,37 @@ def get_student_dashboard(user):
                   progress = int(100 * len(passed)/len(chapter_problems))
                   if progress == 100:
                       time = (passed.reverse()[0].timestamp - userlog[0].timestamp).days
-                      student_times.append(time)
-            class_times.append(int(mean(student_times)))
+                      times.append(time)
+            class_times.append(int(mean(times)))
 
 
     #color settings
     colors = []
-    # for i in range(len(student_times)):
-    #     if student_times[i] == class_times[i]:
-    #         colors.append('#2196F3');
-    #     elif student_times[i] < class_times[i]:
-    #         colors.append('rgb(84, 210, 87)')
-    #     else:
-    #         colors.append('rgb(255, 65, 65)')
+    for i in range(len(student_times)):
+        if student_times[i] == class_times[i]:
+            colors.append('#2196F3');
+        elif student_times[i] < class_times[i]:
+            colors.append('rgb(84, 210, 87)')
+        else:
+            colors.append('rgb(255, 65, 65)')
 
     #generating times plot
     fig3 = go.Figure()
 
-    # fig3.add_trace(go.Scatter(name='Your class',
-    #                           x=labels,
-    #                           y=class_times,
-    #                           line_shape='linear',
-    #                           line = dict(color='rgb(200,200,200)', width=5),
-    #                           marker = dict(size=15, color='rgb(200,200,200)'),
-    #                           hoverinfo='none'))
+    fig3.add_trace(go.Scatter(name=_('Your class'),
+                              x=labels,
+                              y=class_times,
+                              line_shape='linear',
+                              line = dict(color='rgb(200,200,200)', width=5),
+                              marker = dict(size=15, color='rgb(200,200,200)'),
+                              hoverinfo='none'))
     
-    fig3.add_trace(go.Scatter(name='You',
+    fig3.add_trace(go.Scatter(name=_('You'),
                               x=labels,
                               y=student_times,
                               line_shape='linear',
                               line = dict(color='#2196F3', width=5),
-                              marker = dict(size=15, color='#2196F3'),
+                              marker = dict(size=15, color=colors),
                               hoverinfo='none'))
 
     fig3.update_layout(autosize=True,
@@ -304,12 +323,12 @@ def get_student_dashboard(user):
                           font=dict(size=16)
                        ),
                        plot_bgcolor='white',
-                       xaxis_title='Chapter',
+                       xaxis_title=_('Chapter'),
                        xaxis = dict(
                          fixedrange = True,
                          tickmode = 'linear',
                          dtick = 1),
-                       yaxis_title='Time (days)',
+                       yaxis_title=_('Time (days)'),
                        yaxis = dict(
                          fixedrange = True,
                          tickmode = 'linear',
@@ -334,10 +353,10 @@ def get_student_dashboard(user):
 
 
     context = {
-        "title": "Outcomes",
+        "title": _("Outcomes"),
         "problems_plot": problems_plot,
         "problems_time": problems_time,
-        "errors": errors,
+        "errors": average_errors,
         "chapters": chapter_table,
         "errors_plot": errors_plot,
         "time_plot": time_plot,

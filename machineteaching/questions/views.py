@@ -10,6 +10,7 @@ from django.contrib.messages import success, error
 from django.core.exceptions import PermissionDenied
 from django.db.models.functions import Lower
 from django.utils import timezone, translation
+from django.utils.translation import gettext as _
 from django.views.decorators.csrf import csrf_exempt
 # import random
 import json
@@ -88,7 +89,7 @@ def signup(request):
             return redirect('start')
     else:
         form = SignUpForm()
-    return render(request, 'registration/signup.html', {'title':'Create account','form': form})
+    return render(request, 'registration/signup.html', {'title':_('Create account'),'form': form})
 
 
 # @permission_required('questions.can_add_problem', raise_exception=True)
@@ -129,7 +130,7 @@ def get_next_problem(request):
     LOGGER.debug("Got problem %s", problem_id)
 
     if not problem_id:
-        return render(request, 'questions/finished.html', {'title': 'Finished'})
+        return render(request, 'questions/finished.html', {'title': _('Finished')})
     context = get_problem(problem_id)
     return render(request, 'questions/show_problem.html', context)
 
@@ -150,9 +151,13 @@ def save_user_log(request):
 
 @login_required
 def get_past_problems(request):
-    past_problems = UserLog.objects.filter(user=request.user).order_by('timestamp')
+    logs = UserLog.objects.filter(user=request.user).order_by('-timestamp')
+    past_problems = []
+    for log in logs:
+        error = UserLogError.objects.filter(userlog=log).values_list('error')
+        past_problems.append({'log': log, 'error': error})
     return render(request, 'questions/past_problems.html', {
-        'title': 'Past problems', 'past_problems': past_problems, 'user': request.user})
+        'title': _('Past problems'), 'past_problems': past_problems, 'user': request.user})
 
 @permission_required('questions.view_userlogview', raise_exception=True)
 @login_required
@@ -211,7 +216,7 @@ def get_chapter_problems(request):
                                               ).distinct()
 
     return render(request, 'questions/chapters.html', {
-        'title': 'Chapters',
+        'title': _('Chapters'),
         'chapters': [col_1,col_2,col_3],
         'passed': passed,
         'skipped': skipped,
@@ -278,7 +283,7 @@ def new_chapter(request):
         if form.is_valid():
             chapter = form.save(commit=False)
             chapter.save()
-            date = form.cleaned_data['deadline'].strftime('%Y-%m-%d 23:59:59')
+            date = form.cleaned_data['deadline'].strftime('%Y--%d 23:59:59')
             deadline = Deadline(chapter=chapter, deadline=date)
             deadline.save()
             classes = OnlineClass.objects.filter(professor__user=request.user)
@@ -386,7 +391,7 @@ def show_outcome(request):
     LOGGER.info("Available classes: %s" % form.fields['onlineclass'].queryset)
     LOGGER.info("Showing students and outcomes: %s" % json.dumps(outcomes))
     return render(request, 'questions/outcomes.html',
-                  {'title': 'Outcomes','form': form, 'problems': problems_all, 'outcomes':outcomes, 'class':onlineclass})
+                  {'title': _('Outcomes'),'form': form, 'problems': problems_all, 'outcomes':outcomes, 'class':onlineclass})
 
 
 @login_required
@@ -394,8 +399,7 @@ def show_outcome(request):
 def get_user_solution(request, id):
     userlog = UserLog.objects.get(pk=id)
     context = get_problem(userlog.problem_id)
-    context.update({'log': userlog})
-    context['title'] = 'Solution'
+    context.update({'log': userlog, 'title': _('Solution')})
     return render(request, 'questions/past_solutions.html', context)
 
 
@@ -526,7 +530,7 @@ def new_problem(request, chapter=None):
         solution_form = SolutionForm()
 
     return render(request, 'questions/new_problem.html',{
-        'title': 'New problem',
+        'title': _('New problem'),
         'chapter': chapter,
         'problem_form': problem_form,
         'solution_form': solution_form

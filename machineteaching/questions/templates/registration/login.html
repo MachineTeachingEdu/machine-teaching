@@ -14,7 +14,7 @@
                     {% for error in form.username.errors %}
                         <span>{{ error|escape }}</span>
                     {% endfor %}
-                    <input type="text" name="{{ form.username.name }}" placeholder="{% blocktrans %}E-mail{% endblocktrans %}"></input>
+                    <input type="text" name="{{ form.username.name }}" value="{{form.username.value|default_if_none:''}}" placeholder="{% blocktrans %}E-mail{% endblocktrans %}"></input>
                     {% for error in form.password.errors %}
                         <span>{{ error|escape }}</span>
                     {% endfor %}
@@ -32,5 +32,6 @@
         <div><br><br>
             <a href="{% url 'signup' %}">
             <button class="btn">{% blocktrans %}Create account{% endblocktrans %}</button>
+            </a>
         </div>
 {% endblock %}

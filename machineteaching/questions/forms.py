@@ -81,6 +81,7 @@ class ProblemForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ProblemForm, self).__init__(*args, **kwargs)
         self.fields['order'].required = False
+        self.fields['html'].required = False
 
     class Meta:
         model = Problem

@@ -1,11 +1,11 @@
 function showBox() {
 	$('body').append('<div class="bg2"></div>');
 	$('.bg2').append('<div class="card"></div>');
-	$('.bg2 .card').append('<h3></h3>\
-		<span>\
-		  <a class="link" onclick="hideBox()">Voltar</a>\
-		</span>\
-		<div></div>');
+	$('.bg2 .card').append(`<h3></h3>
+		<span>
+		  <a class="link" onclick="hideBox()">${close}</a>
+		</span>
+		<div></div>`);
 };
 
 function hideBox() {

@@ -46,15 +46,15 @@ function evaluate(args, expected_results){
                                <div id="outcome-${i+1}"></div>
                                <table>
                                  <tr>
-                                   <td class="col-4">Input:</td>
+                                   <td class="col-4">${input}</td>
                                    <td class="col-8">${args[i]}</td>
                                  </tr>
                                  <tr>
-                                   <td class="col-4">Expected output:</td>
+                                   <td class="col-4">${expected_output}</td>
                                    <td class="col-8">${expected_results[i]}</td>
                                  </tr>
                                  <tr>
-                                   <td class="col-4">Your output:</td>
+                                   <td class="col-4">${your_output}</td>
                                    <td class="col-8">${answers[i]}</td>
                                  </tr>
                                </table>
@@ -63,13 +63,13 @@ function evaluate(args, expected_results){
         try {
             if (JSON.stringify(expected_results_parsed, Object.keys(expected_results_parsed).sort()) == JSON.stringify(answers_parsed, Object.keys(answers_parsed).sort())){
             //if (JSON.stringify(expected_results[i]) == JSON.stringify(answers[i])){
-                outcome.innerHTML += '<div class="badge success">Passed</div>'
+                outcome.innerHTML += `<div class="badge success">${passed_txt}</div>`
             } else {
-                outcome.innerHTML += '<div class="badge danger">Failed</div>'
+                outcome.innerHTML += `<div class="badge danger">${failed_txt}</div>`
                 errors++;
             };
         } catch(e) {
-            outcome.innerHTML += '<div class="badge danger">Failed</div>'
+            outcome.innerHTML += `<div class="badge danger">${failed_txt}</div>`
             errors++;
         }
     }
@@ -89,7 +89,7 @@ function evaluate(args, expected_results){
         ${Math.round(errors)}
         </div>`);
     $('#next').remove();
-    $('.result').append('<button type="button" onclick="gotoproblem()" class="primary disabled" id="next">Next</button>');
+    $('.result').append(`<button type="button" onclick="gotoproblem()" class="primary disabled" id="next">${next}</button>`);
 
     // If no errors are found, go to the next problem
     if (errors == 0) {

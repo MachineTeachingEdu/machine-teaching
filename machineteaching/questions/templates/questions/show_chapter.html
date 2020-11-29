@@ -62,8 +62,8 @@
     <div style="display: flex;">
     <div style="width: 50%">
       <div class="card" style="margin-right: 1rem;">
-        <h3>Progresso</h3>
-        <div class="task-progress2 col-3">
+        <h3>{% blocktrans %}Progress{% endblocktrans %}</h3>
+        <div class="task-progress2">
           <div id="progress-bar"></div>
         </div>
         <div id="progress" class="percent"></div>
@@ -71,7 +71,7 @@
     </div>
         <div style="width: 50%">
             <div class="card deadline">
-                <h3>Entrega</h3>
+                <h3>{% blocktrans %}Deadline{% endblocktrans %}</h3>
                 <h1></h1>
                 <h2></h2> 
             </div>
@@ -82,7 +82,7 @@
       {% if errors|length == 0 %}
       {% else %}
       <div class="card" style="margin-right: 1rem; border-left: 4px solid var(--red);">
-        <h3>Erros mais comuns</h3>
+        <h3>{% blocktrans %}Main errors{% endblocktrans %}</h3>
         <h1 style="margin-bottom: 0.5rem; margin-top: 0.5rem;">
         {{errors.0.0}}
         </h1>

@@ -53,18 +53,18 @@ table {
 	border-collapse: collapse;
 }
 
-.col-1 {width: 8.33%;}
-.col-2 {width: 16.66%;}
-.col-3 {width: 25%;}
-.col-4 {width: 33.33%;}
-.col-5 {width: 41.66%;}
-.col-6 {width: 50%;}
-.col-7 {width: 58.33%;}
-.col-8 {width: 66.66%;}
-.col-9 {width: 75%;}
-.col-10 {width: 83.33%;}
-.col-11 {width: 91.66%;}
-.col-12 {width: 100%;}
+.col-1 {width: 8.33% !important;}
+.col-2 {width: 16.66% !important;}
+.col-3 {width: 25% !important;}
+.col-4 {width: 33.33% !important;}
+.col-5 {width: 41.66% !important;}
+.col-6 {width: 50% !important;}
+.col-7 {width: 58.33% !important;}
+.col-8 {width: 66.66% !important;}
+.col-9 {width: 75% !important;}
+.col-10 {width: 83.33% !important;}
+.col-11 {width: 91.66% !important;}
+.col-12 {width: 100% !important;}
 [class*="col-"] {
     transition: all 0.4s;
 }
@@ -307,6 +307,12 @@ textarea::-moz-selection { background: #B5DCFF; }
 .footer-left {
     text-transform: uppercase;
     font-weight: 300;
+    display: flex;
+}
+.footer-brand {
+    border-right: 1px solid rgb(180,180,180); 
+    padding-right: 1rem; 
+    text-decoration: none !important;
 }
 .footer-right {
     font-size: 0.9rem;
@@ -553,6 +559,16 @@ option {
     width: 1.5rem;
     margin-left: 0.5rem;
 }
+.footer .change-language {
+    filter: invert(60%);
+    text-decoration: none;
+    font-size: 0.9rem;
+    margin-left: 1rem;
+    font-weight: 300
+}
+.footer .change-language img {
+    width: 1.3rem;
+}
 .container {
     background-color: rgb(246,246,246);
     height: calc(100% - 30rem);
@@ -764,8 +780,8 @@ option {
 }
 code {
     padding: 0.1rem 0.2rem;
-    background: #E6E6E6;
-    border: 1px solid #CCCCCC;
+    background: #F5F8F8;
+    border: 1px solid #E6E6E6;
     border-radius: 2px;
 }
 .loader {
@@ -855,6 +871,99 @@ code {
     padding-top: 1rem;
     font-size: 2rem;
 }
+.options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.option-label {
+    width: calc(50% - 0.5rem);
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    padding: 0 1rem;
+    transition: all 0.2s;
+}
+.option-label:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+.options input:checked+label {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+.options p {
+    cursor: pointer;
+}
+.option {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    width: calc(50% - 1rem);
+}
+.option textarea {
+    display: block;
+    padding: 1rem;
+    width: calc(100% - 3.5rem);
+    height: 8rem;
+}
+.option div {
+    padding: 0.5rem;
+    text-align: center;
+    width: 100%;
+}
+.option div .link {
+    color: var(--red)
+}
+.option div .link:hover {
+    background-color: #FEE4E0
+}
+.option div .link:active {
+    background-color: #FEC5BC;
+}
+#label {
+    display: block;
+    border-radius: 100%;
+    width: 2rem;
+    height: 2rem;
+    border: 1px solid #ced4da;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    padding: 0.3rem;
+}
+#label:hover {
+    border-color: var(--primary);
+}
+#label div {
+    transition: all 0.2s;
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 100%;
+    cursor: pointer;
+}
+#label:hover div {
+    background-color: var(--primary);
+}
+.option input:checked+label div {
+    background-color: var(--primary);
+}
+#text {
+    width: 100%;
+    height: 3.5rem;
+    font-size: 1.3rem;
+    padding: 1rem;
+    display: block;
+}
+.primary.col-2 {
+    height: 3rem;
+}
+
 
 /* chapters page */
 #search {
@@ -914,6 +1023,7 @@ code {
     margin-bottom: 0;
     font-weight: 300
 }
+
 
 /* outcomes page */
 .outcomes-form td .card {
@@ -1015,13 +1125,15 @@ code {
 .dataTable td:nth-child(2),
 .dataTable td:nth-child(3),
 .dataTable td:nth-child(4),
-.dataTable td:nth-child(5) {
+.dataTable td:nth-child(5),
+.dataTable td:nth-child(6) {
     text-align: center !important;
 }
 .dataTable th:nth-child(2),
 .dataTable th:nth-child(3),
 .dataTable th:nth-child(4),
-.dataTable th:nth-child(5) {
+.dataTable th:nth-child(5),
+.dataTable th:nth-child(6) {
     text-align: center !important;
 }
 .dataTable tr {
@@ -1319,7 +1431,7 @@ table.dataTable.no-footer {
 }
 @media only screen and (max-width: 900px) {
     [class*="col-"] {
-        width: 100%;
+        width: 100% !important;
     }
     .layout-content {
         padding-top: 2rem;

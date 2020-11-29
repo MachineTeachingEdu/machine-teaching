@@ -59,24 +59,24 @@
 <div class="col col-6">
 	<div class="card chapters">
 		<div>
-            <h3 style="margin-bottom: 1rem">Aulas</h3>
+            <h3 style="margin-bottom: 1rem">{% blocktrans %}Chapters{% endblocktrans %}</h3>
             <div style="overflow-y: auto; height: 330px">
             <table>
                 <tr>
-                    <td>Nome</td>
-                    <td>Progresso</td>
-                    <td style="text-align: center;">Tempo</td>
+                    <td>{% blocktrans %}Name{% endblocktrans %}</td>
+                    <td>{% blocktrans %}Progress{% endblocktrans %}</td>
+                    <td style="text-align: center;">{% blocktrans %}Time{% endblocktrans %}</td>
                 </tr>
             	{% for chapter in chapters %}
-            	<tr class="row">
-            	    <td class="col-6">{{ chapter.label }}</td>
+            	<tr class="row" onclick="window.location='{% url 'show_chapter' chapter=chapter.chapter.id %}';">
+            	    <td class="col-6">{{ chapter.chapter.label }}</td>
                     <td class="col-4" style="text-align: right;">
-                    <div class="task-progress col-3" style="width: 100%">
+                    <div class="task-progress" style="width: 100%">
                     	<div style="width: {{ chapter.progress }}%; background: {% if chapter.progress == 100 %}limegreen{% else %}var(--primary){% endif %}"></div>
                     </div>
                     <span>{{ chapter.progress }}%</span>
                     <td class="col-2" style="text-align: center;">
-                    {% if chapter.time != None %} {{ chapter.time }} {% blocktrans %}dia(s){% endblocktrans %} {% else %}-{% endif %}</td>
+                    {% if chapter.time != None %} {{ chapter.time }} {% blocktrans %}day(s){% endblocktrans %} {% else %}-{% endif %}</td>
                     </td>
                 </tr>
                 {% endfor %}
@@ -87,7 +87,7 @@
 
 	<!-- time plot -->
     <div class="card chapters">
-	   	<h3>{% blocktrans %}Average time{% endblocktrans %}</h3>
+	   	<h3>{% blocktrans %}Time{% endblocktrans %}</h3>
 	    <span>{% blocktrans %}per chapter{% endblocktrans %}</span>
         {{ time_plot|safe }}
     </div>

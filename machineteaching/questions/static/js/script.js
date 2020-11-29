@@ -39,10 +39,13 @@ $('.menu-item').each(function() {
 function changeLanguage(current) {
     var path = window.location.pathname
     if (current == 'en') {
-        window.location.replace(path.slice(3))
+        var currentContent = location.pathname.split('/')
+        currentContent[1] = 'pt-br';
     } else {
-        window.location.replace('en'.concat(path))
+        var currentContent = location.pathname.split('/')
+        currentContent[1] = 'en';
     }
+        window.location.replace(currentContent.join('/'));
 };
 
 //problem search

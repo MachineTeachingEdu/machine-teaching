@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-11-07 16:25-0300\n"
+"POT-Creation-Date: 2020-11-29 18:13-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,56 +18,60 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: questions/forms.py:19
+#: questions/forms.py:18
 msgid "No"
 msgstr "Não"
 
-#: questions/forms.py:20
+#: questions/forms.py:19
 msgid "Yes"
 msgstr "Sim"
 
-#: questions/forms.py:26
+#: questions/forms.py:25 questions/templates/registration/signup.html:37
 msgid "Class code"
 msgstr "Código da turma"
 
-#: questions/forms.py:27
+#: questions/forms.py:26 questions/templates/registration/signup.html:59
 msgid "Did you have any programming experience before this course?"
 msgstr "Você teve alguma experiência com programação antes desse curso?"
 
-#: questions/forms.py:28
+#: questions/forms.py:27 questions/templates/registration/signup.html:68
 msgid "I accept the "
 msgstr "Eu aceito os "
 
-#: questions/forms.py:28 questions/templates/questions/base.html:235
-#: questions/templates/questions/conditions.html:89
+#: questions/forms.py:27 questions/templates/index.html:78
+#: questions/templates/questions/base.html:84
+#: questions/templates/registration/base.html:57
+#: questions/templates/registration/signup.html:69
 msgid "Terms and Conditions"
 msgstr "Termos e Condições"
 
-#: questions/forms.py:29
+#: questions/forms.py:28 questions/templates/registration/signup.html:73
 msgid "I've read the "
 msgstr "Eu li a "
 
-#: questions/forms.py:29 questions/templates/questions/base.html:235
-#: questions/templates/questions/privacy.html:166
+#: questions/forms.py:28 questions/templates/index.html:82
+#: questions/templates/questions/base.html:88
+#: questions/templates/registration/base.html:61
+#: questions/templates/registration/signup.html:74
 msgid "Privacy Policy"
 msgstr "Política de Privacidade"
 
-#: questions/forms.py:44
+#: questions/forms.py:43
 msgid "Email addresses must be unique."
 msgstr "O endereço de email deve ser único."
 
-#: questions/forms.py:50
+#: questions/forms.py:49
 msgid "Invalid Class Code."
 msgstr "Código da turma inválido"
 
-#: questions/forms.py:54
+#: questions/forms.py:54 questions/templates/questions/outcomes.html:13
 msgid "Class"
 msgstr "Turma"
 
-#: questions/forms.py:55 questions/models.py:30
-#: questions/templates/questions/chapters.html:7
-#: questions/templates/questions/chapters.html:41
-#: questions/templates/questions/new_problem.html:32
+#: questions/forms.py:55 questions/get_dashboards.py:212
+#: questions/get_dashboards.py:326 questions/models.py:30
+#: questions/templates/questions/new_problem.html:47
+#: questions/templates/questions/outcomes.html:17
 msgid "Chapter"
 msgstr "Aula"
 
@@ -75,901 +79,535 @@ msgstr "Aula"
 msgid "You don't have authorization to view this class."
 msgstr "Você não tem autorização para ver essa aula."
 
-#: questions/forms.py:94
+#: questions/forms.py:106 questions/templates/questions/new_problem.html:25
 msgid "Code"
-msgstr ""
+msgstr "Código"
 
-#: questions/forms.py:95
+#: questions/forms.py:107
 msgid "Multiple Choice"
-msgstr ""
+msgstr "Múltipla escolha"
 
-#: questions/forms.py:96
+#: questions/forms.py:108 questions/templates/questions/new_problem.html:27
 msgid "Text"
-msgstr ""
+msgstr "Texto"
 
-#: questions/models.py:31 questions/templates/questions/base.html:52
-#: questions/templates/questions/base.html:76
-#: questions/templates/questions/finished.html:9
+#: questions/get_dashboards.py:43
+#: questions/templates/questions/chapters.html:45
+#: questions/templates/questions/chapters.html:79
+#: questions/templates/questions/chapters.html:113
+#: questions/templates/questions/outcomes.html:59
+#: questions/templates/questions/past_problems.html:9
+#: questions/templates/questions/past_problems.html:12
+#: questions/templates/questions/past_problems.html:47
+#: questions/templates/questions/past_solutions.html:14
+#: questions/templates/questions/show_chapter.html:25
+#: questions/templates/questions/show_problem.html:101
+#: questions/templates/questions/solutions.html:23
+msgid "Passed"
+msgstr "Passou"
+
+#: questions/get_dashboards.py:43
+#: questions/templates/questions/chapters.html:49
+#: questions/templates/questions/chapters.html:83
+#: questions/templates/questions/chapters.html:117
+#: questions/templates/questions/outcomes.html:50
+#: questions/templates/questions/outcomes.html:60
+#: questions/templates/questions/past_problems.html:15
+#: questions/templates/questions/past_problems.html:18
+#: questions/templates/questions/past_problems.html:54
+#: questions/templates/questions/past_solutions.html:18
+#: questions/templates/questions/show_chapter.html:29
+#: questions/templates/questions/show_problem.html:102
+#: questions/templates/questions/solutions.html:25
+msgid "Failed"
+msgstr "Falhou"
+
+#: questions/get_dashboards.py:43
+#: questions/templates/questions/chapters.html:53
+#: questions/templates/questions/chapters.html:87
+#: questions/templates/questions/chapters.html:121
+#: questions/templates/questions/outcomes.html:52
+#: questions/templates/questions/outcomes.html:61
+#: questions/templates/questions/past_problems.html:21
+#: questions/templates/questions/past_problems.html:24
+#: questions/templates/questions/past_problems.html:61
+#: questions/templates/questions/show_chapter.html:33
+#: questions/templates/questions/solutions.html:27
+msgid "Skipped"
+msgstr "Pulou"
+
+#: questions/get_dashboards.py:43
+msgid "No attempt"
+msgstr "Sem tentativa"
+
+#: questions/get_dashboards.py:64 questions/get_dashboards.py:184
+#: questions/get_dashboards.py:298
+#: questions/templates/questions/student_dashboard.html:26
+msgid "You"
+msgstr "Você"
+
+#: questions/get_dashboards.py:74 questions/get_dashboards.py:176
+#: questions/get_dashboards.py:290
+#: questions/templates/questions/student_dashboard.html:30
+msgid "Your class"
+msgstr "Sua turma"
+
+#: questions/get_dashboards.py:217
+#: questions/templates/questions/student_dashboard.html:38
+msgid "Errors"
+msgstr "Erros"
+
+#: questions/get_dashboards.py:331
+msgid "Time (days)"
+msgstr "Tempo (dias)"
+
+#: questions/get_dashboards.py:356 questions/templates/questions/base.html:29
+#: questions/views.py:394
+msgid "Outcomes"
+msgstr "Resultados"
+
+#: questions/get_problem.py:44 questions/models.py:68
+msgid "Problem"
+msgstr "Problema"
+
+#: questions/models.py:31 questions/templates/questions/base.html:28
+#: questions/templates/questions/base.html:44
+#: questions/templates/questions/finished.html:11
+#: questions/templates/questions/student_dashboard.html:62
+#: questions/views.py:219
 msgid "Chapters"
 msgstr "Aulas"
 
-#: questions/models.py:43
+#: questions/models.py:69 questions/templates/questions/show_chapter.html:7
+#: questions/templates/questions/student_dashboard.html:11
+msgid "Problems"
+msgstr "Problemas"
+
+#: questions/models.py:84
+msgid "Exercise Set"
+msgstr ""
+
+#: questions/models.py:85
+msgid "Exercises Sets"
+msgstr ""
+
+#: questions/models.py:97
 #, fuzzy
 #| msgid "Class"
 msgid "OnlineClass"
 msgstr "Turma"
 
-#: questions/models.py:44
+#: questions/models.py:98
 msgid "OnlineClasses"
 msgstr "Turmas"
 
-#: questions/models.py:67
+#: questions/models.py:115 questions/templates/questions/chapters.html:16
+#: questions/templates/questions/show_chapter.html:74
+msgid "Deadline"
+msgstr "Entrega"
+
+#: questions/models.py:116
+msgid "Deadlines"
+msgstr ""
+
+#: questions/models.py:139
 msgid "Professors"
 msgstr "Professores"
 
-#: questions/models.py:96
+#: questions/models.py:168
 msgid "User profile"
 msgstr "Perfil do usuário"
 
-#: questions/models.py:97
+#: questions/models.py:169
 msgid "User profiles"
 msgstr "Perfis dos usuários"
 
-#: questions/models.py:144 questions/templates/questions/chapters.html:42
-msgid "Problem"
-msgstr "Problema"
-
-#: questions/models.py:145
-msgid "Problems"
-msgstr "Problemas"
-
-#: questions/models.py:168 questions/templates/questions/new_problem.html:52
-#: questions/templates/questions/past_problems.html:14
+#: questions/models.py:203 questions/templates/questions/new_problem.html:65
+#: questions/templates/questions/past_problems.html:36
+#: questions/templates/questions/past_solutions.html:32 questions/views.py:402
 msgid "Solution"
 msgstr "Solução"
 
-#: questions/models.py:169 questions/templates/questions/solutions.html:18
+#: questions/models.py:204 questions/templates/questions/solutions.html:11
 msgid "Solutions"
 msgstr "Soluções"
 
-#: questions/models.py:178
+#: questions/models.py:213
 msgid "Test Case"
 msgstr "Caso de Teste"
 
-#: questions/models.py:179
+#: questions/models.py:214
 msgid "Test Cases"
 msgstr "Casos de Teste"
 
-#: questions/models.py:205
+#: questions/models.py:240
 msgid "User log"
 msgstr "Log do usuário"
 
-#: questions/models.py:206
+#: questions/models.py:241
 msgid "User logs"
 msgstr "Logs dos usuários"
 
-#: questions/templates/questions/about.html:5
-msgid "ABOUT THIS RESEARCH"
-msgstr "SOBRE A PESQUISA"
+#: questions/templates/index.html:7
+msgid "Home"
+msgstr "Início"
 
-#: questions/templates/questions/about.html:7
-msgid ""
-"It is important to understand why students succeed or fail when taking a\n"
-"    course so we can <span class=\"highlight\">improve teaching methods</"
-"span> by identifying students' needs\n"
-"    and to <span class=\"highlight\">provide personalized education</span>. "
-"Smart learning content is defined as\n"
-"visualizations, simulations and web-based environments that provide outputs\n"
-"for students based on the students' input [1]. The adoption of smart\n"
-"learning content in classrooms and in self-learning environments <span class="
-"\"highlight\">motivates\n"
-"students [2]–[5], improves student learning, decreases student dropout or\n"
-"failure [2], [6]–[8] while increasing their self-confidence, especially in\n"
-"female students [6].</span>"
-msgstr ""
-"É importante entender os motivos por que alguns alunos são mais bem-"
-"sucedidos do que outros ao fazer um curso, para que possamos <span class="
-"\"highlight\">aprimorar os métodos de ensino</span> ao identificar as "
-"necessidades dos alunos e <span class=\"highlight\">oferecer uma educação "
-"personalizada</span>. Um ambiente de aprendizagem inteligente é aquele que "
-"provê visualizações, simulações e inferências aos alunos e educadores a "
-"partir de dados coletados dinamicamente [1]. Sabe-se que a adoção de um "
-"ambiente de aprendizagem inteligente em salas de aula e em ambientes de auto-"
-"aprendizagem ajuda a <span class=\"highlight\">motivar os alunos [2]-[5], "
-"melhorar a aprendizagem, diminuir os casos de abandono e a reprovação [2], "
-"[6]-[8], enquanto aumenta a autoconfiança dos alunos, especialmente em "
-"estudantes do sexo feminino [6].</span>"
+#: questions/templates/index.html:22
+#: questions/templates/registration/base.html:24
+msgid "Close"
+msgstr "Fechar"
 
-#: questions/templates/questions/about.html:17
-msgid ""
-"Also, Python is a general-purpose language, which means it can be used in a\n"
-"large variety of projects. This can be great to stimulate students, since "
-"they\n"
-"can work in projects they actually relate to. Python is also user-friendly "
-"and\n"
-"for the past seven years, it has been the fastest-growing major programming\n"
-"language [9], <span class=\"highlight\">being correlated with trending "
-"careers, such as DevOps and Data\n"
-"    Scientist [10]</span>. According to the 2015 review [8], only 11&#37; of "
-"the Educational\n"
-"Data Mining and Learning Analytics papers about programming courses "
-"reported\n"
-"using Python as the course language. However, this is changing. A 2017 "
-"review\n"
-"on the Introductory Programming courses in Australasia universities [11]\n"
-"reported a shift from Java to Python in the past years and the 2018 review "
-"on\n"
-"Introductory Programming literature [12] already presents a higher number "
-"of\n"
-"papers using Python as the course language. Nonetheless, even though we "
-"already\n"
-"have different tools to support online learning, it is still hard to find "
-"open\n"
-"datasets containing student submissions for Python problems and related\n"
-"information that can be important to get a better insight on students'\n"
-"knowledge."
-msgstr ""
-"Além disso, o Python é uma linguagem de propósito geral, o que significa que "
-"pode ser usada em uma grande variedade de projetos. Isso é ótimo para "
-"estimular os alunos, pois eles podem trabalhar em projetos com os quais "
-"realmente se identificam. Python também possui uma interface amigável e, nos "
-"últimos sete anos, tem sido a linguagem de programação com maior crescimento "
-"em termos de adoção [9],<span class=\"highlight\"> estando correlacionada "
-"com carreiras em alta, como DevOps e Cientista de Dados [10]</span>. De "
-"acordo com a revisão de 2015 [8],apenas 11&#37; dos artigos de Mineração de "
-"Dados Educacionais e <i>Learning Analytics</i> sobre cursos de programação "
-"relataram o uso de Python como a linguagem utilizada no curso.  No entanto, "
-"isso está mudando. Uma revisão de 2017 sobre os cursos de Introdução à "
-"Programação nas universidades da Australásia [11] relatou uma mudança de "
-"Java para Python nos últimos anos enquanto a revisão de 2018 [12] já "
-"apresentou um número maior de artigos usando Python como a linguagem "
-"principal do curso. Ainda assim, embora já tenhamos diferentes ferramentas "
-"para apoiar a aprendizagem online, ainda é difícil encontrar bancos de dados "
-"abertos contendo respostas e submissões de alunos para problemas em Python e "
-"outras informações importantes para se obter uma melhor percepção do "
-"conhecimento dos alunos."
-
-#: questions/templates/questions/about.html:34
-msgid ""
-"These factors motivate our objective: the creation, deployment and use of\n"
-"online intelligent systems in Introduction to Programming classes using the\n"
-"Python language as a way to <span class=\"highlight\">uncover students’ "
-"difficulties, to understand their\n"
-"    knowledge and to provide timely feedback to keep students engaged.</span>"
-msgstr ""
-"As condições apresentadas motivam nossos principais objetivos: o "
-"desenvolvimento, a implantação e o uso de sistemas inteligentes online em "
-"aulas de Introdução à Programação usando a linguagem Python como uma forma "
-"de <span class=\"highlight\">descobrir as dificuldades dos alunos, "
-"compreender seus conhecimentos e processos cognitivos de aprendizado e "
-"fornecer feedback para mantê-los envolvidos e engajados.</span>"
-
-#: questions/templates/questions/about.html:39
-msgid "Interested? Take a look at "
-msgstr "Se interessou? Leia o"
-
-#: questions/templates/questions/about.html:42
-msgid "our paper"
-msgstr "nosso artigo"
-
-#: questions/templates/questions/about.html:44
-msgid "References:"
-msgstr "Referências:"
-
-#: questions/templates/questions/base.html:36
-msgid "Strategy"
-msgstr "Estratégia"
-
-#: questions/templates/questions/base.html:39
-#: questions/templates/questions/finished.html:7
-#: questions/templates/questions/finished.html:12
-msgid "Sequential"
-msgstr "Sequencial"
-
-#: questions/templates/questions/base.html:41
-#: questions/templates/questions/finished.html:10
-#: questions/templates/questions/finished.html:12
-msgid "Random"
-msgstr "Aleatório"
-
-#: questions/templates/questions/base.html:50
-#: questions/templates/questions/base.html:74
-msgid "Current Problem"
-msgstr "Problema Atual"
-
-#: questions/templates/questions/base.html:51
-#: questions/templates/questions/base.html:75
-msgid "Past Problems"
-msgstr "Problemas Passados"
-
-#: questions/templates/questions/base.html:55
-#: questions/templates/questions/base.html:79
-msgid "Outcomes"
-msgstr "Resultados"
-
-#: questions/templates/questions/base.html:58
-#: questions/templates/questions/base.html:82
-msgid "Hello"
-msgstr "Olá"
-
-#: questions/templates/questions/base.html:58
-#: questions/templates/questions/base.html:82
-msgid "Logout"
-msgstr "Sair"
-
-#: questions/templates/questions/base.html:60
-#: questions/templates/questions/base.html:93
-msgid "Signup"
-msgstr "Cadastro"
-
-#: questions/templates/questions/base.html:61
-#: questions/templates/questions/base.html:94
-#: questions/templates/registration/login.html:6
-#: questions/templates/registration/login.html:25
-msgid "Login"
-msgstr "Entrar"
-
-#: questions/templates/questions/base.html:181
-#: questions/templates/questions/base.html:182
-#: questions/templates/questions/base.html:198
-#: questions/templates/questions/base.html:199
-msgid "Dark mode"
-msgstr "Escurecer"
-
-#: questions/templates/questions/base.html:185
-#: questions/templates/questions/base.html:186
-#: questions/templates/questions/base.html:194
-#: questions/templates/questions/base.html:195
-msgid "Light mode"
-msgstr "Clarear"
-
-#: questions/templates/questions/base.html:235
-msgid "Check the "
-msgstr "Veja os "
-
-#: questions/templates/questions/base.html:235
-msgid " and the "
-msgstr " e a "
-
-#: questions/templates/questions/base.html:236
-#: questions/templates/questions/index.html:44
-#: questions/templates/questions/index.html:48
-msgid "About this research"
-msgstr "Sobre a pesquisa"
-
-#: questions/templates/questions/chapters.html:10
-msgid "All"
-msgstr "Todas"
-
-#: questions/templates/questions/chapters.html:22
-#: questions/templates/questions/chapters.html:151
-msgid "Edit chapter"
-msgstr "Editar aula"
-
-#: questions/templates/questions/chapters.html:24
-msgid "Update"
-msgstr "Atualizar"
-
-#: questions/templates/questions/chapters.html:27
-#: questions/templates/questions/new_problem.html:102
-msgid "Add"
-msgstr "Adicionar"
-
-#: questions/templates/questions/chapters.html:34
-msgid "Add Chapter"
-msgstr "Adicionar aula"
-
-#: questions/templates/questions/chapters.html:35
-msgid "Add Problem"
-msgstr "Adicionar problema"
-
-#: questions/templates/questions/chapters.html:43
-msgid "Outcome"
-msgstr "Resultado"
-
-#: questions/templates/questions/chapters.html:55
-#: questions/templates/questions/outcomes.html:41
-#: questions/templates/questions/past_problems.html:23
-#: questions/templates/questions/solutions.html:30
-msgid "Passed"
-msgstr "Passou"
-
-#: questions/templates/questions/chapters.html:56
-#: questions/templates/questions/outcomes.html:34
-#: questions/templates/questions/outcomes.html:43
-#: questions/templates/questions/past_problems.html:29
-#: questions/templates/questions/solutions.html:34
-msgid "Skipped"
-msgstr "Pulou"
-
-#: questions/templates/questions/chapters.html:57
-#: questions/templates/questions/outcomes.html:33
-#: questions/templates/questions/outcomes.html:42
-#: questions/templates/questions/past_problems.html:26
-#: questions/templates/questions/solutions.html:32
-msgid "Failed"
-msgstr "Falhou"
-
-#: questions/templates/questions/chapters.html:124
-#: questions/templates/questions/chapters.html:144
-msgid "Cancel"
-msgstr "Cancelar"
-
-#: questions/templates/questions/chapters.html:132
-msgid "Add chapter"
-msgstr "Adicionar aula"
-
-#: questions/templates/questions/conditions.html:5
-msgid "TERMS AND CONDITIONS"
-msgstr "TERMOS E CONDIÇÕES"
-
-#: questions/templates/questions/conditions.html:7
-#: questions/templates/questions/privacy.html:7
-msgid "Last updated: August 29, 2020"
-msgstr "Última atualização: 29 de Agosto de 2020"
-
-#: questions/templates/questions/conditions.html:8
-msgid "PRIVACY"
-msgstr "PRIVACIDADE"
-
-#: questions/templates/questions/conditions.html:11
-msgid ""
-"\n"
-"            We have established a Privacy Policy, which is considered\n"
-"            part of our Terms of Service. Please read the Privacy Policy to\n"
-"            understand our commitment to the privacy of our users.  \n"
-"            "
-msgstr ""
-"\n"
-"Estabelecemos uma Política de Privacidade, que é considerada parte de nossos "
-"Termos de Serviço. Leia a Política de Privacidade para entender nosso "
-"compromisso com a privacidade de nossos usuários."
-
-#: questions/templates/questions/conditions.html:18
-msgid ""
-"\n"
-"            By registering, the user agrees that all the data\n"
-"            provided to the website may be used as anonymous data research\n"
-"            intended to enhance the Machine Teaching Platform as well as "
-"the\n"
-"            quality of learning and related sciences worldwide.\n"
-"            "
-msgstr ""
-"\n"
-"Ao se cadastrar, o usuário concorda que todos os dados fornecidos ao site "
-"podem ser usados nesta pesquisa como dados anônimos com o objetivo de "
-"aprimorar a Plataforma Machine Teaching, bem como a qualidade do aprendizado "
-"e ciências afins em todo o mundo."
-
-#: questions/templates/questions/conditions.html:26
-msgid "YOUR ACCOUNT"
-msgstr "SUA CONTA"
-
-#: questions/templates/questions/conditions.html:29
-msgid ""
-"\n"
-"            When and if you register with the Site, you agree to (a) "
-"provide\n"
-"            accurate, current and complete information about yourself as\n"
-"            prompted by our registration form (including your email "
-"address),\n"
-"            (b) allow the Machine Teaching Platform to conduct A/B testing\n"
-"            using information gathered from the actions that you take with "
-"your\n"
-"            account, and maintain and update your information (including\n"
-"            your email address) to keep it accurate, current and complete. "
-"You\n"
-"            acknowledge that, if any information provided by you is untrue,\n"
-"            inaccurate, not current or incomplete, we reserve the right to\n"
-"            terminate this Agreement and your access to the Site. As part "
-"of\n"
-"            the registration process, you will be asked to select a "
-"username\n"
-"            and password. We may refuse to grant you a username that\n"
-"            impersonates someone else, is or may be illegal, is or may be\n"
-"            protected by trademark or other proprietary rights law, is "
-"vulgar\n"
-"            or otherwise offensive, or may cause confusion, as determined by "
-"us\n"
-"            in our sole discretion. You will be responsible for the\n"
-"            confidentiality and use of your username and password and agree "
-"not\n"
-"            to transfer or resell your use of or access to the Site to any\n"
-"            third party. If you have reason to believe that your account "
-"with\n"
-"            us is no longer secure, you must promptly change your password. "
-"YOU\n"
-"            ARE ENTIRELY RESPONSIBLE FOR MAINTAINING THE CONFIDENTIALITY OF\n"
-"            YOUR USERNAME AND PASSWORD AND FOR ANY AND ALL ACTIVITIES THAT "
-"ARE\n"
-"            CONDUCTED THROUGH YOUR ACCOUNT.  \n"
-"            "
-msgstr ""
-
-#: questions/templates/questions/conditions.html:56
-msgid "DISCLAIMERS"
-msgstr "TERMO DE RESPONSABILIDADE"
-
-#: questions/templates/questions/conditions.html:59
-msgid ""
-"\n"
-"           The Machine Teaching developers have worked hard to develop "
-"services\n"
-"           and materials on this Site that assist students, educators, "
-"parents,\n"
-"           and guardians in the\n"
-"           learning process. Nonetheless, THE SITE, THE MATERIALS ON THE "
-"SITE,\n"
-"           AND ANY PRODUCT OR SERVICE OBTAINED THROUGH THE SITE ARE "
-"PROVIDED\n"
-"           \"AS IS\" AND WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR\n"
-"           IMPLIED, INCLUDING, WITHOUT LIMITATION, IMPLIED WARRANTIES OF "
-"TITLE,\n"
-"           NON-INFRINGEMENT, ACCURACY, MERCHANTABILITY, AND FITNESS FOR A\n"
-"           PARTICULAR PURPOSE, AND ANY WARRANTIES THAT MAY ARISE FROM COURSE "
-"OF\n"
-"           DEALING, COURSE OF PERFORMANCE OR USAGE OF TRADE. Specifically "
-"and\n"
-"           without limitation, THE PLATFORM AND ITS AFFILIATES, LICENSORS, "
-"SUPPLIERS,\n"
-"           SPONSORS AND AGENTS DO NOT WARRANT THE SERVICES ON THIS SITE WILL "
-"BE\n"
-"           UNINTERRUPTED, SECURE, OR ERROR-FREE; THAT THE SITE IS FREE OF\n"
-"           VIRUSES OR OTHER HARMFUL COMPONENTS; THAT THE CONTENT ON THE SITE "
-"IS\n"
-"           ENTIRELY CORRECT, ACCURATE, UP-TO-DATE, OR RELIABLE; THAT "
-"DEFECTS\n"
-"           WILL BE CORRECTED, OR THAT THE SITE, THE SERVER(S) ON WHICH THE "
-"SITE\n"
-"           IS HOSTED OR SOFTWARE ARE FREE OF VIRUSES OR OTHER HARMFUL\n"
-"           COMPONENTS. ANY MATERIAL DOWNLOADED OR OTHERWISE OBTAINED "
-"THROUGH\n"
-"           THE USE OF THE SERVICE IS DONE AT YOUR OWN DISCRETION AND RISK "
-"AND\n"
-"           THAT YOU WILL BE SOLELY RESPONSIBLE FOR ANY DAMAGE TO YOUR "
-"COMPUTER\n"
-"           SYSTEM OR LOSS OF DATA THAT RESULTS FROM THE DOWNLOAD OF ANY "
-"SUCH\n"
-"           MATERIAL. YOUR USE OF THE SITE AND ANY MATERIALS PROVIDED "
-"THROUGH\n"
-"           THE SITE IS ENTIRELY AT YOUR OWN RISK.\n"
-"           "
-msgstr ""
-
-#: questions/templates/questions/conditions.html:85
-msgid "CONTACT INFORMATION"
-msgstr "CONTATO"
-
-#: questions/templates/questions/conditions.html:88
-#: questions/templates/questions/privacy.html:165
-msgid "If you have any questions or concerns about this "
-msgstr "Se você ainda possui alguma dúvida ou preocupações sobre este "
-
-#: questions/templates/questions/conditions.html:90
-#: questions/templates/questions/privacy.html:167
-msgid "please contact us at: "
-msgstr "contate-nos em:"
-
-#: questions/templates/questions/finished.html:6
-msgid "You finished all available problems in"
-msgstr "Você terminou todos os problemas disponíveis no modo"
-
-#: questions/templates/questions/finished.html:7
-msgid "mode. You can:"
-msgstr " Você pode:"
-
-#: questions/templates/questions/finished.html:9
-#: questions/templates/questions/finished.html:10
-msgid "Go to"
-msgstr "Ir para o modo"
-
-#: questions/templates/questions/finished.html:9
-msgid "and come back to skipped problems."
-msgstr "e voltar aos problemas pulados."
-
-#: questions/templates/questions/finished.html:10
-msgid "mode and try other problems."
-msgstr " e tentar outros problemas."
-
-#: questions/templates/questions/finished.html:12
-msgid "mode. You can go to "
-msgstr ". Você pode ir para o modo "
-
-#: questions/templates/questions/finished.html:12
-msgid "mode and do new problems."
-msgstr " e fazer novos problemas."
-
-#: questions/templates/questions/index.html:18
+#: questions/templates/index.html:36
 msgid "Welcome to "
 msgstr "Bem-vindo ao"
 
-#: questions/templates/questions/index.html:19
+#: questions/templates/index.html:39
 msgid "Start"
-msgstr ""
+msgstr "Começar"
 
-#: questions/templates/questions/index.html:20
+#: questions/templates/index.html:44
+#: questions/templates/registration/login.html:34
+#: questions/templates/registration/signup.html:7
+#: questions/templates/registration/signup.html:78 questions/views.py:92
 msgid "Create account"
-msgstr ""
+msgstr "Criar conta"
 
-#: questions/templates/questions/index.html:21
-msgid "Our goals:"
-msgstr "Nossos objetivos:"
+#: questions/templates/index.html:47
+msgid "Our goals"
+msgstr "Nossos objetivos"
 
-#: questions/templates/questions/index.html:26
-msgid "Improve teaching methodologies"
-msgstr "Melhorar metodologias de aprendizado"
-
-#: questions/templates/questions/index.html:32
+#: questions/templates/index.html:52
 msgid "Understand students' learning processes "
 msgstr "Entender os processos de aprendizado dos alunos"
 
-#: questions/templates/questions/index.html:38
+#: questions/templates/index.html:58
+msgid "Improve teaching methodologies"
+msgstr "Melhorar metodologias de aprendizado"
+
+#: questions/templates/index.html:64
 msgid "Stimulate students to learn the Python language "
 msgstr "Estimular o aprendizado da linguagem Python"
 
-#: questions/templates/questions/index.html:48
-msgid "Check the Terms and Conditions and the Privacy Policy"
+#: questions/templates/index.html:71 questions/templates/index.html:85
+#: questions/templates/questions/base.html:91
+#: questions/templates/registration/base.html:64
+msgid "About this research"
+msgstr "Sobre a pesquisa"
+
+#: questions/templates/index.html:76 questions/templates/questions/base.html:82
+#: questions/templates/registration/base.html:55
+msgid "Check the "
+msgstr "Veja os "
+
+#: questions/templates/index.html:80 questions/templates/questions/base.html:86
+#: questions/templates/registration/base.html:59
+#, fuzzy
+#| msgid " and the "
+msgid "and the "
+msgstr " e a "
+
+#: questions/templates/index.html:87 questions/templates/questions/base.html:93
+#: questions/templates/registration/base.html:66
+msgid ""
+"© 2020 Copyright: <a href=\"http://machineteaching.tech\">machineteaching."
+"tech"
 msgstr ""
 
-#: questions/templates/questions/new_problem.html:12
-msgid "Add problem"
-msgstr "Adicionar problema"
+#: questions/templates/questions/base.html:26
+msgid "Current problem"
+msgstr "Problema atual"
 
-#: questions/templates/questions/new_problem.html:23
-#: questions/templates/questions/past_problems.html:12
-msgid "Title"
-msgstr "Título"
+#: questions/templates/questions/base.html:27 questions/views.py:160
+msgid "Past problems"
+msgstr "Problemas passados"
 
-#: questions/templates/questions/new_problem.html:27
-msgid "Question type"
-msgstr "Tipo de questão"
+#: questions/templates/questions/base.html:33
+msgid "Strategy"
+msgstr "Estratégia"
 
-#: questions/templates/questions/new_problem.html:42
-msgid "Cluster"
-msgstr "Cluster"
+#: questions/templates/questions/base.html:38
+#: questions/templates/questions/finished.html:9
+#: questions/templates/questions/finished.html:14
+msgid "Sequential"
+msgstr "Sequencial"
 
-#: questions/templates/questions/new_problem.html:48
-msgid "Content"
-msgstr "Conteúdo"
+#: questions/templates/questions/base.html:40
+#: questions/templates/questions/finished.html:12
+#: questions/templates/questions/finished.html:14
+msgid "Random"
+msgstr "Aleatório"
 
-#: questions/templates/questions/new_problem.html:62
-msgid "Header"
-msgstr "Header"
+#: questions/templates/questions/base.html:63
+msgid "Hello"
+msgstr "Olá"
 
-#: questions/templates/questions/new_problem.html:66
-msgid "Tip"
-msgstr "Dica"
+#: questions/templates/questions/base.html:65
+msgid "Logout"
+msgstr "Sair"
 
-#: questions/templates/questions/new_problem.html:71
-msgid "Test case generator"
-msgstr "Gerador de casos de teste"
+#: questions/templates/questions/chapters.html:10
+msgid "Add chapter"
+msgstr "Adicionar aula"
 
-#: questions/templates/questions/new_problem.html:87
-msgid "Options"
-msgstr "Opções"
+#: questions/templates/questions/chapters.html:13
+#: questions/templates/questions/student_dashboard.html:66
+msgid "Name"
+msgstr "Nome"
 
-#: questions/templates/questions/new_problem.html:88
-msgid "Select the correct option"
-msgstr "Selecione a opção correta"
+#: questions/templates/questions/chapters.html:19
+msgid "Add"
+msgstr "Adicionar"
 
-#: questions/templates/questions/new_problem.html:90
-#: questions/templates/questions/new_problem.html:142
-msgid "Option"
-msgstr "Opção"
-
-#: questions/templates/questions/new_problem.html:93
-msgid "Add Option"
-msgstr "Adicionar opção"
-
-#: questions/templates/questions/new_problem.html:98
-#: questions/templates/questions/new_problem.html:99
-#: questions/templates/questions/show_problem.html:51
-#: questions/templates/questions/show_problem.html:68
-msgid "Answer"
-msgstr "Responder"
-
+#: questions/templates/questions/chapters.html:25
 #: questions/templates/questions/outcomes.html:10
+#: questions/templates/questions/outcomes.html:22
 msgid "Search"
 msgstr "Pesquisar"
 
-#: questions/templates/questions/outcomes.html:11
+#: questions/templates/questions/finished.html:8
+msgid "You finished all available problems in"
+msgstr "Você terminou todos os problemas disponíveis no modo"
+
+#: questions/templates/questions/finished.html:9
+msgid " mode. You can:"
+msgstr " Você pode:"
+
+#: questions/templates/questions/finished.html:11
+#: questions/templates/questions/finished.html:12
+msgid "Go to"
+msgstr "Ir para o modo"
+
+#: questions/templates/questions/finished.html:11
+msgid "and come back to skipped problems."
+msgstr "e voltar aos problemas pulados."
+
+#: questions/templates/questions/finished.html:12
+msgid "mode and try other problems."
+msgstr " e tentar outros problemas."
+
+#: questions/templates/questions/finished.html:14
+msgid "mode. You can go to "
+msgstr ". Você pode ir para o modo "
+
+#: questions/templates/questions/finished.html:14
+msgid "mode and do new problems."
+msgstr " e fazer novos problemas."
+
+#: questions/templates/questions/new_problem.html:21
+#: questions/templates/questions/past_problems.html:31
+msgid "Title"
+msgstr "Título"
+
+#: questions/templates/questions/new_problem.html:26
+msgid "Multiple choice"
+msgstr "Múltipla escolha"
+
+#: questions/templates/questions/new_problem.html:52
+msgid "Position"
+msgstr "Posição"
+
+#: questions/templates/questions/new_problem.html:55
+#: questions/templates/questions/show_chapter.html:56
+msgid "Add problem"
+msgstr "Adicionar problema"
+
+#: questions/templates/questions/new_problem.html:76
+msgid "Header"
+msgstr "Header"
+
+#: questions/templates/questions/new_problem.html:77
+msgid "Tip"
+msgstr "Dica"
+
+#: questions/templates/questions/new_problem.html:79
+msgid "Cluster"
+msgstr "Cluster"
+
+#: questions/templates/questions/new_problem.html:89
+msgid "Test case generator"
+msgstr "Gerador de casos de teste"
+
+#: questions/templates/questions/new_problem.html:106
+msgid "Options"
+msgstr "Opções"
+
+#: questions/templates/questions/new_problem.html:115
+msgid "Add Option"
+msgstr "Adicionar opção"
+
+#: questions/templates/questions/new_problem.html:121
+msgid "Correct answer"
+msgstr "Resposta"
+
+#: questions/templates/questions/new_problem.html:186
+msgid "Delete"
+msgstr "Excluir"
+
+#: questions/templates/questions/outcomes.html:23
 msgid "Export CSV"
 msgstr "Exportar CSV"
 
-#: questions/templates/questions/outcomes.html:18
+#: questions/templates/questions/outcomes.html:32
 msgid "Students"
 msgstr "Alunos"
 
-#: questions/templates/questions/outcomes.html:22
+#: questions/templates/questions/outcomes.html:36
 msgid "Total"
 msgstr "Total"
 
-#: questions/templates/questions/outcomes.html:32
+#: questions/templates/questions/outcomes.html:47
 msgid "Passed at"
 msgstr "Passou em"
 
-#: questions/templates/questions/past_problems.html:11
-msgid "Timestamp"
-msgstr "Timestamp"
+#: questions/templates/questions/past_problems.html:8
+msgid "Filter"
+msgstr "Filtrar"
 
-#: questions/templates/questions/past_problems.html:13
+#: questions/templates/questions/past_problems.html:32
+msgid "Day"
+msgstr "Dia"
+
+#: questions/templates/questions/past_problems.html:33
+msgid "Time "
+msgstr "Hora"
+
+#: questions/templates/questions/past_problems.html:34
 msgid "Status"
 msgstr "Status"
 
-#: questions/templates/questions/past_problems.html:24
-#: questions/templates/questions/past_problems.html:27
+#: questions/templates/questions/past_problems.html:35
+msgid "Error (Python)"
+msgstr "Erro (Python)"
+
+#: questions/templates/questions/past_problems.html:50
+#: questions/templates/questions/past_problems.html:57
 msgid "See submitted solution"
 msgstr "Ver solução enviada"
 
-#: questions/templates/questions/privacy.html:5
-msgid "PRIVACY POLICY"
-msgstr "POLÍTICA DE PRIVACIDADE"
+#: questions/templates/questions/past_solutions.html:53
+msgid "Your answer"
+msgstr "Sua resposta"
 
-#: questions/templates/questions/privacy.html:11
-msgid ""
-"\n"
-"           Machine Teaching will never use our Platform for commercial use. "
-"We\n"
-"           will never advertise on our site.  Additionally, we will never "
-"sell\n"
-"           personally identifiable or non-personally identifiable "
-"information\n"
-"           to third parties.  \n"
-"           "
-msgstr ""
+#: questions/templates/questions/show_chapter.html:10
+msgid "Edit"
+msgstr "Editar"
 
-#: questions/templates/questions/privacy.html:19
-msgid ""
-"\n"
-"            If you wish to become a Registered User (Student User or "
-"Teacher\n"
-"            User) of the Platform, you must provide us with certain "
-"information\n"
-"            as part of the registration process. In this Privacy Policy, "
-"when\n"
-"            we use the term \"Personally Identifiable Information\", we mean "
-"any\n"
-"            information that can be used to identify or contact a specific\n"
-"            individual. We use Personally Identifiable Information to "
-"process\n"
-"            requests made through this Site and Platform, such as "
-"registration\n"
-"            requests. The user name that is assigned to you during the\n"
-"            registration process will identify you on the Platform in\n"
-"            conjunction with content that you submit to the Platform, and "
-"this\n"
-"            information may be viewed by Users. All passwords are salted "
-"before\n"
-"            being stored, so we are not aware of the passwords of any "
-"users.\n"
-"           "
-msgstr ""
+#: questions/templates/questions/show_chapter.html:11
+msgid "Cancel"
+msgstr "Cancelar"
 
-#: questions/templates/questions/privacy.html:35
-msgid ""
-" \n"
-"           Personally Identifiable Information and other data that you\n"
-"           furnished through the Platform may remain in our records even if "
-"you\n"
-"           are no longer a User and can be used by us in accordance with "
-"this\n"
-"           Privacy Policy.  \n"
-"           "
-msgstr ""
+#: questions/templates/questions/show_chapter.html:12
+msgid "Save"
+msgstr "Salvar"
 
-#: questions/templates/questions/privacy.html:43
-msgid ""
-" \n"
-"           We may collect certain information automatically when you visit "
-"the\n"
-"           Platform or Site, such as the browser you are using, the "
-"Internet\n"
-"           address from which you linked to the Platform or Site, the "
-"operating\n"
-"           system of your computer, the unique IP address of the computer "
-"you\n"
-"           used to access the Platform or Site and usage and browsing "
-"habits.\n"
-"           We use this information to administer and improve your experience "
-"on\n"
-"           the Platform and Site, to help diagnose and troubleshoot "
-"potential\n"
-"           server malfunctions, and to gather broad demographic information. "
-"If\n"
-"           a Student User enters a class code provided by a Teacher User, "
-"then\n"
-"           the Teacher User may view information about that student.  \n"
-"           "
-msgstr ""
+#: questions/templates/questions/show_chapter.html:65
+#: questions/templates/questions/student_dashboard.html:67
+msgid "Progress"
+msgstr "Progresso"
 
-#: questions/templates/questions/privacy.html:57
-msgid ""
-" \n"
-"            To help make sure you receive information that is relevant to "
-"you,\n"
-"            the Platform uses data \"cookies.\" These cookies are small "
-"data\n"
-"            files stored on your computer that identify you as a previous\n"
-"            visitor to the Platform and help us to personalize your "
-"experience\n"
-"            when you arrive. Most web browsers are set to accept cookies. "
-"You\n"
-"            can instruct your browser not to accept cookies. However, if "
-"you\n"
-"            disable this function, you will not be able to use some of the\n"
-"            features on the Platform.\n"
-"           "
-msgstr ""
+#: questions/templates/questions/show_chapter.html:85
+msgid "Main errors"
+msgstr "Erros mais comuns"
 
-#: questions/templates/questions/privacy.html:69
-msgid ""
-" \n"
-"           We work with third parties who provide services such as data\n"
-"           analysis (for example we may use Google Analytics), "
-"infrastructure\n"
-"           provision (for example we use Microsoft Azure), IT services (for\n"
-"           example we may use Cloudfare to prevent denial of service "
-"attacks),\n"
-"           email delivery services (for example we may use MailChimp to "
-"communicate\n"
-"           with non-student stakeholders), and other similar services. We "
-"may\n"
-"           share Personally Identifiable Information about account holders "
-"with\n"
-"           these parties solely for the purpose of enabling them to provide\n"
-"           these services. We only share with those that have privacy "
-"policies\n"
-"           entirely consistent with our privacy policy.\n"
-"           "
-msgstr ""
-
-#: questions/templates/questions/privacy.html:83
-msgid ""
-" \n"
-"           We may use Personally Identifiable Information about you for\n"
-"           internal purposes, including without limitation data analysis "
-"and\n"
-"           audits. If you are a Student User, your respective Teacher User "
-"may\n"
-"           also choose to share related information that they might find "
-"useful\n"
-"           to the research, such as exams and assignments grades taken\n"
-"           offline and outside the Platform.  \n"
-"           "
-msgstr ""
-
-#: questions/templates/questions/privacy.html:93
-msgid ""
-" \n"
-"           Notwithstanding any other provision of this Policy to the "
-"contrary,\n"
-"           we reserve the right to disclose your Personally Identifiable\n"
-"           Information to others as we believe to be appropriate (a) under\n"
-"           applicable law; (b) to comply with legal process (c) to respond "
-"to\n"
-"           governmental requests; (d) to enforce our Terms of Service; (e) "
-"to\n"
-"           protect our operations; (f) to protect the rights, privacy, "
-"safety\n"
-"           or property of you or others; and (g) to permit us to pursue\n"
-"           available remedies or limit the damages that we may sustain. For\n"
-"           example, we may, to the fullest extent the law allows, disclose\n"
-"           Personally Identifiable Information about you to law enforcement\n"
-"           agencies to assist them in identifying individuals who have been "
-"or\n"
-"           may be engaged in unlawful activities.  \n"
-"           "
-msgstr ""
-
-#: questions/templates/questions/privacy.html:112
-msgid ""
-" \n"
-"            Non-Personally Identifiable Information is aggregated "
-"information,\n"
-"            demographic information, and other information that does not "
-"reveal\n"
-"            a person’s specific identity. We may collect Non-Personally\n"
-"            Identifiable Information (e.g., interests, geographic location, "
-"zip\n"
-"            codes, etc.) when you voluntarily provide such information to "
-"us,\n"
-"            such as through survey responses. Such information constitutes\n"
-"            Non-Personally Identifiable Information because, unless "
-"combined\n"
-"            with your name or other Personally Identifiable Information, it\n"
-"            does not personally identify you or any other user. We retain\n"
-"            aggregated student data exclusively for the educational purpose "
-"of\n"
-"            improving the Machine Teaching Platform.\n"
-"           "
-msgstr ""
-
-#: questions/templates/questions/privacy.html:127
-msgid ""
-" \n"
-"            Additionally, we may aggregate Personally Identifiable "
-"Information\n"
-"            in a manner such that the end product does not personally "
-"identify\n"
-"            you or any other user of the Platform or Site. For example, we\n"
-"            might use Personally Identifiable Information to calculate the\n"
-"            percentage of our Users who have a particular zip code. Such\n"
-"            aggregate information is considered Non-Personally Identifiable\n"
-"            Information for purposes of this Policy. Because Non-Personally\n"
-"            Identifiable Information does not personally identify you, we "
-"may\n"
-"            use or disclose such information for any purpose. Upon request,\n"
-"            user names and birthdates will be removed leaving only\n"
-"            ‘non-personally identifiable information”.  Student generated\n"
-"            content, other than answers to test questions, will also be\n"
-"            destroyed.\n"
-"           "
-msgstr ""
-
-#: questions/templates/questions/privacy.html:147
-msgid ""
-" \n"
-"            We have implemented software and hardware security measures\n"
-"            intended to protect your Personally Identifiable Information "
-"from\n"
-"            unauthorized access. Although we strive to protect\n"
-"            your information, we cannot ensure or warrant the security of "
-"any\n"
-"            information you transmit to us through or in connection with "
-"the\n"
-"            Platform. Despite our precautions, no system can completely "
-"protect\n"
-"            against unauthorized access to your Personally Identifiable\n"
-"            Information, and your use of the Platform indicates that you "
-"are\n"
-"            willing to assume this risk. If you have reason to believe that\n"
-"            your interaction with us is no longer secure, you must "
-"immediately\n"
-"            notify us of the problem by contacting us.\n"
-"           "
-msgstr ""
-
-#: questions/templates/questions/show_problem.html:28
-msgid "Run"
-msgstr "Executar"
-
-#: questions/templates/questions/show_problem.html:29
-#: questions/templates/questions/show_problem.html:52
-#: questions/templates/questions/show_problem.html:69
-msgid "Next"
-msgstr "Próximo"
-
-#: questions/templates/questions/show_problem.html:30
-#: questions/templates/questions/show_problem.html:53
-#: questions/templates/questions/show_problem.html:70
+#: questions/templates/questions/show_problem.html:13
 msgid "Skip"
 msgstr "Pular"
 
-#: questions/templates/questions/show_problem.html:32
-msgid "Running function"
-msgstr "Executando função"
+#: questions/templates/questions/show_problem.html:19
+msgid "Test cases"
+msgstr "Casos de teste"
 
-#: questions/templates/questions/show_problem.html:64
-msgid "Type output here"
-msgstr "Digite a saída aqui"
+#: questions/templates/questions/show_problem.html:37
+msgid "Run"
+msgstr "Executar"
 
-#: questions/templates/questions/solutions.html:17
+#: questions/templates/questions/show_problem.html:66
+#: questions/templates/questions/show_problem.html:77
+#: questions/templates/questions/show_problem.html:81
+msgid "Answer"
+msgstr "Responder"
+
+#: questions/templates/questions/show_problem.html:69
+#: questions/templates/questions/show_problem.html:84
+#: questions/templates/questions/show_problem.html:97
+msgid "Next"
+msgstr "Próximo"
+
+#: questions/templates/questions/show_problem.html:98
+msgid "Input:"
+msgstr "Entrada:"
+
+#: questions/templates/questions/show_problem.html:99
+msgid "Expected output:"
+msgstr "Retorno esperado:"
+
+#: questions/templates/questions/show_problem.html:100
+msgid "Your output:"
+msgstr "Seu retorno:"
+
+#: questions/templates/questions/solutions.html:10
 msgid "Student"
 msgstr "Aluno"
 
-#: questions/templates/questions/solutions.html:17
+#: questions/templates/questions/solutions.html:10
 msgid "Submissions"
 msgstr "Submissões"
 
-#: questions/templates/registration/login.html:17
-msgid "Please login to see this page."
-msgstr "Por favor, entre para ver essa página."
+#: questions/templates/questions/student_dashboard.html:20
+msgid "Average time"
+msgstr "Tempo médio"
 
-#: questions/templates/registration/login.html:22
+#: questions/templates/questions/student_dashboard.html:21
+msgid "to perform a problem"
+msgstr "para acertar um problema"
+
+#: questions/templates/questions/student_dashboard.html:39
+msgid "before you get right a problem"
+msgstr "antes de acertar um problema"
+
+#: questions/templates/questions/student_dashboard.html:42
+msgid "error"
+msgstr "erro"
+
+#: questions/templates/questions/student_dashboard.html:43
+msgid "on average"
+msgstr "em média"
+
+#: questions/templates/questions/student_dashboard.html:53
+msgid "Average errors"
+msgstr "Média de erros"
+
+#: questions/templates/questions/student_dashboard.html:54
+#: questions/templates/questions/student_dashboard.html:91
+msgid "per chapter"
+msgstr "por aula"
+
+#: questions/templates/questions/student_dashboard.html:68
+#: questions/templates/questions/student_dashboard.html:90
+msgid "Time"
+msgstr "Tempo"
+
+#: questions/templates/questions/student_dashboard.html:79
+msgid "day(s)"
+msgstr "dia(s)"
+
+#: questions/templates/registration/login.html:7
+#: questions/templates/registration/login.html:24
+#: questions/templates/registration/signup.html:85
+msgid "Login"
+msgstr "Entrar"
+
+#: questions/templates/registration/login.html:17
+#: questions/templates/registration/signup.html:31
+msgid "E-mail"
+msgstr ""
+
+#: questions/templates/registration/login.html:21
+#: questions/templates/registration/signup.html:43
 msgid "Password"
 msgstr "Senha"
 
-#: questions/templates/registration/login.html:24
+#: questions/templates/registration/login.html:23
 msgid "Forgot password?"
 msgstr "Esqueceu a senha?"
 
@@ -1017,21 +655,270 @@ msgstr "Esqueci a senha"
 msgid "Submit"
 msgstr "Enviar"
 
-#: questions/templates/registration/signup.html:5
-#: questions/templates/registration/signup.html:9
-msgid "Sign up"
-msgstr "Cadastrar"
+#: questions/templates/registration/signup.html:19
+msgid "First name"
+msgstr "Nome"
+
+#: questions/templates/registration/signup.html:25
+msgid "Last name"
+msgstr "Sobrenome"
+
+#: questions/templates/registration/signup.html:49
+msgid "Password confirmation"
+msgstr "Confirmação de senha"
+
+#: questions/templates/registration/signup.html:51
+msgid ""
+"\n"
+"                        \t    1) Your password can't be too similar to your "
+"other personal information.\n"
+"                        \t    2) Your password must contain at least 8 "
+"characters.\n"
+"                        \t    3) Your password can't be a commonly used "
+"password.\n"
+"                        \t    4) Your password can't be entirely numeric.\n"
+"                                "
+msgstr ""
+"\n"
+"                        \t    1) Sua senha não pode ser parecida com com "
+"outra informação pessoal.\n"
+"                        \t    2) Sua senha deve conter no mínimo 8 "
+"caracteres.\n"
+"                        \t    3) Sua senha não pode ser uma senha comumente "
+"usada.\n"
+"                        \t    4) Sua senha não pode ser totalmente "
+"númerica.\n"
+"                                "
+
+#: questions/views.py:133
+msgid "Finished"
+msgstr "Finalizado"
+
+#: questions/views.py:533
+msgid "New problem"
+msgstr "Novo problema"
+
+#~ msgid "ABOUT THIS RESEARCH"
+#~ msgstr "SOBRE A PESQUISA"
+
+#~ msgid ""
+#~ "It is important to understand why students succeed or fail when taking a\n"
+#~ "    course so we can <span class=\"highlight\">improve teaching methods</"
+#~ "span> by identifying students' needs\n"
+#~ "    and to <span class=\"highlight\">provide personalized education</"
+#~ "span>. Smart learning content is defined as\n"
+#~ "visualizations, simulations and web-based environments that provide "
+#~ "outputs\n"
+#~ "for students based on the students' input [1]. The adoption of smart\n"
+#~ "learning content in classrooms and in self-learning environments <span "
+#~ "class=\"highlight\">motivates\n"
+#~ "students [2]–[5], improves student learning, decreases student dropout "
+#~ "or\n"
+#~ "failure [2], [6]–[8] while increasing their self-confidence, especially "
+#~ "in\n"
+#~ "female students [6].</span>"
+#~ msgstr ""
+#~ "É importante entender os motivos por que alguns alunos são mais bem-"
+#~ "sucedidos do que outros ao fazer um curso, para que possamos <span class="
+#~ "\"highlight\">aprimorar os métodos de ensino</span> ao identificar as "
+#~ "necessidades dos alunos e <span class=\"highlight\">oferecer uma educação "
+#~ "personalizada</span>. Um ambiente de aprendizagem inteligente é aquele "
+#~ "que provê visualizações, simulações e inferências aos alunos e educadores "
+#~ "a partir de dados coletados dinamicamente [1]. Sabe-se que a adoção de um "
+#~ "ambiente de aprendizagem inteligente em salas de aula e em ambientes de "
+#~ "auto-aprendizagem ajuda a <span class=\"highlight\">motivar os alunos [2]-"
+#~ "[5], melhorar a aprendizagem, diminuir os casos de abandono e a "
+#~ "reprovação [2], [6]-[8], enquanto aumenta a autoconfiança dos alunos, "
+#~ "especialmente em estudantes do sexo feminino [6].</span>"
+
+#~ msgid ""
+#~ "Also, Python is a general-purpose language, which means it can be used in "
+#~ "a\n"
+#~ "large variety of projects. This can be great to stimulate students, since "
+#~ "they\n"
+#~ "can work in projects they actually relate to. Python is also user-"
+#~ "friendly and\n"
+#~ "for the past seven years, it has been the fastest-growing major "
+#~ "programming\n"
+#~ "language [9], <span class=\"highlight\">being correlated with trending "
+#~ "careers, such as DevOps and Data\n"
+#~ "    Scientist [10]</span>. According to the 2015 review [8], only 11&#37; "
+#~ "of the Educational\n"
+#~ "Data Mining and Learning Analytics papers about programming courses "
+#~ "reported\n"
+#~ "using Python as the course language. However, this is changing. A 2017 "
+#~ "review\n"
+#~ "on the Introductory Programming courses in Australasia universities [11]\n"
+#~ "reported a shift from Java to Python in the past years and the 2018 "
+#~ "review on\n"
+#~ "Introductory Programming literature [12] already presents a higher number "
+#~ "of\n"
+#~ "papers using Python as the course language. Nonetheless, even though we "
+#~ "already\n"
+#~ "have different tools to support online learning, it is still hard to find "
+#~ "open\n"
+#~ "datasets containing student submissions for Python problems and related\n"
+#~ "information that can be important to get a better insight on students'\n"
+#~ "knowledge."
+#~ msgstr ""
+#~ "Além disso, o Python é uma linguagem de propósito geral, o que significa "
+#~ "que pode ser usada em uma grande variedade de projetos. Isso é ótimo para "
+#~ "estimular os alunos, pois eles podem trabalhar em projetos com os quais "
+#~ "realmente se identificam. Python também possui uma interface amigável e, "
+#~ "nos últimos sete anos, tem sido a linguagem de programação com maior "
+#~ "crescimento em termos de adoção [9],<span class=\"highlight\"> estando "
+#~ "correlacionada com carreiras em alta, como DevOps e Cientista de Dados "
+#~ "[10]</span>. De acordo com a revisão de 2015 [8],apenas 11&#37; dos "
+#~ "artigos de Mineração de Dados Educacionais e <i>Learning Analytics</i> "
+#~ "sobre cursos de programação relataram o uso de Python como a linguagem "
+#~ "utilizada no curso.  No entanto, isso está mudando. Uma revisão de 2017 "
+#~ "sobre os cursos de Introdução à Programação nas universidades da "
+#~ "Australásia [11] relatou uma mudança de Java para Python nos últimos anos "
+#~ "enquanto a revisão de 2018 [12] já apresentou um número maior de artigos "
+#~ "usando Python como a linguagem principal do curso. Ainda assim, embora já "
+#~ "tenhamos diferentes ferramentas para apoiar a aprendizagem online, ainda "
+#~ "é difícil encontrar bancos de dados abertos contendo respostas e "
+#~ "submissões de alunos para problemas em Python e outras informações "
+#~ "importantes para se obter uma melhor percepção do conhecimento dos alunos."
+
+#~ msgid ""
+#~ "These factors motivate our objective: the creation, deployment and use "
+#~ "of\n"
+#~ "online intelligent systems in Introduction to Programming classes using "
+#~ "the\n"
+#~ "Python language as a way to <span class=\"highlight\">uncover students’ "
+#~ "difficulties, to understand their\n"
+#~ "    knowledge and to provide timely feedback to keep students engaged.</"
+#~ "span>"
+#~ msgstr ""
+#~ "As condições apresentadas motivam nossos principais objetivos: o "
+#~ "desenvolvimento, a implantação e o uso de sistemas inteligentes online em "
+#~ "aulas de Introdução à Programação usando a linguagem Python como uma "
+#~ "forma de <span class=\"highlight\">descobrir as dificuldades dos alunos, "
+#~ "compreender seus conhecimentos e processos cognitivos de aprendizado e "
+#~ "fornecer feedback para mantê-los envolvidos e engajados.</span>"
+
+#~ msgid "Interested? Take a look at "
+#~ msgstr "Se interessou? Leia o"
+
+#~ msgid "our paper"
+#~ msgstr "nosso artigo"
+
+#~ msgid "References:"
+#~ msgstr "Referências:"
+
+#~ msgid "Signup"
+#~ msgstr "Cadastro"
+
+#~ msgid "Dark mode"
+#~ msgstr "Escurecer"
+
+#~ msgid "Light mode"
+#~ msgstr "Clarear"
+
+#~ msgid "All"
+#~ msgstr "Todas"
+
+#~ msgid "Edit chapter"
+#~ msgstr "Editar aula"
+
+#~ msgid "Update"
+#~ msgstr "Atualizar"
+
+#~ msgid "Add Chapter"
+#~ msgstr "Adicionar aula"
+
+#~ msgid "Add Problem"
+#~ msgstr "Adicionar problema"
+
+#~ msgid "Outcome"
+#~ msgstr "Resultado"
+
+#~ msgid "TERMS AND CONDITIONS"
+#~ msgstr "TERMOS E CONDIÇÕES"
+
+#~ msgid "Last updated: August 29, 2020"
+#~ msgstr "Última atualização: 29 de Agosto de 2020"
+
+#~ msgid "PRIVACY"
+#~ msgstr "PRIVACIDADE"
+
+#~ msgid ""
+#~ "\n"
+#~ "            We have established a Privacy Policy, which is considered\n"
+#~ "            part of our Terms of Service. Please read the Privacy Policy "
+#~ "to\n"
+#~ "            understand our commitment to the privacy of our users.  \n"
+#~ "            "
+#~ msgstr ""
+#~ "\n"
+#~ "Estabelecemos uma Política de Privacidade, que é considerada parte de "
+#~ "nossos Termos de Serviço. Leia a Política de Privacidade para entender "
+#~ "nosso compromisso com a privacidade de nossos usuários."
+
+#~ msgid ""
+#~ "\n"
+#~ "            By registering, the user agrees that all the data\n"
+#~ "            provided to the website may be used as anonymous data "
+#~ "research\n"
+#~ "            intended to enhance the Machine Teaching Platform as well as "
+#~ "the\n"
+#~ "            quality of learning and related sciences worldwide.\n"
+#~ "            "
+#~ msgstr ""
+#~ "\n"
+#~ "Ao se cadastrar, o usuário concorda que todos os dados fornecidos ao site "
+#~ "podem ser usados nesta pesquisa como dados anônimos com o objetivo de "
+#~ "aprimorar a Plataforma Machine Teaching, bem como a qualidade do "
+#~ "aprendizado e ciências afins em todo o mundo."
+
+#~ msgid "YOUR ACCOUNT"
+#~ msgstr "SUA CONTA"
+
+#~ msgid "DISCLAIMERS"
+#~ msgstr "TERMO DE RESPONSABILIDADE"
+
+#~ msgid "CONTACT INFORMATION"
+#~ msgstr "CONTATO"
+
+#~ msgid "If you have any questions or concerns about this "
+#~ msgstr "Se você ainda possui alguma dúvida ou preocupações sobre este "
+
+#~ msgid "please contact us at: "
+#~ msgstr "contate-nos em:"
+
+#~ msgid "Question type"
+#~ msgstr "Tipo de questão"
+
+#~ msgid "Content"
+#~ msgstr "Conteúdo"
+
+#~ msgid "Select the correct option"
+#~ msgstr "Selecione a opção correta"
+
+#~ msgid "Option"
+#~ msgstr "Opção"
+
+#~ msgid "PRIVACY POLICY"
+#~ msgstr "POLÍTICA DE PRIVACIDADE"
+
+#~ msgid "Running function"
+#~ msgstr "Executando função"
+
+#~ msgid "Type output here"
+#~ msgstr "Digite a saída aqui"
+
+#~ msgid "Please login to see this page."
+#~ msgstr "Por favor, entre para ver essa página."
+
+#~ msgid "Sign up"
+#~ msgstr "Cadastrar"
 
 #~ msgid "START"
 #~ msgstr "INICIAR"
 
 #~ msgid "ABOUT"
 #~ msgstr "SOBRE"
-
-#, fuzzy
-#~| msgid "Problem"
-#~ msgid "Problem123"
-#~ msgstr "Problema"
 
 #, fuzzy
 #~| msgid "Solution"
@@ -1042,11 +929,6 @@ msgstr "Cadastrar"
 #~| msgid "Chapter"
 #~ msgid "Chapter123"
 #~ msgstr "Aula"
-
-#, fuzzy
-#~| msgid "Chapter"
-#~ msgid "chapters"
-#~ msgstr "Aulas"
 
 #~ msgid "I accept the <a href=/terms_and_conditions>Terms and Conditions</a>"
 #~ msgstr "Eu aceito os <a href=/terms_and_conditions>Termos e Condições</a>"

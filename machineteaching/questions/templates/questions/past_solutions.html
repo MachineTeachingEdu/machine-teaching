@@ -33,48 +33,31 @@
         <textarea class="code" id="code" name="solution" style="display: none;">{{log.solution}}</textarea>
     </div>
 
-</div>
 
 {% elif log.problem.question_type == "M" %}
-<!-- Multiple choice -->
-<div class="multiple-c"style="padding-top: 70px;">
-    <form>
-        {% for item in options %}
-        <div class="option">
-            <input type="radio" id="{{item}}" disabled {% if item == log.solution %} checked {% endif %}>
-            <label for="{{item}}">
-                <span class="checkmark"></span>
-                <span class="item">{{item|linebreaks}}</span>
-                <div class="result" id="result_{{item}}">
-                	{% if item == log.solution %}{% if item == solution %}
-                	<div class="correct">✓</div>
-                	{% else %}
-                	<div class="wrong">X</div> 
-                	{% endif %}{% endif %}
-                </div>
-            </label>
+    
+    <!-- options -->
+    <div class="card">
+        <div class="options">
+            {% for option in options %}
+            <input type="radio" name="option" class="option" id="o{{ forloop.counter }}" value="{{ option }}" style="display: none;" disabled>
+            <label for="o{{ forloop.counter }}" class="option-label" style="{% if option == log.solution and log.outcome == 'P' %}border-color: var(--green); color: var(--green);{% elif option == log.solution %}border-color: var(--red); color: var(--red);{% endif %}">{{option|linebreaks}}</label>
+            {% endfor %}
         </div>
-        {% endfor %}
-    </form>
-</div>
+    </div>
 
 
 {% elif log.problem.question_type == "T" %}
-<!-- Textbox -->
-<div class="textbox" style="padding: 20px;">
-    <form onkeydown="return event.key != 'Enter';">
-            <input id="ans" id="text" value="{{log.solution}}" disabled style="margin: 0;">
-            <div id="result">
-            	{% if log.outcome == "P" %}
-                <span class="correct" style="margin-bottom: 20px; margin-top: 20px;">✓</span>
-                {% else %}
-                <div class="wrong" style="margin-bottom: 20px; margin-top: 20px;">X</div> 
-                {% endif %}
-            </div>
-    </form>
-</div>
+    <!-- text -->
+    <div class="card">
+        <h3>{% blocktrans %}Your answer{% endblocktrans %}</h3>
+        <div style="display: flex; justify-content: space-between;">
+            <input type="text" id="text" value="{{ log.solution }}" style="margin-right: 1rem; {% if log.outcome == 'P' %}border-color: var(--green); color: var(--green);{% else %}border-color: var(--red); color: var(--red);{% endif %}" disabled="">
+        </div>
+    </div>
 
 {% endif %}
+</div>
 {% endblock %}
 {% block javascript %}
 <script>

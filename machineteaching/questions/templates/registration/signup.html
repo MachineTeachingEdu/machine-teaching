@@ -48,11 +48,12 @@
                             {% endfor %}
                             <input type="password" name="{{ form.password2.name }}" placeholder="{% blocktrans %}Password confirmation{% endblocktrans %}" value="{{form.password2.value|default_if_none:''}}"></input>
                         </div>
-                        <div class="col-12">
+                        <div class="col-12">{% blocktrans %}
                         	    1) Your password can't be too similar to your other personal information.
                         	    2) Your password must contain at least 8 characters.
                         	    3) Your password can't be a commonly used password.
                         	    4) Your password can't be entirely numeric.
+                                {% endblocktrans %}
                         </div>
                     	<div class="col-6 programming">
                     	    {% blocktrans %}Did you have any programming experience before this course?{% endblocktrans %}
@@ -66,12 +67,12 @@
                             <div>
                         	    {% blocktrans %}I accept the {% endblocktrans %}
                         	    <a onclick="showConditions('{{ language }}')">{% blocktrans %}Terms and Conditions{% endblocktrans %}</a>
-                                <input type="checkbox" name="{{ form.accepted.name }}">
+                                <input type="checkbox" name="{{ form.accepted.name }}" required>
                             </div>
                             <div>
                         	    {% blocktrans %}I've read the {% endblocktrans %} 
                         	    <a onclick="showPrivacy('{{ language }}')">{% blocktrans %}Privacy Policy{% endblocktrans %}</a>
-                                <input type="checkbox" name="{{ form.read.name }}">
+                                <input type="checkbox" name="{{ form.read.name }}" required>
                             </div>
                             <br>
                         	<button class="primary" type="submit">{% blocktrans %}Create account{% endblocktrans %}</button>
@@ -80,11 +81,10 @@
                 </form>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="container">
-        <div><br><br><br><br><br>
             <a href="{% url 'login' %}">
             <button class="btn">{% blocktrans %}Login{% endblocktrans %}</button></a>
         </div>
+      </div>
+      <div class="container">
+        <br>
 {% endblock %}

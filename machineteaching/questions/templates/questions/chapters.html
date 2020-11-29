@@ -13,7 +13,7 @@
                 <input type="text" name="label" placeholder="{% blocktrans %}Name{% endblocktrans %}" required="">
             </div>
             <div class="col-4">
-                <input type="date" name="deadline" placeholder="Deadline" required>
+                <input type="date" name="deadline" placeholder="{% blocktrans %}Deadline{% endblocktrans %} (yyyy--mm--dd)" required>
             </div>
             <div class="col-12">
                 <button class="primary" type="submit">{% blocktrans %}Add{% endblocktrans %}</button>
@@ -22,7 +22,7 @@
     </div>
     {% else %}
     <div class="card" style="padding: 0.7rem 1rem">
-        <input type="text" name="search" placeholder="Pesquisar" id="search">
+        <input type="text" name="search" placeholder="{% blocktrans %}Search{% endblocktrans %}" id="search">
     </div>
     {% endif %}
 

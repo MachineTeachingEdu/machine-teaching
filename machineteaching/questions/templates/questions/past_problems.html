@@ -5,7 +5,7 @@
 <div class="col col-12">
   <div class="card">
     <div class="filter">
-        {% blocktrans %}Filtrar{% endblocktrans %}
+        {% blocktrans %}Filter{% endblocktrans %}
         <input id="passed" type="checkbox" name="filter" value="{% blocktrans %}Passed{% endblocktrans %}">
         <label for="passed">
             <span class="badge success">
@@ -30,33 +30,37 @@
     <thead>
         <th class="searchable">{% trans "Title" %}</th>
         <th>{% trans "Day" %}</th>
-        <th>{% trans "Time" %}</th>
+        <th>{% trans "Time " %}</th>
         <th class="searchable">{% trans "Status" %}</th>
+        <th class="searchable">{% trans "Error (Python)" %}</th>
         <th>{% trans "Solution" %}</th>
     </thead>
     <tbody>
     {% for item in past_problems %}
     <tr>
-        <td>{{ item.problem.title }}</td>
-        <td>{{ item.timestamp|date:'d/m/Y'}}</td>
-        <td>{{ item.timestamp|date:'H:m'}}</td>
-        {% if item.outcome == 'P' %}
+        <td>{{ item.log.problem.title }}</td>
+        <td>{{ item.log.timestamp|date:'d/m/Y'}}</td>
+        <td>{{ item.log.timestamp|date:'H:i'}}</td>
+        {% if item.log.outcome == 'P' %}
         <td>
             <span class="badge success">
             {% blocktrans %}Passed{% endblocktrans %}
             </span></td>
-        <td><a class="link" href={% url 'past_solutions' id=item.id %}>{% trans "See submitted solution" %}</a></td>
-        {% elif item.outcome == 'F' %}
+        <td></td>
+        <td><a class="link" href={% url 'past_solutions' id=item.log.id %}>{% trans "See submitted solution" %}</a></td>
+        {% elif item.log.outcome == 'F' %}
         <td>
             <span class="badge danger">
             {% blocktrans %}Failed{% endblocktrans %}
             </span></td>
-        <td><a class="link" href="{% url 'past_solutions' id=item.id %}">{% trans "See submitted solution" %}</a></td>
+        <td>{{ item.error.0.0 }}</td>
+        <td><a class="link" href="{% url 'past_solutions' id=item.log.id %}">{% trans "See submitted solution" %}</a></td>
         {% else %}
         <td>
             <span class="badge warning">
             {% blocktrans %}Skipped{% endblocktrans %}
             </span></td>
+        <td></td>
         <td></td>
         {% endif %}
     </tr>
@@ -71,6 +75,7 @@
 //table settings
 var table = $('#past-problems').DataTable({
     "bInfo": false,
+    "ordering": false,
     {% get_current_language as language %}
     {% if language == 'pt-br' %}
     "language": {

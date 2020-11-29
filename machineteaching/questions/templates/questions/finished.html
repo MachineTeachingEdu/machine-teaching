@@ -3,12 +3,15 @@
 {% load i18n %}
 
 {% block content %}
-<div>{% trans "You finished all available problems in" %}
-        {% if user.userprofile.sequential %} <b>{% trans "Sequential" %}</b>{% trans "mode. You can:" %}
+<div class="col col-5">
+	<div class="card">
+		{% trans "You finished all available problems in" %}
+        {% if user.userprofile.sequential %} <b>{% trans "Sequential" %}</b>{% trans " mode. You can:" %}
         <ul>
-            <li> {% trans "Go to" %} <a href="{% url 'chapters' %}"> {% trans "Chapters" %} </a> {% trans "and come back to skipped problems." %}e voltar para os exercícios que pulou.</li>
+            <li> {% trans "Go to" %} <u><a href="{% url 'chapters' %}"> {% trans "Chapters" %} </a></u> {% trans "and come back to skipped problems." %}</li>
             <li> {% trans "Go to" %} <b>{% trans "Random" %}</b>{% trans "mode and try other problems." %}
         </ul>
         {% else %} <b>{% trans "Random" %}</b>{% trans "mode. You can go to " %}<b>{% trans "Sequential" %}</b>{% trans "mode and do new problems." %} {% endif %}
+    </div>
 </div>
 {% endblock %}
