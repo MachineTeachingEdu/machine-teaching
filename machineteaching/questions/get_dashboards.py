@@ -106,13 +106,16 @@ def get_student_dashboard(user):
     student_times_sum = 0 
     for time in student_times:
         student_times_sum += time[0]
-    student_time = round(student_times_sum/len(student_times))
+    if len(student_times) != 0:
+        student_time = round(student_times_sum/len(student_times))
 
     times_sum = 0
     for time in times.values_list('seconds_in_page'):
         times_sum += time[0]
-
-    student_time = int(student_times_sum/(len(student_times)*60))
+    
+    student_time = 0
+    if len(student_times) != 0:
+        student_time = int(student_times_sum/(len(student_times)*60))
     class_time = round(times_sum/(len(times)*60))
     problems_time = {'student': student_time, 'class': class_time}
 
@@ -127,7 +130,7 @@ def get_student_dashboard(user):
         if len(passed) > 0:
             problem_errors = []
             for problem in problems:
-                timestamp = passed.get(problem=problem).timestamp
+                timestamp = passed.filter(problem=problem).values_list('timestamp')
                 errors = UserLog.objects.filter(user=user,
                                                 problem=problem,
                                                 outcome='F',
@@ -136,8 +139,10 @@ def get_student_dashboard(user):
             chapter_errors = mean(problem_errors)
             student_errors.append(chapter_errors)
             labels.append(chapter.label)
-
-    average_errors = round(mean(student_errors))
+    
+    average_errors = 0
+    if len(student_errors) != 0:
+        average_errors = round(mean(student_errors))
 
     class_errors = []
     for chapter in chapters:
