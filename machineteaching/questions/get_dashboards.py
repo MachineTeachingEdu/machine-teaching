@@ -9,6 +9,9 @@ from statistics import mean
 from questions.models import (Chapter, Problem, UserLog,
                              UserLogView, User)
 from django.utils.translation import gettext as _
+import logging
+
+LOGGER = logging.getLogger(__name__)
 
 
 def get_student_dashboard(user):
@@ -120,6 +123,9 @@ def get_student_dashboard(user):
     problems_time = {'student': student_time, 'class': class_time}
 
     #errors plot data
+    # TODO: os codigos para alunos e turma são praticamente iguais
+    # vale a pena criar uma funcao que calcule os erros so passando
+    # como parametro o user (pode ser user__in=[user] ou user__id=[students])
     labels = []
     student_errors = []
     for chapter in chapters:
@@ -140,22 +146,24 @@ def get_student_dashboard(user):
             student_errors.append(chapter_errors)
             labels.append(chapter.label)
     
-    average_errors = 0
+        average_errors = 0
     if len(student_errors) != 0:
         average_errors = round(mean(student_errors))
 
     class_errors = []
     for chapter in chapters:
         problems = Problem.objects.filter(chapter=chapter)
+        LOGGER.debug("Students in class: %s", students.values_list(
+            'user__first_name', 'user__last_name'))
         passed = UserLogView.objects.filter(user__in=students,
                                             problem__in=problems,
                                             final_outcome='P')
         if len(passed) > 0:
             problem_errors = []
             for problem in problems:
-                passed = passed.filter(problem=problem)
+                passed_problem = passed.filter(problem=problem)
                 errors = 0
-                for log in passed:
+                for log in passed_problem:
                     log_errors = UserLog.objects.filter(user__in=students,
                                                         problem=problem,
                                                         outcome='F',
@@ -176,6 +184,8 @@ def get_student_dashboard(user):
             colors.append('rgb(255, 65, 65)')
 
     #generating errors plot
+    # TODO: esse e o proximo plot possuem uma estrutura muito parecida
+    # Acho que vale a pena criar um funcao para criar esses plots tb
     fig2 = go.Figure()
 
     fig2.add_trace(go.Scatter(name=_('Your class'),

@@ -6,6 +6,10 @@ from django.utils.translation import gettext as _
 
 LOGGER = logging.getLogger(__name__)
 
+# Modules than can be used inside the solution
+import math
+
+
 def get_problem(problem_id):
     #try:
     # Get problem, test cases and solution

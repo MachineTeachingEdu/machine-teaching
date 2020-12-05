@@ -165,6 +165,7 @@ def get_student_solutions(request, id, chapter=None, problem=None):
     user = User.objects.get(pk=id)
     userlog = UserLog.objects.filter(
         user_id=id, timestamp__gte=user.userprofile.user_class.start_date)
+    LOGGER.debug(userlog.values_list('outcome'))
     if chapter:
         userlog = userlog.filter(problem__chapter=chapter)
     if problem:
@@ -299,6 +300,7 @@ def new_chapter(request):
 
 @login_required
 def show_outcome(request):
+    # TODO: link direto na interface
     if not request.user.has_perm('questions.view_userlogview'):
         context = get_student_dashboard(request.user)
         return render(request, 'questions/student_dashboard.html', context)

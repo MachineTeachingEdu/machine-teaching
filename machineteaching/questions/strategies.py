@@ -8,7 +8,6 @@ from questions.models import Problem, Solution, UserLog, UserModel, Cluster, Exe
 from questions.sampling import get_next_sample
 
 LOGGER = logging.getLogger(__name__)
-CLUSTER_IDX = list(Cluster.objects.values_list('pk', flat=True).order_by('pk'))
 
 
 # STRATEGIES (random or eer)
@@ -41,6 +40,9 @@ def eer_strategy(user):
     # TODO: Get user current status and calculate next best problem
     # View to define starting problem. For the moment, let's always start with
     # the same problem
+
+    # Set CLUSTER_IDX
+    CLUSTER_IDX = list(Cluster.objects.values_list('pk', flat=True).order_by('pk'))
 
     # Create X as an empty belief state (X is the machine's model of the student's distribution)
     X = np.zeros(settings.DOC_TOPIC_SHAPE)
