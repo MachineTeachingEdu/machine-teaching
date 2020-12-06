@@ -12,13 +12,13 @@ function cancel() {
 //close menu
 function closeMenu() {
     $('.content').attr('style', 'width: 100%');
-    $('.close').html('>').attr('onclick', 'openMenu()');
+    $('.close').attr('onclick', 'openMenu()');
 };
 
 //open menu
 function openMenu() {
     $('.content').attr('style', 'width: calc(100% - 220px)');
-    $('.close').html('<').attr('onclick', 'closeMenu()');
+    $('.close').attr('onclick', 'closeMenu()');
 };
 
 if (window.matchMedia("(max-width:1300px)").matches) {

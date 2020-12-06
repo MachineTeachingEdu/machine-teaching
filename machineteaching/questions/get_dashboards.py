@@ -283,7 +283,7 @@ def get_student_dashboard(user):
                                             problem__in=chapter_problems,
                                             final_outcome='P').order_by('timestamp')
                   progress = int(100 * len(passed)/len(chapter_problems))
-                  if progress == 100:
+                  if progress == 100 and len(userlog) != 0:
                       time = (passed.reverse()[0].timestamp - userlog[0].timestamp).days
                       times.append(time)
             class_times.append(int(mean(times)))

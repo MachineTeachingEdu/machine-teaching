@@ -163,15 +163,19 @@ def get_past_problems(request):
 @login_required
 def get_student_solutions(request, id, chapter=None, problem=None):
     user = User.objects.get(pk=id)
-    userlog = UserLog.objects.filter(
+    logs = UserLog.objects.filter(
         user_id=id, timestamp__gte=user.userprofile.user_class.start_date)
     LOGGER.debug(userlog.values_list('outcome'))
     if chapter:
-        userlog = userlog.filter(problem__chapter=chapter)
+        logs = logs.filter(problem__chapter=chapter)
     if problem:
-        userlog = userlog.filter(problem=problem)
+        logs = logs.filter(problem=problem)
+    past_problems = []
+    for log in logs.order_by('-timestamp'):
+        error = UserLogError.objects.filter(userlog=log).values_list('error')
+        past_problems.append({'log': log, 'error': error})
     return render(request, 'questions/past_problems.html', {
-        'title': user.first_name+' '+user.last_name, 'past_problems': userlog, 'student': user})
+        'title': user.first_name+' '+user.last_name, 'past_problems': past_problems, 'student': user})
 
 @login_required
 def get_chapter_problems(request):
@@ -284,7 +288,7 @@ def new_chapter(request):
         if form.is_valid():
             chapter = form.save(commit=False)
             chapter.save()
-            date = form.cleaned_data['deadline'].strftime('%Y--%d 23:59:59')
+            date = form.cleaned_data['deadline'].strftime('%Y-%m-%d 23:59:59')
             deadline = Deadline(chapter=chapter, deadline=date)
             deadline.save()
             classes = OnlineClass.objects.filter(professor__user=request.user)

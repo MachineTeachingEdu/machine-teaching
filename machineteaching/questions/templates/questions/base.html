@@ -55,7 +55,13 @@
         <div class="content">
         <div class="topbar">
           <div class="topbar-left">
-            <span class="close" onclick="closeMenu()"><</span>
+            <span class="close" onclick="closeMenu()">
+              <div class="menu-icon">
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+            </span>
             <span class="title">{{ title }}</span>
           </div>
           <div class="topbar-right">
@@ -104,6 +110,8 @@
               const dcc = '{% static "img/logo/dcc.png" %}'
               const coppe = '{% static "img/logo/coppe.jpg" %}'
               const pesc = '{% static "img/logo/pesc.png" %}'
+
+              const close = '{% blocktrans %}Close{% endblocktrans %}';
       </script>
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
       <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>

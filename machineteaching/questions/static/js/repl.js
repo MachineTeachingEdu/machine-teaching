@@ -11,7 +11,7 @@ $(function () {
         //finds multuline string constants
         mls = new RegExp("'''"),
         //finds defining statements
-        defre = new RegExp("def.*|class.*"),
+        defre = new RegExp("def .*|class .*"),
         //test for empty line.
         emptyline = new RegExp("^\\s*$"),
         //a regex to check if a line is an assignment
@@ -55,6 +55,7 @@ $(function () {
 				}
                 return Sk.builtinFiles["files"][x];
             },
+            __future__: Sk.python3,
 			retainglobals: true
         });
             
@@ -71,7 +72,7 @@ $(function () {
                     //evaluate it if nessecary
                     lines.push("evaluationresult = " + lines.pop());
                     //print the result if not None
-                    lines.push("if not evaluationresult == None: print repr(evaluationresult)");
+                    lines.push("if not evaluationresult == None: print (repr(evaluationresult))");
                 }
             }
         }

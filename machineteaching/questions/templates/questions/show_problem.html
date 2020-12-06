@@ -112,7 +112,6 @@
         }
         var editor = CodeMirror.fromTextArea(textareas[i], {
             mode: {name: "python",
-                version: 2,
                 singleLineStringErrors: false},
             lineNumbers: lineNumbers,
             indentUnit: 4,
@@ -121,39 +120,11 @@
     });
     editor.setSize('100%',300);
     }
-
-    //load student solution in the interactive
-    /*$('#run').click(function() {
-        var solution = $(".CodeMirror")[0].CodeMirror.getValue()
-        //begin inputting solution text into interactive
-        var cm = $(".CodeMirror")[1].CodeMirror;
-        var doc = cm.getDoc();
-        var cursor = doc.getCursor();
-        var line = doc.getLine(cursor.line);
-        cm.replaceRange("", { line, ch: 0 }, { line });
-        var pos = {
-            line: cursor.line
-        };
-
-        if (line.length === 0) {
-            // check if the line is empty
-            // add the data
-            doc.replaceRange(solution, pos);
-        } else {
-            // add a new line and the data
-            doc.replaceRange('\n' + data, pos);
-        }
-
-        cm.focus();
-
-        var e = $.Event('keydown', { keyCode: 13 });
-        $(document).trigger(e);
-    });*/
     
     //save log
     START = "{% url 'start' %}";
     var next_url = '{% url 'next' %}';
-    function save_log(outcome, seconds_in_code, seconds_to_begin, seconds_in_page){
+    function save_log(outcome, seconds_in_code, seconds_to_begin, seconds_in_page, hits){
 
         {% if problem.question_type == "M" %}{% for option in options %}
         if (document.getElementById("o{{forloop.counter}}").checked) {
@@ -168,23 +139,20 @@
                 'problem': {{problem.id}},
                 {% if problem.question_type == "C" %}
                 'solution': editor.getValue(),
+                'solution_lines': editor.lineCount(),
+                'console': document.getElementById("output").innerHTML,
+                'test_case_hits': hits,
                 {% elif problem.question_type == "M" %}
                 'solution': solution,
+                'solution_lines': 0,
                 {% elif problem.question_type == "T" %}
                 'solution': $('#text').val(),
+                'solution_lines': 0,
                 {% endif %}
                 'outcome': outcome,
                 'seconds_in_code': seconds_in_code,
                 'seconds_to_begin': seconds_to_begin,
                 'seconds_in_page': seconds_in_page,
-                {% if problem.question_type == "C" %}
-                'solution_lines': editor.lineCount(),
-                'console': document.getElementById("output").innerHTML,
-                {% elif problem.question_type == "M" %}
-                'solution_lines': 0,
-                {% elif problem.question_type == "T" %}
-                'solution_lines': 0,
-                {% endif %}
                 'csrfmiddlewaretoken': '{{ csrf_token }}'
     },
         dataType: 'json',
