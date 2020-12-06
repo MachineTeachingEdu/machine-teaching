@@ -7,185 +7,236 @@
 <link rel="stylesheet" type="text/css" href="{% static 'vendor/codemirror-5.40.0/theme/paraiso-dark.css' %}" />
 {% endblock %}
 {% block content %}
+<form id="id_form" action="{% url 'new' %}" method="POST">
+{% csrf_token %}
+<div class="col col-5">
 
+    <!-- problem statement -->
+    <div class="card">
+        <div><div style="display: flex; text-align: right;">
+            <div class="col-8">
+               <input type="text" name="{{ problem_form.title.name }}" id="id_title" placeholder="{% blocktrans %}Title{% endblocktrans %}" value="{{problem_form.title.value|default_if_none:''}}" required>
+            </div>
+            <div class="col-4">
+                <select id="id_question_type" name="{{ solution_form.question_type.name }}">
+                    <option id="c" value="{{ solution_form.question_type.field.choices.0.0 }}">{% blocktrans %}Code{% endblocktrans %}</option>
+                    <option id="m" value="{{ solution_form.question_type.field.choices.1.0 }}">{% blocktrans %}Multiple choice{% endblocktrans %}</option>
+                    <option id="t" value="{{ solution_form.question_type.field.choices.2.0 }}">{% blocktrans %}Text{% endblocktrans %}</option>
+                </select>
+            </div></div>
+            <textarea id="id_content" name="{{ problem_form.content.name }}" style="display: none;"></textarea>
+            <textarea id="html" name="{{ problem_form.html.name }}" style="display: none;"></textarea>
+            <div id="content">
+            <div id="editor1">{{problem_form.content.value|default_if_none:""}}</div>
+            </div>
+        </div>
+    </div>
 
-<h2>{% trans 'Add problem' %}</h2>
-{% if messages %}
-    {% for message in messages %}
-    <div class="menssage" {% if message.tags %} id="{{ message.tags }}"{% endif %}>{{ message }}</div>
-    {% endfor %}
-{% endif %}
-
-<form id="form" action="{% url 'new' %}" method="POST">
-    {% csrf_token %}
-    
-    <div id="title">
-    <input type="text" name="title" value="{{problem_form.title.value|default_if_none:""}}" placeholder="{% trans 'Title' %}" id="id_title" required></div>
-
-    <div id="container">
-    <span>
-    <div class="label">{% trans 'Question type' %}</div>
-    {{ solution_form.question_type }}
-    </span>
-
-    <span>
-    <div class="label">{% trans 'Chapter' %}</div>
-    <select name="chapter" id="chapter" required="">
-        <option></option>
-        {% for chapter in chapters %}
-        <option value="{{ chapter.id }}">{{ chapter.label }}</option>
+    <div class="card">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="menssage" {% if message.tags %} id="{{ message.tags }}"{% endif %}>{{ message }}</div>
         {% endfor %}
-    </select>
-    </span>
-    
-    <span>
-    <div class="label">{% trans  'Cluster' %}</div>
-    {{ solution_form.cluster }}
-    </div>
-    </span>
-
-    <div id="container2">
-    <div class="label">{% trans 'Content' %}</div>
-    <textarea name="content" id="id_content" required>{{problem_form.content.value|default_if_none:""}}</textarea>
-
-    <div id="solution_code">
-    <div class="label">{% trans 'Solution' %}</div>
-    <div class="textarea" >
-        <textarea id="code" name="solution">{{solution_form.solution.value|default_if_none:""}}</textarea>
-    {% for message in solution_form.solution.errors %}
-    <span style="color: red; font-weight: normal; margin:10px;">{{ message }}</span></br>
-    {% endfor %}
+        {% endif %}
+        <div style="display: flex; justify-content: space-between;">
+        <div>
+        <select name="{{ problem_form.chapter.name }}" id="id_chapter" required="required">
+            <option disabled selected>{% trans 'Chapter' %}</option>
+            {% for item in problem_form.chapter.field.choices %}
+            <option value="{{ item.0 }}" {% if item.0 == chapter %}selected{% endif %}>{{ item.1 }}</option>
+            {% endfor %}
+        </select>
+        <input type="number" id="id_order" name="{{ problem_form.order.name }}" min="1" max="100" placeholder="{% trans 'Position' %}">
+        </div>
+        <div>
+        <button class="primary">{% blocktrans %}Add problem{% endblocktrans %}</button>
+        </div>
+        </div>
     </div>
 
-    <div id="container3">
-    <div>
-    <div class="label">{% trans 'Header' %}</div>
-    <input type="text" name="header" value="{{solution_form.header.value|default_if_none:""}}" id="id_header">
+</div>
+<div class="col col-7 c">
+
+    <!-- solution -->
+    <div class="card">
+        <h3 style="margin-bottom: 0.5rem">{% blocktrans %}Solution{% endblocktrans %}</h3>
+        {% for message in solution_form.solution.errors %}
+        <span id="error">{{ message }}</span></br>
+        {% endfor %}
+        <textarea class="code" id="code" name="{{ solution_form.solution.name }}" autofocus="true" style="display: none;">{{solution_form.solution.value|default_if_none:""}}</textarea>
     </div>
 
-    <div class="label">{% trans 'Tip' %}</div>
-    {{ solution_form.tip }}
+    <div style="display: flex;">
+
+    <div class="col-5">
+    <div class="card" style="margin-right: 1rem; height: 18rem">
+        <input type="text" name="{{ solution_form.header.name }}" value="{{solution_form.header.value|default_if_none:''}}" id="id_header" placeholder="{% blocktrans %}Header{% endblocktrans %}" required="required">
+        <textarea name="{{ solution_form.tip.name }}" id="id_tip" placeholder="{% blocktrans %}Tip{% endblocktrans %}">{{solution_form.tip.value|default_if_none:''}}</textarea>
+        <select id="id_cluster" name="{{ solution_form.cluster.name }}">
+            <option disabled selected>{% trans 'Cluster' %}</option>
+            {% for cluster in solution_form.cluster.field.choices %}
+            <option value="{{ cluster.0 }}">{{ cluster.1 }}</option>
+            {% endfor %}
+        </select>
     </div>
-    
-    <div id="container4">
-    <div class="label" style="margin-left: 20px">{% trans 'Test case generator' %}</div>
-    <div class="textarea2">
-    <textarea name="test_case_generator" class="test_case_generator" id="code2">def generate():
+    </div>
+
+    <div class="col-7">
+    <div class="card" style="margin-left: 1rem; height: 18rem">
+        <h3 style="margin-bottom: 0.5rem">{% blocktrans %}Test case generator{% endblocktrans %}</h3>
+        {% for message in problem_form.test_case_generator.errors %}
+        <span id="error">{{ message }}</span></br>
+        {% endfor %}
+        <textarea class="code test-case-generator" id="code" name="{{ problem_form.test_case_generator.name }}" style="display: none;">def generate():
     num_tests = 5
     tests = []
     for i in range(num_tests):
         tests.append([random.randint(0, 10)])
     return tests</textarea>
-    {% for message in problem_form.test_case_generator.errors %}
-    <span style="color: red; font-weight: normal; margin:10px;">{{ message }}</span></br>
-    {% endfor %}
     </div>
     </div>
     </div>
 
-    <div id="solution_options">
-    <div class="label">{% trans 'Options' %}</div>
-    <div>{% trans 'Select the correct option' %}</div>
-    <div class="options">
-    <div id="option"><input type="radio" name="radio" class="op" id="r1"><label for="r1" onclick="setSolution('#op1')">✓</label><textarea class="op_content" name="" id="op1" onchange="writeOptions()" placeholder="{% trans 'Option' %} 1"></textarea>
+</div>
+<div class="col col-7 m" style="display: none;">
+    <div class="card">
+        <h3 style="margin-bottom: 0.5rem">{% blocktrans %}Options{% endblocktrans %}</h3>
+        <div class="options">
+            <div class="option">
+                <input type="radio" name="radio" id="p1" style="display: none;">
+                <label for="p1" id="label"><div></div></label>
+                <textarea class="option_content" name="" id="op1"></textarea>
+            </div>
+        </div>
+        <div style="text-align: right;">
+        <a class="link add"><b>+</b> {% trans 'Add Option' %}</a></div>
+        <textarea id="id_options" name="options" style="display: none;"></textarea>
     </div>
-    </div>
-    <a class="add" href="#"><b>+</b> {% trans 'Add Option' %}</a>
-    <textarea id="options" name="options" style="display: none;"></textarea>
-    </div>
-
-    <div id="solution_text">
-    <div class="label">{% trans 'Answer' %}</div>
-    <div><input type="text" name="" id="text" placeholder="{% trans 'Answer' %}"></div>
-    </div>
-
-    <input type="submit" value="{% trans 'Add' %}" id="submit">
-    </div>
+</div>
+<div class="col col-7 t" style="display: none;">
+    <div class="card">
+        <h3 style="margin-bottom: 0.5rem">{% blocktrans %}Correct answer{% endblocktrans %}</h3>
+        <input type="text" id="text"></div>
     </div>
 </form>
 {% endblock %}
-
-
 {% block javascript %}
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js" type="text/javascript"></script>
-<script src="http://www.skulpt.org/js/skulpt.min.js" type="text/javascript"></script>
-<script src="http://www.skulpt.org/js/skulpt-stdlib.js" type="text/javascript"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js" type="text/javascript"></script>
-<script src="{% static 'vendor/codemirror-5.40.0/lib/codemirror.js' %}"></script>
-<script src="{% static 'vendor/codemirror-5.40.0/mode/python/python.js' %}"></script>
-
-<script src="{% static 'js/sculpt.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/image-tool.js' %}"></script>
 <script>
+    //change question type
+    function change() {
+        var selected = $('option:selected').attr('id');
+        $('.col.col-7').hide();
+        $('.'+selected).show();
+        if (selected != 'c') {
+            $("#id_header").removeAttr('required');
+        } else {
+            $("#id_header").attr('required','required');
+        }
+    };
+    $('#id_question_type').on('change', function() {change()});
 
-    var editor2 = CodeMirror.fromTextArea(document.getElementById("code2"), {
-    mode: {name: "python",
-        version: 2,
-        singleLineStringErrors: false},
-    lineNumbers: true,
-    indentUnit: 4,
-    tabMode: "spaces",
-    matchBrackets: true,
-    extraKeys: { Tab: betterTab },
-    theme: "paraiso-dark"
+    change();
+
+    //quill editor
+    var toolbarOptions = [['bold',
+                           'italic',
+                           'code', 
+                           'link', 
+                           'image']];
+    var quill = new Quill('#editor1', {
+        theme: 'snow',
+        modules: {toolbar: toolbarOptions}
     });
-    editor2.setSize('100%',145)
 
-$(document).ready(function() {
+    window.quill = quill;
 
-    var wrapper = $(".options");
-    var add_button = $(".add");
+    var tooltip = new CustomizableTooltip('image' , quill , {
+        inputLabel: '',
+        inputPlaceholer: 'Image URL' , 
+        actionText: 'Insert',
+        hideOnTyping: true,
+        clearAfterHide: true
+    });
 
-    var x = 1;
-    $(add_button).click(function(e) {
-        e.preventDefault();
+    $('.ql-link').click(function() {
+        $('.ql-snow .ql-tooltip input').attr('placeholder','http://machineteaching.tech')
+    });
+
+    $('body').click(function() {
+    if (quill.hasFocus()) {
+        $('#content').attr('style', 'border-color: var(--primary) !important;');} else {
+        $('#content').attr('style', '');
+        }
+    });
+
+    var html = '{{problem_form.html.value|default_if_none:''|safe}}';
+    $(".ql-editor").html(html);
+
+    var x = 2;
+    $('.add').click(function() {
+        $('.options').append(`
+            <div class="option" id="d`+x+`">
+                <input type="radio" name="radio" id="p${x}" style="display: none;">
+                <label for="p${x}" id="label"><div></div></label>
+                <textarea class="option_content" name="" id="op${x}"></textarea>
+                <div><a class="link delete" onclick="remove('#d`+x+`')">{% blocktrans %}Delete{% endblocktrans %}</a></div>
+            </div>`);
         x++;
-        $(wrapper).append('<div id="option"><input type="radio" name="radio" class="op" id="r'+x+'"><label for="r'+x+'" onclick="setSolution(\'#op'+x+'\')">✓</label><textarea class="op_content" id="op'+x+'" onchange="writeOptions()" placeholder="{% trans 'Option' %} '+x+'"></textarea><a href="#" class="delete">Delete</a></div>');
+    });
+    function remove(div) {
+        $(div).remove();
+    };
+
+    //submitting form
+    $('.primary').click(function() {
+        var converter = new showdown.Converter();
+        //html content to markdown
+        var html = quill.container.firstChild.innerHTML;
+        $('#html').html(html);
+        var md = converter.makeMarkdown(html);
+        $('#id_content').html(md);
+        $('[name="solution"]').attr('name','');
+        var type = $('#id_question_type').val();
+
+        if (type == 'C') {
+            $('#code').attr('name','solution');
+        } else if (type == 'M') {
+            //update options
+            $('#id_options').html('');
+            var solution = '';
+            $('.option_content').each(function() {
+                $('#id_options').append($(this).val()+'\n\n');
+            });
+            //get solution
+            $('.options input').attr('name','solution');
+            var id = $('.options input:checked').attr('id');
+            var solution = $('#o'+id).val();
+            $('.options input:checked').val(solution);
+            console.log($('.options input:checked').val());
+        } else {
+            $('#text').attr('name','solution');
+        };
+        $('#id_form').submit();
     });
 
-    $(wrapper).on("click", ".delete", function(e) {
-        e.preventDefault();
-        $(this).parent('div').remove();
-        x--;
-        writeOptions()
+    //code editors
+    var textareas = document.querySelectorAll(".code");
+    for (var i = 0; i < textareas.length; i++) {
+        var editor = CodeMirror.fromTextArea(textareas[i], {
+            mode: {name: "python",
+                version: 2,
+                singleLineStringErrors: false},
+            lineNumbers: true,
+            indentUnit: 4,
+            tabMode: "spaces",
+            matchBrackets: true
     });
-
-    $(".CodeMirror")
-        .css("background-color","white")
-        .css("color", "black");
-    $(".CodeMirror-gutters").css("background", "white");
-});
-
-
-$('select[name="question_type"]').on('change', function() {
-  if(this.value == "C") {
-    $('#solution_code').show();
-    $('#solution_options, #solution_text').hide();
-    $("[name='solution']").attr("name","");
-    $('#code').attr("name","solution");
-  } else if(this.value == "M") {
-    $('#solution_options').show();
-    $('#solution_code, #solution_text').hide();
-    $("[name='solution']").attr("name","");
-    $('#op1').attr("name","solution");
-  } else if(this.value == "T") {
-    $('#solution_code, #solution_options').hide();
-    $('#solution_text').show();
-    $("[name='solution']").attr("name","");
-    $('#text').attr("name","solution");
-  } else {}
-});
-
-function writeOptions() {
-    var text = $(".op_content").map(function() {
-        return this.value;}).get().join('\n\n')
-    $('#options').text(text);
-};
-
-function setSolution(id) {
-    $("[name='solution']").attr("name","");
-    $(id).attr("name","solution");
-}
-
-$("[value='{{problem_form.chapter.value.0}}']").attr("selected","");
+    if (textareas[i].classList.contains('test-case-generator')) {
+        editor.setSize('100%',200);
+    } else {
+        editor.setSize('100%',300);
+    }
+    }
 </script>
 {% endblock %}

@@ -1,11 +1,90 @@
-{% extends 'questions/base.html' %}
+{% extends 'registration/base.html' %}
+{% load static %}
 {% load i18n %}
-
+{% get_current_language as language %}
 {% block content %}
-<h2>{% trans "Sign up" %}</h2>
-<form class=signupform method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">{% trans "Sign up" %}</button>
-</form>
+          <div class="signup">
+          <h2>{% blocktrans %}Create account{% endblocktrans %}</h2>
+            <div class="card">
+                <form method="post" action="{% url 'signup' %}" class="form">
+                    {% csrf_token %}
+                    <div>
+                        {% for error in form.non_field_errors %}
+                            <span>{{ error|escape }}</span>
+                        {% endfor %}
+                    	<div class="col-6">
+                            {% for error in form.first_name.errors %}
+                                <span>{{ error|escape }}</span>
+                            {% endfor %}
+                            <input type="text" name="{{ form.first_name.name }}" placeholder="{% blocktrans %}First name{% endblocktrans %}" value="{{form.first_name.value|default_if_none:''}}"></input>
+                        </div>
+                    	<div class="col-6">
+                            {% for error in form.last_name.errors %}
+                                <span>{{ error|escape }}</span>
+                            {% endfor %}
+                            <input type="text" name="{{ form.last_name.name }}" placeholder="{% blocktrans %}Last name{% endblocktrans %}" value="{{form.last_name.value|default_if_none:''}}"></input>
+                        </div>
+                        <div class="col-6">
+                            {% for error in form.email.errors %}
+                                <span>{{ error|escape }}</span>
+                            {% endfor %}
+                            <input type="text" name="{{ form.email.name }}" placeholder="{% blocktrans %}E-mail{% endblocktrans %}" value="{{form.email.value|default_if_none:''}}"></input>
+                        </div>
+                        <div class="col-6">
+                            {% for error in form.class_code.errors %}
+                                <span>{{ error|escape }}</span>
+                            {% endfor %}
+                            <input type="text" name="{{ form.class_code.name }}" placeholder="{% blocktrans %}Class code{% endblocktrans %}" value="{{form.class_code.value|default_if_none:''}}"></input>
+                        </div>
+                    	<div class="col-6">
+                            {% for error in form.password1.errors %}
+                                <span>{{ error|escape }}</span>
+                            {% endfor %}
+                            <input type="password" name="{{ form.password1.name }}" placeholder="{% blocktrans %}Password{% endblocktrans %}" value="{{form.password1.value|default_if_none:''}}"></input>
+                        </div>
+                    	<div class="col-6">
+                            {% for error in form.password2.errors %}
+                                <span>{{ error|escape }}</span>
+                            {% endfor %}
+                            <input type="password" name="{{ form.password2.name }}" placeholder="{% blocktrans %}Password confirmation{% endblocktrans %}" value="{{form.password2.value|default_if_none:''}}"></input>
+                        </div>
+                        <div class="col-12">{% blocktrans %}
+                        	    1) Your password can't be too similar to your other personal information.
+                        	    2) Your password must contain at least 8 characters.
+                        	    3) Your password can't be a commonly used password.
+                        	    4) Your password can't be entirely numeric.
+                                {% endblocktrans %}
+                        </div>
+                    	<div class="col-6 programming">
+                    	    {% blocktrans %}Did you have any programming experience before this course?{% endblocktrans %}
+                    	    <br>
+                            {% for error in form.programming.errors %}
+                            <span>{{ error|escape }}</span>
+                            {% endfor %}
+                            {{ form.programming }}
+                        </div>
+                        <div class="col-6 terms">
+                            <div>
+                        	    {% blocktrans %}I accept the {% endblocktrans %}
+                        	    <a onclick="showConditions('{{ language }}')">{% blocktrans %}Terms and Conditions{% endblocktrans %}</a>
+                                <input type="checkbox" name="{{ form.accepted.name }}" required>
+                            </div>
+                            <div>
+                        	    {% blocktrans %}I've read the {% endblocktrans %} 
+                        	    <a onclick="showPrivacy('{{ language }}')">{% blocktrans %}Privacy Policy{% endblocktrans %}</a>
+                                <input type="checkbox" name="{{ form.read.name }}" required>
+                            </div>
+                            <br>
+                        	<button class="primary" type="submit">{% blocktrans %}Create account{% endblocktrans %}</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <a href="{% url 'login' %}">
+            <button class="btn">{% blocktrans %}Login{% endblocktrans %}</button></a>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <br>
 {% endblock %}

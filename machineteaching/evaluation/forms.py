@@ -7,10 +7,13 @@ class MultiChoiceWidget(forms.widgets.CheckboxSelectMultiple):
 
 
 class ConceptForm(forms.Form):
-    opt_concepts = Concept.objects.all().values_list('pk', 'label')
+    opt_concepts = []
     concepts = forms.MultipleChoiceField(choices=opt_concepts,
                                          widget=MultiChoiceWidget,
                                          label="")
+    def __init__(self, *args, **kwargs):
+        super(ConceptForm, self).__init__(*args, **kwargs)
+        self.fields['concepts'].choices = Concept.objects.all().values_list('pk', 'label')
 
 
 class UserNoPasswordForm(forms.Form):

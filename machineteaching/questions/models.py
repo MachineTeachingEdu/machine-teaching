@@ -87,7 +87,7 @@ class ExerciseSet(models.Model):
 
 class OnlineClass(models.Model):
     name = models.CharField(max_length=200, blank=False)
-    # chapter = models.ManyToManyField(Chapter)
+    chapter = models.ManyToManyField(Chapter)
     class_code = models.CharField(unique=True, max_length=200, null=True)
     active = models.BooleanField(default=True)
     start_date = models.DateField(blank=True)
@@ -235,6 +235,7 @@ class UserLog(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     error_type = models.CharField(max_length=2, choices=ERROR_TYPE,
                                   default="D")
+    test_case_hits = models.IntegerField(blank=True, null=True)
 
     class Meta:
         verbose_name = _('User log')

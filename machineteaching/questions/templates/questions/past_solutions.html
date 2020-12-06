@@ -1,83 +1,94 @@
 {% extends "questions/base.html" %}
 {% load static %}
-{% block header %}
-<!-- Custom styles for this template -->
-<link rel="stylesheet" type="text/css" href="{% static 'vendor/codemirror-5.40.0/lib/codemirror.css' %}" />
-<link rel="stylesheet" type="text/css" href="{% static 'vendor/codemirror-5.40.0/theme/paraiso-dark.css' %}" />
-{% endblock %}
+{% load i18n %}
 {% block content %}
-<!-- Problem statement -->
-<div class="problem" {% if problem.question_type == "M" or "T" %} style="max-width: 700px; margin-left: auto; margin-right: auto" {% endif %}>
-    <h2>{{ problem.title }}</h2>
-    <p>
-        {{ problem.content|linebreaks }}
-    </p>
-</div>
+<div class="col col-5">
 
-{% if log.problem.question_type == "C" %}
-<!-- Code -->
-<div class="code">
-    <form>
-        <textarea id="code" cols="80" rows="10">{{log.solution}}</textarea>
-        <div id="result">
-          	{% if log.outcome == "P" %}
-            <span class="correct" style="margin-top: 30px;">✓</span>
+    <!-- problem statement -->
+    <div class="card statement" style="border-left: 4px solid {% if log.outcome == 'P' %}var(--green){% else %}var(--red){% endif %}">
+        <div>
+        <h3 class="col-10">{{ problem.title }}</h3>
+        <div class="col-2">
+            {% if log.outcome == 'P' %}
+            <span class="badge success">
+            {% blocktrans %}Passed{% endblocktrans %}
+            </span>
             {% else %}
-            <div class="wrong" style=" margin-top: 30px;">X</div> 
+            <span class="badge danger">
+            {% blocktrans %}Failed{% endblocktrans %}
+            </span>
             {% endif %}
         </div>
-    </form>
+        </div>
+        <span id="problem_content" class="no-select">{{ problem.content|linebreaks }}</span>
+    </div>
+
 </div>
+<div class="col col-7">
+{% if log.problem.question_type == "C" %}
+
+    <!-- code -->
+    <div class="card">
+        <h3>{% blocktrans %}Solution{% endblocktrans %}</h3>
+        <textarea class="code" id="code" name="solution" style="display: none;">{{log.solution}}</textarea>
+    </div>
+
 
 {% elif log.problem.question_type == "M" %}
-<!-- Multiple choice -->
-<div class="multiple-c"style="padding-top: 70px;">
-    <form>
-        {% for item in options %}
-        <div class="option">
-            <input type="radio" id="{{item}}" disabled {% if item == log.solution %} checked {% endif %}>
-            <label for="{{item}}">
-                <span class="checkmark"></span>
-                <span class="item">{{item|linebreaks}}</span>
-                <div class="result" id="result_{{item}}">
-                	{% if item == log.solution %}{% if item == solution %}
-                	<div class="correct">✓</div>
-                	{% else %}
-                	<div class="wrong">X</div> 
-                	{% endif %}{% endif %}
-                </div>
-            </label>
+    
+    <!-- options -->
+    <div class="card">
+        <div class="options">
+            {% for option in options %}
+            <input type="radio" name="option" class="option" id="o{{ forloop.counter }}" value="{{ option }}" style="display: none;" disabled>
+            <label for="o{{ forloop.counter }}" class="option-label" style="{% if option == log.solution and log.outcome == 'P' %}border-color: var(--green); color: var(--green);{% elif option == log.solution %}border-color: var(--red); color: var(--red);{% endif %}">{{option|linebreaks}}</label>
+            {% endfor %}
         </div>
-        {% endfor %}
-    </form>
-</div>
+    </div>
 
 
 {% elif log.problem.question_type == "T" %}
-<!-- Textbox -->
-<div class="textbox" style="padding: 20px;">
-    <form onkeydown="return event.key != 'Enter';">
-            <input id="ans" id="text" value="{{log.solution}}" disabled style="margin: 0;">
-            <div id="result">
-            	{% if log.outcome == "P" %}
-                <span class="correct" style="margin-bottom: 20px; margin-top: 20px;">✓</span>
-                {% else %}
-                <div class="wrong" style="margin-bottom: 20px; margin-top: 20px;">X</div> 
-                {% endif %}
-            </div>
-    </form>
-</div>
+    <!-- text -->
+    <div class="card">
+        <h3>{% blocktrans %}Your answer{% endblocktrans %}</h3>
+        <div style="display: flex; justify-content: space-between;">
+            <input type="text" id="text" value="{{ log.solution }}" style="margin-right: 1rem; {% if log.outcome == 'P' %}border-color: var(--green); color: var(--green);{% else %}border-color: var(--red); color: var(--red);{% endif %}" disabled="">
+        </div>
+    </div>
 
 {% endif %}
-
+</div>
 {% endblock %}
-
 {% block javascript %}
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js" type="text/javascript"></script>
-<script src="http://www.skulpt.org/static/skulpt.min.js" type="text/javascript"></script>
-<script src="http://www.skulpt.org/static/skulpt-stdlib.js" type="text/javascript"></script>
-<script src="{% static 'vendor/codemirror-5.40.0/lib/codemirror.js' %}"></script>
-<script src="{% static 'vendor/codemirror-5.40.0/mode/python/python.js' %}"></script>
+<script>
+    var textareas = document.querySelectorAll(".code");
 
-<script src="{% static 'js/sculpt.js' %}"></script>
+    //code editor
+    for (var i = 0; i < textareas.length; i++) {
+        if (textareas[i].classList.contains('interactive')) {
+            lineNumbers = false
+        } else {
+            lineNumbers = true
+        }
+        var editor = CodeMirror.fromTextArea(textareas[i], {
+            mode: {name: "python",
+                version: 2,
+                singleLineStringErrors: false},
+            lineNumbers: lineNumbers,
+            indentUnit: 4,
+            tabMode: "spaces",
+            matchBrackets: true,
+            readOnly: true
+    });
+    editor.setSize('100%',300);
+    }
+
+    
+    // Load markdown
+    var converter = new showdown.Converter({'simplifiedAutoLink': true}),
+        text      = `{{problem.content}}`,
+        html      = converter.makeHtml(text);
+    $("#problem_content").html(html);
+    console.log($("#problem_content").html())
+</script>
 {% endblock %}

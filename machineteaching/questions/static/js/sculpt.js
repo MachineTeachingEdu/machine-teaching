@@ -13,15 +13,15 @@ function builtinRead(x) {
     return Sk.builtinFiles["files"][x];
 }
 
-function correct() {
-    document.getElementById("next").style.display = "inline";
-    document.getElementById("skip").style.display = "none";
-    document.getElementById("next").onclick = gotoproblem;
+function passed() {
+  $('#next').attr('class', 'primary');
+  $('#next').attr('onclick', 'gotoproblem()');
+  $('#errors').css('color', '#CCCCCC');
 }
 
 function evaluate(args, expected_results){
-    eval_table = document.getElementById("evaluation");
-    eval_table.innerHTML = "";
+    eval_div = document.getElementById("evaluation");
+    eval_div.innerHTML = "";
     answers = document.getElementById("output").innerHTML.split("\n");
     errors = 0;
 
@@ -41,38 +41,65 @@ function evaluate(args, expected_results){
             expected_results_parsed = expected_results[i];
         }
         //console.log(expected_results_parsed);
-        eval_table.innerHTML += "<tr><td>Input:</td><td>" + args[i] + "</td></tr><tr><td>Expected output:</td><td>" + expected_results[i] + "</td></tr><tr><td>Your output:</td><td>" + answers[i] + "</td></tr>";
+        eval_div.innerHTML += `<div class="card test-case">
+                               <h3>${i+1}</h3>
+                               <div id="outcome-${i+1}"></div>
+                               <table>
+                                 <tr>
+                                   <td class="col-4">${input}</td>
+                                   <td class="col-8">${args[i]}</td>
+                                 </tr>
+                                 <tr>
+                                   <td class="col-4">${expected_output}</td>
+                                   <td class="col-8">${expected_results[i]}</td>
+                                 </tr>
+                                 <tr>
+                                   <td class="col-4">${your_output}</td>
+                                   <td class="col-8">${answers[i]}</td>
+                                 </tr>
+                               </table>
+                               </div>`;
+        var outcome = document.getElementById(`outcome-${i+1}`);
         try {
             if (JSON.stringify(expected_results_parsed, Object.keys(expected_results_parsed).sort()) == JSON.stringify(answers_parsed, Object.keys(answers_parsed).sort())){
             //if (JSON.stringify(expected_results[i]) == JSON.stringify(answers[i])){
-                eval_table.innerHTML += '<tr><td></td><td><span class="sucess">OK</span></td></tr>'
+                outcome.innerHTML += `<div class="badge success">${passed_txt}</div>`
             } else {
-                eval_table.innerHTML += '<tr><td></td><td><span class="danger">OOPS!</span></td></tr>'
+                outcome.innerHTML += `<div class="badge danger">${failed_txt}</div>`
                 errors++;
             };
         } catch(e) {
-            eval_table.innerHTML += '<tr><td></td><td><span class="danger">OOPS!</span></td></tr>'
+            outcome.innerHTML += `<div class="badge danger">${failed_txt}</div>`
             errors++;
         }
     }
 
+    $('#run').show();
+    $('.loader').hide();
+    $('.loader div').attr('style', 'width: 0;');
+
+    // Display test case result
+    var hits = 100-100*errors/expected_results.length;
+    $('.result').css('display','flex');
+    $('#outcome').html(`
+        <div ">${Math.round(expected_results.length-errors)}</div>
+        <div class="task-progress2">
+            <div class="passed" style="width:${hits}%"></div>
+        </div>
+        <div id="errors">
+        ${Math.round(errors)}
+        </div>`);
+    $('#next').remove();
+    $('.result').append(`<button type="button" onclick="gotoproblem()" class="primary disabled" id="next">${next}</button>`);
+
     // If no errors are found, go to the next problem
     if (errors == 0) {
-        correct()
-        document.getElementById("result").innerHTML = '<span class="correct" style="margin-bottom: 30px; margin-left: auto; margin-right: auto">✓</span>';
-        save_log('P', seconds_in_code, seconds_to_begin, seconds_in_page);
+        passed()
+        save_log('P', seconds_in_code, seconds_to_begin, seconds_in_page, hits);
     } else {
-        document.getElementById("result").innerHTML = '<div class="wrong" style="margin-bottom: 30px; margin-left: auto; margin-right: auto">X</div>';
-        save_log('F', seconds_in_code, seconds_to_begin, seconds_in_page);
+        save_log('F', seconds_in_code, seconds_to_begin, seconds_in_page, hits);
     };
 
-    //Display buttons and hide loader
-    document.getElementById("buttons").style.display="block";
-    document.getElementById("running").style.display="none";
-
-    // Display result divs
-    document.getElementById("output-div").style.display="block";
-    document.getElementById("testcase-div").style.display="block";
 }
 // Here's everything you need to run a python program in skulpt
 // grab the code from your textarea
@@ -80,10 +107,9 @@ function evaluate(args, expected_results){
 // configure the output function
 // call Sk.importMainWithBody()
 function runit(args, func, expected_results) {
-
-   //Hide buttons and display loader
-   document.getElementById("buttons").style.display="none";
-   document.getElementById("running").style.display="block";
+  $('#run').hide();
+  $('.loader').show();
+  $('.loader div').animate({width: '100%'}, 2000);
 
    // Get code
    var prog = editor.getValue();
@@ -150,6 +176,12 @@ function runit(args, func, expected_results) {
        // Evaluate results
        seconds_end_page = performance.now()
        seconds_in_page = Math.round((seconds_end_page - seconds_begin_page)/1000);
+
+        seconds_end_code = performance.now();
+        console.log("seconds in this snippet:" + Math.round(
+            (seconds_end_code - seconds_begin_code)/1000));
+        seconds_in_code += Math.round((seconds_end_code - seconds_begin_code)/1000);
+        console.log("seconds in code: " + seconds_in_code);
        console.log("seconds in page:" + seconds_in_page);
        evaluate(args, expected_results);
        }, 2000);
@@ -182,22 +214,6 @@ function betterTab(cm) {
     }
 }
 
-try {
-// Set pretty Python editor
-    var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
-    mode: {name: "python",
-        version: 2,
-        singleLineStringErrors: false},
-    lineNumbers: true,
-    indentUnit: 4,
-    tabMode: "spaces",
-    matchBrackets: true,
-    extraKeys: { Tab: betterTab },
-    theme: "paraiso-dark"
-    });
-    editor.setSize('100%',300)
-} catch {}
-
 // Calculating time in page and code
 // Get when user stops typing
 var delay = (function(){
@@ -216,7 +232,7 @@ var seconds_in_page = 0;
 var first_keydown= true;
 
 // When user starts typing
-$('.CodeMirror').keydown(function(){
+$('#code').keydown(function(){
 
     //Starting to type for the first time
     if (seconds_to_begin == 0) {
@@ -232,7 +248,7 @@ $('.CodeMirror').keydown(function(){
 
 });
 // Finished code snippet. Sum time to variable.
-$('.CodeMirror').keyup(function() {
+$('#code').keyup(function() {
     delay(function(){
         seconds_end_code = performance.now();
         console.log("seconds in this snippet:" + Math.round(

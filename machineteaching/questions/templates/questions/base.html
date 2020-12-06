@@ -1,247 +1,156 @@
-<!DOCTYPE html>
-<html lang="en">
-
 {% load static %}
 {% load i18n %}
+{% get_current_language as language %}
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+      <title>{{title}} | Machine Teaching</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<head>
+      <!-- stylesheets -->
+      <link rel="stylesheet" type="text/css" href="http://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
+      <link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/css/jquery.dataTables_themeroller.css">
+      <link rel="stylesheet" type="text/css" href="{% static 'vendor/codemirror-5.58.2/lib/codemirror.css' %}"/>
+      <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+      <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}" />
+      <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    </head>
+    <body>
+        <div class="sidebar"><a href="http://machineteaching.tech" class="brand">Machine Teaching</a>
+          <div class="menu-container">
+            <ul class="menu">
 
-    <title>Machine Teaching</title>
+              <!-- menu -->
+              <a class="menu-item" href="{% url 'next' %}">{% blocktrans %}Current problem{% endblocktrans %}</a>
+              <a class="menu-item" href="{% url 'past_problems' %}">{% blocktrans %}Past problems{% endblocktrans %}</a>
+              <a class="menu-item" href="{% url 'chapters' %}">{% blocktrans %}Chapters{% endblocktrans %}</a>
+              <a class="menu-item" href="{% url 'show_outcome' %}">{% blocktrans %}Outcomes{% endblocktrans %}</a>
 
-    <!-- Custom styles -->
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+            </ul>
+            <li class="menu-separator"></li>
+            <div class="menu-title">{% blocktrans %}Strategy{% endblocktrans %}</div>
+            <ul class="menu">
 
-    {% block header %}
-    {% endblock %}
+              <!-- strategy -->
+              <input type="radio" id="1" value="1" name="sequential" style="display: none;"{% if user.userprofile.sequential %} checked {% endif %}></input>
+              <label for="1" class="menu-item">{% blocktrans %}Sequential{% endblocktrans %}</label>
+              <input type="radio" id="0" value="0" name="sequential" style="display: none;"{% if not user.userprofile.sequential %} checked {% endif %}></input>
+              <label for="0" class="menu-item">{% blocktrans %}Random{% endblocktrans %}</label>
 
-</head>
+            </ul>
+            <li class="menu-separator"></li>
+            <div class="menu-title">{% blocktrans %}Chapters{% endblocktrans %}</div>
+            <ul class="menu">
 
-<body>
-<!-- Loader -->
-<div class="loader"><img src="{% static 'img/loader.svg' %}" class="loader-img"></div>
+              <!-- chapters -->
+              {% for chapter in user.userprofile.user_class.chapter.all %}
+              <a class="menu-item" href="{% url 'show_chapter' chapter=chapter.id %}">{{chapter}}</a>
+              {% endfor %}
 
-<!-- Navigation -->
-<nav class="navbar">
-    <a class="brand" href="/">Machine Teaching</a>
-    <!-- Strategy bar -->
-    {% if user.is_authenticated %}
-    <div class="strategy-div">
-        <div class="strategy">
-            {% trans "Strategy" %}
-            <div class="switch">
-                <input type="radio" name="sequential" value=1 id="1"
-                       {% if user.userprofile.sequential %} checked {% endif %}><label for="1">{% trans "Sequential" %}</label>
-                <input type="radio" name="sequential" value=0 id="0"
-                       {% if not user.userprofile.sequential %} checked {% endif %}><label for="0">{% trans "Random" %}</label>
+            </ul>
+          </div>
+        </div>
+        <div class="content">
+        <div class="topbar">
+          <div class="topbar-left">
+            <span class="close" onclick="closeMenu()">
+              <div class="menu-icon">
+                <div></div>
+                <div></div>
+                <div></div>
+              </div>
+            </span>
+            <span class="title">{{ title }}</span>
+          </div>
+          <div class="topbar-right">
+            <span style="margin-right: 1rem;">{% if user.first_name %}
+            {% blocktrans %}Hello{% endblocktrans %}, {{ user.first_name }} {{ user.last_name }}
+            {% endif %}</span>
+            <a class="link" href="{% url 'logout' %}">{% blocktrans %}Logout{% endblocktrans %}</a>
+          </div>
+        </div>
+
+        <!-- content --->
+        <div class="layout-content">
+            {% block content %}
+            {% endblock %}
+        </div>
+
+        <!-- footer --->
+        <div class="footer" style="border-bottom: none;">
+            <div class="footer-left"><span class="footer-brand">Machine Teaching</span><span class="change-language" onclick="changeLanguage('{{language}}')">
+                {% if language == 'en' %}Português
+                {% else %}English{% endif %}
+                <img src="{% static 'img/earth.png' %}"></span></div>
+                <div class="footer-right">
+                {% blocktrans %}Check the {% endblocktrans %}
+                <span onclick="showConditions('{{language}}')">
+                {% blocktrans %}Terms and Conditions{% endblocktrans %}
+                </span>
+                {% blocktrans %}and the {% endblocktrans %}
+                <span onclick="showPrivacy('{{language}}')">
+                {% blocktrans %}Privacy Policy{% endblocktrans %}
+                </span> | 
+                <span onclick="showAbout('{{language}}')">
+                {% blocktrans %}About this research{% endblocktrans %}
+                </span> | 
+                {% blocktrans %}© 2020 Copyright: <a href="http://machineteaching.tech">machineteaching.tech{% endblocktrans %}</a>
             </div>
         </div>
-    </div>
-    {% endif %}
-
-    <!-- Menu -->
-    <div class="menu">
-        {% if user.is_authenticated %}
-        <a style="width: 210px" href="{% url 'next' %}">{% trans "Current Problem" %}</a>
-        <a style="width: 245px" href="{% url 'past_problems' %}">{% trans "Past Problems" %}</a>
-        <a style="width: 120px" href="{% url 'chapters' %}">{% trans "Chapters" %}</a>
-        {% endif %}
-        {% if perms.questions.view_userlogview %}
-        <a style="width: 150px" href="{% url 'show_outcome' %}">{% trans "Outcomes" %}</a>
-        {% endif %}
-        {% if user.is_authenticated %}
-        <div class="user">{% trans "Hello" %}, {{user.first_name}} {{user.last_name}}<a href="{% url 'logout'%}" class="logout-btn">{% trans "Logout" %}</a></div>
-        {% else %}
-        <a style="width: 140px; justify-content: right" href="{% url 'signup' %}" id="signup">{% trans "Signup" %}</a>
-        <a style="width: 100px" href="{% url 'login' %}" id="accountslogin"><button class="login-btn">{% trans "Login" %}</button></a>
-        {% endif %}
-    </div>
-
-    <!-- Responsive menu -->
-    {% if user.is_authenticated %}
-    <div class="burger" onclick="openNav()">
-        <div class="line"></div>
-        <div class="line"></div>
-        <div class="line"></div>
-    </div>
-    <!-- Menu -->
-    <div class="menu-small" id="menu">
-        <a style="width: 220px" href="{% url 'next' %}">{% trans "Current Problem" %}</a>
-        <a style="width: 250px" href="{% url 'past_problems' %}">{% trans "Past Problems" %}</a>
-        <a style="width: 100px" href="{% url 'chapters' %}">{% trans "Chapters" %}</a>
-        {% endif %}
-        {% if perms.questions.view_userlogview %}
-        <a style="width: 150px" href="{% url 'show_outcome' %}">{% trans "Outcomes" %}</a>
-        {% endif %}
-        {% if user.is_authenticated %}
-        <div class="user">{% trans "Hello" %}, {{user.first_name}} {{user.last_name}}<a href="{% url 'logout'%}" class="logout-btn">{% trans "Logout" %}</a></div>
-        <!-- Dark/Light switch -->
-        <div class="inferior-small">
-            <div id="lang-small"><a href="pt-br{{ request.get_full_path }}" style="margin: 0; padding: 0;"><div class="lang">PORTUGUÊS</div></a></div>
-            <div class="change-colors-small" id="colors" onclick="toggleTheme()"><div id="theme-small"></div></div>
         </div>
-        {% else %}
-        <div id="lang-small" style="display: none"></div>
-        <div id="theme-small" style="display: none"></div>
-    </div>
-    <div class="login-menu">
-        <a style="width: 140px; justify-content: right" href="{% url 'signup' %}" id="signup">{% trans "Signup" %}</a>
-        <a style="width: 100px" href="{% url 'login' %}" id="accountslogin"><button class="login-btn">{% trans "Login" %}</button></a>
-    </div>
-    {% endif %}
 
-    <div id="x" onclick="closeNav()">X</div>
+      <!-- scripts -->
+      <script type="text/javascript">
+              //logos
+              const ufrj = '{% static "img/logo/ufrj.png" %}'
+              const cnpq = '{% static "img/logo/cnpq.svg" %}'
+              const faperj = '{% static "img/logo/faperj.jpg" %}'
+              const dcc = '{% static "img/logo/dcc.png" %}'
+              const coppe = '{% static "img/logo/coppe.jpg" %}'
+              const pesc = '{% static "img/logo/pesc.png" %}'
 
-</nav>
+              const close = '{% blocktrans %}Close{% endblocktrans %}';
+      </script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+      <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.0/showdown.min.js" type="text/javascript"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js"></script>
+      <script src="{% static 'vendor/codemirror-5.58.2/lib/codemirror-repl.js' %}"></script>
+      <script src="{% static 'vendor/codemirror-5.58.2/lib/codemirror.js' %}"></script>
+      <script src="{% static 'vendor/codemirror-5.58.2/mode/python/python.js' %}"></script>
+      <script src="http://www.skulpt.org/js/skulpt.min.js" type="text/javascript"></script>
+      <script src="http://www.skulpt.org/js/skulpt-stdlib.js" type="text/javascript"></script>
+      <script type="text/javascript" charset="utf8" src="http://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+      <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+      <script src="{% static 'js/script.js' %}"></script>
+      <script src="{% static 'js/sculpt.js' %}"></script>
+      <script src="{% static 'js/footer.js' %}"></script>
 
-<!-- Dark/Light switch -->
-<div class="inferior" id="switch">
-    <div id="lang"><a href="pt-br{{ request.get_full_path }}" style="margin: 0; padding: 0; text-decoration: none"><div class="lang">PORTUGUÊS</div></a></div>
-    <div class="change-colors" id="colors" onclick="toggleTheme()"><div id="theme"></div></div>
-</div>
-
-
-<!-- Page Content -->
-<div class="container">
-    {% block content %}
-    {% endblock %}
-</div>
-
-<!-- Bootstrap core JavaScript -->
-<!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
-<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js"></script>
-<!--<script src="{% static 'js/script.js' %}"></script>-->
-<!--Start of Zendesk Chat Script-->
-<script type="text/javascript">
-    window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
-        d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
-    _.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute("charset","utf-8");
-        $.src="https://v2.zopim.com/?64bHCyGA4wDlqZy77v5LXk9LOHCCnz9t";z.t=+new Date;$.
-            type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
-</script>
-<!--End of Zendesk Chat Script-->
-<!-- Change between strategies -->
-<script>
-    $("[name='sequential']").on('click', function(){
-        $.ajax({
-            type: "GET",
-            url: '{% url 'update_strategy' %}',
-            data: {
-                'sequential': $("[name='sequential']:checked").val()
-            },
-            dataType: 'json',
-            success: function(data){
-                console.log('status: ' + data['status']);
-                window.location.href = "{% url 'start' %}";
-
-            },
-            error: function (request, status, error) {
-                console.log(request.status);
-            }
-        });
-    });
-
-    //Loader script
-    $(window).on("load",function(){
-        setTimeout(removeLoader, 500);
-        setTimeout(showFirst, 1000);
-        setTimeout(showSecond, 1500);
-        setTimeout(showThird, 2000);
-    });
-    function removeLoader() {
-        $(".loader").fadeOut("slow");
-    };
-    function showFirst() {
-        $(".show-first").fadeTo("slow",1);
-    };
-    function showSecond() {
-        $(".show-second").fadeTo("slow",1);
-    };
-    function showThird() {
-        $(".show-third").fadeTo("slow",1);
-    };
-
-    // function to set a given theme/color-scheme
-    function setTheme(themeName) {
-        localStorage.setItem('theme', themeName);
-        document.documentElement.className = themeName;
-    }
-
-    // function to toggle between light and dark theme
-    function toggleTheme() {
-        if (localStorage.getItem('theme') === 'theme-dark') {
-            setTheme('theme-light');
-            document.getElementById("theme").innerText = "{% trans "Dark mode" %}"
-            document.getElementById("theme2").innerText = "{% trans "Dark mode" %}"
-        } else {
-            setTheme('theme-dark');
-            document.getElementById("theme").innerText = "{% trans "Light mode" %}"
-            document.getElementById("theme2").innerText = "{% trans "Light mode" %}"
-        }
-    }
-
-    // Immediately invoked function to set the theme on initial load
-    (function () {
-        if (localStorage.getItem('theme') === 'theme-dark') {
-            setTheme('theme-dark');
-            document.getElementById("theme").innerText = "{% trans "Light mode" %}"
-            document.getElementById("theme-small").innerText = "{% trans "Light mode" %}"
-        } else {
-            setTheme('theme-light');
-            document.getElementById("theme").innerText = "{% trans "Dark mode" %}"
-            document.getElementById("theme-small").innerText = "{% trans "Dark mode" %}"
-        }
-    })();
-
-
-    {% get_current_language as language %}
-    if ('{{ language }}'.indexOf('en') !== -1) {
-        document.getElementById('lang').innerHTML = "<a href=\"{{ request.get_full_path|slice:1 }}\" style=\"text-decoration: none\"><div class=\"lang\">PORTUGUÊS</div></a>";
-        document.getElementById('lang-small').innerHTML = "<a href=\"{{ request.get_full_path|slice:1 }}\" style=\"margin: 0; padding: 0;\"><div class=\"lang-small\">PORTUGUÊS</div></a>";
-    } else {
-        document.getElementById('lang').innerHTML = "<a href=\"/en{{ request.get_full_path }}\" style=\"text-decoration: none\"><div class=\"lang\">ENGLISH</div></a>";
-        document.getElementById('lang-small').innerHTML = "<a href=\"/en{{ request.get_full_path }}\" style=\"margin: 0; padding: 0;\"><div class=\"lang-small\">ENGLISH</div></a>";
-    }
-
-    function openNav() {
-        document.getElementById("menu").style.width = "100%";
-        document.getElementById("menu").style.height = "100%";
-        document.getElementById("x").style.display = "flex";
-    }
-
-    function closeNav() {
-        document.getElementById("menu").style.width = "0";
-        document.getElementById("menu").style.height = "0";
-        document.getElementById("x").style.display = "none";
-    }
-</script>
-
-{% block javascript %}
-{% endblock %}
-<!-- Footer -->
-<footer class="footer {% block footer %}{% endblock %}">
-
-
-    <!-- Copyright -->
-    </div>
-    <div class="footer-copyright text-center py-3 ">
-        {% blocktrans %}Check the {% endblocktrans %}<a href="{% url 'terms_and_conditions'%}">{% blocktrans %}Terms and Conditions{% endblocktrans %}</a>{% blocktrans %} and the {% endblocktrans %}<a href="{% url 'privacy' %}">{% blocktrans %}Privacy Policy{% endblocktrans %}</a>
-        <br><a href="{% url 'about'%}">{% blocktrans %}About this research{% endblocktrans %}</a>
-        <br>© {% now "Y" %} Copyright: <a href="/">machineteaching.tech</a>
-    </div>
-    <!-- Copyright -->
-
-</footer>
-<!-- Footer -->
-
-
-</body>
-
+      {% block javascript %}
+      {% endblock %}
+      <script type="text/javascript">
+          //strategies
+              $("[name='sequential']").on('click', function(){
+                  $.ajax({
+                      type: "GET",
+                      url: '{% url 'update_strategy' %}',
+                      data: {
+                'sequential': $("[name='sequential']:checked").val(          )
+                      },
+                      dataType: 'json',
+                      success: function(data){
+                          console.log('status: ' + data['status']);
+                          window.location.href = '{% url 'start' %}';
+              
+                      },
+                      error: function (request, status, error) {
+                          console.log(request.status);
+                      }
+                  });
+              });
+      </script>
+    </body>
 </html>

@@ -2,13 +2,19 @@ import logging
 from questions.models import Problem, Solution, TestCase
 import json
 import copy
+from django.utils.translation import gettext as _
 
 LOGGER = logging.getLogger(__name__)
+
+# Modules than can be used inside the solution
+import math
+
 
 def get_problem(problem_id):
     #try:
     # Get problem, test cases and solution
     problem = Problem.objects.get(pk=problem_id)
+    problem.content = problem.content.replace('\`','`').replace('`','\`').replace('(<','(').replace('>)',')')
     options = problem.options.split("\r\n\r\n")
     LOGGER.debug("Got problem %d", problem.id)
     test_case = TestCase.objects.filter(problem=problem)
@@ -38,7 +44,8 @@ def get_problem(problem_id):
         "test_case": ["%s" % item for item in test_case],
         "expected_results": expected_results,
         "tip": solution.tip,
-        "header": solution.header
+        "header": solution.header,
+        "title": _('Problem')
     }
 
     return context

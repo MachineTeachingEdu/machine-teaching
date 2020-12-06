@@ -10,16 +10,19 @@ from django.contrib.messages import success, error
 from django.core.exceptions import PermissionDenied
 from django.db.models.functions import Lower
 from django.utils import timezone, translation
+from django.utils.translation import gettext as _
+from django.views.decorators.csrf import csrf_exempt
 # import random
 import json
 from functools import wraps
 import time
 from questions.models import (Problem, Solution, UserLog, UserProfile,
                               Professor, OnlineClass, UserLogView, Chapter,
-                              Deadline)
+                              Deadline, UserLogError, ExerciseSet)
 from questions.forms import (UserLogForm, SignUpForm, OutcomeForm, ChapterForm,
                              ProblemForm, SolutionForm)
 from questions.get_problem import get_problem
+from questions.get_dashboards import get_student_dashboard
 from questions.strategies import STRATEGIES_FUNC
 
 import csv
@@ -53,7 +56,9 @@ def must_be_yours(model=None):
 
 # Create your views here.
 def index(request):
-    return render(request, 'questions/index.html')
+    if request.user.is_authenticated:
+        return redirect('start')
+    return render(request, 'index.html')
 
 
 def signup(request):
@@ -71,8 +76,8 @@ def signup(request):
             #     'professor')))
             # user.userprofile.professor = professor
             user.userprofile.programming = form.cleaned_data.get('programming')
-            user.userprofile.accepted = form.cleaned_data.get('accepted')
-            user.userprofile.read = form.cleaned_data.get('read')
+            user.userprofile.accepted = True
+            user.userprofile.read = True
             user_class = OnlineClass.objects.get(
                 class_code=form.cleaned_data.get('class_code'))
             user.userprofile.user_class = user_class
@@ -84,7 +89,7 @@ def signup(request):
             return redirect('start')
     else:
         form = SignUpForm()
-    return render(request, 'registration/signup.html', {'form': form})
+    return render(request, 'registration/signup.html', {'title':_('Create account'),'form': form})
 
 
 # @permission_required('questions.can_add_problem', raise_exception=True)
@@ -125,7 +130,7 @@ def get_next_problem(request):
     LOGGER.debug("Got problem %s", problem_id)
 
     if not problem_id:
-        return render(request, 'questions/finished.html', {})
+        return render(request, 'questions/finished.html', {'title': _('Finished')})
     context = get_problem(problem_id)
     return render(request, 'questions/show_problem.html', context)
 
@@ -146,46 +151,63 @@ def save_user_log(request):
 
 @login_required
 def get_past_problems(request):
-    past_problems = UserLog.objects.filter(user=request.user).order_by('timestamp')
+    logs = UserLog.objects.filter(user=request.user).order_by('-timestamp')
+    past_problems = []
+    for log in logs:
+        error = UserLogError.objects.filter(userlog=log).values_list('error')
+        past_problems.append({'log': log, 'error': error})
     return render(request, 'questions/past_problems.html', {
-        'past_problems': past_problems, 'user': request.user})
+        'title': _('Past problems'), 'past_problems': past_problems, 'user': request.user})
 
 @permission_required('questions.view_userlogview', raise_exception=True)
 @login_required
 def get_student_solutions(request, id, chapter=None, problem=None):
     user = User.objects.get(pk=id)
-    userlog = UserLog.objects.filter(
+    logs = UserLog.objects.filter(
         user_id=id, timestamp__gte=user.userprofile.user_class.start_date)
+    LOGGER.debug(userlog.values_list('outcome'))
     if chapter:
-        userlog = userlog.filter(problem__chapter=chapter)
+        logs = logs.filter(problem__chapter=chapter)
     if problem:
-        userlog = userlog.filter(problem=problem)
+        logs = logs.filter(problem=problem)
+    past_problems = []
+    for log in logs.order_by('-timestamp'):
+        error = UserLogError.objects.filter(userlog=log).values_list('error')
+        past_problems.append({'log': log, 'error': error})
     return render(request, 'questions/past_problems.html', {
-        'past_problems': userlog, 'student': user})
+        'title': user.first_name+' '+user.last_name, 'past_problems': past_problems, 'student': user})
 
 @login_required
-def get_chapter_problems(request, chapter=None):
-    LOGGER.debug("Chapter: %s" % chapter)
+def get_chapter_problems(request):
     onlineclass = request.user.userprofile.user_class
     deadline_chapters = Deadline.objects.filter(onlineclass=onlineclass
                                                 ).values_list('chapter',
                                                               flat=True)
-    available_chapters = Chapter.objects.filter(id__in=deadline_chapters)
-    if chapter is not None:
-        chapter = Chapter.objects.get(pk=chapter)
-        problems = Problem.objects.filter(chapter=chapter).distinct()
-    else:
-        problems = Problem.objects.filter(chapter__in=available_chapters).distinct()
+    available_chapters = Chapter.objects.filter(id__in=deadline_chapters).order_by('-deadline')
 
-    if request.method == "POST":
-        form = ChapterForm(request.POST, instance=chapter)
-        if form.is_valid():
-            chapter = form.save(commit=False)
-            chapter.save()
-            return redirect('chapters', chapter=chapter.id)
+    chapters = []
+    problems = []
+    for i in range(0,len(available_chapters),3):
+        chapter = Chapter.objects.get(pk=available_chapters[i].id)
+        chapters.append(chapter)
+        problems.append(ExerciseSet.objects.filter(chapter=chapter).order_by('order','-id'))
+    col_1 = list(zip(chapters,problems))
 
-    else:
-        form = ChapterForm(instance=chapter)
+    chapters = []
+    problems = []
+    for i in range(1,len(available_chapters),3):
+        chapter = Chapter.objects.get(pk=available_chapters[i].id)
+        chapters.append(chapter)
+        problems.append(ExerciseSet.objects.filter(chapter=chapter).order_by('order','-id'))
+    col_2 = list(zip(chapters,problems))
+
+    chapters = []
+    problems = []
+    for i in range(2,len(available_chapters),3):
+        chapter = Chapter.objects.get(pk=available_chapters[i].id)
+        chapters.append(chapter)
+        problems.append(ExerciseSet.objects.filter(chapter=chapter).order_by('order','-id'))
+    col_3 = list(zip(chapters,problems))
 
     # Get exercise where student passed
     userlog = UserLog.objects.filter(
@@ -199,32 +221,94 @@ def get_chapter_problems(request, chapter=None):
                                               ).distinct()
 
     return render(request, 'questions/chapters.html', {
-        'problems': problems,
+        'title': _('Chapters'),
+        'chapters': [col_1,col_2,col_3],
         'passed': passed,
         'skipped': skipped,
         'failed': failed,
-        'available_chapters': available_chapters,
-        'chapter': chapter,
-        'form': form
+        'available_chapters': available_chapters
         })
 
+@login_required
+@csrf_exempt
+def show_chapter(request, chapter):
+    LOGGER.debug("Chapter: %s" % chapter)
+    chapter = Chapter.objects.get(pk=chapter)
+    problems = ExerciseSet.objects.filter(chapter=chapter).order_by('order', '-id')
+    onlineclass = request.user.userprofile.user_class
+    deadline = Deadline.objects.get(onlineclass=onlineclass,
+                                       chapter=chapter).deadline
+    userlogs = UserLog.objects.filter(problem__in=Problem.objects.filter(chapter=chapter).distinct())
+    errors = UserLogError.objects.filter(userlog__in=userlogs).values_list('error')
+    counter = {}
+    for error in errors:
+        if error in counter:
+            counter[error] += 1
+        else:
+            counter[error] = 1
+    main_errors = sorted(counter, key=counter.get, reverse=True)[:2]
+
+    # Get exercise where student passed
+    userlog = UserLog.objects.filter(
+        user=request.user,
+        timestamp__gte=request.user.userprofile.user_class.start_date)
+    passed = userlog.filter(outcome='P').values_list('problem_id', flat=True
+                                              ).distinct()
+    skipped = userlog.filter(outcome='S').values_list('problem_id', flat=True
+                                              ).distinct()
+    failed = userlog.filter(outcome='F').values_list('problem_id', flat=True
+                                              ).distinct()
+    
+    if request.method == 'POST':
+        problem_ids = str(list(request.POST)[0])
+        for index, pk in enumerate(problem_ids.split(','), start=1):
+            exerciseset = ExerciseSet.objects.get(chapter=chapter, problem=int(pk))
+            exerciseset.order = index
+            exerciseset.save()
+        return HttpResponse('')
+
+    return render(request, 'questions/show_chapter.html', {
+        'title': chapter,
+        'chapter': chapter,
+        'deadline': deadline,
+        'problems': problems,
+        'errors': main_errors,
+        'passed': passed,
+        'skipped': skipped,
+        'failed': failed
+        })
+
+@csrf_exempt
 @permission_required('questions.view_userlogview', raise_exception=True)
 @login_required
 def new_chapter(request):
+    chapter = None
     if request.method == "POST":
         form = ChapterForm(request.POST)
         if form.is_valid():
             chapter = form.save(commit=False)
             chapter.save()
-            request.user.userprofile.user_class.chapter.add(chapter)
-            return redirect('chapters', chapter=chapter.id)
+            date = form.cleaned_data['deadline'].strftime('%Y-%m-%d 23:59:59')
+            deadline = Deadline(chapter=chapter, deadline=date)
+            deadline.save()
+            classes = OnlineClass.objects.filter(professor__user=request.user)
+            for item in classes:
+                item.chapter.add(chapter)
+                deadline.onlineclass.add(item)
+            deadline.save()
+
+            return redirect('show_chapter', chapter=chapter.id)
     else:
         form = ChapterForm()
-    return redirect('chapters', chapter=chapter.id)
+    return redirect('chapters')
 
-@permission_required('questions.view_userlogview', raise_exception=True)
 @login_required
 def show_outcome(request):
+    # TODO: link direto na interface
+    if not request.user.has_perm('questions.view_userlogview'):
+        context = get_student_dashboard(request.user)
+        return render(request, 'questions/student_dashboard.html', context)
+
     outcomes = []
     onlineclass = None
     if request.method == 'POST':
@@ -313,7 +397,7 @@ def show_outcome(request):
     LOGGER.info("Available classes: %s" % form.fields['onlineclass'].queryset)
     LOGGER.info("Showing students and outcomes: %s" % json.dumps(outcomes))
     return render(request, 'questions/outcomes.html',
-                  {'form': form, 'problems': problems_all, 'outcomes':outcomes, 'class':onlineclass})
+                  {'title': _('Outcomes'),'form': form, 'problems': problems_all, 'outcomes':outcomes, 'class':onlineclass})
 
 
 @login_required
@@ -321,7 +405,7 @@ def show_outcome(request):
 def get_user_solution(request, id):
     userlog = UserLog.objects.get(pk=id)
     context = get_problem(userlog.problem_id)
-    context.update({'log': userlog})
+    context.update({'log': userlog, 'title': _('Solution')})
     return render(request, 'questions/past_solutions.html', context)
 
 
@@ -355,7 +439,8 @@ def show_solutions(request, problem_id, class_id):
         students.append(student)
     problem = get_problem(problem_id)
 
-    return render(request, 'questions/solutions.html', {'problem': problem,
+    return render(request, 'questions/solutions.html', {'title': problem['problem'].title,
+                                                        'problem': problem,
                                                         'students': students})
 
 
@@ -420,19 +505,29 @@ def export(request):
     return response
 
 @permission_required('questions.view_userlogview', raise_exception=True)
-def new_problem(request):
+def new_problem(request, chapter=None):
     if request.method == 'POST':
         problem_form = ProblemForm(request.POST)
         solution_form = SolutionForm(request.POST)
         if problem_form.is_valid() and solution_form.is_valid():
-            problem = problem_form.save()
-            solution = solution_form.save(commit=False)
+            problem = problem_form.save(commit=False)
             problem.question_type = solution_form.cleaned_data.get('question_type')
+            problem.save()
+            solution = solution_form.save(commit=False)
             solution.content = solution_form.cleaned_data.get('solution')
             solution.problem_id = problem.id
-            problem.save()
             solution.save()
+            chapter = list(problem_form.cleaned_data.get('chapter'))[0]
+            order = problem_form.cleaned_data.get('order')
+            if not order:
+                problems = ExerciseSet.objects.filter(chapter=chapter).values_list('order')
+                order = len(list(problems))+1
+            exerciseset = ExerciseSet(chapter=chapter, problem=problem, order=order)
+            exerciseset.save()
 
+            success(request, 'The problem was added')
+
+            return redirect('show_chapter', chapter=chapter.id)
         else:
             error(request, 'The problem was not added')
 
@@ -440,10 +535,9 @@ def new_problem(request):
         problem_form = ProblemForm()
         solution_form = SolutionForm()
 
-    chapters = request.user.userprofile.user_class.chapter.all()
-
     return render(request, 'questions/new_problem.html',{
+        'title': _('New problem'),
+        'chapter': chapter,
         'problem_form': problem_form,
-        'solution_form': solution_form,
-        'chapters': chapters
+        'solution_form': solution_form
         })

@@ -22,6 +22,5 @@ urlpatterns = i18n_patterns(
     path('questions/', include('questions.urls')),
     path('evaluation/', include('evaluation.urls')),
     path('', include('questions.urls')),
-    path('admin/', admin.site.urls),
-    prefix_default_language = False
+    path('admin/', admin.site.urls)
 )

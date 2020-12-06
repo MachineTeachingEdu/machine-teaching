@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 from questions.models import UserLog, OnlineClass, Chapter, Problem, Solution
+import random
 
 
 class UserLogForm(ModelForm):
@@ -64,11 +65,23 @@ class OutcomeForm(forms.Form):
         return onlineclass
 
 class ChapterForm(forms.ModelForm):
+    deadline = forms.DateTimeField()
+
+    def __init__(self, *args, **kwargs):
+        super(ChapterForm, self).__init__(*args, **kwargs)
+
     class Meta:
         model = Chapter
         fields = ['label']
 
 class ProblemForm(forms.ModelForm):
+    html = forms.CharField(widget=forms.Textarea)
+    order = forms.IntegerField()
+
+    def __init__(self, *args, **kwargs):
+        super(ProblemForm, self).__init__(*args, **kwargs)
+        self.fields['order'].required = False
+        self.fields['html'].required = False
 
     class Meta:
         model = Problem
@@ -79,7 +92,7 @@ class ProblemForm(forms.ModelForm):
         try:
             # Transform solution into python function
             function_obj = compile(test_case_generator,
-                                   'generate', 'exec')
+                                   'generate()', 'exec')
             exec(function_obj)
 
             # Generate test cases
@@ -102,7 +115,7 @@ class SolutionForm(forms.ModelForm):
 
     class Meta:
         model = Solution
-        fields = ['header','problem','tip','cluster']
+        fields = ['header','problem','tip', 'cluster']
 
     def clean(self):
         solution = self.cleaned_data.get('solution')

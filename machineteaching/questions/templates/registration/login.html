@@ -1,34 +1,37 @@
-{% extends 'questions/base.html' %}
+{% extends 'registration/base.html' %}
 {% load static %}
 {% load i18n %}
-
+{% get_current_language as language %}
 {% block content %}
-<h2>{% trans "Login" %}</h2>
-<div class="login-div">
-    {% if form.errors %}
-    <p style="color: red">Your username and password didn't match. Please try again.</p>
-    {% endif %}
-
-    {% if next %}
-    {% if user.is_authenticated %}
-    <p>{% trans "Your account doesn't have access to this page. To proceed,
-        please login with an account that has access." %}</p>
-    {% else %}
-    <p>{% trans "Please login to see this page." %}</p>
-    {% endif %}
-    {% endif %}
-    <form method="post" class="loginform" action="{% url 'login' %}">
-        {% csrf_token %}
-        <div>E-MAIL</div>{{ form.username }}<div>{% trans "Password" %}</div>{{ form.password }}
-        <div style="display: flex; justify-content: space-between; align-items: center">
-            <a href="{% url 'password_reset' %}">{% trans "Forgot password?" %}</a>
-            <input type="submit" value="{% trans 'Login' %}" />
+          <div class="login">
+          <h2>{% blocktrans %}Login{% endblocktrans %}</h2>
+            <div class="card">
+                <form method="post" action="{% url 'login' %}" class="form">
+                    {% csrf_token %}
+                    {% for error in form.non_field_errors %}
+                        <span>{{ error|escape }}</span>
+                    {% endfor %}
+                    {% for error in form.username.errors %}
+                        <span>{{ error|escape }}</span>
+                    {% endfor %}
+                    <input type="text" name="{{ form.username.name }}" value="{{form.username.value|default_if_none:''}}" placeholder="{% blocktrans %}E-mail{% endblocktrans %}"></input>
+                    {% for error in form.password.errors %}
+                        <span>{{ error|escape }}</span>
+                    {% endfor %}
+                    <input type="password" name="{{ form.password.name }}" placeholder="{% blocktrans %}Password{% endblocktrans %}"></input>
+                    <div>
+                        <div><a class="link" href="{% url 'password_reset' %}">{% blocktrans %}Forgot password?{% endblocktrans %}</a></div>
+                        <div><button type="submit" class="primary">{% blocktrans %}Login{% endblocktrans %}</button></div>
+                    </div>
+                </form>
+            </div>
+          </div>
         </div>
-        <input type="hidden" name="next" value="{{ next }}" />
-    </form>
-</div>
-{% endblock %}
-
-{% block footer %}
-fixed-bottom
+      </div>
+      <div class="container">
+        <div><br><br>
+            <a href="{% url 'signup' %}">
+            <button class="btn">{% blocktrans %}Create account{% endblocktrans %}</button>
+            </a>
+        </div>
 {% endblock %}
