@@ -229,6 +229,7 @@ var seconds_begin_page = performance.now();
 var seconds_in_code = 0;
 var seconds_to_begin = 0;
 var seconds_in_page = 0;
+var seconds_begin_code = 0;
 var first_keydown= true;
 
 // When user starts typing

@@ -165,7 +165,6 @@ def get_student_solutions(request, id, chapter=None, problem=None):
     user = User.objects.get(pk=id)
     logs = UserLog.objects.filter(
         user_id=id, timestamp__gte=user.userprofile.user_class.start_date)
-    LOGGER.debug(userlog.values_list('outcome'))
     if chapter:
         logs = logs.filter(problem__chapter=chapter)
     if problem:
