@@ -230,6 +230,7 @@ def get_chapter_problems(request):
 
 @login_required
 @csrf_exempt
+# TODO: por que é preciso tirar o CSRF?
 def show_chapter(request, chapter):
     LOGGER.debug("Chapter: %s" % chapter)
     chapter = Chapter.objects.get(pk=chapter)
@@ -278,6 +279,7 @@ def show_chapter(request, chapter):
         })
 
 @csrf_exempt
+# TODO: por que é preciso tirar o CSRF?
 @permission_required('questions.view_userlogview', raise_exception=True)
 @login_required
 def new_chapter(request):
@@ -542,6 +544,7 @@ def new_problem(request, chapter=None):
         })
 
 @login_required
+# TODO: por que é preciso tirar o CSRF?
 @csrf_exempt
 def save_access(request):
     form = PageAccessForm(request.POST)
@@ -554,6 +557,7 @@ def save_access(request):
 
 @login_required
 @csrf_exempt
+# TODO: por que é preciso tirar o CSRF?
 def save_interactive(request):
     form = InteractiveForm(request.POST)
     if form.is_valid():
