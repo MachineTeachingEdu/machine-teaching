@@ -98,6 +98,28 @@
 {% endblock %}
 {% block javascript %}
 <script type="text/javascript">
+
+
+    // Save page access
+    $(document).ready(function() {
+        $.ajax({
+            type: "POST",
+            url: '{% url "saveaccess" %}',
+            data: {
+                'page': 'Chapter',
+                'name': '{{title}}'
+            },
+            dataType: 'json',
+            success: function(data){
+            console.log('status: ' + data['status']);
+            },
+            error: function (request, status, error) {
+            console.log(request.status);
+            }
+        });
+    });
+    
+
     var total = {{problems|length}};
     var passed = $('.success').length;
     var progress = Math.round(100*passed/total);

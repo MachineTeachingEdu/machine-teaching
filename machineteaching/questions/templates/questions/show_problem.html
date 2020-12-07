@@ -94,6 +94,26 @@
 {% block javascript %}
 <script src="{% static 'js/repl.js' %}"></script>
 <script>
+
+    // Save page access
+    $(document).ready(function() {
+        $.ajax({
+            type: "POST",
+            url: '{% url "saveaccess" %}',
+            data: {
+                'page': 'Problem',
+                'name': '{{problem.id}} - {{problem.title}}'
+            },
+            dataType: 'json',
+            success: function(data){
+            console.log('status: ' + data['status']);
+            },
+            error: function (request, status, error) {
+            console.log(request.status);
+            }
+        });
+    });
+    
     const next = '{% blocktrans %}Next{% endblocktrans %}';
     const input = '{% blocktrans %}Input:{% endblocktrans %}';
     const expected_output = '{% blocktrans %}Expected output:{% endblocktrans %}';

@@ -368,3 +368,13 @@ def create_userlog_error(sender, instance, created, **kwargs):
             log_error.userlog = instance
             log_error.error = error
             log_error.save()
+
+class PageAccess(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    page = models.CharField(max_length=200, blank=False)
+    name = models.CharField(max_length=200, blank=True, null=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = _('Page access')
+        verbose_name_plural = _('Page accesses')
