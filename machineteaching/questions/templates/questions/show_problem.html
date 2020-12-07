@@ -127,8 +127,10 @@
     for (var i = 0; i < textareas.length; i++) {
         if (textareas[i].classList.contains('interactive')) {
             lineNumbers = false
+            enter = saveInteractive
         } else {
             lineNumbers = true
+            enter = CodeMirror.commands.newlineAndIndent
         }
         var editor = CodeMirror.fromTextArea(textareas[i], {
             mode: {name: "python",
@@ -137,7 +139,7 @@
             indentUnit: 4,
             tabMode: "spaces",
             matchBrackets: true,
-            extraKeys: { "Enter": saveInteractive }
+            extraKeys: { "Enter": enter }
     });
     editor.setSize('100%',300);
     }
