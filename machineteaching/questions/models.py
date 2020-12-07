@@ -205,7 +205,7 @@ class Solution(models.Model):
 
 
 class TestCase(models.Model):
-    problem = models.ForeignKey(Problem, on_delete=models.PROTECT)
+    problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
     content = models.TextField(blank=False)
     history = HistoricalRecords()
 

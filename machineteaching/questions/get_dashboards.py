@@ -18,6 +18,7 @@ def get_student_dashboard(user):
     onlineclass = user.userprofile.user_class
     students = User.objects.filter(userprofile__user_class=onlineclass)
 
+    # TODO: get logs after class has started to avoid logs from students that came from a previous class
     chapters = Chapter.objects.filter(onlineclass=onlineclass)
     problems = Problem.objects.filter(chapter__in=chapters)
 
@@ -102,7 +103,8 @@ def get_student_dashboard(user):
                                    font_family='Nunito'))
 
     # Average time view
-    times = UserLog.objects.filter(problem__in=problems,
+    times = UserLog.objects.filter(user__in=students,
+                                   problem__in=problems,
                                    outcome='P')
     student_times = times.filter(user=user).values_list('seconds_in_page')
     
@@ -153,8 +155,6 @@ def get_student_dashboard(user):
     class_errors = []
     for chapter in chapters:
         problems = Problem.objects.filter(chapter=chapter)
-        LOGGER.debug("Students in class: %s", students.values_list(
-            'user__first_name', 'user__last_name'))
         passed = UserLogView.objects.filter(user__in=students,
                                             problem__in=problems,
                                             final_outcome='P')
