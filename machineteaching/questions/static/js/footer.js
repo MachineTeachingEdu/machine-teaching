@@ -633,3 +633,35 @@ function showAbout(language) {
 	$('.bg2 .card h3').append(title);
 	$('.bg2 .card div').append(content);
 };
+
+
+function showTutorials(language) {
+  if (language == "en") {
+      var title = "Tutorials"
+      var content = `<div class="tutorials">
+      <div><h3>How to register?</h3>
+      <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/5GSyIPOux4I" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div><div>
+      <h3>How to answer a problem?</h3>
+      <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/T5VY5eJvAlc" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div><div><h3>Tricks to study</h3>
+      <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/zbt71gP0EDk" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div></div>`
+    }
+    else {
+      var title = "Tutoriais"
+      var content = `<div class="tutorials">
+      <div><h3>Como se cadastrar?</h3>
+      <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/5GSyIPOux4I" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div><div>
+      <h3>Como responder um exercício?</h3>
+      <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/T5VY5eJvAlc" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div><div><h3>Truques para estudar</h3>
+      <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/zbt71gP0EDk" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div></div>`
+    }
+
+  showBox()
+  $('.bg2 .card h3').append(title);
+  $('.bg2 .card div').append(content);
+};
