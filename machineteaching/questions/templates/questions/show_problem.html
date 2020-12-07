@@ -94,6 +94,26 @@
 {% block javascript %}
 <script src="{% static 'js/repl.js' %}"></script>
 <script>
+
+    // Save page access
+    $(document).ready(function() {
+        $.ajax({
+            type: "POST",
+            url: '{% url "saveaccess" %}',
+            data: {
+                'page': 'Problem',
+                'name': '{{problem.id}} - {{problem.title}}'
+            },
+            dataType: 'json',
+            success: function(data){
+                console.log('status: ' + data['status']);
+            },
+            error: function (request, status, error) {
+                console.log(request.status);
+            }
+        });
+    });
+    
     const next = '{% blocktrans %}Next{% endblocktrans %}';
     const input = '{% blocktrans %}Input:{% endblocktrans %}';
     const expected_output = '{% blocktrans %}Expected output:{% endblocktrans %}';
@@ -116,10 +136,29 @@
             lineNumbers: lineNumbers,
             indentUnit: 4,
             tabMode: "spaces",
-            matchBrackets: true
+            matchBrackets: true,
+            extraKeys: { "Enter": saveInteractive }
     });
     editor.setSize('100%',300);
     }
+
+    function saveInteractive(cm) {
+        $.ajax({
+            type: "POST",
+            url: '{% url "saveinteractive" %}',
+            data: {
+                'problem': {{problem.id}},
+                'content': cm.getValue()
+            },
+            dataType: 'json',
+            success: function(data){
+                console.log('status: ' + data['status']);
+            },
+            error: function (request, status, error) {
+                console.log(request.status);
+            }
+        });
+    };
     
     //save log
     START = "{% url 'start' %}";
@@ -205,6 +244,6 @@
     seconds_end_page = performance.now()
     seconds_in_page = Math.round((seconds_end_page - seconds_begin_page)/1000);
     console.log("seconds in page:" + seconds_in_page);
-    save_log(outcome, seconds_in_code, seconds_to_begin, seconds_in_page);
+    // save_log(outcome, seconds_in_code, seconds_to_begin, seconds_in_page);
 </script>
 {% endblock %}
