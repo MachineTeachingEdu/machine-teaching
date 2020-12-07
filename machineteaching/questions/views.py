@@ -20,7 +20,7 @@ from questions.models import (Problem, Solution, UserLog, UserProfile,
                               Professor, OnlineClass, UserLogView, Chapter,
                               Deadline, UserLogError, ExerciseSet)
 from questions.forms import (UserLogForm, SignUpForm, OutcomeForm, ChapterForm,
-                             ProblemForm, SolutionForm)
+                             ProblemForm, SolutionForm, PageAccessForm, InteractiveForm)
 from questions.get_problem import get_problem
 from questions.get_dashboards import get_student_dashboard
 from questions.strategies import STRATEGIES_FUNC
@@ -230,6 +230,7 @@ def get_chapter_problems(request):
 
 @login_required
 @csrf_exempt
+# TODO: por que é preciso tirar o CSRF?
 def show_chapter(request, chapter):
     LOGGER.debug("Chapter: %s" % chapter)
     chapter = Chapter.objects.get(pk=chapter)
@@ -278,6 +279,7 @@ def show_chapter(request, chapter):
         })
 
 @csrf_exempt
+# TODO: por que é preciso tirar o CSRF?
 @permission_required('questions.view_userlogview', raise_exception=True)
 @login_required
 def new_chapter(request):
@@ -540,3 +542,27 @@ def new_problem(request, chapter=None):
         'problem_form': problem_form,
         'solution_form': solution_form
         })
+
+@login_required
+# TODO: por que é preciso tirar o CSRF?
+@csrf_exempt
+def save_access(request):
+    form = PageAccessForm(request.POST)
+    if form.is_valid():
+        access = form.save(commit=False)
+        access.user = request.user
+        access.save()
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'failed'})
+
+@login_required
+@csrf_exempt
+# TODO: por que é preciso tirar o CSRF?
+def save_interactive(request):
+    form = InteractiveForm(request.POST)
+    if form.is_valid():
+        interactive = form.save(commit=False)
+        interactive.user = request.user
+        interactive.save()
+        return JsonResponse({'status': 'success'})
+    return JsonResponse({'status': 'failed'})

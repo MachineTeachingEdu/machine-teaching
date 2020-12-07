@@ -4,7 +4,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
-from questions.models import UserLog, OnlineClass, Chapter, Problem, Solution
+from questions.models import (UserLog, OnlineClass, Chapter, Problem,
+                              Solution, PageAccess, Interactive)
 import random
 
 
@@ -128,3 +129,14 @@ class SolutionForm(forms.ModelForm):
             except Exception as e:
                 self.add_error("solution", e)
         return self.cleaned_data
+
+class PageAccessForm(ModelForm):
+    class Meta:
+        model = PageAccess
+        exclude = ['timestamp', 'user']
+
+class InteractiveForm(ModelForm):
+    class Meta:
+        model = Interactive
+        exclude = ['timestamp', 'user']
+

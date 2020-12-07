@@ -540,6 +540,7 @@ option {
 }
 .landing h2 {
     color: #ffffff;
+    margin-bottom: 0
 }
 .mt {
     color: #ffffff;
@@ -699,6 +700,15 @@ option {
 }
 .logos img:nth-child(7) {
     width: 9rem;
+}
+.tutorials {
+    display: flex;
+    flex-wrap: wrap;
+    overflow-y: hidden !important;
+    max-height: none !important;
+}
+.tutorials div {
+    width: 50%
 }
 
 /* login page */
@@ -1290,10 +1300,9 @@ table.dataTable.no-footer {
     overflow-y: auto;
 }
 .solution {
+    width: 35rem;
     padding: 1rem 2rem;
     border-right: 1px solid #CCCCCC;
-}
-.solution {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -1342,7 +1351,7 @@ table.dataTable.no-footer {
     display: block;
 }
 #id_chapter {
-    min-width: 15rem;
+    width: 15rem;
     margin-right: 1rem;
 }
 #id_order {

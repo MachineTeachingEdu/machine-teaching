@@ -130,4 +130,26 @@
 </div>
 {% endblock %}
 {% block javascript %}
+<script type="text/javascript">
+    
+    // Save page access
+    // TODO: é possível só definir variáveis e colocar o POST no base.html?
+    $(document).ready(function() {
+        $.ajax({
+            type: "POST",
+            url: '{% url "saveaccess" %}',
+            data: {
+                'page': 'Chapters'
+            },
+            dataType: 'json',
+            success: function(data){
+            console.log('status: ' + data['status']);
+            },
+            error: function (request, status, error) {
+            console.log(request.status);
+            }
+        });
+    });
+    
+</script>
 {% endblock %}
