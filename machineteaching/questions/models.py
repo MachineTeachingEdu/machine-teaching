@@ -378,3 +378,12 @@ class PageAccess(models.Model):
     class Meta:
         verbose_name = _('Page access')
         verbose_name_plural = _('Page accesses')
+
+class Interactive(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
+    content = models.TextField(blank=False)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = _('Interactive')

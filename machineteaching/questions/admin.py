@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import (Problem, Solution, TestCase, UserLog, Cluster, UserModel,
                      UserProfile, Professor, OnlineClass, Chapter, Deadline,
-                     ExerciseSet, UserLogError, PageAccess)
+                     ExerciseSet, UserLogError, PageAccess, Interactive)
 from simple_history.admin import SimpleHistoryAdmin
 from import_export.admin import ExportActionMixin
 
@@ -123,6 +123,14 @@ class DeadlineAdmin(SimpleHistoryAdmin):
 class PageAccessAdmin(ExportActionMixin, admin.ModelAdmin):
     list_display = ('user_name', 'page', 'name', 'timestamp')
     search_fields = ['user__username', 'user__first_name', 'page', 'name']
+
+    def user_name(self, obj):
+        return obj.user.first_name + ' ' + obj.user.last_name
+
+@admin.register(Interactive)
+class InteractiveAdmin(ExportActionMixin, admin.ModelAdmin):
+    list_display = ('user_name', 'problem', 'content', 'timestamp')
+    search_fields = ['user__username', 'user__first_name', 'problem', 'content']
 
     def user_name(self, obj):
         return obj.user.first_name + ' ' + obj.user.last_name
