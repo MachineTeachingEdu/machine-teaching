@@ -313,8 +313,11 @@ def create_class_code(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=Professor)
 def add_professor_group(sender, instance, created, **kwargs):
+    # Add as Professor group
     group = Group.objects.get(name="Professor")
     instance.user.groups.add(group)
+    # Add as staff to be able to login in Admin
+    instance.is_staff = True
     instance.user.save()
 
 
