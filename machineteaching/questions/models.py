@@ -323,8 +323,11 @@ def add_professor_group(sender, instance, created, **kwargs):
 
 @receiver(post_delete, sender=Professor)
 def delete_professor_group(sender, instance, **kwargs):
+    # Remove from the Professor group
     group = Group.objects.get(name="Professor")
     instance.user.groups.remove(group)
+    # Remove Admin access
+    instance.is_staff = False
     instance.user.save()
 
 
