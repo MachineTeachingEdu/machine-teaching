@@ -317,7 +317,7 @@ def add_professor_group(sender, instance, created, **kwargs):
     group = Group.objects.get(name="Professor")
     instance.user.groups.add(group)
     # Add as staff to be able to login in Admin
-    instance.is_staff = True
+    instance.user.is_staff = True
     instance.user.save()
 
 
@@ -327,7 +327,7 @@ def delete_professor_group(sender, instance, **kwargs):
     group = Group.objects.get(name="Professor")
     instance.user.groups.remove(group)
     # Remove Admin access
-    instance.is_staff = False
+    instance.user.is_staff = False
     instance.user.save()
 
 
