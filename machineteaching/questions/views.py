@@ -179,15 +179,16 @@ def get_student_solutions(request, id, chapter=None, problem=None):
 @login_required
 def get_chapter_problems(request):
     onlineclass = request.user.userprofile.user_class
-    deadline_chapters = Deadline.objects.filter(onlineclass=onlineclass
+    LOGGER.debug("Online class: %s" % onlineclass)
+    available_chapters = Deadline.objects.filter(onlineclass=onlineclass
                                                 ).values_list('chapter',
-                                                              flat=True)
-    available_chapters = Chapter.objects.filter(id__in=deadline_chapters).order_by('-deadline')
+                                                              flat=True).order_by('-deadline')
+    LOGGER.debug("Available chapters: %s" % available_chapters)
 
     chapters = []
     problems = []
     for i in range(0,len(available_chapters),3):
-        chapter = Chapter.objects.get(pk=available_chapters[i].id)
+        chapter = Chapter.objects.get(pk=available_chapters[i])
         chapters.append(chapter)
         problems.append(ExerciseSet.objects.filter(chapter=chapter).order_by('order','-id'))
     col_1 = list(zip(chapters,problems))
@@ -195,7 +196,7 @@ def get_chapter_problems(request):
     chapters = []
     problems = []
     for i in range(1,len(available_chapters),3):
-        chapter = Chapter.objects.get(pk=available_chapters[i].id)
+        chapter = Chapter.objects.get(pk=available_chapters[i])
         chapters.append(chapter)
         problems.append(ExerciseSet.objects.filter(chapter=chapter).order_by('order','-id'))
     col_2 = list(zip(chapters,problems))
@@ -203,7 +204,7 @@ def get_chapter_problems(request):
     chapters = []
     problems = []
     for i in range(2,len(available_chapters),3):
-        chapter = Chapter.objects.get(pk=available_chapters[i].id)
+        chapter = Chapter.objects.get(pk=available_chapters[i])
         chapters.append(chapter)
         problems.append(ExerciseSet.objects.filter(chapter=chapter).order_by('order','-id'))
     col_3 = list(zip(chapters,problems))
@@ -232,12 +233,21 @@ def get_chapter_problems(request):
 @csrf_exempt
 # TODO: por que é preciso tirar o CSRF?
 def show_chapter(request, chapter):
-    LOGGER.debug("Chapter: %s" % chapter)
     chapter = Chapter.objects.get(pk=chapter)
+    LOGGER.debug("Chapter: %s" % chapter)
     problems = ExerciseSet.objects.filter(chapter=chapter).order_by('order', '-id')
+    LOGGER.debug("Chapter problems: %s" % problems)
     onlineclass = request.user.userprofile.user_class
-    deadline = Deadline.objects.get(onlineclass=onlineclass,
-                                       chapter=chapter).deadline
+    LOGGER.debug("Online class: %s" % onlineclass)
+    # Get farthest deadline
+    deadline = Deadline.objects.filter(onlineclass=onlineclass,
+                                       chapter=chapter).order_by('-deadline')
+    if deadline:
+        deadline = deadline[0].deadline
+    else:
+        deadline = 0
+
+    LOGGER.debug("Deadline: %s" % deadline)
     userlogs = UserLog.objects.filter(problem__in=Problem.objects.filter(chapter=chapter).distinct())
     errors = UserLogError.objects.filter(userlog__in=userlogs).values_list('error')
     counter = {}
@@ -258,7 +268,7 @@ def show_chapter(request, chapter):
                                               ).distinct()
     failed = userlog.filter(outcome='F').values_list('problem_id', flat=True
                                               ).distinct()
-    
+
     if request.method == 'POST':
         problem_ids = str(list(request.POST)[0])
         for index, pk in enumerate(problem_ids.split(','), start=1):
