@@ -102,7 +102,8 @@
             url: '{% url "saveaccess" %}',
             data: {
                 'page': 'Problem',
-                'name': '{{problem.id}} - {{problem.title}}'
+                'name': '{{problem.id}} - {{problem.title}}',
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
             },
             dataType: 'json',
             success: function(data){
@@ -150,7 +151,8 @@
             url: '{% url "saveinteractive" %}',
             data: {
                 'problem': {{problem.id}},
-                'content': cm.getValue()
+                'content': cm.getValue(),
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
             },
             dataType: 'json',
             success: function(data){
@@ -246,6 +248,6 @@
     seconds_end_page = performance.now()
     seconds_in_page = Math.round((seconds_end_page - seconds_begin_page)/1000);
     console.log("seconds in page:" + seconds_in_page);
-    // save_log(outcome, seconds_in_code, seconds_to_begin, seconds_in_page);
+    save_log(outcome, seconds_in_code, seconds_to_begin, seconds_in_page);
 </script>
 {% endblock %}

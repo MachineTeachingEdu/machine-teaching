@@ -226,12 +226,10 @@ def get_chapter_problems(request):
         'passed': passed,
         'skipped': skipped,
         'failed': failed,
-        'available_chapters': available_chapters
+        # 'available_chapters': available_chapters
         })
 
 @login_required
-@csrf_exempt
-# TODO: por que é preciso tirar o CSRF?
 def show_chapter(request, chapter):
     chapter = Chapter.objects.get(pk=chapter)
     LOGGER.debug("Chapter: %s" % chapter)
@@ -270,7 +268,7 @@ def show_chapter(request, chapter):
                                               ).distinct()
 
     if request.method == 'POST':
-        problem_ids = str(list(request.POST)[0])
+        problem_ids = str(list(request.POST['ids'])[0])
         for index, pk in enumerate(problem_ids.split(','), start=1):
             exerciseset = ExerciseSet.objects.get(chapter=chapter, problem=int(pk))
             exerciseset.order = index
@@ -288,8 +286,6 @@ def show_chapter(request, chapter):
         'failed': failed
         })
 
-@csrf_exempt
-# TODO: por que é preciso tirar o CSRF?
 @permission_required('questions.view_userlogview', raise_exception=True)
 @login_required
 def new_chapter(request):
@@ -554,8 +550,6 @@ def new_problem(request, chapter=None):
         })
 
 @login_required
-# TODO: por que é preciso tirar o CSRF?
-@csrf_exempt
 def save_access(request):
     form = PageAccessForm(request.POST)
     if form.is_valid():
@@ -566,8 +560,6 @@ def save_access(request):
     return JsonResponse({'status': 'failed'})
 
 @login_required
-@csrf_exempt
-# TODO: por que é preciso tirar o CSRF?
 def save_interactive(request):
     form = InteractiveForm(request.POST)
     if form.is_valid():

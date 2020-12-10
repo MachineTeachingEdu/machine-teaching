@@ -59,8 +59,8 @@
     </div>
 </div>
 <div class="col col-5 chapter-dashboard">
-    <div style="display: flex;">
-    <div style="width: 50%">
+    <div style="display: flex;" class="dashboard-line">
+    <div style="width: 50%" class="dashboard-item">
       <div class="card" style="margin-right: 1rem;">
         <h3>{% blocktrans %}Progress{% endblocktrans %}</h3>
         <div class="task-progress2">
@@ -69,7 +69,7 @@
         <div id="progress" class="percent"></div>
       </div>
     </div>
-        <div style="width: 50%">
+        <div style="width: 50%" class="dashboard-item">
             <div class="card deadline">
                 <h3>{% blocktrans %}Deadline{% endblocktrans %}</h3>
                 <h1></h1>
@@ -77,8 +77,8 @@
             </div>
         </div>
     </div>
-    <div style="display: flex;">
-    <div style="width: 50%">
+    <div style="display: flex;" class="dashboard-line">
+    <div style="width: 50%" class="dashboard-item">
       {% if errors|length == 0 %}
       {% else %}
       <div class="card" style="margin-right: 1rem; border-left: 4px solid var(--red);">
@@ -92,7 +92,7 @@
       </div>
       {% endif %} 
     </div>
-      <div style="width: 50%;"></div>
+      <div style="width: 50%;" class="dashboard-item"></div>
   </div>
     </div>
 {% endblock %}
@@ -107,7 +107,8 @@
             url: '{% url "saveaccess" %}',
             data: {
                 'page': 'Chapter',
-                'name': '{{title}}'
+                'name': '{{title}}',
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
             },
             dataType: 'json',
             success: function(data){
@@ -144,7 +145,8 @@
         distance: 5,
         containment: "parent",
         update: function(event, ui) {
-            data = $(this).sortable('toArray').toString();
+            data = {'ids': $(this).sortable('toArray').toString(),
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'}
         }
     }).disableSelection();
 

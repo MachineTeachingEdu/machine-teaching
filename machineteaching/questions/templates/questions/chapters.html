@@ -139,7 +139,8 @@
             type: "POST",
             url: '{% url "saveaccess" %}',
             data: {
-                'page': 'Chapters'
+                'page': 'Chapters',
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
             },
             dataType: 'json',
             success: function(data){

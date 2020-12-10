@@ -80,7 +80,8 @@
             type: "POST",
             url: '{% url "saveaccess" %}',
             data: {
-                'page': 'Past problems'
+                'page': 'Past problems',
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
             },
             dataType: 'json',
             success: function(data){

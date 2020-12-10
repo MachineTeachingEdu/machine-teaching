@@ -104,7 +104,8 @@
             type: "POST",
             url: '{% url "saveaccess" %}',
             data: {
-                'page': 'Student dashboard'
+                'page': 'Student dashboard',
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
             },
             dataType: 'json',
             success: function(data){

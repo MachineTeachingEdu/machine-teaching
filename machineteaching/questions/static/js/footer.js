@@ -5,7 +5,7 @@ function showBox() {
 		<span>
 		  <a class="link" onclick="hideBox()">${close}</a>
 		</span>
-		<div></div>`);
+		<div class="popup-content"></div>`);
 };
 
 function hideBox() {
