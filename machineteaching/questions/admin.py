@@ -112,13 +112,18 @@ class ChapterAdmin(SimpleHistoryAdmin):
 
 @admin.register(Deadline)
 class DeadlineAdmin(SimpleHistoryAdmin):
+    list_display = ('deadline', 'chapter', 'onlineclass_all')
     filter_horizontal = ('onlineclass',)
+
+    def onlineclass_all(self, obj):
+        return ", ".join(list(obj.onlineclass.all().values_list(
+            "name", flat=True)))
 
     def get_queryset(self, request):
         qs = super(DeadlineAdmin, self).get_queryset(request)
         if request.user.is_superuser:
             return qs
-        return qs.filter(onlineclass__professor__user=request.user)
+        return qs.filter(onlineclass__professor__user=request.user).distinct()
 
 @admin.register(PageAccess)
 class PageAccessAdmin(ExportActionMixin, admin.ModelAdmin):
