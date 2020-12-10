@@ -69,7 +69,9 @@
             {% blocktrans %}Hello{% endblocktrans %}, {{ user.first_name }} {{ user.last_name }}
             {% endif %}</span>
             <a class="link" href="{% url 'logout' %}" style="height: 2.2rem">{% blocktrans %}Logout{% endblocktrans %}</a>
+            {% if perms.questions.view_userlogview %}
             <a href="{% url 'admin:index' %}" class="admin-btn"><img src="{% static 'img/admin.svg' %}"></a>
+            {% endif %}
           </div>
         </div>
 
