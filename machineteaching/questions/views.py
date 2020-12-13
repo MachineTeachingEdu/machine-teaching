@@ -428,7 +428,8 @@ def show_solutions(request, problem_id, class_id):
                                                                      'user__last_name',
                                                                      'solution',
                                                                      'outcome',
-                                                                     'timestamp')
+                                                                     'timestamp',
+                                                                     'test_case_hits')
     students = []
     if logs.count():
         current_student = logs[0]["user_id"]

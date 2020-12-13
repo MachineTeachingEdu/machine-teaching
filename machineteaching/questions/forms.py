@@ -113,6 +113,7 @@ class SolutionForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(SolutionForm, self).__init__(*args, **kwargs)
         self.fields['problem'].required = False
+        self.fields['header'].required = True
 
     class Meta:
         model = Solution

@@ -23,6 +23,17 @@
         <span id="problem_content" class="no-select">{{ problem.content|linebreaks }}</span>
     </div>
 
+    {% if log.problem.question_type == "C" and log.test_case_hits != None %}
+    <!-- test cases -->
+    <div class="card">
+        <h3>{% blocktrans %}Test cases{% endblocktrans %}</h3>
+        <div style="display: flex; align-items: center;">
+            <div style="{% if log.test_case_hits != 0 %}color: var(--green);{% endif %} font-size: 25px; margin-right: 1rem">{{ log.test_case_hits }}%</div>
+            <div class="task-progress2" style="margin: 0; background: var(--red); height: 0.5rem"><div style="width: {{ log.test_case_hits }}%; background: var(--green)"></div></div>
+        </div>
+    </div>
+    {% endif %}
+
 </div>
 <div class="col col-7">
 {% if log.problem.question_type == "C" %}

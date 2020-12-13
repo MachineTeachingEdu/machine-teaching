@@ -849,6 +849,9 @@ code {
     justify-content: space-between;
     align-items: center;
 }
+.result h3 {
+    width: 8rem;
+}
 .result div {
     font-size: 1.5rem;
     display: flex;
@@ -856,8 +859,11 @@ code {
     justify-content: space-between;
     font-weight: 300
 }
+#outcome {
+    width: calc(100% - 18rem);
+}
 .result .task-progress2 {
-    width: 15rem; 
+    width: calc( 100% - 3rem); 
     background: var(--red);
     margin: 1rem
 }
@@ -1140,6 +1146,9 @@ code {
 }
 
 /* past problems table */
+td .task-progress2 {
+    margin: 0;
+}
 .dataTable {
     text-align: left !important;
 }
@@ -1170,14 +1179,16 @@ code {
 .dataTable td:nth-child(3),
 .dataTable td:nth-child(4),
 .dataTable td:nth-child(5),
-.dataTable td:nth-child(6) {
+.dataTable td:nth-child(6),
+.dataTable td:nth-child(7) {
     text-align: center !important;
 }
 .dataTable th:nth-child(2),
 .dataTable th:nth-child(3),
 .dataTable th:nth-child(4),
 .dataTable th:nth-child(5),
-.dataTable th:nth-child(6) {
+.dataTable th:nth-child(6),
+.dataTable th:nth-child(7) {
     text-align: center !important;
 }
 .dataTable tr {
