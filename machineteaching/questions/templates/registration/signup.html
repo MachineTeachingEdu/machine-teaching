@@ -5,47 +5,100 @@
 {% block content %}
           <div class="signup">
           <h2>{% blocktrans %}Create account{% endblocktrans %}</h2>
-            <div class="card">
+            <div class="card" style="margin-top: 2rem;">
                 <form method="post" action="{% url 'signup' %}" class="form">
                     {% csrf_token %}
                     <div>
                         {% for error in form.non_field_errors %}
                             <span>{{ error|escape }}</span>
                         {% endfor %}
-                    	<div class="col-6">
+                        <div class="col-6">
                             {% for error in form.first_name.errors %}
                                 <span>{{ error|escape }}</span>
                             {% endfor %}
-                            <input type="text" name="{{ form.first_name.name }}" placeholder="{% blocktrans %}First name{% endblocktrans %}" value="{{form.first_name.value|default_if_none:''}}"></input>
                         </div>
-                    	<div class="col-6">
+                        <div class="col-6">
                             {% for error in form.last_name.errors %}
                                 <span>{{ error|escape }}</span>
                             {% endfor %}
+                        </div>
+                    	<div class="col-6">
+                            <input type="text" name="{{ form.first_name.name }}" placeholder="{% blocktrans %}First name{% endblocktrans %}" value="{{form.first_name.value|default_if_none:''}}"></input>
+                        </div>
+                    	<div class="col-6">
                             <input type="text" name="{{ form.last_name.name }}" placeholder="{% blocktrans %}Last name{% endblocktrans %}" value="{{form.last_name.value|default_if_none:''}}"></input>
                         </div>
                         <div class="col-6">
                             {% for error in form.email.errors %}
                                 <span>{{ error|escape }}</span>
                             {% endfor %}
-                            <input type="text" name="{{ form.email.name }}" placeholder="{% blocktrans %}E-mail{% endblocktrans %}" value="{{form.email.value|default_if_none:''}}"></input>
                         </div>
                         <div class="col-6">
                             {% for error in form.class_code.errors %}
                                 <span>{{ error|escape }}</span>
                             {% endfor %}
+                        </div>
+                        <div class="col-6">
+                            <input type="text" name="{{ form.email.name }}" placeholder="{% blocktrans %}E-mail{% endblocktrans %}" value="{{form.email.value|default_if_none:''}}"></input>
+                        </div>
+                        <div class="col-6">
                             <input type="text" name="{{ form.class_code.name }}" placeholder="{% blocktrans %}Class code{% endblocktrans %}" value="{{form.class_code.value|default_if_none:''}}"></input>
                         </div>
-                    	<div class="col-6">
+                        <div class="col-1"></div>
+                        <div class="col-10">
+                            {% for error in form.course.errors %}
+                                <span>{{ error|escape }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="col-1"></div>
+                        <div class="col-6">
+                            <select id="id_course" value="{{form.course.value|default_if_none:''}}" class="course">
+                                <option disabled="" selected="">{% blocktrans %}Your course{% endblocktrans %}</option>
+                                <option>Astronomia</option>
+                                <option>Bacharelado em Ciências Matemáticas e da Terra</option>
+                                <option>Bacharelado em Física</option>
+                                <option>Bacharelado em Matemática</option>
+                                <option>Bacharelado em Química</option>
+                                <option>Ciências Atuariais</option>
+                                <option>Engenharia Civil</option>
+                                <option>Engenharia da Produção</option>
+                                <option>Engenharia de Materiais</option>
+                                <option>Engenharia de Petróleo</option>
+                                <option>Engenharia Elétrica</option>
+                                <option>Engenharia Matemática</option>
+                                <option>Engenharia Mecânica</option>
+                                <option>Engenharia Metalúrgica</option>
+                                <option>Engenharia Naval e Oceânica</option>
+                                <option>Engenharia Nuclear</option>
+                                <option>Estatística</option>
+                                <option>Licenciatura em Física</option>
+                                <option>Licenciatura em Matemática</option>
+                                <option>Licenciatura em Química</option>
+                                <option>Matemática Aplicada</option>
+                                <option>Meteorologia</option>
+                                <option>Nanotecnologia</option>
+                                <option>Química Atribuições Tecnológicas</option>
+                                <option>Outro</option>
+
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <input type="text" name="{{ form.course.name }}" placeholder="{% blocktrans %}Other course{% endblocktrans %}" value="{{form.course.value|default_if_none:''}}" style="display: none;"></input>
+                        </div>
+                        <div class="col-6">
                             {% for error in form.password1.errors %}
                                 <span>{{ error|escape }}</span>
                             {% endfor %}
-                            <input type="password" name="{{ form.password1.name }}" placeholder="{% blocktrans %}Password{% endblocktrans %}" value="{{form.password1.value|default_if_none:''}}"></input>
                         </div>
-                    	<div class="col-6">
+                        <div class="col-6">
                             {% for error in form.password2.errors %}
                                 <span>{{ error|escape }}</span>
                             {% endfor %}
+                        </div>
+                    	<div class="col-6">
+                            <input type="password" name="{{ form.password1.name }}" placeholder="{% blocktrans %}Password{% endblocktrans %}" value="{{form.password1.value|default_if_none:''}}"></input>
+                        </div>
+                    	<div class="col-6">
                             <input type="password" name="{{ form.password2.name }}" placeholder="{% blocktrans %}Password confirmation{% endblocktrans %}" value="{{form.password2.value|default_if_none:''}}"></input>
                         </div>
                         <div class="col-12">{% blocktrans %}
@@ -87,4 +140,17 @@
       </div>
       <div class="container">
         <br>
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript">
+    $('#id_course').on('change', function(){
+        new_value = $(this).val();
+        if (new_value == "Outro") {
+            $('[name="course"]').val('').show();     
+        } else {
+            $('[name="course"]').val(new_value).hide();
+        }
+    });
+</script>
 {% endblock %}

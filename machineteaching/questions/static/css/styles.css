@@ -727,7 +727,8 @@ option {
     min-width: 35rem;
     margin-bottom: 1rem;
 }
-/* login page */
+
+/* login/sigup page */
 .login, .signup {
     padding: 1rem;
     display: flex;
@@ -802,6 +803,10 @@ option {
     text-decoration: underline;
     cursor: pointer;
     display: inline;
+}
+.form .course {
+    margin-bottom: 1rem;
+    width: 100%
 }
 
 /* problem page */
@@ -1631,9 +1636,23 @@ table.dataTable.no-footer {
         margin: 0 !important;
     }
 }
-*/*/
 
 
+
+.add-course {
+    width: 30rem;
+}
+.add-course form {
+    width: 100%; 
+}
+.add-course input,
+.add-course select {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+.add-course button {
+    margin: auto;
+}
 
 
 

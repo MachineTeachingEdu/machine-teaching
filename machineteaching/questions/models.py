@@ -155,6 +155,7 @@ class UserProfile(models.Model):
     seed = models.CharField(max_length=81)
     user_class = models.ForeignKey(OnlineClass, on_delete=models.PROTECT,
                                    null=True)
+    course = models.CharField(max_length=200, blank=False, null=True)
     sequential = models.BooleanField(default=True)
     history = HistoricalRecords()
 

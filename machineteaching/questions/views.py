@@ -81,6 +81,7 @@ def signup(request):
             user_class = OnlineClass.objects.get(
                 class_code=form.cleaned_data.get('class_code'))
             user.userprofile.user_class = user_class
+            user.userprofile.course = form.cleaned_data.get('course')
             user.userprofile.save()
             username = form.cleaned_data.get('email')
             raw_password = form.cleaned_data.get('password1')

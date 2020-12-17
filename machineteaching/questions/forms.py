@@ -8,7 +8,6 @@ from questions.models import (UserLog, OnlineClass, Chapter, Problem,
                               Solution, PageAccess, Interactive)
 import random
 
-
 class UserLogForm(ModelForm):
     class Meta:
         model = UserLog
@@ -24,6 +23,7 @@ class SignUpForm(UserCreationForm):
     # professor = forms.ChoiceField(choices=PROFESSORS)
     # onlineclass = forms.ChoiceField(choices=CLASSES, label="Class")
     class_code = forms.CharField(label=_("Class code"))
+    course = forms.CharField(label=_("Course"))
     programming = forms.ChoiceField(choices=PROGRAMMING, label=_(u"Did you have any programming experience before this course?"))
     accepted = forms.BooleanField(label=mark_safe(_('I accept the ') + '<a href="/terms_and_conditions">' + _('Terms and Conditions') + '</a>'))
     read = forms.BooleanField(label=mark_safe(_('I\'ve read the ') + '<a href="/privacy">' + _('Privacy Policy') + '</a>'))
