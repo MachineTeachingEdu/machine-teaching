@@ -1,5 +1,9 @@
 from questions.models import OnlineClass, Chapter, Deadline, UserProfile
 from django.http import JsonResponse
+import logging
+
+LOGGER = logging.getLogger(__name__)
+
 
 def context(request):
     context = {}
@@ -16,7 +20,13 @@ def context(request):
         onlineclass = request.user.userprofile.user_class
         deadline_chapters = Deadline.objects.filter(onlineclass=onlineclass
                                                     ).values_list('chapter',
-                                                                  flat=True)
-        available_chapters = Chapter.objects.filter(id__in=deadline_chapters).order_by('-deadline')
-        context.update({'student_course': student_course, 'available_chapters': available_chapters})
+                                                                  flat=True
+                                                                  ).order_by('deadline')
+        available_chapters = []
+        # Get one at a time to keep it sorted
+        for chapter in deadline_chapters:
+            available_chapters.append(Chapter.objects.get(pk=chapter))
+        LOGGER.debug("Available chapters: %s" % available_chapters)
+        context.update({'student_course': student_course, 
+                        'available_chapters': available_chapters})
     return context
