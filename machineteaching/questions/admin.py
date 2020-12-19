@@ -13,6 +13,7 @@ class SolutionAdmin(SimpleHistoryAdmin):
     search_fields = ['id', 'problem__title', 'problem__id']
     list_filter = ('ignore', 'problem__chapter')
     exclude = ('link',)
+    autocomplete_fields = ('problem',)
 
 
 @admin.register(TestCase)
@@ -64,6 +65,8 @@ class ProfessorAdmin(SimpleHistoryAdmin):
     list_display = ('user', 'assistant', 'active')
     search_fields = ['user__username', 'user__first_name', 'user__last_name']
     list_filter = ('assistant', 'active')
+    filter_horizontal = ('prof_class', )
+    autocomplete_fields = ('user', )
 
     def get_queryset(self, request):
         qs = super(ProfessorAdmin, self).get_queryset(request)
@@ -114,16 +117,18 @@ class ChapterAdmin(SimpleHistoryAdmin):
 class DeadlineAdmin(SimpleHistoryAdmin):
     list_display = ('deadline', 'chapter', 'onlineclass_all')
     filter_horizontal = ('onlineclass',)
+    list_filter = ('chapter', 'onlineclass')
 
     def onlineclass_all(self, obj):
-        return ", ".join(list(obj.onlineclass.all().values_list(
+        return ", ".join(list(obj.onlineclass.filter(active=True).values_list(
             "name", flat=True)))
 
     def get_queryset(self, request):
         qs = super(DeadlineAdmin, self).get_queryset(request)
         if request.user.is_superuser:
             return qs
-        return qs.filter(onlineclass__professor__user=request.user).distinct()
+        return qs.filter(onlineclass__professor__user=request.user,
+                         onlineclass__active=True).distinct()
 
 @admin.register(PageAccess)
 class PageAccessAdmin(ExportActionMixin, admin.ModelAdmin):

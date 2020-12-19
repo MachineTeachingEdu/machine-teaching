@@ -203,6 +203,20 @@ textarea::-moz-selection { background: #B5DCFF; }
     -ms-flex-align: center;
     align-items: center;
 }
+.admin-btn {
+    width: 2.2rem;
+    height: 2.2rem;
+    padding: 0.3rem;
+    transition: all 0.2s;
+    border-radius: 4px;
+    margin-left: 0.5rem;
+}
+.admin-btn:hover {
+    background: rgb(230,230,230);
+}
+.admin-btn img {
+    width: 1.6rem;
+}
 .close {
     background: white;
     width: 2.5rem;
@@ -674,7 +688,7 @@ option {
     justify-content: space-between;
     flex-wrap: wrap;
 }
-.bg2 .card div {
+.popup-content {
     padding: 1rem;
     overflow-y: auto;
     max-height: 40rem;
@@ -706,12 +720,15 @@ option {
     flex-wrap: wrap;
     overflow-y: hidden !important;
     max-height: none !important;
+    justify-content: center;
 }
 .tutorials div {
-    width: 50%
+    width: 50%;
+    min-width: 35rem;
+    margin-bottom: 1rem;
 }
 
-/* login page */
+/* login/sigup page */
 .login, .signup {
     padding: 1rem;
     display: flex;
@@ -787,6 +804,10 @@ option {
     cursor: pointer;
     display: inline;
 }
+.form .course {
+    margin-bottom: 1rem;
+    width: 100%
+}
 
 /* problem page */
 .statement div {
@@ -833,6 +854,9 @@ code {
     justify-content: space-between;
     align-items: center;
 }
+.result h3 {
+    width: 8rem;
+}
 .result div {
     font-size: 1.5rem;
     display: flex;
@@ -840,8 +864,11 @@ code {
     justify-content: space-between;
     font-weight: 300
 }
+#outcome {
+    width: calc(100% - 18rem);
+}
 .result .task-progress2 {
-    width: 15rem; 
+    width: calc( 100% - 3rem); 
     background: var(--red);
     margin: 1rem
 }
@@ -1124,6 +1151,9 @@ code {
 }
 
 /* past problems table */
+td .task-progress2 {
+    margin: 0;
+}
 .dataTable {
     text-align: left !important;
 }
@@ -1154,14 +1184,16 @@ code {
 .dataTable td:nth-child(3),
 .dataTable td:nth-child(4),
 .dataTable td:nth-child(5),
-.dataTable td:nth-child(6) {
+.dataTable td:nth-child(6),
+.dataTable td:nth-child(7) {
     text-align: center !important;
 }
 .dataTable th:nth-child(2),
 .dataTable th:nth-child(3),
 .dataTable th:nth-child(4),
 .dataTable th:nth-child(5),
-.dataTable th:nth-child(6) {
+.dataTable th:nth-child(6),
+.dataTable th:nth-child(7) {
     text-align: center !important;
 }
 .dataTable tr {
@@ -1458,22 +1490,169 @@ table.dataTable.no-footer {
 @media only screen and (max-width: 1500px) {
 }
 @media only screen and (max-width: 900px) {
+    .bg {
+        height: auto;
+    }
+    .header {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .mt {
+        margin-bottom: 1rem;
+        width: 100%
+    }
+    .landing {
+        padding: 40px 0;
+    }
+    .landing h1 {
+        font-size: 35px;
+        margin: 2rem;
+    }
+    .landing button {
+        width: calc(100% - 4rem);
+        height: 3rem;
+        margin: 0.5rem 2rem;
+    }
+    .landing p {
+        margin-bottom: 0;
+    }
+    .landing h2 {
+        margin-bottom: 2rem;
+    }
+    .goals {
+        display: block;
+        padding: 0
+    }
+    .goals .col {
+        width: 100% !important;
+    }
+    .goals .card {
+        margin: 1rem;
+        width: calc(100% - 2rem);
+        padding: 2rem;
+    }
+    .container {
+        height: 12rem;
+    }
+    .container button {
+        margin-top: 2rem;
+        width: calc(100% - 4rem);
+        height: 3rem;
+    }
+    .container div {
+        padding: 0 !important;
+    }
     [class*="col-"] {
         width: 100% !important;
     }
     .layout-content {
-        padding-top: 2rem;
+        padding-top: 1rem;
     }
     .col {
-        padding: 0 1rem 0 1rem;
+        padding: 0;
     }
+    .card {
+        margin-bottom: 1rem;
+    }
+    .card .col-1 {width: 8.33% !important;}
+    .card .col-2 {width: 16.66% !important;}
+    .card .col-3 {width: 25% !important;}
+    .card .col-4 {width: 33.33% !important;}
+    .card .col-5 {width: 41.66% !important;}
+    .card .col-6 {width: 50% !important;}
+    .card .col-7 {width: 58.33% !important;}
+    .card .col-8 {width: 66.66% !important;}
+    .card .col-9 {width: 75% !important;}
+    .card .col-10 {width: 83.33% !important;}
+    .card .col-11 {width: 91.66% !important;}
+    .card .col-12 {width: 100% !important;}
+
     .topbar-right span {
         display: none;
     }
+    .zopim {
+        display: none;
+    }
+    .close:hover {
+        background: none;
+    }
+    .close:active {
+        background: none;
+    }
+    .topbar-right .link {
+        font-size: 1.2rem;
+        font-weight: 400;
+        background-color: var(--primary);
+        color: white;
+        padding: 0.3rem 1rem;
+    }
+    .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+        padding: 1rem 2rem;
+        height: 4.5rem;
+        z-index: 100;
+    }
+    .footer .footer-brand {
+        border: none;
+    }
+    .footer .change-language {
+        display: none;
+    }
+    .footer-left {
+        margin-right: 2rem;
+    }
+    .footer-right {
+        display: none;
+    }
+
+    /* popup */
+    .bg2 {
+        align-items: flex-start;
+    }
+    .bg2 .card {
+        height: calc(100% - 4.5rem);
+        width: 100%;
+        border-radius: 0;
+        padding: 1rem 0;
+    }
+
+    /* chapter page */
+    .chapter-list .link {
+        display: none;
+    }
+    .dashboard-line {
+        flex-wrap: wrap;
+    }
+    .dashboard-item {
+        width: 100% !important;
+        margin: 0 0 1rem 0;
+    }
+    .dashboard-item .card {
+        margin: 0 !important;
+    }
 }
-*/*/
 
 
+
+.add-course {
+    width: 30rem;
+}
+.add-course form {
+    width: 100%; 
+}
+.add-course input,
+.add-course select {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+.add-course button {
+    margin: auto;
+}
 
 
 

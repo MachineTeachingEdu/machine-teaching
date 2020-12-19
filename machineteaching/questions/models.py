@@ -155,6 +155,7 @@ class UserProfile(models.Model):
     seed = models.CharField(max_length=81)
     user_class = models.ForeignKey(OnlineClass, on_delete=models.PROTECT,
                                    null=True)
+    course = models.CharField(max_length=200, blank=True, null=True)
     sequential = models.BooleanField(default=True)
     history = HistoricalRecords()
 
@@ -274,6 +275,26 @@ class UserLogError(models.Model):
         return "%s: %s" % (self.userlog.user, self.error)
 
 
+class PageAccess(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    page = models.CharField(max_length=199, blank=False)
+    name = models.CharField(max_length=199, blank=True, null=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = _('Page access')
+        verbose_name_plural = _('Page accesses')
+
+class Interactive(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
+    content = models.TextField(blank=False)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = _('Interactive')
+
+
 @receiver(post_save, sender=User)
 def create_user_model(sender, instance, created, **kwargs):
     if created:
@@ -374,22 +395,3 @@ def create_userlog_error(sender, instance, created, **kwargs):
             log_error.userlog = instance
             log_error.error = error
             log_error.save()
-
-class PageAccess(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    page = models.CharField(max_length=200, blank=False)
-    name = models.CharField(max_length=200, blank=True, null=True)
-    timestamp = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        verbose_name = _('Page access')
-        verbose_name_plural = _('Page accesses')
-
-class Interactive(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
-    content = models.TextField(blank=False)
-    timestamp = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        verbose_name = _('Interactive')

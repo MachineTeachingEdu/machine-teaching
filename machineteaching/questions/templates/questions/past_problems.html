@@ -31,6 +31,7 @@
         <th class="searchable">{% trans "Title" %}</th>
         <th>{% trans "Day" %}</th>
         <th>{% trans "Time " %}</th>
+        <th>{% trans "Test cases " %}</th>
         <th class="searchable">{% trans "Status" %}</th>
         <th class="searchable">{% trans "Error (Python)" %}</th>
         <th>{% trans "Solution" %}</th>
@@ -41,6 +42,13 @@
         <td>{{ item.log.problem.title }}</td>
         <td>{{ item.log.timestamp|date:'d/m/Y'}}</td>
         <td>{{ item.log.timestamp|date:'H:i'}}</td>
+        <td>
+            {% if item.log.problem.question_type == "C" and item.log.test_case_hits != None %}
+            <div class="task-progress2" style="background: var(--red);"><div style="width: {{ item.log.test_case_hits }}%; background: var(--green);"></div></div>
+            {% else %}
+            <div class="task-progress2"></div>
+            {% endif %}
+        </td>
         {% if item.log.outcome == 'P' %}
         <td>
             <span class="badge success">
@@ -80,7 +88,8 @@
             type: "POST",
             url: '{% url "saveaccess" %}',
             data: {
-                'page': 'Past problems'
+                'page': 'Past problems',
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
             },
             dataType: 'json',
             success: function(data){

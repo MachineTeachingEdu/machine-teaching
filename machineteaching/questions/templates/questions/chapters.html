@@ -9,6 +9,7 @@
     <div class="card add" style="padding: 0.7rem 1rem">
         <h3>{% blocktrans %}Add chapter{% endblocktrans %}</h3>
         <form action="{% url 'new_chapter' %}" method="POST">
+            {% csrf_token %}
             <div class="col-8">
                 <input type="text" name="label" placeholder="{% blocktrans %}Name{% endblocktrans %}" required="">
             </div>
@@ -139,7 +140,8 @@
             type: "POST",
             url: '{% url "saveaccess" %}',
             data: {
-                'page': 'Chapters'
+                'page': 'Chapters',
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
             },
             dataType: 'json',
             success: function(data){

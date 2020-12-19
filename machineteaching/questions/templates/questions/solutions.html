@@ -6,11 +6,6 @@
   <div class="card">
 {% if students %}
 <div class="solutions">
-<!--<div class="header">
-        <div>{% trans 'Student' %}<br>({% trans 'Submissions'  %})</div>
-        <div>{% trans 'Solutions' %}</div>
-    </div>
- -->
     {% for student in students %}
         <div>
             <h3>{{ student.name }} ({{ student.logs | length }})</h3>
@@ -26,6 +21,13 @@
             {% elif log.outcome == "S" %}
             <span class="badge warning">{% trans "Skipped" %}</span>
             {% endif %}
+            <div style="width: 100%; margin-top: 1rem; text-align: center;">
+                <div>{% blocktrans %}Test cases{% endblocktrans %}</div>
+                <div style="display: flex;">{% if log.test_case_hits != None %}{{ log.test_case_hits }}%{% endif %}
+                <div class="task-progress2" style="{% if log.test_case_hits != None %}background: var(--red);{% endif %} width: calc(100% - 5rem); height: 0.5rem; margin-left: 1rem; margin: auto;">
+                    <div style="width: {{ log.test_case_hits }}%; background: var(--green);"></div></div>
+                </div>
+            </div>
             <textarea class="code">{{ log.solution }}</textarea>
         </div>
         {% endfor %}

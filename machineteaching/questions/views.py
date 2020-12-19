@@ -81,6 +81,7 @@ def signup(request):
             user_class = OnlineClass.objects.get(
                 class_code=form.cleaned_data.get('class_code'))
             user.userprofile.user_class = user_class
+            user.userprofile.course = form.cleaned_data.get('course')
             user.userprofile.save()
             username = form.cleaned_data.get('email')
             raw_password = form.cleaned_data.get('password1')
@@ -226,12 +227,10 @@ def get_chapter_problems(request):
         'passed': passed,
         'skipped': skipped,
         'failed': failed,
-        'available_chapters': available_chapters
+        # 'available_chapters': available_chapters
         })
 
 @login_required
-@csrf_exempt
-# TODO: por que é preciso tirar o CSRF?
 def show_chapter(request, chapter):
     chapter = Chapter.objects.get(pk=chapter)
     LOGGER.debug("Chapter: %s" % chapter)
@@ -270,7 +269,7 @@ def show_chapter(request, chapter):
                                               ).distinct()
 
     if request.method == 'POST':
-        problem_ids = str(list(request.POST)[0])
+        problem_ids = str(list(request.POST['ids'])[0])
         for index, pk in enumerate(problem_ids.split(','), start=1):
             exerciseset = ExerciseSet.objects.get(chapter=chapter, problem=int(pk))
             exerciseset.order = index
@@ -288,8 +287,6 @@ def show_chapter(request, chapter):
         'failed': failed
         })
 
-@csrf_exempt
-# TODO: por que é preciso tirar o CSRF?
 @permission_required('questions.view_userlogview', raise_exception=True)
 @login_required
 def new_chapter(request):
@@ -432,7 +429,8 @@ def show_solutions(request, problem_id, class_id):
                                                                      'user__last_name',
                                                                      'solution',
                                                                      'outcome',
-                                                                     'timestamp')
+                                                                     'timestamp',
+                                                                     'test_case_hits')
     students = []
     if logs.count():
         current_student = logs[0]["user_id"]
@@ -554,8 +552,6 @@ def new_problem(request, chapter=None):
         })
 
 @login_required
-# TODO: por que é preciso tirar o CSRF?
-@csrf_exempt
 def save_access(request):
     form = PageAccessForm(request.POST)
     if form.is_valid():
@@ -566,8 +562,6 @@ def save_access(request):
     return JsonResponse({'status': 'failed'})
 
 @login_required
-@csrf_exempt
-# TODO: por que é preciso tirar o CSRF?
 def save_interactive(request):
     form = InteractiveForm(request.POST)
     if form.is_valid():

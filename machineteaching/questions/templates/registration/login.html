@@ -5,7 +5,7 @@
 {% block content %}
           <div class="login">
           <h2>{% blocktrans %}Login{% endblocktrans %}</h2>
-            <div class="card">
+            <div class="card" style="margin-top: 2rem;">
                 <form method="post" action="{% url 'login' %}" class="form">
                     {% csrf_token %}
                     {% for error in form.non_field_errors %}

@@ -70,7 +70,10 @@
 
     <div class="col-5">
     <div class="card" style="margin-right: 1rem; height: 18rem">
-        <input type="text" name="{{ solution_form.header.name }}" value="{{solution_form.header.value|default_if_none:''}}" id="id_header" placeholder="{% blocktrans %}Header{% endblocktrans %}" required="required">
+        {% for message in solution_form.header.errors %}
+        <span id="error">{{ message }}</span></br>
+        {% endfor %}
+        <input type="text" name="{{ solution_form.header.name }}" value="{{solution_form.header.value|default_if_none:''}}" id="id_header" placeholder="{% blocktrans %}Header{% endblocktrans %}">
         <textarea name="{{ solution_form.tip.name }}" id="id_tip" placeholder="{% blocktrans %}Tip{% endblocktrans %}">{{solution_form.tip.value|default_if_none:''}}</textarea>
         <select id="id_cluster" name="{{ solution_form.cluster.name }}">
             <option disabled selected>{% trans 'Cluster' %}</option>
@@ -129,9 +132,9 @@
         $('.col.col-7').hide();
         $('.'+selected).show();
         if (selected != 'c') {
-            $("#id_header").removeAttr('required');
+            $("#id_header").attr('value','none');
         } else {
-            $("#id_header").attr('required','required');
+            $("#id_header").attr('value','');
         }
     };
     $('#id_question_type').on('change', function() {change()});

@@ -45,8 +45,8 @@
             <ul class="menu">
 
               <!-- chapters -->
-              {% for chapter in user.userprofile.user_class.chapter.all %}
-              <a class="menu-item" href="{% url 'show_chapter' chapter=chapter.id %}">{{chapter}}</a>
+              {% for chapter in available_chapters %}
+              <a class="menu-item" href="{% url 'show_chapter' chapter=chapter.id %}">{{chapter.label}}</a>
               {% endfor %}
 
             </ul>
@@ -68,7 +68,10 @@
             <span style="margin-right: 1rem;">{% if user.first_name %}
             {% blocktrans %}Hello{% endblocktrans %}, {{ user.first_name }} {{ user.last_name }}
             {% endif %}</span>
-            <a class="link" href="{% url 'logout' %}">{% blocktrans %}Logout{% endblocktrans %}</a>
+            <a class="link" href="{% url 'logout' %}" style="height: 2.2rem">{% blocktrans %}Logout{% endblocktrans %}</a>
+            {% if perms.questions.view_userlogview %}
+            <a href="{% url 'admin:index' %}" class="admin-btn"><img src="{% static 'img/admin.svg' %}"></a>
+            {% endif %}
           </div>
         </div>
 
@@ -104,6 +107,44 @@
         </div>
         </div>
 
+      {% if not student_course and not perms.questions.view_userlogview %}
+      <div class="bg2">
+        <div class="card add-course" style="width: 30rem;">
+          <h3>{% blocktrans %}Register your course{% endblocktrans %}</h3>
+            <select id="id_course">
+            <option disabled="" selected="">{% blocktrans %}Your course{% endblocktrans %}</option>
+            <option>Astronomia</option>
+            <option>Bacharelado em Ciências Matemáticas e da Terra</option>
+            <option>Bacharelado em Física</option>
+            <option>Bacharelado em Matemática</option>
+            <option>Bacharelado em Química</option>
+            <option>Ciências Atuariais</option>
+            <option>Engenharia Civil</option>
+            <option>Engenharia da Produção</option>
+            <option>Engenharia de Materiais</option>
+            <option>Engenharia de Petróleo</option>
+            <option>Engenharia Elétrica</option>
+            <option>Engenharia Matemática</option>
+            <option>Engenharia Mecânica</option>
+            <option>Engenharia Metalúrgica</option>
+            <option>Engenharia Naval e Oceânica</option>
+            <option>Engenharia Nuclear</option>
+            <option>Estatística</option>
+            <option>Licenciatura em Física</option>
+            <option>Licenciatura em Matemática</option>
+            <option>Licenciatura em Química</option>
+            <option>Matemática Aplicada</option>
+            <option>Meteorologia</option>
+            <option>Nanotecnologia</option>
+            <option>Química Atribuições Tecnológicas</option>
+            <option>Outro</option>
+          </select>
+          <input type="text" name="course" placeholder="{% blocktrans %}Other course{% endblocktrans %}" style="display: none;"><br>
+          <button class="primary" onclick="register()">{% blocktrans %}Register{% endblocktrans %}</button>
+        </div>
+      </div>
+      {% endif %}
+
       <!-- scripts -->
       <script type="text/javascript">
               //logos
@@ -131,7 +172,6 @@
       <script src="{% static 'js/script.js' %}"></script>
       <script src="{% static 'js/sculpt.js' %}"></script>
       <script src="{% static 'js/footer.js' %}"></script>
-
       {% block javascript %}
       {% endblock %}
       <script type="text/javascript">
@@ -153,6 +193,31 @@
                           console.log(request.status);
                       }
                   });
+              });
+
+              function register() {
+                  $.ajax({
+                      type: "GET",
+                      url: '{% url "saveprofile" %}',
+                      data: {'course': $('[name="course"]').val()},
+                      dataType: 'json',
+                      success: function(data){
+                          console.log('status: ' + data['status']);
+                      },
+                      error: function (request, status, error) {
+                          console.log(request.status);
+                      }
+                  });
+                  $('.bg2').hide();
+              };
+
+              $('#id_course').on('change', function(){
+                  new_value = $(this).val();
+                  if (new_value == "Outro") {
+                      $('[name="course"]').val('').show();     
+                  } else {
+                      $('[name="course"]').val(new_value).hide();
+                  }
               });
       </script>
     </body>

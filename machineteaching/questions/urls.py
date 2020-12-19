@@ -1,12 +1,13 @@
 from django.urls import path
 from django.views.generic import TemplateView
 
-from . import views
+from . import views, context_processors
 
 urlpatterns = [
     path('', views.index, name='index'),
     path('saveaccess', views.save_access, name='saveaccess'),
     path('saveinteractive', views.save_interactive, name='saveinteractive'),
+    path('saveprofile', context_processors.context, name='saveprofile'),
     path('start', views.get_next_problem, name='start'),
     path('next', views.get_next_problem, name='next'),
     path('savelog', views.save_user_log, name='savelog'),
