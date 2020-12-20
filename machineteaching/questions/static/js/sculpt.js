@@ -231,31 +231,3 @@ var seconds_to_begin = 0;
 var seconds_in_page = 0;
 var seconds_begin_code = 0;
 var first_keydown= true;
-
-// When user starts typing
-$('#code').keydown(function(){
-
-    //Starting to type for the first time
-    if (seconds_to_begin == 0) {
-        seconds_to_begin = Math.round((performance.now() - seconds_begin_page)/1000);
-        console.log("seconds to begin: " + seconds_to_begin);
-    }
-
-    // Starting code snippet
-    if (first_keydown == true){
-        seconds_begin_code = performance.now();
-        first_keydown = false;
-    };
-
-});
-// Finished code snippet. Sum time to variable.
-$('#code').keyup(function() {
-    delay(function(){
-        seconds_end_code = performance.now();
-        console.log("seconds in this snippet:" + Math.round(
-            (seconds_end_code - seconds_begin_code)/1000));
-        seconds_in_code += Math.round((seconds_end_code - seconds_begin_code)/1000);
-        console.log("seconds in code: " + seconds_in_code);
-        first_keydown = true;
-    }, 1000);
-});

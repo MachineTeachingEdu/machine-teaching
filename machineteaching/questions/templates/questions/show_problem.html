@@ -122,28 +122,31 @@
     const passed_txt = '{% blocktrans %}Passed{% endblocktrans %}';
     const failed_txt = '{% blocktrans %}Failed{% endblocktrans %}';
 
-    var textareas = document.querySelectorAll(".code");
+    var code = document.getElementById("code");
+    var interactive = document.getElementById("interactive");
 
-    //code editor
-    for (var i = 0; i < textareas.length; i++) {
-        if (textareas[i].classList.contains('interactive')) {
-            lineNumbers = false
-            enter = saveInteractive
-        } else {
-            lineNumbers = true
-            enter = CodeMirror.commands.newlineAndIndent
-        }
-        var editor = CodeMirror.fromTextArea(textareas[i], {
-            mode: {name: "python",
-                singleLineStringErrors: false},
-            lineNumbers: lineNumbers,
-            indentUnit: 4,
-            tabMode: "spaces",
-            matchBrackets: true,
-            extraKeys: { "Enter": enter }
+    var editor = CodeMirror.fromTextArea(code, {
+        mode: {name: "python",
+            singleLineStringErrors: false},
+        lineNumbers: true,
+        indentUnit: 4,
+        tabMode: "spaces",
+        matchBrackets: true,
+        extraKeys: { "Enter": CodeMirror.commands.newlineAndIndent },
     });
+
+    var editor2 = CodeMirror.fromTextArea(interactive, {
+        mode: {name: "python",
+            singleLineStringErrors: false},
+        lineNumbers: false,
+        indentUnit: 4,
+        tabMode: "spaces",
+        matchBrackets: true,
+        extraKeys: { "Enter": saveInteractive },
+    });
+
     editor.setSize('100%',300);
-    }
+    editor2.setSize('100%',300);
 
     function saveInteractive(cm) {
         $.ajax({
@@ -248,6 +251,34 @@
     seconds_end_page = performance.now()
     seconds_in_page = Math.round((seconds_end_page - seconds_begin_page)/1000);
     console.log("seconds in page:" + seconds_in_page);
-    save_log(outcome, seconds_in_code, seconds_to_begin, seconds_in_page);
+    // save_log(outcome, seconds_in_code, seconds_to_begin, seconds_in_page);
+
+    // When user starts typing
+    editor.on('keydown', function(){
+
+        //Starting to type for the first time
+        if (seconds_to_begin == 0) {
+            seconds_to_begin = Math.round((performance.now() - seconds_begin_page)/1000);
+            console.log("seconds to begin: " + seconds_to_begin);
+        }
+
+        // Starting code snippet
+        if (first_keydown == true){
+            seconds_begin_code = performance.now();
+            first_keydown = false;
+        };
+    
+    });
+    // Finished code snippet. Sum time to variable.
+    editor.on('keyup', function() {
+        delay(function(){
+            seconds_end_code = performance.now();
+            console.log("seconds in this snippet:" + Math.round(
+                (seconds_end_code - seconds_begin_code)/1000));
+            seconds_in_code += Math.round((seconds_end_code - seconds_begin_code)/1000);
+            console.log("seconds in code: " + seconds_in_code);
+            first_keydown = true;
+        }, 1000);
+    });
 </script>
 {% endblock %}
