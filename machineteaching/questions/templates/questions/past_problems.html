@@ -130,7 +130,7 @@ var table = $('#past-problems').DataTable({
     {% endif %}
 });
 
-$('#past-problems_filter').hide();
+$('#past-problems_filter input').attr('placeholder','{% blocktrans %}Search{% endblocktrans%}');
 
 $('input[type="checkbox"]').on('click', function() {
     var filter = [];

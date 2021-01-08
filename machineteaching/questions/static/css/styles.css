@@ -882,6 +882,8 @@ code {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
+    white-space: pre;
+    line-break: auto;
 }
 .test-case h3 {
     margin: 0;
@@ -894,7 +896,8 @@ code {
     border-top: 1px solid rgb(233,236,239);
     padding: 0.5rem;
     font-family: monospace;
-    font-size: 15px
+    font-size: 15px;
+    line-break: auto;
 }
 .task-progress2 {
     width: 100%;
@@ -1204,12 +1207,39 @@ td .task-progress2 {
     border: none !important;
     transition: all 0.4s !important;
 }
+#past-problems_wrapper {
+    position: relative !important;
+    top: -3rem !important;
+}
 #past-problems_length {
     display: none !important;
 }
 #past-problems_filter {
     width: 100% !important;
     margin-bottom: 1rem !important;
+    color: transparent !important;
+}
+#past-problems_filter input {
+    font-family: 'Nunito' !important;
+    font-size: 1rem !important;
+    font-weight: 300 !important;
+    color: #495057 !important;
+    background: #ffffff !important;
+    padding: 0.5rem 0.5rem !important;
+    border: 1px solid #ced4da !important;
+    transition: all 0.2s !important;
+    appearance: none !important;
+    border-radius: 4px !important;
+    outline: none !important;
+    color: var(--text-color) !important;
+    resize: none !important;
+    width: 20rem !important;
+}
+#past-problems_filter input:hover {
+    border-color: #2196F3 !important;
+}
+#past-problems_filter input:focus {
+    border-color: #2196F3 !important;
 }
 .dataTables_paginate {
     width: 100% !important;
@@ -1268,7 +1298,11 @@ table.dataTable.no-footer {
     cursor: auto;
 }
 .filter {
-    margin-bottom: 1rem
+    margin-bottom: 1rem;
+    margin-top: 0.5rem;
+    width: 500px;
+    position: relative;
+    z-index: 10;
 }
 .filter input {
     display: none;

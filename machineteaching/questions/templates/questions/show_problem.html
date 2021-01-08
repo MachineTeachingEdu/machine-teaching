@@ -122,6 +122,7 @@
     const passed_txt = '{% blocktrans %}Passed{% endblocktrans %}';
     const failed_txt = '{% blocktrans %}Failed{% endblocktrans %}';
 
+    {% if problem.question_type == 'C' %}
     var code = document.getElementById("code");
     var interactive = document.getElementById("interactive");
 
@@ -147,6 +148,7 @@
 
     editor.setSize('100%',300);
     editor2.setSize('100%',300);
+    {% endif %}
 
     function saveInteractive(cm) {
         $.ajax({
