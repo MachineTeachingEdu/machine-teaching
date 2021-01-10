@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-17 12:54-0300\n"
+"POT-Creation-Date: 2021-01-10 19:51-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,697 +18,686 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: machineteaching/questions/forms.py:18
+#: questions/forms.py:18
 msgid "No"
 msgstr "Não"
 
-#: machineteaching/questions/forms.py:19
+#: questions/forms.py:19
 msgid "Yes"
 msgstr "Sim"
 
-#: machineteaching/questions/forms.py:25
-#: machineteaching/questions/templates/registration/signup.html:45
+#: questions/forms.py:25 questions/forms.py:144
+#: questions/templates/questions/edit_profile.html:15
+#: questions/templates/registration/signup.html:45
 msgid "Class code"
 msgstr "Código da turma"
 
-#: machineteaching/questions/forms.py:26
+#: questions/forms.py:26
 msgid "Course"
 msgstr "Curso"
 
-#: machineteaching/questions/forms.py:27
-#: machineteaching/questions/templates/registration/signup.html:112
+#: questions/forms.py:27 questions/templates/registration/signup.html:112
 msgid "Did you have any programming experience before this course?"
 msgstr "Você teve alguma experiência com programação antes desse curso?"
 
-#: machineteaching/questions/forms.py:28
-#: machineteaching/questions/templates/registration/signup.html:121
+#: questions/forms.py:28 questions/templates/registration/signup.html:121
 msgid "I accept the "
 msgstr "Eu aceito os "
 
-#: machineteaching/questions/forms.py:28
-#: machineteaching/questions/templates/index.html:82
-#: machineteaching/questions/templates/questions/base.html:93
-#: machineteaching/questions/templates/registration/base.html:55
-#: machineteaching/questions/templates/registration/signup.html:122
+#: questions/forms.py:28 questions/templates/index.html:82
+#: questions/templates/questions/base.html:98
+#: questions/templates/registration/base.html:55
+#: questions/templates/registration/signup.html:122
 msgid "Terms and Conditions"
 msgstr "Termos e Condições"
 
-#: machineteaching/questions/forms.py:29
-#: machineteaching/questions/templates/registration/signup.html:126
+#: questions/forms.py:29 questions/templates/registration/signup.html:126
 msgid "I've read the "
 msgstr "Eu li a "
 
-#: machineteaching/questions/forms.py:29
-#: machineteaching/questions/templates/index.html:86
-#: machineteaching/questions/templates/questions/base.html:97
-#: machineteaching/questions/templates/registration/base.html:59
-#: machineteaching/questions/templates/registration/signup.html:127
+#: questions/forms.py:29 questions/templates/index.html:86
+#: questions/templates/questions/base.html:102
+#: questions/templates/registration/base.html:59
+#: questions/templates/registration/signup.html:127
 msgid "Privacy Policy"
 msgstr "Política de Privacidade"
 
-#: machineteaching/questions/forms.py:44
+#: questions/forms.py:44
 msgid "Email addresses must be unique."
 msgstr "O endereço de email deve ser único."
 
-#: machineteaching/questions/forms.py:50
+#: questions/forms.py:50 questions/forms.py:153
 msgid "Invalid Class Code."
 msgstr "Código da turma inválido"
 
-#: machineteaching/questions/forms.py:55
-#: machineteaching/questions/templates/questions/outcomes.html:13
+#: questions/forms.py:55 questions/templates/questions/outcomes.html:13
 msgid "Class"
 msgstr "Turma"
 
-#: machineteaching/questions/forms.py:56
-#: machineteaching/questions/get_dashboards.py:227
-#: machineteaching/questions/get_dashboards.py:341
-#: machineteaching/questions/models.py:30
-#: machineteaching/questions/templates/questions/new_problem.html:44
-#: machineteaching/questions/templates/questions/outcomes.html:17
+#: questions/forms.py:56 questions/get_dashboards.py:227
+#: questions/get_dashboards.py:341 questions/models.py:30
+#: questions/templates/questions/new_problem.html:44
+#: questions/templates/questions/outcomes.html:17
 msgid "Chapter"
 msgstr "Aula"
 
-#: machineteaching/questions/forms.py:65
+#: questions/forms.py:65
 msgid "You don't have authorization to view this class."
 msgstr "Você não tem autorização para ver essa aula."
 
-#: machineteaching/questions/forms.py:107
-#: machineteaching/questions/templates/questions/new_problem.html:22
+#: questions/forms.py:107 questions/templates/questions/new_problem.html:22
 msgid "Code"
 msgstr "Código"
 
-#: machineteaching/questions/forms.py:108
+#: questions/forms.py:108
 msgid "Multiple Choice"
 msgstr "Múltipla escolha"
 
-#: machineteaching/questions/forms.py:109
-#: machineteaching/questions/templates/questions/new_problem.html:24
+#: questions/forms.py:109 questions/templates/questions/new_problem.html:24
 msgid "Text"
 msgstr "Texto"
 
-#: machineteaching/questions/get_dashboards.py:47
-#: machineteaching/questions/templates/questions/chapters.html:45
-#: machineteaching/questions/templates/questions/chapters.html:79
-#: machineteaching/questions/templates/questions/chapters.html:113
-#: machineteaching/questions/templates/questions/outcomes.html:59
-#: machineteaching/questions/templates/questions/past_problems.html:9
-#: machineteaching/questions/templates/questions/past_problems.html:12
-#: machineteaching/questions/templates/questions/past_problems.html:55
-#: machineteaching/questions/templates/questions/past_solutions.html:14
-#: machineteaching/questions/templates/questions/show_chapter.html:25
-#: machineteaching/questions/templates/questions/show_problem.html:122
-#: machineteaching/questions/templates/questions/solutions.html:18
+#: questions/get_dashboards.py:47
+#: questions/templates/questions/chapters.html:46
+#: questions/templates/questions/chapters.html:80
+#: questions/templates/questions/chapters.html:114
+#: questions/templates/questions/outcomes.html:59
+#: questions/templates/questions/past_problems.html:9
+#: questions/templates/questions/past_problems.html:12
+#: questions/templates/questions/past_problems.html:55
+#: questions/templates/questions/past_solutions.html:14
+#: questions/templates/questions/show_chapter.html:25
+#: questions/templates/questions/show_problem.html:122
+#: questions/templates/questions/solutions.html:18
 msgid "Passed"
 msgstr "Passou"
 
-#: machineteaching/questions/get_dashboards.py:47
-#: machineteaching/questions/templates/questions/chapters.html:49
-#: machineteaching/questions/templates/questions/chapters.html:83
-#: machineteaching/questions/templates/questions/chapters.html:117
-#: machineteaching/questions/templates/questions/outcomes.html:50
-#: machineteaching/questions/templates/questions/outcomes.html:60
-#: machineteaching/questions/templates/questions/past_problems.html:15
-#: machineteaching/questions/templates/questions/past_problems.html:18
-#: machineteaching/questions/templates/questions/past_problems.html:62
-#: machineteaching/questions/templates/questions/past_solutions.html:18
-#: machineteaching/questions/templates/questions/show_chapter.html:29
-#: machineteaching/questions/templates/questions/show_problem.html:123
-#: machineteaching/questions/templates/questions/solutions.html:20
+#: questions/get_dashboards.py:47
+#: questions/templates/questions/chapters.html:50
+#: questions/templates/questions/chapters.html:84
+#: questions/templates/questions/chapters.html:118
+#: questions/templates/questions/outcomes.html:50
+#: questions/templates/questions/outcomes.html:60
+#: questions/templates/questions/past_problems.html:15
+#: questions/templates/questions/past_problems.html:18
+#: questions/templates/questions/past_problems.html:62
+#: questions/templates/questions/past_solutions.html:18
+#: questions/templates/questions/show_chapter.html:29
+#: questions/templates/questions/show_problem.html:123
+#: questions/templates/questions/solutions.html:20
 msgid "Failed"
 msgstr "Falhou"
 
-#: machineteaching/questions/get_dashboards.py:47
-#: machineteaching/questions/templates/questions/chapters.html:53
-#: machineteaching/questions/templates/questions/chapters.html:87
-#: machineteaching/questions/templates/questions/chapters.html:121
-#: machineteaching/questions/templates/questions/outcomes.html:52
-#: machineteaching/questions/templates/questions/outcomes.html:61
-#: machineteaching/questions/templates/questions/past_problems.html:21
-#: machineteaching/questions/templates/questions/past_problems.html:24
-#: machineteaching/questions/templates/questions/past_problems.html:69
-#: machineteaching/questions/templates/questions/show_chapter.html:33
-#: machineteaching/questions/templates/questions/solutions.html:22
+#: questions/get_dashboards.py:47
+#: questions/templates/questions/chapters.html:54
+#: questions/templates/questions/chapters.html:88
+#: questions/templates/questions/chapters.html:122
+#: questions/templates/questions/outcomes.html:52
+#: questions/templates/questions/outcomes.html:61
+#: questions/templates/questions/past_problems.html:21
+#: questions/templates/questions/past_problems.html:24
+#: questions/templates/questions/past_problems.html:69
+#: questions/templates/questions/show_chapter.html:33
+#: questions/templates/questions/solutions.html:22
 msgid "Skipped"
 msgstr "Pulou"
 
-#: machineteaching/questions/get_dashboards.py:47
+#: questions/get_dashboards.py:47
 msgid "No attempt"
 msgstr "Sem tentativa"
 
-#: machineteaching/questions/get_dashboards.py:68
-#: machineteaching/questions/get_dashboards.py:199
-#: machineteaching/questions/get_dashboards.py:313
-#: machineteaching/questions/templates/questions/student_dashboard.html:26
+#: questions/get_dashboards.py:68 questions/get_dashboards.py:199
+#: questions/get_dashboards.py:313
+#: questions/templates/questions/student_dashboard.html:26
 msgid "You"
 msgstr "Você"
 
-#: machineteaching/questions/get_dashboards.py:78
-#: machineteaching/questions/get_dashboards.py:191
-#: machineteaching/questions/get_dashboards.py:305
-#: machineteaching/questions/templates/questions/student_dashboard.html:30
+#: questions/get_dashboards.py:78 questions/get_dashboards.py:191
+#: questions/get_dashboards.py:305
+#: questions/templates/questions/student_dashboard.html:30
 msgid "Your class"
 msgstr "Sua turma"
 
-#: machineteaching/questions/get_dashboards.py:232
-#: machineteaching/questions/templates/questions/student_dashboard.html:38
+#: questions/get_dashboards.py:232
+#: questions/templates/questions/student_dashboard.html:38
 msgid "Errors"
 msgstr "Erros"
 
-#: machineteaching/questions/get_dashboards.py:346
+#: questions/get_dashboards.py:346
 msgid "Time (days)"
 msgstr "Tempo (dias)"
 
-#: machineteaching/questions/get_dashboards.py:371
-#: machineteaching/questions/templates/questions/base.html:29
-#: machineteaching/questions/views.py:408
+#: questions/get_dashboards.py:371 questions/templates/questions/base.html:29
+#: questions/views.py:409
 msgid "Outcomes"
 msgstr "Resultados"
 
-#: machineteaching/questions/get_problem.py:48
-#: machineteaching/questions/models.py:68
+#: questions/get_problem.py:50 questions/models.py:68
 msgid "Problem"
 msgstr "Problema"
 
-#: machineteaching/questions/models.py:31
-#: machineteaching/questions/templates/questions/base.html:28
-#: machineteaching/questions/templates/questions/base.html:44
-#: machineteaching/questions/templates/questions/finished.html:11
-#: machineteaching/questions/templates/questions/student_dashboard.html:62
-#: machineteaching/questions/views.py:225
+#: questions/models.py:31 questions/templates/questions/base.html:28
+#: questions/templates/questions/base.html:44
+#: questions/templates/questions/finished.html:11
+#: questions/templates/questions/student_dashboard.html:62
+#: questions/views.py:226
 msgid "Chapters"
 msgstr "Aulas"
 
-#: machineteaching/questions/models.py:69
-#: machineteaching/questions/templates/questions/show_chapter.html:7
-#: machineteaching/questions/templates/questions/student_dashboard.html:11
+#: questions/models.py:69 questions/templates/questions/show_chapter.html:7
+#: questions/templates/questions/student_dashboard.html:11
 msgid "Problems"
 msgstr "Problemas"
 
-#: machineteaching/questions/models.py:84
+#: questions/models.py:84
 msgid "Exercise Set"
 msgstr ""
 
-#: machineteaching/questions/models.py:85
+#: questions/models.py:85
 msgid "Exercises Sets"
 msgstr ""
 
-#: machineteaching/questions/models.py:97
+#: questions/models.py:97
 #, fuzzy
 #| msgid "Class"
 msgid "OnlineClass"
 msgstr "Turma"
 
-#: machineteaching/questions/models.py:98
+#: questions/models.py:98
 msgid "OnlineClasses"
 msgstr "Turmas"
 
-#: machineteaching/questions/models.py:115
-#: machineteaching/questions/templates/questions/chapters.html:16
-#: machineteaching/questions/templates/questions/show_chapter.html:74
+#: questions/models.py:115 questions/templates/questions/chapters.html:17
+#: questions/templates/questions/show_chapter.html:74
 msgid "Deadline"
 msgstr "Entrega"
 
-#: machineteaching/questions/models.py:116
+#: questions/models.py:116
 msgid "Deadlines"
 msgstr ""
 
-#: machineteaching/questions/models.py:139
+#: questions/models.py:139
 msgid "Professors"
 msgstr "Professores"
 
-#: machineteaching/questions/models.py:169
+#: questions/models.py:169
 msgid "User profile"
 msgstr "Perfil do usuário"
 
-#: machineteaching/questions/models.py:170
+#: questions/models.py:170
 msgid "User profiles"
 msgstr "Perfis dos usuários"
 
-#: machineteaching/questions/models.py:204
-#: machineteaching/questions/templates/questions/new_problem.html:62
-#: machineteaching/questions/templates/questions/past_problems.html:37
-#: machineteaching/questions/templates/questions/past_solutions.html:43
-#: machineteaching/questions/views.py:416
+#: questions/models.py:204 questions/templates/questions/new_problem.html:62
+#: questions/templates/questions/past_problems.html:37
+#: questions/templates/questions/past_solutions.html:43 questions/views.py:417
 msgid "Solution"
 msgstr "Solução"
 
-#: machineteaching/questions/models.py:205
+#: questions/models.py:205
 msgid "Solutions"
 msgstr "Soluções"
 
-#: machineteaching/questions/models.py:214
+#: questions/models.py:214
 msgid "Test Case"
 msgstr "Caso de Teste"
 
-#: machineteaching/questions/models.py:215
+#: questions/models.py:215
 msgid "Test Cases"
 msgstr "Casos de Teste"
 
-#: machineteaching/questions/models.py:242
+#: questions/models.py:242
 msgid "User log"
 msgstr "Log do usuário"
 
-#: machineteaching/questions/models.py:243
+#: questions/models.py:243
 msgid "User logs"
 msgstr "Logs dos usuários"
 
-#: machineteaching/questions/models.py:386
+#: questions/models.py:285
 msgid "Page access"
 msgstr ""
 
-#: machineteaching/questions/models.py:387
+#: questions/models.py:286
 msgid "Page accesses"
 msgstr ""
 
-#: machineteaching/questions/models.py:396
+#: questions/models.py:295
 msgid "Interactive"
 msgstr ""
 
-#: machineteaching/questions/templates/index.html:7
+#: questions/templates/index.html:7
 msgid "Home"
 msgstr "Início"
 
-#: machineteaching/questions/templates/index.html:24
-#: machineteaching/questions/templates/questions/base.html:158
-#: machineteaching/questions/templates/registration/base.html:24
+#: questions/templates/index.html:24
+#: questions/templates/questions/base.html:164
+#: questions/templates/registration/base.html:24
 msgid "Close"
 msgstr "Fechar"
 
-#: machineteaching/questions/templates/index.html:38
+#: questions/templates/index.html:38
 msgid "Welcome to "
 msgstr "Bem-vindo ao"
 
-#: machineteaching/questions/templates/index.html:41
+#: questions/templates/index.html:41
 msgid "Start"
 msgstr "Começar"
 
-#: machineteaching/questions/templates/index.html:46
-#: machineteaching/questions/templates/registration/login.html:34
-#: machineteaching/questions/templates/registration/signup.html:7
-#: machineteaching/questions/templates/registration/signup.html:131
-#: machineteaching/questions/views.py:93
+#: questions/templates/index.html:46
+#: questions/templates/registration/login.html:34
+#: questions/templates/registration/signup.html:7
+#: questions/templates/registration/signup.html:131 questions/views.py:94
 msgid "Create account"
 msgstr "Criar conta"
 
-#: machineteaching/questions/templates/index.html:50
+#: questions/templates/index.html:50
 msgid "Watch "
 msgstr "Assista aos "
 
-#: machineteaching/questions/templates/index.html:50
+#: questions/templates/index.html:50
 msgid "tutorials"
 msgstr "tutoriais"
 
-#: machineteaching/questions/templates/index.html:50
+#: questions/templates/index.html:50
 msgid " on how to use Machine Teaching"
 msgstr " sobre como usar o Machine Teaching"
 
-#: machineteaching/questions/templates/index.html:51
+#: questions/templates/index.html:51
 msgid "Our goals"
 msgstr "Nossos objetivos"
 
-#: machineteaching/questions/templates/index.html:56
+#: questions/templates/index.html:56
 msgid "Understand students' learning processes "
 msgstr "Entender os processos de aprendizado dos alunos"
 
-#: machineteaching/questions/templates/index.html:62
+#: questions/templates/index.html:62
 msgid "Improve teaching methodologies"
 msgstr "Melhorar metodologias de aprendizado"
 
-#: machineteaching/questions/templates/index.html:68
+#: questions/templates/index.html:68
 msgid "Stimulate students to learn the Python language "
 msgstr "Estimular o aprendizado da linguagem Python"
 
-#: machineteaching/questions/templates/index.html:75
-#: machineteaching/questions/templates/index.html:89
-#: machineteaching/questions/templates/questions/base.html:100
-#: machineteaching/questions/templates/registration/base.html:62
+#: questions/templates/index.html:75 questions/templates/index.html:89
+#: questions/templates/questions/base.html:105
+#: questions/templates/registration/base.html:62
 msgid "About this research"
 msgstr "Sobre a pesquisa"
 
-#: machineteaching/questions/templates/index.html:80
-#: machineteaching/questions/templates/questions/base.html:91
-#: machineteaching/questions/templates/registration/base.html:53
+#: questions/templates/index.html:80 questions/templates/questions/base.html:96
+#: questions/templates/registration/base.html:53
 msgid "Check the "
 msgstr "Veja os "
 
-#: machineteaching/questions/templates/index.html:84
-#: machineteaching/questions/templates/questions/base.html:95
-#: machineteaching/questions/templates/registration/base.html:57
+#: questions/templates/index.html:84
+#: questions/templates/questions/base.html:100
+#: questions/templates/registration/base.html:57
 #, fuzzy
 #| msgid " and the "
 msgid "and the "
 msgstr " e a "
 
-#: machineteaching/questions/templates/index.html:91
-#: machineteaching/questions/templates/questions/base.html:105
-#: machineteaching/questions/templates/registration/base.html:64
+#: questions/templates/index.html:91
+#: questions/templates/questions/base.html:110
+#: questions/templates/registration/base.html:64
 msgid ""
 "© 2020 Copyright: <a href=\"http://machineteaching.tech\">machineteaching."
 "tech"
 msgstr ""
 
-#: machineteaching/questions/templates/questions/base.html:26
+#: questions/templates/questions/base.html:26
 msgid "Current problem"
 msgstr "Problema atual"
 
-#: machineteaching/questions/templates/questions/base.html:27
-#: machineteaching/questions/views.py:161
+#: questions/templates/questions/base.html:27 questions/views.py:162
 msgid "Past problems"
 msgstr "Problemas passados"
 
-#: machineteaching/questions/templates/questions/base.html:33
+#: questions/templates/questions/base.html:33
 msgid "Strategy"
 msgstr "Estratégia"
 
-#: machineteaching/questions/templates/questions/base.html:38
-#: machineteaching/questions/templates/questions/finished.html:9
-#: machineteaching/questions/templates/questions/finished.html:14
+#: questions/templates/questions/base.html:38
+#: questions/templates/questions/finished.html:9
+#: questions/templates/questions/finished.html:14
 msgid "Sequential"
 msgstr "Sequencial"
 
-#: machineteaching/questions/templates/questions/base.html:40
-#: machineteaching/questions/templates/questions/finished.html:12
-#: machineteaching/questions/templates/questions/finished.html:14
+#: questions/templates/questions/base.html:40
+#: questions/templates/questions/finished.html:12
+#: questions/templates/questions/finished.html:14
 msgid "Random"
 msgstr "Aleatório"
 
-#: machineteaching/questions/templates/questions/base.html:69
+#: questions/templates/questions/base.html:69
 msgid "Hello"
 msgstr "Olá"
 
-#: machineteaching/questions/templates/questions/base.html:71
+#: questions/templates/questions/base.html:73
+msgid "Administration"
+msgstr ""
+
+#: questions/templates/questions/base.html:75
+#: questions/templates/questions/edit_profile.html:8
+msgid "Change class"
+msgstr "Trocar de turma"
+
+#: questions/templates/questions/base.html:78
 msgid "Logout"
 msgstr "Sair"
 
-#: machineteaching/questions/templates/questions/base.html:103
+#: questions/templates/questions/base.html:108
 msgid "Tutorials"
 msgstr "Tutoriais"
 
-#: machineteaching/questions/templates/questions/base.html:113
+#: questions/templates/questions/base.html:118
 msgid "Register your course"
 msgstr "Cadastre seu curso"
 
-#: machineteaching/questions/templates/questions/base.html:115
-#: machineteaching/questions/templates/registration/signup.html:56
+#: questions/templates/questions/base.html:120
+#: questions/templates/registration/signup.html:56
 msgid "Your course"
 msgstr "Seu curso"
 
-#: machineteaching/questions/templates/questions/base.html:142
-#: machineteaching/questions/templates/registration/signup.html:86
+#: questions/templates/questions/base.html:147
+#: questions/templates/registration/signup.html:86
 msgid "Other course"
 msgstr "Outro curso"
 
-#: machineteaching/questions/templates/questions/base.html:143
+#: questions/templates/questions/base.html:148
 msgid "Register"
 msgstr "Cadastrar"
 
-#: machineteaching/questions/templates/questions/chapters.html:10
+#: questions/templates/questions/chapters.html:10
 msgid "Add chapter"
 msgstr "Adicionar aula"
 
-#: machineteaching/questions/templates/questions/chapters.html:13
-#: machineteaching/questions/templates/questions/student_dashboard.html:66
+#: questions/templates/questions/chapters.html:14
+#: questions/templates/questions/student_dashboard.html:66
 msgid "Name"
 msgstr "Nome"
 
-#: machineteaching/questions/templates/questions/chapters.html:19
+#: questions/templates/questions/chapters.html:20
 msgid "Add"
 msgstr "Adicionar"
 
-#: machineteaching/questions/templates/questions/chapters.html:25
-#: machineteaching/questions/templates/questions/outcomes.html:10
-#: machineteaching/questions/templates/questions/outcomes.html:22
+#: questions/templates/questions/chapters.html:26
+#: questions/templates/questions/outcomes.html:10
+#: questions/templates/questions/outcomes.html:22
+#: questions/templates/questions/past_problems.html:133
 msgid "Search"
 msgstr "Pesquisar"
 
-#: machineteaching/questions/templates/questions/finished.html:8
+#: questions/templates/questions/edit_profile.html:16
+#: questions/templates/registration/password_reset_confirm.html:10
+msgid "Change"
+msgstr "Trocar"
+
+#: questions/templates/questions/finished.html:8
 msgid "You finished all available problems in"
 msgstr "Você terminou todos os problemas disponíveis no modo"
 
-#: machineteaching/questions/templates/questions/finished.html:9
+#: questions/templates/questions/finished.html:9
 msgid " mode. You can:"
 msgstr " Você pode:"
 
-#: machineteaching/questions/templates/questions/finished.html:11
-#: machineteaching/questions/templates/questions/finished.html:12
+#: questions/templates/questions/finished.html:11
+#: questions/templates/questions/finished.html:12
 msgid "Go to"
 msgstr "Ir para o modo"
 
-#: machineteaching/questions/templates/questions/finished.html:11
+#: questions/templates/questions/finished.html:11
 msgid "and come back to skipped problems."
 msgstr "e voltar aos problemas pulados."
 
-#: machineteaching/questions/templates/questions/finished.html:12
+#: questions/templates/questions/finished.html:12
 msgid "mode and try other problems."
 msgstr " e tentar outros problemas."
 
-#: machineteaching/questions/templates/questions/finished.html:14
+#: questions/templates/questions/finished.html:14
 msgid "mode. You can go to "
 msgstr ". Você pode ir para o modo "
 
-#: machineteaching/questions/templates/questions/finished.html:14
+#: questions/templates/questions/finished.html:14
 msgid "mode and do new problems."
 msgstr " e fazer novos problemas."
 
-#: machineteaching/questions/templates/questions/new_problem.html:18
-#: machineteaching/questions/templates/questions/past_problems.html:31
+#: questions/templates/questions/new_problem.html:18
+#: questions/templates/questions/past_problems.html:31
 msgid "Title"
 msgstr "Título"
 
-#: machineteaching/questions/templates/questions/new_problem.html:23
+#: questions/templates/questions/new_problem.html:23
 msgid "Multiple choice"
 msgstr "Múltipla escolha"
 
-#: machineteaching/questions/templates/questions/new_problem.html:49
+#: questions/templates/questions/new_problem.html:49
 msgid "Position"
 msgstr "Posição"
 
-#: machineteaching/questions/templates/questions/new_problem.html:52
-#: machineteaching/questions/templates/questions/show_chapter.html:56
+#: questions/templates/questions/new_problem.html:52
+#: questions/templates/questions/show_chapter.html:56
 msgid "Add problem"
 msgstr "Adicionar problema"
 
-#: machineteaching/questions/templates/questions/new_problem.html:76
+#: questions/templates/questions/new_problem.html:76
 msgid "Header"
 msgstr "Header"
 
-#: machineteaching/questions/templates/questions/new_problem.html:77
+#: questions/templates/questions/new_problem.html:77
 msgid "Tip"
 msgstr "Dica"
 
-#: machineteaching/questions/templates/questions/new_problem.html:79
+#: questions/templates/questions/new_problem.html:79
 msgid "Cluster"
 msgstr "Cluster"
 
-#: machineteaching/questions/templates/questions/new_problem.html:89
+#: questions/templates/questions/new_problem.html:89
 msgid "Test case generator"
 msgstr "Gerador de casos de teste"
 
-#: machineteaching/questions/templates/questions/new_problem.html:106
+#: questions/templates/questions/new_problem.html:106
 msgid "Options"
 msgstr "Opções"
 
-#: machineteaching/questions/templates/questions/new_problem.html:115
+#: questions/templates/questions/new_problem.html:115
 msgid "Add Option"
 msgstr "Adicionar opção"
 
-#: machineteaching/questions/templates/questions/new_problem.html:121
+#: questions/templates/questions/new_problem.html:121
 msgid "Correct answer"
 msgstr "Resposta"
 
-#: machineteaching/questions/templates/questions/new_problem.html:186
+#: questions/templates/questions/new_problem.html:186
 msgid "Delete"
 msgstr "Excluir"
 
-#: machineteaching/questions/templates/questions/outcomes.html:23
+#: questions/templates/questions/outcomes.html:23
 msgid "Export CSV"
 msgstr "Exportar CSV"
 
-#: machineteaching/questions/templates/questions/outcomes.html:32
+#: questions/templates/questions/outcomes.html:32
 msgid "Students"
 msgstr "Alunos"
 
-#: machineteaching/questions/templates/questions/outcomes.html:36
+#: questions/templates/questions/outcomes.html:36
 msgid "Total"
 msgstr "Total"
 
-#: machineteaching/questions/templates/questions/outcomes.html:47
+#: questions/templates/questions/outcomes.html:47
 msgid "Passed at"
 msgstr "Passou em"
 
-#: machineteaching/questions/templates/questions/past_problems.html:8
+#: questions/templates/questions/past_problems.html:8
 msgid "Filter"
 msgstr "Filtrar"
 
-#: machineteaching/questions/templates/questions/past_problems.html:32
+#: questions/templates/questions/past_problems.html:32
 msgid "Day"
 msgstr "Dia"
 
-#: machineteaching/questions/templates/questions/past_problems.html:33
+#: questions/templates/questions/past_problems.html:33
 msgid "Time "
 msgstr "Hora"
 
-#: machineteaching/questions/templates/questions/past_problems.html:34
+#: questions/templates/questions/past_problems.html:34
 #, fuzzy
 #| msgid "Test cases"
 msgid "Test cases "
 msgstr "Casos de teste"
 
-#: machineteaching/questions/templates/questions/past_problems.html:35
+#: questions/templates/questions/past_problems.html:35
 msgid "Status"
 msgstr "Status"
 
-#: machineteaching/questions/templates/questions/past_problems.html:36
+#: questions/templates/questions/past_problems.html:36
 msgid "Error (Python)"
 msgstr "Erro (Python)"
 
-#: machineteaching/questions/templates/questions/past_problems.html:58
-#: machineteaching/questions/templates/questions/past_problems.html:65
+#: questions/templates/questions/past_problems.html:58
+#: questions/templates/questions/past_problems.html:65
 msgid "See submitted solution"
 msgstr "Ver solução enviada"
 
-#: machineteaching/questions/templates/questions/past_solutions.html:29
-#: machineteaching/questions/templates/questions/show_problem.html:19
-#: machineteaching/questions/templates/questions/solutions.html:25
+#: questions/templates/questions/past_solutions.html:29
+#: questions/templates/questions/show_problem.html:19
+#: questions/templates/questions/solutions.html:25
 msgid "Test cases"
 msgstr "Casos de teste"
 
-#: machineteaching/questions/templates/questions/past_solutions.html:64
+#: questions/templates/questions/past_solutions.html:64
 msgid "Your answer"
 msgstr "Sua resposta"
 
-#: machineteaching/questions/templates/questions/show_chapter.html:10
+#: questions/templates/questions/show_chapter.html:10
 msgid "Edit"
 msgstr "Editar"
 
-#: machineteaching/questions/templates/questions/show_chapter.html:11
+#: questions/templates/questions/show_chapter.html:11
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: machineteaching/questions/templates/questions/show_chapter.html:12
+#: questions/templates/questions/show_chapter.html:12
 msgid "Save"
 msgstr "Salvar"
 
-#: machineteaching/questions/templates/questions/show_chapter.html:65
-#: machineteaching/questions/templates/questions/student_dashboard.html:67
+#: questions/templates/questions/show_chapter.html:65
+#: questions/templates/questions/student_dashboard.html:67
 msgid "Progress"
 msgstr "Progresso"
 
-#: machineteaching/questions/templates/questions/show_chapter.html:85
+#: questions/templates/questions/show_chapter.html:85
 msgid "Main errors"
 msgstr "Erros mais comuns"
 
-#: machineteaching/questions/templates/questions/show_problem.html:13
+#: questions/templates/questions/show_problem.html:13
 msgid "Skip"
 msgstr "Pular"
 
-#: machineteaching/questions/templates/questions/show_problem.html:37
+#: questions/templates/questions/show_problem.html:37
 msgid "Run"
 msgstr "Executar"
 
-#: machineteaching/questions/templates/questions/show_problem.html:66
-#: machineteaching/questions/templates/questions/show_problem.html:77
-#: machineteaching/questions/templates/questions/show_problem.html:81
+#: questions/templates/questions/show_problem.html:66
+#: questions/templates/questions/show_problem.html:77
+#: questions/templates/questions/show_problem.html:81
 msgid "Answer"
 msgstr "Responder"
 
-#: machineteaching/questions/templates/questions/show_problem.html:69
-#: machineteaching/questions/templates/questions/show_problem.html:84
-#: machineteaching/questions/templates/questions/show_problem.html:118
+#: questions/templates/questions/show_problem.html:69
+#: questions/templates/questions/show_problem.html:84
+#: questions/templates/questions/show_problem.html:118
 msgid "Next"
 msgstr "Próximo"
 
-#: machineteaching/questions/templates/questions/show_problem.html:119
+#: questions/templates/questions/show_problem.html:119
 msgid "Input:"
 msgstr "Entrada:"
 
-#: machineteaching/questions/templates/questions/show_problem.html:120
+#: questions/templates/questions/show_problem.html:120
 msgid "Expected output:"
 msgstr "Retorno esperado:"
 
-#: machineteaching/questions/templates/questions/show_problem.html:121
+#: questions/templates/questions/show_problem.html:121
 msgid "Your output:"
 msgstr "Seu retorno:"
 
-#: machineteaching/questions/templates/questions/student_dashboard.html:20
+#: questions/templates/questions/student_dashboard.html:20
 msgid "Average time"
 msgstr "Tempo médio"
 
-#: machineteaching/questions/templates/questions/student_dashboard.html:21
+#: questions/templates/questions/student_dashboard.html:21
 msgid "to perform a problem"
 msgstr "para acertar um problema"
 
-#: machineteaching/questions/templates/questions/student_dashboard.html:39
+#: questions/templates/questions/student_dashboard.html:39
 msgid "before you get right a problem"
 msgstr "antes de acertar um problema"
 
-#: machineteaching/questions/templates/questions/student_dashboard.html:42
+#: questions/templates/questions/student_dashboard.html:42
 msgid "error"
 msgstr "erro"
 
-#: machineteaching/questions/templates/questions/student_dashboard.html:43
+#: questions/templates/questions/student_dashboard.html:43
 msgid "on average"
 msgstr "em média"
 
-#: machineteaching/questions/templates/questions/student_dashboard.html:53
+#: questions/templates/questions/student_dashboard.html:53
 msgid "Average errors"
 msgstr "Média de erros"
 
-#: machineteaching/questions/templates/questions/student_dashboard.html:54
-#: machineteaching/questions/templates/questions/student_dashboard.html:91
+#: questions/templates/questions/student_dashboard.html:54
+#: questions/templates/questions/student_dashboard.html:91
 msgid "per chapter"
 msgstr "por aula"
 
-#: machineteaching/questions/templates/questions/student_dashboard.html:68
-#: machineteaching/questions/templates/questions/student_dashboard.html:90
+#: questions/templates/questions/student_dashboard.html:68
+#: questions/templates/questions/student_dashboard.html:90
 msgid "Time"
 msgstr "Tempo"
 
-#: machineteaching/questions/templates/questions/student_dashboard.html:79
+#: questions/templates/questions/student_dashboard.html:79
 msgid "day(s)"
 msgstr "dia(s)"
 
-#: machineteaching/questions/templates/registration/login.html:7
-#: machineteaching/questions/templates/registration/login.html:24
-#: machineteaching/questions/templates/registration/signup.html:137
+#: questions/templates/registration/login.html:7
+#: questions/templates/registration/login.html:24
+#: questions/templates/registration/signup.html:137
 msgid "Login"
 msgstr "Entrar"
 
-#: machineteaching/questions/templates/registration/login.html:17
-#: machineteaching/questions/templates/registration/signup.html:42
+#: questions/templates/registration/login.html:17
+#: questions/templates/registration/signup.html:42
 msgid "E-mail"
 msgstr ""
 
-#: machineteaching/questions/templates/registration/login.html:21
-#: machineteaching/questions/templates/registration/signup.html:99
+#: questions/templates/registration/login.html:21
+#: questions/templates/registration/signup.html:99
 msgid "Password"
 msgstr "Senha"
 
-#: machineteaching/questions/templates/registration/login.html:23
+#: questions/templates/registration/login.html:23
 msgid "Forgot password?"
 msgstr "Esqueceu a senha?"
 
-#: machineteaching/questions/templates/registration/password_reset_complete.html:6
+#: questions/templates/registration/password_reset_complete.html:6
 msgid "Your password has been set. You may go ahead and "
 msgstr "Sua senha foi redefinida. Você pode ir em frente e "
 
-#: machineteaching/questions/templates/registration/password_reset_complete.html:6
+#: questions/templates/registration/password_reset_complete.html:6
 msgid "sign in"
 msgstr "fazer login"
 
-#: machineteaching/questions/templates/registration/password_reset_complete.html:6
+#: questions/templates/registration/password_reset_complete.html:6
 msgid " now."
 msgstr " agora."
 
-#: machineteaching/questions/templates/registration/password_reset_confirm.html:6
+#: questions/templates/registration/password_reset_confirm.html:6
 msgid "Change password"
 msgstr "Redefinir senha"
 
-#: machineteaching/questions/templates/registration/password_reset_confirm.html:10
-msgid "Change"
-msgstr "Redefinir"
-
-#: machineteaching/questions/templates/registration/password_reset_done.html:6
+#: questions/templates/registration/password_reset_done.html:6
 msgid ""
 "We've emailed you instructions for setting your password, if an account "
 "exists with the email you entered. You should receive them shortly."
@@ -716,7 +705,7 @@ msgstr ""
 "Enviamos por e-mail instruções para redefinir sua senha, se existir uma "
 "conta com o e-mail que você digitou. Você deve recebê-las em breve."
 
-#: machineteaching/questions/templates/registration/password_reset_done.html:9
+#: questions/templates/registration/password_reset_done.html:9
 msgid ""
 "If you don't receive an email, please make sure you've entered the address "
 "you registered with, and check your spam folder."
@@ -724,27 +713,27 @@ msgstr ""
 "Se você não recebeu um e-mail, certifique-se de inserir o endereço com o "
 "qual se cadastrou e verifique sua caixa de spam."
 
-#: machineteaching/questions/templates/registration/password_reset_form.html:7
+#: questions/templates/registration/password_reset_form.html:7
 msgid "Forgot Password"
 msgstr "Esqueci a senha"
 
-#: machineteaching/questions/templates/registration/password_reset_form.html:12
+#: questions/templates/registration/password_reset_form.html:12
 msgid "Submit"
 msgstr "Enviar"
 
-#: machineteaching/questions/templates/registration/signup.html:26
+#: questions/templates/registration/signup.html:26
 msgid "First name"
 msgstr "Nome"
 
-#: machineteaching/questions/templates/registration/signup.html:29
+#: questions/templates/registration/signup.html:29
 msgid "Last name"
 msgstr "Sobrenome"
 
-#: machineteaching/questions/templates/registration/signup.html:102
+#: questions/templates/registration/signup.html:102
 msgid "Password confirmation"
 msgstr "Confirmação de senha"
 
-#: machineteaching/questions/templates/registration/signup.html:104
+#: questions/templates/registration/signup.html:104
 msgid ""
 "\n"
 "                        \t    1) Your password can't be too similar to your "
@@ -767,13 +756,19 @@ msgstr ""
 "númerica.\n"
 "                                "
 
-#: machineteaching/questions/views.py:134
+#: questions/views.py:135
 msgid "Finished"
 msgstr "Finalizado"
 
-#: machineteaching/questions/views.py:548
+#: questions/views.py:549
 msgid "New problem"
 msgstr "Novo problema"
+
+#: questions/views.py:588
+#, fuzzy
+#| msgid "User profile"
+msgid "Edit profile"
+msgstr "Perfil do usuário"
 
 #~ msgid "Student"
 #~ msgstr "Aluno"
