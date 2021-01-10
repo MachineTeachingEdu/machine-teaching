@@ -20,7 +20,8 @@ from questions.models import (Problem, Solution, UserLog, UserProfile,
                               Professor, OnlineClass, UserLogView, Chapter,
                               Deadline, UserLogError, ExerciseSet)
 from questions.forms import (UserLogForm, SignUpForm, OutcomeForm, ChapterForm,
-                             ProblemForm, SolutionForm, PageAccessForm, InteractiveForm)
+                             ProblemForm, SolutionForm, PageAccessForm, InteractiveForm,
+                             EditProfileForm)
 from questions.get_problem import get_problem
 from questions.get_dashboards import get_student_dashboard
 from questions.strategies import STRATEGIES_FUNC
@@ -570,3 +571,18 @@ def save_interactive(request):
         interactive.save()
         return JsonResponse({'status': 'success'})
     return JsonResponse({'status': 'failed'})
+
+@login_required
+def edit_profile(request):
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST)
+        if form.is_valid():
+            userprofile = request.user.userprofile
+            user_class = OnlineClass.objects.get(
+                class_code=form.cleaned_data.get('class_code'))
+            userprofile.user_class = user_class
+            userprofile.save()
+            return redirect('start')
+    else:
+        form = EditProfileForm()
+    return render(request, 'questions/edit_profile.html', {'title':_('Edit profile'),'form':form})

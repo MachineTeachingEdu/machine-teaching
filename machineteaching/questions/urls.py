@@ -8,6 +8,7 @@ urlpatterns = [
     path('saveaccess', views.save_access, name='saveaccess'),
     path('saveinteractive', views.save_interactive, name='saveinteractive'),
     path('saveprofile', context_processors.context, name='saveprofile'),
+    path('edit_profile', views.edit_profile, name='edit_profile'),
     path('start', views.get_next_problem, name='start'),
     path('next', views.get_next_problem, name='next'),
     path('savelog', views.save_user_log, name='savelog'),

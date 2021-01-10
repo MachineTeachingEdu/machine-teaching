@@ -65,13 +65,18 @@
             <span class="title">{{ title }}</span>
           </div>
           <div class="topbar-right">
-            <span style="margin-right: 1rem;">{% if user.first_name %}
+            <span class="name">{% if user.first_name %}
             {% blocktrans %}Hello{% endblocktrans %}, {{ user.first_name }} {{ user.last_name }}
-            {% endif %}</span>
-            <a class="link" href="{% url 'logout' %}" style="height: 2.2rem">{% blocktrans %}Logout{% endblocktrans %}</a>
-            {% if perms.questions.view_userlogview %}
-            <a href="{% url 'admin:index' %}" class="admin-btn"><img src="{% static 'img/admin.svg' %}"></a>
-            {% endif %}
+            {% endif %}<span>></span>
+            <div class="card dropdown">
+              {% if perms.questions.view_userlogview %}
+              <a class="link" href="{% url 'admin:index' %}" style="height: 2.2rem; margin-bottom: 2rem;">{% blocktrans %}Administration{% endblocktrans %}</a>
+              {% else %}
+              <a class="link" href="{% url 'edit_profile' %}" style="height: 2.2rem; margin-bottom: 2rem;">{% blocktrans %}Change class{% endblocktrans %}</a>
+              {% endif %}
+              <br>
+              <a class="link logout" href="{% url 'logout' %}" style="height: 2.2rem;">{% blocktrans %}Logout{% endblocktrans %}</a>
+            </div></span>
           </div>
         </div>
 
@@ -144,6 +149,7 @@
         </div>
       </div>
       {% endif %}
+
 
       <!-- scripts -->
       <script type="text/javascript">
