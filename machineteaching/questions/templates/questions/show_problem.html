@@ -150,6 +150,8 @@
     editor2.setSize('100%',300);
     {% endif %}
 
+    $('.interactive .CodeMirror').remove();
+
     function saveInteractive(cm) {
         $.ajax({
             type: "POST",
