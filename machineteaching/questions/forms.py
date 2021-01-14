@@ -125,10 +125,9 @@ class SolutionForm(forms.ModelForm):
 
         if question_type == "C":
             try:
-                function_obj = compile(solution, 'solution', 'exec')
-                exec(function_obj)
-            except Exception as e:
-                self.add_error("solution", e)
+                exec(solution)
+            except Exception as err:
+                self.add_error("solution", err)
         return self.cleaned_data
 
 class PageAccessForm(ModelForm):
@@ -141,3 +140,15 @@ class InteractiveForm(ModelForm):
         model = Interactive
         exclude = ['timestamp', 'user']
 
+class EditProfileForm(ModelForm):
+    class_code = forms.CharField(label=_("Class code"))
+    
+    class Meta:
+        model = User
+        fields = []
+
+    def clean_class_code(self):
+        class_code = self.cleaned_data.get('class_code')
+        if not OnlineClass.objects.filter(class_code=class_code).exists():
+            raise forms.ValidationError(_(u'Invalid Class Code.'))
+        return class_code

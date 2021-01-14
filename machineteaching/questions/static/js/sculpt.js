@@ -113,7 +113,7 @@ function runit(args, func, expected_results) {
 
    // Get code
    var prog = editor.getValue();
-
+   
    // Prepare output display
    var mypre = document.getElementById("output");
    mypre.innerHTML = '';
@@ -129,7 +129,7 @@ function runit(args, func, expected_results) {
        item = args[i];
        //console.log(item);
        //prog_args = prog + "\nprint(" + func + "(*" + JSON.stringify(item) + "))";
-       prog_args = prog + "\nprint(" + func + "(*" + item + "))";
+       prog_args = prog.replaceAll('\t','    ') + "\nprint(" + func + "(*" + item + "))";
        // prog_args = prog + `
 // try:
     // print(` + func + `(*` + item + `))

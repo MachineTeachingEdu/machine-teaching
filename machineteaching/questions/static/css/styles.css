@@ -9,6 +9,7 @@ html, body{
 }
 /* colors */:root {
   --primary: #2196F3;
+
   --text-color: rgb(76,83,90);
   --red: rgb(255, 65, 65);
   --green: rgb(84, 210, 87);
@@ -203,6 +204,46 @@ textarea::-moz-selection { background: #B5DCFF; }
     -ms-flex-align: center;
     align-items: center;
 }
+.name {
+    height: 2.2rem;
+    padding: 0 0.7rem;
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+.name:hover {
+    background: rgb(230,230,230);
+}
+.name span {
+    font-weight: 400;
+    transform: rotate(90deg) scale(1,1.5);
+    margin-left: 0.8rem;
+}
+.dropdown {
+    position: absolute;
+    top: 2.8rem;
+    right: 3rem;
+    width: 11rem;
+    text-align: right;
+    line-height: 2.2rem;
+    padding: 1rem !important;
+    display: none;
+    z-index: 100;
+}
+.name:hover .dropdown {
+  display: block;
+}
+.logout {
+    color: var(--red) !important;
+}
+.logout:hover {
+    background-color: #FEE4E0 !important;
+}
+.logout:active {
+    background-color: #FEC5BC !important;
+}
 .admin-btn {
     width: 2.2rem;
     height: 2.2rem;
@@ -210,6 +251,7 @@ textarea::-moz-selection { background: #B5DCFF; }
     transition: all 0.2s;
     border-radius: 4px;
     margin-left: 0.5rem;
+    display: none;
 }
 .admin-btn:hover {
     background: rgb(230,230,230);
@@ -1504,6 +1546,18 @@ table.dataTable.no-footer {
 .modebar{
     display: none !important;
 }
+/* edit profile */
+.edit-profile {
+    text-align: center;
+}
+.edit-profile span {
+    margin-bottom: 1rem;
+}
+.edit-profile input {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
 
 
 
