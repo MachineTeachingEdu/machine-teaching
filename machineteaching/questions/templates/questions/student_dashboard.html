@@ -76,7 +76,7 @@
                     </div>
                     <span>{{ chapter.progress }}%</span>
                     <td class="col-2" style="text-align: center;">
-                    {% if chapter.time != None %} {{ chapter.time }} {% blocktrans %}day(s){% endblocktrans %} {% else %}-{% endif %}</td>
+                    {% if chapter.time != -1 %} {{ chapter.time }} {% blocktrans %}day(s){% endblocktrans %} {% else %}-{% endif %}</td>
                     </td>
                 </tr>
                 {% endfor %}

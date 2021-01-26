@@ -7,7 +7,7 @@ from plotly.subplots import make_subplots
 from statistics import mean
 
 from questions.models import (Chapter, Problem, UserLog,
-                             UserLogView, User)
+                             UserLogView, User, ExerciseSet)
 from django.utils.translation import gettext as _
 import logging
 
@@ -120,8 +120,10 @@ def get_student_dashboard(user):
     
     student_time = 0
     if len(student_times) != 0:
-        student_time = int(student_times_sum/(len(student_times)*60))
-    class_time = round(times_sum/(len(times)*60))
+        student_time = round(student_times_sum/(len(student_times)*60))
+    class_time = 0
+    if times:
+        class_time = round(times_sum/(len(times)*60))
     problems_time = {'student': student_time, 'class': class_time}
 
     #errors plot data
@@ -253,25 +255,25 @@ def get_student_dashboard(user):
         passed = UserLogView.objects.filter(user=user,
                                             problem__in=chapter_problems,
                                             final_outcome='P').order_by('-timestamp')
-        progress = int(100 * len(passed)/len(chapter_problems))
+        progress = round(100 * len(passed)/len(chapter_problems))
         if progress == 100:
             time = (passed[0].timestamp - userlog[0].timestamp).days
         else:
-            time = None
+            time = -1
         chapter_table.append({'chapter': chapter, 'progress': progress, 'time': time})
 
     # Chapter times plot
     labels = []
     student_times = []
     for chapter in chapter_table:
-        if chapter['time']:
+        if chapter['time'] >= 0:
             labels.append(chapter['chapter'].label)
             student_times.append(chapter['time'])
  
     class_times = []
     for item in chapter_table:
-        if item['time']:
-            chapter_problems = Problem.objects.filter(chapter=item['chapter'])
+        if item['time'] >= 0:
+            chapter_problems = ExerciseSet.objects.filter(chapter=item['chapter']).values_list('problem')
             students = User.objects.filter(userprofile__user_class=onlineclass)
             times = []
             for student in students:
@@ -282,11 +284,11 @@ def get_student_dashboard(user):
                   passed = UserLogView.objects.filter(user=user,
                                             problem__in=chapter_problems,
                                             final_outcome='P').order_by('timestamp')
-                  progress = int(100 * len(passed)/len(chapter_problems))
+                  progress = round(100 * len(passed)/len(chapter_problems))
                   if progress == 100 and len(userlog) != 0:
                       time = (passed.reverse()[0].timestamp - userlog[0].timestamp).days
                       times.append(time)
-            class_times.append(int(mean(times)))
+            class_times.append(mean(times))
 
 
     #color settings
