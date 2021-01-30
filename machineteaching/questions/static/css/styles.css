@@ -41,6 +41,9 @@ h3 {
 p {
     cursor: default;
 }
+form p {
+    margin: 0;
+}
 span {
     cursor: default;
 }
