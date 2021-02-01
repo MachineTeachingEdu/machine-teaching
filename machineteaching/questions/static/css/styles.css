@@ -928,7 +928,7 @@ code {
 	flex-wrap: wrap;
 	justify-content: space-between;
     white-space: pre;
-    line-break: auto;
+    overflow-x: auto;
 }
 .test-case h3 {
     margin: 0;
@@ -942,7 +942,15 @@ code {
     padding: 0.5rem;
     font-family: monospace;
     font-size: 15px;
-    line-break: auto;
+}
+.test-case table td:nth-child(2) {
+    color: #333;
+}
+.test-case table tr:nth-child(1) td:nth-child(2) {
+    color: #A9ABAB;
+}
+.args {
+    color: #333;
 }
 .task-progress2 {
     width: 100%;

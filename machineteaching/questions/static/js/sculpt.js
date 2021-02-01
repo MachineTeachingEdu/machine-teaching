@@ -19,7 +19,7 @@ function passed() {
   $('#errors').css('color', '#CCCCCC');
 }
 
-function evaluate(args, expected_results){
+function evaluate(args, func, expected_results){
     eval_div = document.getElementById("evaluation");
     eval_div.innerHTML = "";
     answers = document.getElementById("output").innerHTML.split("\n");
@@ -47,7 +47,7 @@ function evaluate(args, expected_results){
                                <table>
                                  <tr>
                                    <td class="col-4">${input}</td>
-                                   <td class="col-8">${args[i]}</td>
+                                   <td class="col-8">${func}(<span class="args">${args[i].slice(1,-1)}</span>)</td>
                                  </tr>
                                  <tr>
                                    <td class="col-4">${expected_output}</td>
@@ -91,7 +91,7 @@ function evaluate(args, expected_results){
         </div>`);
     $('#next').remove();
     $('.result').append(`<button type="button" onclick="gotoproblem()" class="primary disabled" id="next">${next}</button>`);
-
+    
     // If no errors are found, go to the next problem
     if (errors == 0) {
         passed()
@@ -183,7 +183,7 @@ function runit(args, func, expected_results) {
         seconds_in_code += Math.round((seconds_end_code - seconds_begin_code)/1000);
         console.log("seconds in code: " + seconds_in_code);
        console.log("seconds in page:" + seconds_in_page);
-       evaluate(args, expected_results);
+       evaluate(args, func, expected_results);
        }, 2000);
 };
 
