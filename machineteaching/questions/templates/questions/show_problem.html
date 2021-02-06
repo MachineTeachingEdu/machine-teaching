@@ -192,7 +192,7 @@
                 'solution': editor.getValue(),
                 'solution_lines': editor.lineCount(),
                 'console': document.getElementById("output").innerHTML,
-                'test_case_hits': Math.round(hits),
+                'test_case_hits': hits,
                 {% elif problem.question_type == "M" %}
                 'solution': solution,
                 'solution_lines': 0,

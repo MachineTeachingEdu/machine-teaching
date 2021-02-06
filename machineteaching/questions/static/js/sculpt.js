@@ -79,7 +79,7 @@ function evaluate(args, func, expected_results){
     $('.loader div').attr('style', 'width: 0;');
 
     // Display test case result
-    var hits = 100-100*errors/expected_results.length;
+    var hits = Math.round(100-100*errors/expected_results.length);
     $('.result').css('display','flex');
     $('#outcome').html(`
         <div ">${Math.round(expected_results.length-errors)}</div>
