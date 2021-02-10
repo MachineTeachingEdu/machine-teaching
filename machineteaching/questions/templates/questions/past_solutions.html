@@ -1,6 +1,7 @@
 {% extends "questions/base.html" %}
 {% load static %}
 {% load i18n %}
+{% load escape_doublequote %}
 {% block content %}
 <div class="col col-5">
 
@@ -32,6 +33,9 @@
             <div class="task-progress2" style="margin: 0; background: var(--red); height: 0.5rem"><div style="width: {{ log.test_case_hits }}%; background: var(--green)"></div></div>
         </div>
     </div>
+
+    <div class="col-12" id="evaluation">
+    </div>
     {% endif %}
 
 </div>
@@ -42,6 +46,11 @@
     <div class="card">
         <h3>{% blocktrans %}Solution{% endblocktrans %}</h3>
         <textarea class="code" id="code" name="solution" style="display: none;">{{log.solution}}</textarea>
+    </div>
+
+    <!-- output -->
+    <div style="display: none;" id="output-div">
+        <pre id="output"></pre>
     </div>
 
 
@@ -114,6 +123,17 @@
     });
     editor.setSize('100%',300);
     }
+
+    //running solution
+    runit({{test_case|safe}}, '{{header}}', {{expected_results|safe}})
+
+    
+    const next = '{% blocktrans %}Next{% endblocktrans %}';
+    const input = '{% blocktrans %}Input:{% endblocktrans %}';
+    const expected_output = '{% blocktrans %}Expected output:{% endblocktrans %}';
+    const your_output = '{% blocktrans %}Your output:{% endblocktrans %}';
+    const passed_txt = '{% blocktrans %}Passed{% endblocktrans %}';
+    const failed_txt = '{% blocktrans %}Failed{% endblocktrans %}';
 
     
     // Load markdown

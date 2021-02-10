@@ -277,8 +277,8 @@ class UserLogError(models.Model):
 
 class PageAccess(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    page = models.CharField(max_length=199, blank=False)
-    name = models.CharField(max_length=199, blank=True, null=True)
+    page = models.CharField(max_length=200, blank=False)
+    name = models.CharField(max_length=200, blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     class Meta:
