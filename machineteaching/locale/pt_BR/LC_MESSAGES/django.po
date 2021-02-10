@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-10 19:51-0300\n"
+"POT-Creation-Date: 2021-01-30 01:15-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -74,8 +74,8 @@ msgstr "Código da turma inválido"
 msgid "Class"
 msgstr "Turma"
 
-#: questions/forms.py:56 questions/get_dashboards.py:227
-#: questions/get_dashboards.py:341 questions/models.py:30
+#: questions/forms.py:56 questions/get_dashboards.py:229
+#: questions/get_dashboards.py:343 questions/models.py:30
 #: questions/templates/questions/new_problem.html:44
 #: questions/templates/questions/outcomes.html:17
 msgid "Chapter"
@@ -146,28 +146,28 @@ msgstr "Pulou"
 msgid "No attempt"
 msgstr "Sem tentativa"
 
-#: questions/get_dashboards.py:68 questions/get_dashboards.py:199
-#: questions/get_dashboards.py:313
+#: questions/get_dashboards.py:68 questions/get_dashboards.py:201
+#: questions/get_dashboards.py:315
 #: questions/templates/questions/student_dashboard.html:26
 msgid "You"
 msgstr "Você"
 
-#: questions/get_dashboards.py:78 questions/get_dashboards.py:191
-#: questions/get_dashboards.py:305
+#: questions/get_dashboards.py:78 questions/get_dashboards.py:193
+#: questions/get_dashboards.py:307
 #: questions/templates/questions/student_dashboard.html:30
 msgid "Your class"
 msgstr "Sua turma"
 
-#: questions/get_dashboards.py:232
+#: questions/get_dashboards.py:234
 #: questions/templates/questions/student_dashboard.html:38
 msgid "Errors"
 msgstr "Erros"
 
-#: questions/get_dashboards.py:346
+#: questions/get_dashboards.py:348
 msgid "Time (days)"
 msgstr "Tempo (dias)"
 
-#: questions/get_dashboards.py:371 questions/templates/questions/base.html:29
+#: questions/get_dashboards.py:373 questions/templates/questions/base.html:29
 #: questions/views.py:409
 msgid "Outcomes"
 msgstr "Resultados"
@@ -714,10 +714,10 @@ msgstr ""
 "qual se cadastrou e verifique sua caixa de spam."
 
 #: questions/templates/registration/password_reset_form.html:7
-msgid "Forgot Password"
-msgstr "Esqueci a senha"
+msgid "Password reset"
+msgstr "Recuperar senha"
 
-#: questions/templates/registration/password_reset_form.html:12
+#: questions/templates/registration/password_reset_form.html:13
 msgid "Submit"
 msgstr "Enviar"
 
@@ -769,6 +769,12 @@ msgstr "Novo problema"
 #| msgid "User profile"
 msgid "Edit profile"
 msgstr "Perfil do usuário"
+
+#~ msgid "Forgot password"
+#~ msgstr "Esqueceu a senha?"
+
+#~ msgid "Forgot Password"
+#~ msgstr "Esqueci a senha"
 
 #~ msgid "Student"
 #~ msgstr "Aluno"
