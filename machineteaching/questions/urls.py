@@ -42,6 +42,8 @@ urlpatterns = [
         template_name='questions/about.html'),
         name='about'),
 
+    path('attempts/', views.AttemptsList.as_view(), name='attempts'),
+
     # DEBUG PURPOSES
     path('<int:problem_id>/', views.show_problem, name='show_problem'),
 ]

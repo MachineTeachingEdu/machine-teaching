@@ -12,10 +12,13 @@ from django.db.models.functions import Lower
 from django.utils import timezone, translation
 from django.utils.translation import gettext as _
 from django.views.decorators.csrf import csrf_exempt
+from rest_framework.views import APIView
+from rest_framework.response import Response
 # import random
 import json
 from functools import wraps
 import time
+from datetime import datetime
 from questions.models import (Problem, Solution, UserLog, UserProfile,
                               Professor, OnlineClass, UserLogView, Chapter,
                               Deadline, UserLogError, ExerciseSet)
@@ -586,3 +589,22 @@ def edit_profile(request):
     else:
         form = EditProfileForm()
     return render(request, 'questions/edit_profile.html', {'title':_('Edit profile'),'form':form})
+
+
+class AttemptsList(APIView):
+    def get(self, request, format=None):
+        date = request.query_params.get('date')
+        logs = UserLog.objects.all()
+        if date:
+            date = timezone.make_aware(datetime.strptime(date,'%m-%d-%Y'))
+            logs = UserLog.objects.filter(timestamp__gte=date)
+        problems = Problem.objects.all().values_list('id')
+        users = User.objects.all().values_list('id')
+        content = []
+        for problem in problems:
+            problem = problem[0]
+            for user in users:
+                user = user[0]
+                attempts = logs.filter(user_id=user, problem_id=problem).count()
+                content.append({'problem_id':problem, 'user_id':user, 'attempts':attempts})
+        return Response(content)
