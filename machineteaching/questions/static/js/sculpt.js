@@ -29,18 +29,18 @@ function evaluate(args, func, expected_results){
     for (i = 0; i < expected_results.length; i++){
         //console.log(answers[i]);
         try {
-            answers_parsed = JSON.parse(answers[i].replace(/'/g, '"'));
+            answers_parsed = JSON.parse(answers[i]);
         }
         catch(e) {
             answers_parsed = answers[i];
         }
         //console.log(answers_parsed)
         try {
-            expected_results_parsed = JSON.parse(expected_results[i].replace(/'/g, '"'));
+            expected_results_parsed = JSON.parse(expected_results[i]);
         } catch(e) {
             expected_results_parsed = expected_results[i];
         }
-        //console.log(expected_results_parsed);
+        console.log(expected_results_parsed);
         eval_div.innerHTML += `<div class="card test-case">
                                <h3>${i+1}</h3>
                                <div id="outcome-${i+1}"></div>
@@ -129,7 +129,10 @@ function runit(args, func, expected_results) {
        item = args[i];
        //console.log(item);
        //prog_args = prog + "\nprint(" + func + "(*" + JSON.stringify(item) + "))";
-       prog_args = prog.replaceAll('\t','    ') + "\nprint(" + func + "(*" + item + "))";
+       prog_args = prog.replaceAll('\t','    ') +
+       "\nif type(" + func + "(*" + item + ")) == str:\n    print(\"'\"+" + 
+       func + "(*" + item + ")+\"'\")\nelse:\n    print(" + 
+       func + "(*" + item + "))";
        // prog_args = prog + `
 // try:
     // print(` + func + `(*` + item + `))

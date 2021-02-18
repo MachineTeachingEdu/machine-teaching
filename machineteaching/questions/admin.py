@@ -45,7 +45,7 @@ class UserLogAdmin(ExportActionMixin, admin.ModelAdmin):
 
 @admin.register(UserProfile)
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('user_name', 'user_class', 'programming', 'accepted', 'read')
+    list_display = ('user_name', 'user_class', 'course', 'user_last_login', 'programming', 'accepted', 'read')
     search_fields = ['user__username', 'user__first_name', 'user__last_name']
     list_filter = ('user_class', 'programming', 'strategy')
     autocomplete_fields = ['user']
@@ -53,11 +53,16 @@ class UserProfileAdmin(admin.ModelAdmin):
     def user_name(self, obj):
         return obj.user.first_name + ' ' + obj.user.last_name
 
+    def user_last_login(self, obj):
+        return obj.user.last_login
+
     def get_queryset(self, request):
         qs = super(UserProfileAdmin, self).get_queryset(request)
         if request.user.is_superuser:
             return qs
         return qs.filter(user_class__professor__user=request.user)
+
+    user_last_login.admin_order_field = 'user__last_login'
 
 
 @admin.register(Professor)
