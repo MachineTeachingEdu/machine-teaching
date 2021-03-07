@@ -87,7 +87,7 @@ class ExerciseSet(models.Model):
 
 class OnlineClass(models.Model):
     name = models.CharField(max_length=200, blank=False)
-    chapter = models.ManyToManyField(Chapter)
+    # chapter = models.ManyToManyField(Chapter)
     class_code = models.CharField(unique=True, max_length=200, null=True)
     active = models.BooleanField(default=True)
     start_date = models.DateField(blank=True)
@@ -293,6 +293,14 @@ class Interactive(models.Model):
 
     class Meta:
         verbose_name = _('Interactive')
+
+class Recommendations(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = _('Recommendations')
 
 
 @receiver(post_save, sender=User)

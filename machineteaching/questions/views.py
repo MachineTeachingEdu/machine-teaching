@@ -21,10 +21,11 @@ import time
 from datetime import datetime
 from questions.models import (Problem, Solution, UserLog, UserProfile,
                               Professor, OnlineClass, UserLogView, Chapter,
-                              Deadline, UserLogError, ExerciseSet)
+                              Deadline, UserLogError, ExerciseSet, Recommendations)
 from questions.forms import (UserLogForm, SignUpForm, OutcomeForm, ChapterForm,
                              ProblemForm, SolutionForm, PageAccessForm, InteractiveForm,
                              EditProfileForm)
+from questions.serializers import RecommendationSerializer
 from questions.get_problem import get_problem
 from questions.get_dashboards import get_student_dashboard
 from questions.strategies import STRATEGIES_FUNC
@@ -608,3 +609,11 @@ class AttemptsList(APIView):
                 attempts = logs.filter(user_id=user, problem_id=problem).count()
                 content.append({'problem_id':problem, 'user_id':user, 'attempts':attempts})
         return Response(content)
+
+class Recommendations(APIView):
+    def post(self, request, format=None):
+        serializer = RecommendationSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

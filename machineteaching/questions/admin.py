@@ -80,7 +80,7 @@ class OnlineClassAdmin(SimpleHistoryAdmin):
     exclude = ('class_code',)
     list_display = ('name', 'class_code', 'active', 'start_date')
     list_filter = ('active',)
-    filter_horizontal = ('chapter',)
+    # filter_horizontal = ('chapter',)
 
     def get_queryset(self, request):
         qs = super(OnlineClassAdmin, self).get_queryset(request)
