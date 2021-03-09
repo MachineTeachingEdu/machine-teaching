@@ -70,6 +70,7 @@
             {% endif %}<span>></span>
             <div class="card dropdown">
               {% if perms.questions.view_userlogview %}
+              <a class="link" href="{% url 'new_class' %}" style="height: 2.2rem; margin-bottom: 2rem;">{% blocktrans %}New class{% endblocktrans %}</a>
               <a class="link" href="{% url 'admin:index' %}" style="height: 2.2rem; margin-bottom: 2rem;">{% blocktrans %}Administration{% endblocktrans %}</a>
               {% else %}
               <a class="link" href="{% url 'edit_profile' %}" style="height: 2.2rem; margin-bottom: 2rem;">{% blocktrans %}Change class{% endblocktrans %}</a>

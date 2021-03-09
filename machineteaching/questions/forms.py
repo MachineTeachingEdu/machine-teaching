@@ -152,3 +152,8 @@ class EditProfileForm(ModelForm):
         if not OnlineClass.objects.filter(class_code=class_code).exists():
             raise forms.ValidationError(_(u'Invalid Class Code.'))
         return class_code
+
+class NewClassForm(ModelForm):
+    class Meta:
+        model = OnlineClass
+        fields = ['name', 'start_date']

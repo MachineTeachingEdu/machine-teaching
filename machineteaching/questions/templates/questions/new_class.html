@@ -1,0 +1,20 @@
+{% extends "questions/base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+<div class="col col-4" style="margin: 0 auto;">
+	<div class="card">
+		<h3>{% blocktrans %}New class{% endblocktrans %}</h3>
+        <form method="POST" action="{% url 'new_class' %}" class="edit-profile">
+        <span>
+            {% csrf_token %}
+            {% for error in form.name.errors %}
+            <span style="color: red;">{{ error|escape }}</span><br>
+            {% endfor %}
+            <input type="text" name="name" placeholder="{% blocktrans %}Class name{% endblocktrans %}" value="{{form.name.value|default_if_none:''}}"></input><br>
+            <button type="submit" class="primary" >{% blocktrans %}Create{% endblocktrans %}</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

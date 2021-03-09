@@ -24,7 +24,7 @@ from questions.models import (Problem, Solution, UserLog, UserProfile,
                               Deadline, UserLogError, ExerciseSet, Recommendations)
 from questions.forms import (UserLogForm, SignUpForm, OutcomeForm, ChapterForm,
                              ProblemForm, SolutionForm, PageAccessForm, InteractiveForm,
-                             EditProfileForm)
+                             EditProfileForm, NewClassForm)
 from questions.serializers import RecommendationSerializer
 from questions.get_problem import get_problem
 from questions.get_dashboards import get_student_dashboard
@@ -591,6 +591,19 @@ def edit_profile(request):
         form = EditProfileForm()
     return render(request, 'questions/edit_profile.html', {'title':_('Edit profile'),'form':form})
 
+@permission_required('questions.view_userlogview', raise_exception=True)
+def new_class(request):
+    if request.method == 'POST':
+        form = NewClassForm(request.POST)
+        if form.is_valid():
+            onlineclass = form.save(commit=False)
+            onlineclass.start_date = datetime.now()
+            onlineclass.save()
+            onlineclass.professor.set([Professor.objects.get(user=request.user)])
+            return redirect('start')
+    else:
+        form = NewClassForm()
+    return render(request, 'questions/new_class.html', {'title':_('New class'),'form':form})
 
 class AttemptsList(APIView):
     def get(self, request, format=None):
