@@ -1568,6 +1568,54 @@ table.dataTable.no-footer {
     width: 100%;
     margin-bottom: 1rem;
 }
+.classes {
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    padding-right: 0;
+    padding-left: 0;
+    margin-left: -1rem;
+}
+.class {
+    position: relative;
+}
+.class .badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+.class .class_btn {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+}
+.class .class_code {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    display: inline-block;
+    cursor: text !important;
+}
+.class_code::selection { background:  #81C7F4 !important; }
+
+.students .row:hover {
+    background: white;
+}
+.link.del {
+    color: var(--red);
+}
+.link.del:hover {
+    background: rgb(255,0,0,0.1);
+}
+
+
+
+
+
+
+
+
+
 
 
 

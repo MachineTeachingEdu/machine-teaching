@@ -89,6 +89,9 @@
             url: '{% url "saveaccess" %}',
             data: {
                 'page': 'Past problems',
+                {% if perms.questions.view_userlogview %}
+                'name': '{{user.first_name}} {{user.last_name}}',
+                {% endif %}
                 'csrfmiddlewaretoken': '{{ csrf_token }}'
             },
             dataType: 'json',
