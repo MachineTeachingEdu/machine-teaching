@@ -12,8 +12,8 @@ from django.db.models.functions import Lower
 from django.utils import timezone, translation
 from django.utils.translation import gettext as _
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework.views import APIView
-from rest_framework.response import Response
+#from rest_framework.views import APIView
+#from rest_framework.response import Response
 # import random
 import json
 from functools import wraps
@@ -655,28 +655,28 @@ def student_dashboard(request, id):
         context = get_student_dashboard(student)
         return render(request, 'questions/student_dashboard.html', context)
 
-class AttemptsList(APIView):
-    def get(self, request, format=None):
-        date = request.query_params.get('date')
-        logs = UserLog.objects.all()
-        if date:
-            date = timezone.make_aware(datetime.strptime(date,'%m-%d-%Y'))
-            logs = UserLog.objects.filter(timestamp__gte=date)
-        problems = Problem.objects.all().values_list('id')
-        users = User.objects.all().values_list('id')
-        content = []
-        for problem in problems:
-            problem = problem[0]
-            for user in users:
-                user = user[0]
-                attempts = logs.filter(user_id=user, problem_id=problem).count()
-                content.append({'problem_id':problem, 'user_id':user, 'attempts':attempts})
-        return Response(content)
+# class AttemptsList(APIView):
+#     def get(self, request, format=None):
+#         date = request.query_params.get('date')
+#         logs = UserLog.objects.all()
+#         if date:
+#             date = timezone.make_aware(datetime.strptime(date,'%m-%d-%Y'))
+#             logs = UserLog.objects.filter(timestamp__gte=date)
+#         problems = Problem.objects.all().values_list('id')
+#         users = User.objects.all().values_list('id')
+#         content = []
+#         for problem in problems:
+#             problem = problem[0]
+#             for user in users:
+#                 user = user[0]
+#                 attempts = logs.filter(user_id=user, problem_id=problem).count()
+#                 content.append({'problem_id':problem, 'user_id':user, 'attempts':attempts})
+#         return Response(content)
 
-class Recommendations(APIView):
-    def post(self, request, format=None):
-        serializer = RecommendationSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+# class Recommendations(APIView):
+#     def post(self, request, format=None):
+#         serializer = RecommendationSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
