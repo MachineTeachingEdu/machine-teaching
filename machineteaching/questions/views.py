@@ -24,7 +24,7 @@ from questions.models import (Problem, Solution, UserLog, UserProfile,
                               Deadline, UserLogError, ExerciseSet, Recommendations)
 from questions.forms import (UserLogForm, SignUpForm, OutcomeForm, ChapterForm,
                              ProblemForm, SolutionForm, PageAccessForm, InteractiveForm,
-                             EditProfileForm, NewClassForm)
+                             EditProfileForm, NewClassForm, DeadlineForm)
 from questions.serializers import RecommendationSerializer
 from questions.get_problem import get_problem
 from questions.get_dashboards import get_student_dashboard
@@ -317,11 +317,6 @@ def new_chapter(request):
 
 @login_required
 def show_outcome(request):
-    # TODO: link direto na interface
-    if not request.user.has_perm('questions.view_userlogview'):
-        context = get_student_dashboard(request.user)
-        return render(request, 'questions/student_dashboard.html', context)
-
     outcomes = []
     onlineclass = None
     if request.method == 'POST':
@@ -592,7 +587,7 @@ def edit_profile(request):
     return render(request, 'questions/edit_profile.html', {'title':_('Edit profile'),'form':form})
 
 @permission_required('questions.view_userlogview', raise_exception=True)
-def new_class(request):
+def classes(request):
     if request.method == 'POST':
         form = NewClassForm(request.POST)
         if form.is_valid():
@@ -600,10 +595,65 @@ def new_class(request):
             onlineclass.start_date = datetime.now()
             onlineclass.save()
             onlineclass.professor.set([Professor.objects.get(user=request.user)])
-            return redirect('start')
+            return redirect('classes')
     else:
         form = NewClassForm()
-    return render(request, 'questions/new_class.html', {'title':_('New class'),'form':form})
+    onlineclasses = OnlineClass.objects.filter(professor__user=request.user)
+    classes = []
+    for onlineclass in onlineclasses:
+        students = User.objects.filter(userprofile__user_class=onlineclass)
+        chapters = Deadline.objects.filter(onlineclass=onlineclass)
+        classes.append({'id': onlineclass.id,
+                        'name': onlineclass.name,
+                        'active': onlineclass.active,
+                        'class_code': onlineclass.class_code,
+                        'start_date': onlineclass.start_date,
+                        'students': students.count(),
+                        'chapters': chapters.count()})
+    return render(request, 'questions/classes.html', {'title': _('Classes'),
+                                                      'form': form,
+                                                      'classes': classes})
+
+@permission_required('questions.view_userlogview', raise_exception=True)
+def show_class(request, onlineclass):
+    if request.method == "POST":
+        form = DeadlineForm(request.POST)
+        if form.is_valid():
+            chapter = form.cleaned_data['chapter']
+            date = form.cleaned_data['date']
+            time = form.cleaned_data['time']
+            deadline = Deadline(chapter=chapter, deadline=date+' '+time+':59')
+            deadline.save()
+            onlineclass = OnlineClass.objects.get(id=onlineclass)
+            deadline.onlineclass.add(onlineclass)
+            deadline.save()
+            return redirect('show_class', onlineclass=onlineclass.id)
+    else:
+        form = DeadlineForm()
+    onlineclass = OnlineClass.objects.get(id=onlineclass)
+    students = User.objects.filter(userprofile__user_class=onlineclass)
+    deadlines = Deadline.objects.filter(onlineclass=onlineclass)
+    chapters = []
+    for deadline in deadlines:
+        chapter = Chapter.objects.get(deadline=deadline)
+        chapters.append({'chapter':chapter, 'deadline':deadline})
+    return render(request, 'questions/show_class.html', {'title': onlineclass.name,
+                                                         'students': students,
+                                                         'chapters': chapters,
+                                                         'onlineclass': onlineclass,
+                                                         'form': form})
+
+@login_required
+def delete_deadline(request, onlineclass, deadline):
+    Deadline.objects.filter(id=deadline).delete()
+    return redirect('show_class', onlineclass=onlineclass)
+
+@login_required
+def student_dashboard(request, id):
+    if request.user.id == id or request.user.has_perm('questions.view_userlogview'):
+        student = User.objects.get(id=id)
+        context = get_student_dashboard(student)
+        return render(request, 'questions/student_dashboard.html', context)
 
 class AttemptsList(APIView):
     def get(self, request, format=None):

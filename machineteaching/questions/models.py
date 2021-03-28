@@ -296,7 +296,7 @@ class Interactive(models.Model):
 
 class Recommendations(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
+    problem = models.ForeignKey(Problem, null=True, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     class Meta:

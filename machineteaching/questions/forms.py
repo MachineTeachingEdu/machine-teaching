@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 from questions.models import (UserLog, OnlineClass, Chapter, Problem,
-                              Solution, PageAccess, Interactive)
+                              Solution, PageAccess, Interactive, Deadline)
 import random
 
 class UserLogForm(ModelForm):
@@ -157,3 +157,14 @@ class NewClassForm(ModelForm):
     class Meta:
         model = OnlineClass
         fields = ['name', 'start_date']
+
+class DeadlineForm(forms.Form):
+    chapter = forms.ModelChoiceField(queryset=Chapter.objects.all(), label=_(u'Chapter'))
+    date = forms.CharField()
+    time = forms.CharField()
+
+    def __init__(self, *args, **kwargs):
+        super(DeadlineForm, self).__init__(*args, **kwargs)
+        self.fields['chapter'].required = True
+        self.fields['date'].required = True
+        self.fields['time'].required = True

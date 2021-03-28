@@ -26,7 +26,10 @@
               <a class="menu-item" href="{% url 'next' %}">{% blocktrans %}Current problem{% endblocktrans %}</a>
               <a class="menu-item" href="{% url 'past_problems' %}">{% blocktrans %}Past problems{% endblocktrans %}</a>
               <a class="menu-item" href="{% url 'chapters' %}">{% blocktrans %}Chapters{% endblocktrans %}</a>
-              <a class="menu-item" href="{% url 'show_outcome' %}">{% blocktrans %}Outcomes{% endblocktrans %}</a>
+              {% if perms.questions.view_userlogview %}
+              <a class="menu-item" href="{% url 'classes' %}">{% blocktrans %}Classes{% endblocktrans %}</a>
+              {% endif %}
+              <a class="menu-item" href="{% if perms.questions.view_userlogview %}{% url 'show_outcome' %}{% else %}{% url 'student_dashboard' id=user.id %}{% endif %}">{% blocktrans %}Outcomes{% endblocktrans %}</a>
 
             </ul>
             <li class="menu-separator"></li>
@@ -70,7 +73,6 @@
             {% endif %}<span>></span>
             <div class="card dropdown">
               {% if perms.questions.view_userlogview %}
-              <a class="link" href="{% url 'new_class' %}" style="height: 2.2rem; margin-bottom: 2rem;">{% blocktrans %}New class{% endblocktrans %}</a>
               <a class="link" href="{% url 'admin:index' %}" style="height: 2.2rem; margin-bottom: 2rem;">{% blocktrans %}Administration{% endblocktrans %}</a>
               {% else %}
               <a class="link" href="{% url 'edit_profile' %}" style="height: 2.2rem; margin-bottom: 2rem;">{% blocktrans %}Change class{% endblocktrans %}</a>

@@ -105,6 +105,9 @@
             url: '{% url "saveaccess" %}',
             data: {
                 'page': 'Student dashboard',
+                {% if perms.questions.view_userlogview %}
+                'name': '{{student_name}}',
+                {% endif %}
                 'csrfmiddlewaretoken': '{{ csrf_token }}'
             },
             dataType: 'json',
