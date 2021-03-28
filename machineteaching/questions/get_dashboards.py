@@ -7,7 +7,7 @@ from plotly.subplots import make_subplots
 from statistics import mean
 
 from questions.models import (Chapter, Problem, UserLog,
-                             UserLogView, User, ExerciseSet)
+                             UserLogView, User, ExerciseSet, Deadline)
 from django.utils.translation import gettext as _
 import logging
 
@@ -19,7 +19,7 @@ def get_student_dashboard(user):
     students = User.objects.filter(userprofile__user_class=onlineclass)
 
     # TODO: get logs after class has started to avoid logs from students that came from a previous class
-    chapters = Chapter.objects.filter(onlineclass=onlineclass)
+    chapters = Deadline.objects.filter(onlineclass=onlineclass).values_list('chapter', flat=True)
     problems = Problem.objects.filter(chapter__in=chapters)
 
     user_passed = UserLogView.objects.filter(user=user,
@@ -133,6 +133,7 @@ def get_student_dashboard(user):
     labels = []
     student_errors = []
     for chapter in chapters:
+        chapter = Chapter.objects.get(id=chapter)
         problems = Problem.objects.filter(chapter=chapter)
         passed = UserLogView.objects.filter(user=user,
                                             problem__in=problems,
@@ -245,9 +246,10 @@ def get_student_dashboard(user):
                                        font_family='Nunito'))
 
     # Get user chapters
-    chapters = Chapter.objects.filter(onlineclass=onlineclass)
+    chapters = Deadline.objects.filter(onlineclass=onlineclass).values_list('chapter', flat=True)
     chapter_table = []
     for chapter in chapters:
+        chapter = Chapter.objects.get(id=chapter)
         chapter_problems = Problem.objects.filter(chapter=chapter)
         userlog = UserLog.objects.filter(
               user=user,
@@ -368,9 +370,10 @@ def get_student_dashboard(user):
                              auto_open=False,
                              output_type='div')
 
-
+    student_name = user.first_name +' '+ user.last_name
     context = {
-        "title": _("Outcomes"),
+        "title": _("Outcomes") + ' - ' + student_name,
+        "student_name": student_name,
         "problems_plot": problems_plot,
         "problems_time": problems_time,
         "errors": average_errors,

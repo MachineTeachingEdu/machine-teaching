@@ -31,6 +31,10 @@ urlpatterns = [
     path('new', views.new_problem, name='new'),
     path('new/<int:chapter>', views.new_problem, name='new'),
     path('outcomes', views.show_outcome, name='show_outcome'),
+    path('student_dashboard/<int:id>', views.student_dashboard, name='student_dashboard'),
+    path('classes', views.classes, name='classes'),
+    path('show_class/<int:onlineclass>', views.show_class, name='show_class'),
+    path('delete_deadline/<int:onlineclass>/<int:deadline>', views.delete_deadline, name='delete_deadline'),
     path('solutions/<int:problem_id>/<int:class_id>', views.show_solutions, name='solutions'),
     path('terms_and_conditions', TemplateView.as_view(
         template_name='questions/conditions.html'),
@@ -41,6 +45,9 @@ urlpatterns = [
     path('about', TemplateView.as_view(
         template_name='questions/about.html'),
         name='about'),
+
+    path('attempts/', views.AttemptsList.as_view(), name='attempts'),
+    path('recommendations/', views.Recommendations.as_view(), name='recommendations'),
 
     # DEBUG PURPOSES
     path('<int:problem_id>/', views.show_problem, name='show_problem'),
