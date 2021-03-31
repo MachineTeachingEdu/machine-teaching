@@ -22,6 +22,7 @@ from datetime import datetime
 from questions.models import (Problem, Solution, UserLog, UserProfile,
                               Professor, OnlineClass, UserLogView, Chapter,
                               Deadline, UserLogError, ExerciseSet, Recommendations)
+from questions.models import Recommendations as RecommendationsModel
 from questions.forms import (UserLogForm, SignUpForm, OutcomeForm, ChapterForm,
                              ProblemForm, SolutionForm, PageAccessForm, InteractiveForm,
                              EditProfileForm, NewClassForm, DeadlineForm)
@@ -631,7 +632,7 @@ def show_class(request, onlineclass):
     else:
         form = DeadlineForm()
     onlineclass = OnlineClass.objects.get(id=onlineclass)
-    students = User.objects.filter(userprofile__user_class=onlineclass)
+    students = User.objects.filter(userprofile__user_class=onlineclass).order_by(Lower('first_name').asc(), Lower('last_name').asc())
     deadlines = Deadline.objects.filter(onlineclass=onlineclass)
     chapters = []
     for deadline in deadlines:
@@ -648,13 +649,25 @@ def delete_deadline(request, onlineclass, deadline):
     Deadline.objects.filter(id=deadline).delete()
     return redirect('show_class', onlineclass=onlineclass)
 
+def class_active(request):
+    if request.method == 'POST':
+        onlineclass = OnlineClass.objects.get(id=int(request.POST['class_id']))
+        if onlineclass.active:
+            onlineclass.active = False
+        else:
+            onlineclass.active = True
+        onlineclass.save()
+        return HttpResponse('')
+
 @login_required
-def student_dashboard(request, id):
+def student_dashboard(request, id=None):
     if request.user.id == id or request.user.has_perm('questions.view_userlogview'):
         student = User.objects.get(id=id)
         context = get_student_dashboard(student)
         return render(request, 'questions/student_dashboard.html', context)
+    return redirect('student_dashboard', id=request.user.id)
 
+<<<<<<< Updated upstream
 # class AttemptsList(APIView):
 #     def get(self, request, format=None):
 #         date = request.query_params.get('date')
@@ -680,3 +693,34 @@ def student_dashboard(request, id):
 #             serializer.save()
 #             return Response(serializer.data, status=status.HTTP_201_CREATED)
 #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+=======
+class AttemptsList(APIView):
+    def get(self, request, format=None):
+        date = request.query_params.get('date')
+        logs = UserLog.objects.all()
+        if date:
+            date = timezone.make_aware(datetime.strptime(date,'%m-%d-%Y'))
+            logs = UserLog.objects.filter(timestamp__gte=date)
+        problems = Problem.objects.all().values_list('id')
+        users = User.objects.all().values_list('id')
+        content = []
+        for problem in problems:
+            problem = problem[0]
+            for user in users:
+                user = user[0]
+                attempts = logs.filter(user_id=user, problem_id=problem).count()
+                content.append({'problem_id':problem, 'user_id':user, 'attempts':attempts})
+        return Response(content)
+
+class Recommendations(APIView):
+    def get(self, request, format=None):
+        recommendations = RecommendationsModel.objects.all()
+        serializer = RecommendationSerializer(recommendations, many=True)
+        return Response(serializer.data)
+    def post(self, request, format=None):
+        serializer = RecommendationSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+>>>>>>> Stashed changes
