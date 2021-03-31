@@ -3,19 +3,32 @@
 {% load i18n %}
 
 {% block content %}
-<div class="classes" style="display: block;">
+<div class="classes" style="display: block; padding-top: 1rem">
     <div style="display: flex; flex-wrap: wrap;">
+        <div class="card" style="width: 100%; margin-left: 2rem; display: flex; justify-content: space-between;">
+            <span style="font-size: 23px; display: block;">{% blocktrans %}Professor{% endblocktrans %}: {{user.first_name}} {{user.last_name}}</span>
+            <a class="link inactive_btn" onclick="filter('inactive')">{% blocktrans %}Show inactive classes{% endblocktrans %}</a>
+            <a class="link active_btn" onclick="filter('active')" style="display: none">{% blocktrans %}Hide inactive classes{% endblocktrans %}</a>
+        </div>
     {% for class in classes %}
-    <div class="card class" style="width: calc(50% - 2rem); margin-left: 2rem; height: 11rem;">
+    <div class="card class card_{{class.id}} class_{{class.active}}" style="width: calc(50% - 2rem); margin-left: 2rem; height: 11rem;">
         <h3 style="margin-bottom: 0.5rem">{{class.name}}</h3>
         <span class="class_code">{{class.class_code}}</span><br>
         {% blocktrans %}Students{% endblocktrans %}: {{class.students}}<br>{% blocktrans %}Chapters{% endblocktrans %}: {{class.chapters}}<br>{% blocktrans %}Start date{% endblocktrans %}: {{class.start_date}}
         <a href="{% url 'show_class' onlineclass=class.id %}"><button class="primary class_btn">{% blocktrans %}Manage class{% endblocktrans %}</button></a>
-        {% if class.active %}
-        <span class="badge success">{% blocktrans %}Active{% endblocktrans %}</span>
-        {% else %}
-        <span class="badge danger">{% blocktrans %}Inactive{% endblocktrans %}</span>
-        {% endif %}
+        <span class="class_active" id="active_{{class.id}}">
+        <span style="margin-right: 1rem" id="{% if class.active %}active{% else %}inactive{% endif %}">
+            {% if class.active %}
+            <span class="badge success">{% blocktrans %}Active{% endblocktrans %}</span>
+            {% else %}
+            <span class="badge danger">{% blocktrans %}Inactive{% endblocktrans %}</span>
+            {% endif %}
+        </span>
+        <label class="switch">
+            <input type="checkbox" onchange="classToggle('{{class.id}}')" {% if class.active %}checked{% endif %}>
+            <span class="slider round"></span>
+        </label>
+        </span>
     </div>
     {% endfor %}
 	<div class="card" style="width: calc(50% - 2rem); margin-left: 2rem; height: 11rem;">
@@ -32,3 +45,39 @@
     </div>
 </div>
 {% endblock %}
+{% block javascript %}
+<script type="text/javascript">
+    function classToggle(class_id) {
+        $.ajax({
+            url: "{% url 'class_active' %}",
+            type: "POST",
+            data: {'class_id': class_id,
+                   'csrfmiddlewaretoken': '{{ csrf_token }}'}
+        });
+        var active = $('#active_'+class_id+' > span').attr('id');
+        if (active == 'active') {
+            $('#active_'+class_id+' > span').html('<span class="badge danger">{% blocktrans %}Inactive{% endblocktrans %}</span>');
+            $('#active_'+class_id+' > span').attr('id', 'inactive')
+            $('.card_'+class_id).attr('class','card class card_'+class_id+' class_False');
+        } else {
+            $('#active_'+class_id+' > span').html('<span class="badge success">{% blocktrans %}Active{% endblocktrans %}</span>');
+            $('#active_'+class_id+' > span').attr('id', 'active');
+            $('.card_'+class_id).attr('class','card class card_'+class_id+' class_True');
+        }
+    };
+
+    $('.class_False').hide();
+    function filter(status) {
+        if (status == 'inactive') {
+            $('.class_False').show();
+            $('.inactive_btn').hide();
+            $('.active_btn').show();
+        } else {
+            $('.class_False').hide();
+            $('.inactive_btn').show();
+            $('.active_btn').hide();
+        }
+    };
+</script>
+{% endblock %}
+

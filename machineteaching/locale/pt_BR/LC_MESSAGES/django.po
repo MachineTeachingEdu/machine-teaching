@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-28 16:52-0300\n"
+"POT-Creation-Date: 2021-03-31 15:52-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -171,7 +171,7 @@ msgid "Time (days)"
 msgstr "Tempo (dias)"
 
 #: questions/get_dashboards.py:375 questions/templates/questions/base.html:32
-#: questions/views.py:408
+#: questions/views.py:409
 msgid "Outcomes"
 msgstr "Resultados"
 
@@ -185,7 +185,7 @@ msgstr "Problema"
 #: questions/templates/questions/finished.html:11
 #: questions/templates/questions/show_class.html:8
 #: questions/templates/questions/student_dashboard.html:62
-#: questions/views.py:230
+#: questions/views.py:231
 msgid "Chapters"
 msgstr "Aulas"
 
@@ -236,7 +236,7 @@ msgstr "Perfis dos usuários"
 
 #: questions/models.py:204 questions/templates/questions/new_problem.html:62
 #: questions/templates/questions/past_problems.html:37
-#: questions/templates/questions/past_solutions.html:47 questions/views.py:416
+#: questions/templates/questions/past_solutions.html:47 questions/views.py:417
 msgid "Solution"
 msgstr "Solução"
 
@@ -297,7 +297,7 @@ msgstr "Começar"
 #: questions/templates/index.html:46
 #: questions/templates/registration/login.html:34
 #: questions/templates/registration/signup.html:7
-#: questions/templates/registration/signup.html:131 questions/views.py:98
+#: questions/templates/registration/signup.html:131 questions/views.py:99
 msgid "Create account"
 msgstr "Criar conta"
 
@@ -360,11 +360,11 @@ msgstr ""
 msgid "Current problem"
 msgstr "Problema atual"
 
-#: questions/templates/questions/base.html:27 questions/views.py:166
+#: questions/templates/questions/base.html:27 questions/views.py:167
 msgid "Past problems"
 msgstr "Problemas passados"
 
-#: questions/templates/questions/base.html:30 questions/views.py:613
+#: questions/templates/questions/base.html:30 questions/views.py:614
 msgid "Classes"
 msgstr "Turmas"
 
@@ -445,13 +445,19 @@ msgstr "Adicionar"
 msgid "Search"
 msgstr "Pesquisar"
 
-#: questions/templates/questions/classes.html:12
-msgid "Active"
-msgstr ""
+#: questions/templates/questions/classes.html:9
+#, fuzzy
+#| msgid "Professors"
+msgid "Professor"
+msgstr "Professores"
 
-#: questions/templates/questions/classes.html:14
-msgid "Inactive"
-msgstr ""
+#: questions/templates/questions/classes.html:10
+msgid "Show inactive classes"
+msgstr "Mostrar turmas inativas"
+
+#: questions/templates/questions/classes.html:11
+msgid "Hide inactive classes"
+msgstr "Esconder turmas inativas"
 
 #: questions/templates/questions/classes.html:17
 #: questions/templates/questions/outcomes.html:32
@@ -468,14 +474,24 @@ msgid "Manage class"
 msgstr "Gerenciar turma"
 
 #: questions/templates/questions/classes.html:22
+#: questions/templates/questions/classes.html:63
+msgid "Active"
+msgstr ""
+
+#: questions/templates/questions/classes.html:24
+#: questions/templates/questions/classes.html:59
+msgid "Inactive"
+msgstr ""
+
+#: questions/templates/questions/classes.html:35
 msgid "New class"
 msgstr "Nova turma"
 
-#: questions/templates/questions/classes.html:28
+#: questions/templates/questions/classes.html:41
 msgid "Class name"
 msgstr "Nome da turma"
 
-#: questions/templates/questions/classes.html:29
+#: questions/templates/questions/classes.html:42
 msgid "Create"
 msgstr "Criar"
 
@@ -833,15 +849,15 @@ msgstr ""
 "númerica.\n"
 "                                "
 
-#: questions/views.py:139
+#: questions/views.py:140
 msgid "Finished"
 msgstr "Finalizado"
 
-#: questions/views.py:548
+#: questions/views.py:549
 msgid "New problem"
 msgstr "Novo problema"
 
-#: questions/views.py:587
+#: questions/views.py:588
 #, fuzzy
 #| msgid "User profile"
 msgid "Edit profile"

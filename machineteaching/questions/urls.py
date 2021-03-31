@@ -31,9 +31,11 @@ urlpatterns = [
     path('new', views.new_problem, name='new'),
     path('new/<int:chapter>', views.new_problem, name='new'),
     path('outcomes', views.show_outcome, name='show_outcome'),
+    path('student_dashboard', views.student_dashboard, name='student_dashboard'),
     path('student_dashboard/<int:id>', views.student_dashboard, name='student_dashboard'),
     path('classes', views.classes, name='classes'),
     path('show_class/<int:onlineclass>', views.show_class, name='show_class'),
+    path('class_active', views.class_active, name='class_active'),
     path('delete_deadline/<int:onlineclass>/<int:deadline>', views.delete_deadline, name='delete_deadline'),
     path('solutions/<int:problem_id>/<int:class_id>', views.show_solutions, name='solutions'),
     path('terms_and_conditions', TemplateView.as_view(

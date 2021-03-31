@@ -151,7 +151,7 @@ def get_student_dashboard(user):
             student_errors.append(chapter_errors)
             labels.append(chapter.label)
     
-        average_errors = 0
+    average_errors = 0
     if len(student_errors) != 0:
         average_errors = round(mean(student_errors))
 
