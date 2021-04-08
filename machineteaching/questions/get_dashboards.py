@@ -14,7 +14,13 @@ import logging
 LOGGER = logging.getLogger(__name__)
 
 
-def get_student_dashboard(user):
+def dashboard(user, professor=False):
+    user_label = _("You")
+    class_label = _("Your class")
+    if professor:
+        user_label = _("Student")
+        class_label = _("Class")
+
     onlineclass = user.userprofile.user_class
     students = User.objects.filter(userprofile__user_class=onlineclass)
 
@@ -65,7 +71,7 @@ def get_student_dashboard(user):
     fig.add_trace(go.Pie(labels=labels,
                          values=student_values, 
                          title=dict(
-                            text=_("You"),
+                            text=user_label,
                             font=dict(family="Nunito", size=40, color='rgb(76,83,90)')),
                          textinfo="none",
                          hole=.9,
@@ -75,7 +81,7 @@ def get_student_dashboard(user):
     fig.add_trace(go.Pie(labels=labels,
                          values=class_values, 
                          title=dict(
-                            text=_("Your class"),
+                            text=class_label,
                             font=dict(family="Nunito", size=17, color='rgb(76,83,90)')),
                          textinfo="none",
                          hole=.85,
@@ -191,7 +197,7 @@ def get_student_dashboard(user):
     # Acho que vale a pena criar um funcao para criar esses plots tb
     fig2 = go.Figure()
 
-    fig2.add_trace(go.Scatter(name=_('Your class'),
+    fig2.add_trace(go.Scatter(name=class_label,
                               x=labels,
                               y=class_errors,
                               line_shape='linear',
@@ -199,7 +205,7 @@ def get_student_dashboard(user):
                               marker = dict(size=15, color='rgb(200,200,200)'),
                               hoverinfo='none'))
 
-    fig2.add_trace(go.Scatter(name=_('You'),
+    fig2.add_trace(go.Scatter(name=user_label,
                               x=labels,
                               y=student_errors,
                               line_shape='linear',
@@ -306,7 +312,7 @@ def get_student_dashboard(user):
     #generating times plot
     fig3 = go.Figure()
 
-    fig3.add_trace(go.Scatter(name=_('Your class'),
+    fig3.add_trace(go.Scatter(name=class_label,
                               x=labels,
                               y=class_times,
                               line_shape='linear',
@@ -314,7 +320,7 @@ def get_student_dashboard(user):
                               marker = dict(size=15, color='rgb(200,200,200)'),
                               hoverinfo='none'))
     
-    fig3.add_trace(go.Scatter(name=_('You'),
+    fig3.add_trace(go.Scatter(name=user_label,
                               x=labels,
                               y=student_times,
                               line_shape='linear',

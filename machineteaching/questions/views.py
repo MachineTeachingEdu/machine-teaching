@@ -29,7 +29,7 @@ from questions.forms import (UserLogForm, SignUpForm, OutcomeForm, ChapterForm,
                              EditProfileForm, NewClassForm, DeadlineForm)
 from questions.serializers import RecommendationSerializer
 from questions.get_problem import get_problem
-from questions.get_dashboards import get_student_dashboard
+from questions.get_dashboards import dashboard
 from questions.strategies import STRATEGIES_FUNC
 import csv
 
@@ -164,7 +164,7 @@ def get_past_problems(request):
 
 @permission_required('questions.view_userlogview', raise_exception=True)
 @login_required
-def get_student_solutions(request, id, chapter=None, problem=None):
+def student_solutions(request, id, chapter=None, problem=None):
     user = User.objects.get(pk=id)
     logs = UserLog.objects.filter(
         user_id=id, timestamp__gte=user.userprofile.user_class.start_date)
@@ -400,7 +400,7 @@ def get_user_solution(request, id):
     return render(request, 'questions/past_solutions.html', context)
 
 @permission_required('questions.view_userlogview', raise_exception=True)
-def show_solutions(request, problem_id, class_id):
+def get_problem_solutions(request, problem_id, class_id):
     logs = UserLog.objects.filter(
                 user__userprofile__user_class=class_id,
                 problem_id=problem_id).order_by('user__first_name',
@@ -429,9 +429,34 @@ def show_solutions(request, problem_id, class_id):
             student['logs'].append(log)
         students.append(student)
     problem = get_problem(problem_id)
-    return render(request, 'questions/solutions.html', {'title': problem['problem'].title,
+    return render(request, 'questions/problem_solutions.html', {'title': problem['problem'].title,
                                                         'problem': problem,
                                                         'students': students})
+
+@permission_required('questions.view_userlogview', raise_exception=True)
+def get_student_solutions(request, id, chapter):
+    student = User.objects.get(id=id)
+    chapter = Chapter.objects.get(id=chapter)
+    logs = UserLog.objects.filter(user=student, problem__chapter=chapter).order_by(
+                                                'problem__id',
+                                                '-timestamp').values('problem',
+                                                                     'solution',
+                                                                     'outcome',
+                                                                     'timestamp',
+                                                                     'test_case_hits')
+    problems = []
+    if logs.count():
+        current_problem = logs[0]["problem"]
+        problem = {'problem':Problem.objects.get(id=current_problem),'logs':[]}
+        for log in logs:
+            if log["problem"] != current_problem:
+                problems.append(problem)
+                current_problem = log["problem"]
+                problem = {'problem':Problem.objects.get(id=current_problem),'logs':[]}
+            problem['logs'].append(log)
+        problems.append(problem)
+    return render(request, 'questions/student_solutions.html', {'title':student.first_name+' '+student.last_name+' - '+chapter.label,
+                                                        'problems': problems})
 
 @login_required
 def update_strategy(request):
@@ -630,12 +655,15 @@ def class_active(request):
         return HttpResponse('')
 
 @login_required
-def student_dashboard(request, id=None):
-    if request.user.id == id or request.user.has_perm('questions.view_userlogview'):
-        student = User.objects.get(id=id)
-        context = get_student_dashboard(student)
-        return render(request, 'questions/student_dashboard.html', context)
-    return redirect('student_dashboard', id=request.user.id)
+def get_dashboard(request):
+    context = dashboard(request.user)
+    return render(request, 'questions/student_dashboard.html', context)
+
+@permission_required('questions.view_userlogview', raise_exception=True)
+def get_student_dashboard(request, id):
+    user = User.objects.get(id=id)
+    context = dashboard(user, professor=True)
+    return render(request, 'questions/student_dashboard.html', context)
 
 class AttemptsList(APIView):
     def get(self, request, format=None):

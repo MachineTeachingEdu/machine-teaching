@@ -1,0 +1,80 @@
+{% extends "questions/base.html" %}
+{% load static %}
+{% load i18n %}
+{% block content %}
+<div class="col col-12">
+  <div class="card">
+{% if students %}
+<div class="solutions">
+    {% for student in students %}
+        <div>
+            <h3>{{ student.name }} ({{ student.logs | length }})</h3>
+        </div>
+        <div style="display: flex; align-items: center;">
+        {% for log in student.logs %}
+        <div class="solution">
+            <span style="display:inline-block;">{{ log.timestamp }}</span>
+            {% if log.outcome == "P" %}
+            <span class="badge success">{% trans "Passed" %}</span>
+            {% elif log.outcome == "F" %}
+            <span class="badge danger">{% trans "Failed" %}</span>
+            {% elif log.outcome == "S" %}
+            <span class="badge warning">{% trans "Skipped" %}</span>
+            {% endif %}
+            <div style="width: 100%; margin-top: 1rem; text-align: center;">
+                <div>{% blocktrans %}Test cases{% endblocktrans %}</div>
+                <div style="display: flex;">{% if log.test_case_hits != None %}{{ log.test_case_hits }}%{% endif %}
+                <div class="task-progress2" style="{% if log.test_case_hits != None %}background: var(--red);{% endif %} width: calc(100% - 5rem); height: 0.5rem; margin-left: 1rem; margin: auto;">
+                    <div style="width: {{ log.test_case_hits }}%; background: var(--green);"></div></div>
+                </div>
+            </div>
+            <textarea class="code">{{ log.solution }}</textarea>
+        </div>
+        {% endfor %}
+        </div>
+    {% endfor %}
+</div>
+</div>
+</div>
+{% else %}
+<span style="text-align: center;"><h2>{% blocktrans %}No solution found{% endblocktrans %}</h2></span>
+{% endif %}
+{% endblock %}
+{% block javascript %}
+<script>
+
+    // Save page access
+    $(document).ready(function() {
+        $.ajax({
+            type: "POST",
+            url: '{% url "saveaccess" %}',
+            data: {
+                'page': 'Problem solutions',
+                'name': '{{title}}',
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            dataType: 'json',
+            success: function(data){
+                console.log('status: ' + data['status']);
+            },
+            error: function (request, status, error) {
+                console.log(request.status);
+            }
+        });
+    });
+    var textareas = document.querySelectorAll(".code");
+
+    for (var i = 0; i < textareas.length; i++) {
+        editor = CodeMirror.fromTextArea(textareas[i], {
+            mode: {name: "python",
+                version: 2,
+                singleLineStringErrors: false},
+            lineNumbers: true,
+            indentUnit: 4,
+            tabMode: "spaces",
+            matchBrackets: true
+        });
+    editor.setSize(500,300);}
+
+</script>
+{% endblock %}

@@ -4,14 +4,14 @@
 {% block content %}
 <div class="col col-12">
   <div class="card">
-{% if students %}
+{% if problems %}
 <div class="solutions">
-    {% for student in students %}
+    {% for problem in problems %}
         <div>
-            <h3>{{ student.name }} ({{ student.logs | length }})</h3>
+            <h3>{{ problem.problem.title }} ({{ problem.logs | length }})</h3>
         </div>
         <div style="display: flex; align-items: center;">
-        {% for log in student.logs %}
+        {% for log in problem.logs %}
         <div class="solution">
             <span style="display:inline-block;">{{ log.timestamp }}</span>
             {% if log.outcome == "P" %}
@@ -36,6 +36,8 @@
 </div>
 </div>
 </div>
+{% else %}
+<span style="text-align: center;"><h2>{% blocktrans %}No solution found{% endblocktrans %}</h2></span>
 {% endif %}
 {% endblock %}
 {% block javascript %}
