@@ -2,7 +2,7 @@ from rest_framework import serializers
 from questions.models import Recommendations
 
 
-class RecommendationSerializer(serializers.Serializer):
+class RecommendationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recommendations
         fields = ['user', 'problem', 'timestamp']

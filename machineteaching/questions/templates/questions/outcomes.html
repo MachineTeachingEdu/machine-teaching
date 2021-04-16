@@ -31,7 +31,7 @@
     <tr>
         <th class="searchable">{% trans 'Students' %}</th>
         {% for item in problems %}
-        <th><a class="link" href="{% if item.question_type == "C" %}{% url 'solutions' problem_id=item.id class_id=class.id %}{% else%}#{% endif %}">{{ item.title }}</a></th>
+        <th><a class="link" href="{% if item.question_type == "C" %}{% url 'problem_solutions' problem_id=item.id class_id=class.id %}{% else%}#{% endif %}">{{ item.title }}</a></th>
         {% endfor %}
         <th>{% trans "Total" %}</th>
     </tr>

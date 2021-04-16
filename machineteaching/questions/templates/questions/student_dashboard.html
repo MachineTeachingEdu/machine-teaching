@@ -23,11 +23,23 @@
 	    		<div style="display: flex; justify-content: space-around; align-items: center;">
 	    			<div class="student">
 	    		        <h1>{{ problems_time.student }} min</h1>
-	    		        <h2>{% blocktrans %}You{% endblocktrans %}</h2>
+                        <h2>
+                        {% if perms.questions.view_userlogview %}
+                        {% blocktrans %}Student{% endblocktrans %}
+                        {% else %}
+                        {% blocktrans %}You{% endblocktrans %}
+                        {% endif %}
+                        </h2>
 	    		    </div>
 	    		    <div class="class">
 	    		        <h1>{{ problems_time.class }} min</h1>
-	    		        <h2>{% blocktrans %}Your class{% endblocktrans %}</h2>
+	    		        <h2>
+                        {% if perms.questions.view_userlogview %}
+                        {% blocktrans %}Class{% endblocktrans %}
+                        {% else %}
+                        {% blocktrans %}Your class{% endblocktrans %}
+                        {% endif %}
+                        </h2>
 	    		    </div>
 	    		</div>
 	    		<div></div>

@@ -35,7 +35,7 @@
                 {% for message in form.date.errors %}
                 <span id="error">{{ message }}</span></br>
                 {% endfor %}
-                <input type="text" name="date" placeholder="{% blocktrans %}Date (yyyy-mm-dd){% endblocktrans %}" required style="width: calc(50% - 1rem);">
+                <input type="date" name="date" placeholder="{% blocktrans %}Date (yyyy-mm-dd){% endblocktrans %}" required style="width: calc(50% - 1rem);">
                 {% for message in form.time.errors %}
                 <span id="error">{{ message }}</span></br>
                 {% endfor %}
