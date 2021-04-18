@@ -29,7 +29,7 @@
               {% if perms.questions.view_userlogview %}
               <a class="menu-item" href="{% url 'classes' %}">{% blocktrans %}Classes{% endblocktrans %}</a>
               {% endif %}
-              <a class="menu-item" href="{% if perms.questions.view_userlogview %}{% url 'show_outcome' %}{% else %}{% url 'student_dashboard' id=user.id %}{% endif %}">{% blocktrans %}Outcomes{% endblocktrans %}</a>
+              <a class="menu-item" href="{% if perms.questions.view_userlogview %}{% url 'show_outcome' %}{% else %}{% url 'dashboard' %}{% endif %}">{% blocktrans %}Outcomes{% endblocktrans %}</a>
 
             </ul>
             <li class="menu-separator"></li>
