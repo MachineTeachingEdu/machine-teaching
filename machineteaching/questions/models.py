@@ -303,6 +303,15 @@ class Recommendations(models.Model):
         verbose_name = _('Recommendations')
 
 
+class Comment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    userlog = models.ForeignKey(UserLog, on_delete=models.CASCADE)
+    content = models.TextField(blank=False)
+
+    class Meta:
+        verbose_name = _('Comment')
+
+
 @receiver(post_save, sender=User)
 def create_user_model(sender, instance, created, **kwargs):
     if created:

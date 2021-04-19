@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 from questions.models import (UserLog, OnlineClass, Chapter, Problem,
-                              Solution, PageAccess, Interactive, Deadline)
+                              Solution, PageAccess, Interactive, Deadline, Comment)
 import random
 
 class UserLogForm(ModelForm):
@@ -168,3 +168,8 @@ class DeadlineForm(forms.Form):
         self.fields['chapter'].required = True
         self.fields['date'].required = True
         self.fields['time'].required = True
+
+class CommentForm(ModelForm):
+    class Meta:
+        model = Comment
+        exclude = ['user', 'userlog']

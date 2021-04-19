@@ -22,11 +22,10 @@ import time
 from datetime import datetime
 from questions.models import (Problem, Solution, UserLog, UserProfile,
                               Professor, OnlineClass, UserLogView, Chapter,
-                              Deadline, UserLogError, ExerciseSet, Recommendations)
-from questions.models import Recommendations as RecommendationsModel
+                              Deadline, UserLogError, ExerciseSet, Recommendations, Comment)
 from questions.forms import (UserLogForm, SignUpForm, OutcomeForm, ChapterForm,
                              ProblemForm, SolutionForm, PageAccessForm, InteractiveForm,
-                             EditProfileForm, NewClassForm, DeadlineForm)
+                             EditProfileForm, NewClassForm, DeadlineForm, CommentForm)
 from questions.serializers import RecommendationSerializer
 from questions.get_problem import get_problem
 from questions.get_dashboards import dashboard
@@ -155,16 +154,53 @@ def save_user_log(request):
 @login_required
 def get_past_problems(request):
     logs = UserLog.objects.filter(user=request.user).order_by('-timestamp')
+    passed = logs.filter(outcome='P').values_list('problem_id', flat=True
+                                                  ).distinct()
+    skipped = logs.filter(outcome='S').values_list('problem_id', flat=True
+                                                  ).distinct()
+    failed = logs.filter(outcome='F').values_list('problem_id', flat=True
+                                                  ).distinct()
+
+    log_problems = logs.values_list('problem', flat=True)
+    problems = []
+    for pk in log_problems:
+        if pk not in problems:
+            problems.append(pk)
+
     past_problems = []
-    for log in logs:
-        error = UserLogError.objects.filter(userlog=log).values_list('error')
-        past_problems.append({'log': log, 'error': error})
+    if len(problems):
+        for problem_id in problems:
+            if problem_id in passed:
+                outcome = 'P'
+            elif problem_id in failed:
+                outcome = 'F'
+            else:
+                outcome = 'S'
+            problem = Problem.objects.get(id=problem_id)
+            exerciseset = ExerciseSet.objects.filter(problem=problem).values_list('chapter', flat=True)
+            onlineclass = request.user.userprofile.user_class
+            available_chapters = Deadline.objects.filter(onlineclass=onlineclass
+                                                ).values_list('chapter', flat=True)
+            for chapter in exerciseset:
+                if chapter in available_chapters:
+                    problem_chapter = Chapter.objects.get(id=chapter)
+                else:
+                    problem_chapter = ''
+            problem_logs = logs.filter(problem=problem)
+            comments = Comment.objects.filter(userlog__in=problem_logs).count()
+            last = problem_logs.values_list('timestamp', flat=True)[0]
+            past_problems.append({'problem': problem,
+                                  'chapter': problem_chapter,
+                                  'comments': comments, 
+                                  'last_submission': last, 
+                                  'outcome': outcome, 
+                                  'attempts': len(problem_logs)})
     return render(request, 'questions/past_problems.html', {
-        'title': _('Past problems'), 'past_problems': past_problems, 'user': request.user})
+        'title': _('Past problems'), 'problems': past_problems, 'user': request.user})
 
 @permission_required('questions.view_userlogview', raise_exception=True)
 @login_required
-def student_solutions(request, id, chapter=None, problem=None):
+def get_student_logs(request, id, chapter=None, problem=None):
     user = User.objects.get(pk=id)
     logs = UserLog.objects.filter(
         user_id=id, timestamp__gte=user.userprofile.user_class.start_date)
@@ -176,9 +212,34 @@ def student_solutions(request, id, chapter=None, problem=None):
     for log in logs.order_by('-timestamp'):
         error = UserLogError.objects.filter(userlog=log).values_list('error')
         past_problems.append({'log': log, 'error': error})
-    return render(request, 'questions/past_problems.html', {
+    return render(request, 'questions/student_logs.html', {
         'title': user.first_name+' '+user.last_name, 'past_problems': past_problems, 'student': user})
 
+@permission_required('questions.view_userlogview', raise_exception=True)
+def get_student_solutions(request, id, chapter):
+    student = User.objects.get(id=id)
+    chapter = Chapter.objects.get(id=chapter)
+    logs = UserLog.objects.filter(user=student, problem__chapter=chapter).order_by(
+                                                'problem__id',
+                                                '-timestamp').values('problem',
+                                                                     'solution',
+                                                                     'outcome',
+                                                                     'timestamp',
+                                                                     'test_case_hits',
+                                                                     'id')
+    problems = []
+    if logs.count():
+        current_problem = logs[0]["problem"]
+        problem = {'problem':Problem.objects.get(id=current_problem),'logs':[]}
+        for log in logs:
+            if log["problem"] != current_problem:
+                problems.append(problem)
+                current_problem = log["problem"]
+                problem = {'problem':Problem.objects.get(id=current_problem),'logs':[]}
+            problem['logs'].append(log)
+        problems.append(problem)
+    return render(request, 'questions/student_solutions.html', {'title':student.first_name+' '+student.last_name+' - '+chapter.label,
+                                                        'problems': problems})
 @login_required
 def get_chapter_problems(request):
     onlineclass = request.user.userprofile.user_class
@@ -226,6 +287,16 @@ def get_chapter_problems(request):
         'failed': failed,
         # 'available_chapters': available_chapters
         })
+
+def get_past_solutions(request, problem_id):
+    problem = Problem.objects.get(id=problem_id)
+    logs = UserLog.objects.filter(problem=problem).order_by('-timestamp')
+    solutions = []
+    for log in logs:
+        comments = Comment.objects.filter(userlog=log)
+        solutions.append({'log':log,'comments':comments})
+    return render(request, 'questions/problem_solutions.html', {'problem': problem, 'solutions': solutions})
+
 
 @login_required
 def show_chapter(request, chapter):
@@ -396,7 +467,18 @@ def show_outcome(request):
 def get_user_solution(request, id):
     userlog = UserLog.objects.get(pk=id)
     context = get_problem(userlog.problem_id)
-    context.update({'log': userlog, 'title': _('Solution')})
+    comments = Comment.objects.filter(userlog=userlog)
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.userlog = userlog
+            comment.save()
+            return redirect('past_solutions', id=userlog.id)
+    else:
+        form = CommentForm()
+    context.update({'log': userlog, 'title': _('Solution'), 'comments': comments, 'form':form})
     return render(request, 'questions/past_solutions.html', context)
 
 @permission_required('questions.view_userlogview', raise_exception=True)
@@ -412,7 +494,8 @@ def get_problem_solutions(request, problem_id, class_id):
                                                                      'solution',
                                                                      'outcome',
                                                                      'timestamp',
-                                                                     'test_case_hits')
+                                                                     'test_case_hits',
+                                                                     'id')
     students = []
     if logs.count():
         current_student = logs[0]["user_id"]
@@ -428,9 +511,11 @@ def get_problem_solutions(request, problem_id, class_id):
                 student = {'name':student_name,'logs':[]}
             student['logs'].append(log)
         students.append(student)
-    problem = get_problem(problem_id)
-    return render(request, 'questions/problem_solutions.html', {'title': problem['problem'].title,
+    problem = Problem.objects.get(id=problem_id)
+    onlineclass = OnlineClass.objects.get(id=class_id)
+    return render(request, 'questions/solutions.html', {'title': _('Problem solutions'),
                                                         'problem': problem,
+                                                        'onlineclass': onlineclass,
                                                         'students': students})
 
 @permission_required('questions.view_userlogview', raise_exception=True)
@@ -443,7 +528,8 @@ def get_student_solutions(request, id, chapter):
                                                                      'solution',
                                                                      'outcome',
                                                                      'timestamp',
-                                                                     'test_case_hits')
+                                                                     'test_case_hits',
+                                                                     'id')
     problems = []
     if logs.count():
         current_problem = logs[0]["problem"]
@@ -455,8 +541,10 @@ def get_student_solutions(request, id, chapter):
                 problem = {'problem':Problem.objects.get(id=current_problem),'logs':[]}
             problem['logs'].append(log)
         problems.append(problem)
-    return render(request, 'questions/student_solutions.html', {'title':student.first_name+' '+student.last_name+' - '+chapter.label,
-                                                        'problems': problems})
+    return render(request, 'questions/student_solutions.html', {'title':_('Student solutions'),
+                                                        'problems': problems,
+                                                        'student': student,
+                                                        'chapter': chapter})
 
 @login_required
 def update_strategy(request):
@@ -661,8 +749,9 @@ def get_dashboard(request):
 
 @permission_required('questions.view_userlogview', raise_exception=True)
 def get_student_dashboard(request, id):
-    user = User.objects.get(id=id)
-    context = dashboard(user, professor=True)
+    student = User.objects.get(id=id)
+    context = dashboard(student, professor=True)
+    context.update({'student': student})
     return render(request, 'questions/student_dashboard.html', context)
 
 class AttemptsList(APIView):

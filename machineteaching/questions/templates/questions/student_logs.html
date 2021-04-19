@@ -1,7 +1,6 @@
 {% extends "questions/base.html" %}
 {% load static %}
 {% load i18n %}
-{% get_current_language as language %}
 {% block content %}
 <div class="col col-12">
   <div class="card">
@@ -30,43 +29,48 @@
     <table id="past-problems">
     <thead>
         <th class="searchable">{% trans "Title" %}</th>
-        <th>{% trans "Chapter" %}</th>
-        <th>{% trans "Status " %}</th>
-        <th class="searchable">{% trans "Comments" %}</th>
-        <th>{% trans "Attempts" %}</th>
-        <th>{% trans "Last submission" %}</th>
-        <th>{% trans "Solutions" %}</th>
+        <th>{% trans "Day" %}</th>
+        <th>{% trans "Time " %}</th>
+        <th>{% trans "Test cases " %}</th>
+        <th class="searchable">{% trans "Status" %}</th>
+        <th class="searchable">{% trans "Error (Python)" %}</th>
+        <th>{% trans "Solution" %}</th>
     </thead>
     <tbody>
-    {% for item in problems %}
+    {% for item in past_problems %}
     <tr>
-        <td style="width: 23%"><a href="{% url 'show_problem' problem_id=item.problem.id %}" class="link">{{ item.problem.title }}</a></td>
-        <td style="width: 23%">{{item.chapter.label}}</td>
-        {% if item.outcome == 'P' %}
-        <td style="width: 8%">
+        <td>{{ item.log.problem.title }}</td>
+        <td>{{ item.log.timestamp|date:'d/m/Y'}}</td>
+        <td>{{ item.log.timestamp|date:'H:i'}}</td>
+        <td>
+            {% if item.log.problem.question_type == "C" and item.log.test_case_hits != None %}
+            <div class="task-progress2" style="background: var(--red);"><div style="width: {{ item.log.test_case_hits }}%; background: var(--green);"></div></div>
+            {% else %}
+            <div class="task-progress2"></div>
+            {% endif %}
+        </td>
+        {% if item.log.outcome == 'P' %}
+        <td>
             <span class="badge success">
             {% blocktrans %}Passed{% endblocktrans %}
-            </span>
-        </td>
-        {% elif item.outcome == 'F' %}
-        <td style="width: 8%">
+            </span></td>
+        <td></td>
+        <td><a class="link" href={% url 'past_solutions' id=item.log.id %}>{% trans "See submitted solution" %}</a></td>
+        {% elif item.log.outcome == 'F' %}
+        <td>
             <span class="badge danger">
             {% blocktrans %}Failed{% endblocktrans %}
-            </span>
-        </td>
-        {% elif item.outcome == 'S' %}
-        <td style="width: 8%">
+            </span></td>
+        <td>{{ item.error.0.0 }}</td>
+        <td><a class="link" href="{% url 'past_solutions' id=item.log.id %}">{% trans "See submitted solution" %}</a></td>
+        {% else %}
+        <td>
             <span class="badge warning">
             {% blocktrans %}Skipped{% endblocktrans %}
-            </span>
-        </td>
+            </span></td>
+        <td></td>
+        <td></td>
         {% endif %}
-        <td style="width: 8%">{{item.comments}}</td>
-        <td style="width: 8%">{{item.attempts}}</td>
-        <td style="width: 12%">{% if language == 'pt-br' %}{{ item.last_submission|date:'d/m/Y'}} às {% else %}{{ item.last_submission|date:'m/d/Y'}} at {% endif %}{{ item.last_submission|date:'H:i'}}</td>
-        <td style="width: 18%"><a href="{% url 'problem_solutions' problem_id=item.problem.id %}" class="link">
-            {% blocktrans %}See submitted solutions{% endblocktrans %}
-        </a></td>
     </tr>
     {% endfor %}
     </tbody>
@@ -84,7 +88,10 @@
             type: "POST",
             url: '{% url "saveaccess" %}',
             data: {
-                'page': 'Past problems',
+                'page': 'Student solutions',
+                {% if perms.questions.view_userlogview %}
+                'name': '{{user.username}}',
+                {% endif %}
                 'csrfmiddlewaretoken': '{{ csrf_token }}'
             },
             dataType: 'json',
@@ -97,7 +104,6 @@
         });
     });
     
-
 //table settings
 var table = $('#past-problems').DataTable({
     "bInfo": false,
@@ -125,7 +131,6 @@ var table = $('#past-problems').DataTable({
         }
     {% endif %}
 });
-
 $('#past-problems_filter input').attr('placeholder','{% blocktrans %}Search{% endblocktrans%}');
 
 $('input[type="checkbox"]').on('click', function() {

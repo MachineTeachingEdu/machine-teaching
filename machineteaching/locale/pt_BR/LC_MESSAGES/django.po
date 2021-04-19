@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-08 02:26-0300\n"
+"POT-Creation-Date: 2021-04-19 18:07-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -72,6 +72,7 @@ msgstr "Código da turma inválido"
 
 #: questions/forms.py:55 questions/get_dashboards.py:22
 #: questions/templates/questions/outcomes.html:13
+#: questions/templates/questions/solutions.html:13
 #: questions/templates/questions/student_dashboard.html:38
 msgid "Class"
 msgstr "Turma"
@@ -80,7 +81,9 @@ msgstr "Turma"
 #: questions/get_dashboards.py:351 questions/models.py:30
 #: questions/templates/questions/new_problem.html:44
 #: questions/templates/questions/outcomes.html:17
+#: questions/templates/questions/past_problems.html:33
 #: questions/templates/questions/show_class.html:11
+#: questions/templates/questions/student_solutions.html:20
 msgid "Chapter"
 msgstr "Aula"
 
@@ -111,7 +114,9 @@ msgid "Your class"
 msgstr "Sua turma"
 
 #: questions/get_dashboards.py:21
+#: questions/templates/questions/outcomes.html:32
 #: questions/templates/questions/student_dashboard.html:28
+#: questions/templates/questions/student_solutions.html:8
 msgid "Student"
 msgstr "Aluno"
 
@@ -119,15 +124,20 @@ msgstr "Aluno"
 #: questions/templates/questions/chapters.html:46
 #: questions/templates/questions/chapters.html:80
 #: questions/templates/questions/chapters.html:114
-#: questions/templates/questions/outcomes.html:59
-#: questions/templates/questions/past_problems.html:9
-#: questions/templates/questions/past_problems.html:12
-#: questions/templates/questions/past_problems.html:55
+#: questions/templates/questions/outcomes.html:45
+#: questions/templates/questions/past_problems.html:10
+#: questions/templates/questions/past_problems.html:13
+#: questions/templates/questions/past_problems.html:48
 #: questions/templates/questions/past_solutions.html:15
-#: questions/templates/questions/past_solutions.html:135
+#: questions/templates/questions/past_solutions.html:167
+#: questions/templates/questions/problem_solutions.html:15
 #: questions/templates/questions/show_chapter.html:25
 #: questions/templates/questions/show_problem.html:122
-#: questions/templates/questions/solutions.html:18
+#: questions/templates/questions/solutions.html:46
+#: questions/templates/questions/student_logs.html:9
+#: questions/templates/questions/student_logs.html:12
+#: questions/templates/questions/student_logs.html:55
+#: questions/templates/questions/student_solutions.html:52
 msgid "Passed"
 msgstr "Passou"
 
@@ -135,16 +145,21 @@ msgstr "Passou"
 #: questions/templates/questions/chapters.html:50
 #: questions/templates/questions/chapters.html:84
 #: questions/templates/questions/chapters.html:118
-#: questions/templates/questions/outcomes.html:50
-#: questions/templates/questions/outcomes.html:60
-#: questions/templates/questions/past_problems.html:15
-#: questions/templates/questions/past_problems.html:18
-#: questions/templates/questions/past_problems.html:62
+#: questions/templates/questions/outcomes.html:46
+#: questions/templates/questions/outcomes.html:55
+#: questions/templates/questions/past_problems.html:16
+#: questions/templates/questions/past_problems.html:19
+#: questions/templates/questions/past_problems.html:54
 #: questions/templates/questions/past_solutions.html:19
-#: questions/templates/questions/past_solutions.html:136
+#: questions/templates/questions/past_solutions.html:168
+#: questions/templates/questions/problem_solutions.html:17
 #: questions/templates/questions/show_chapter.html:29
 #: questions/templates/questions/show_problem.html:123
-#: questions/templates/questions/solutions.html:20
+#: questions/templates/questions/solutions.html:48
+#: questions/templates/questions/student_logs.html:15
+#: questions/templates/questions/student_logs.html:18
+#: questions/templates/questions/student_logs.html:62
+#: questions/templates/questions/student_solutions.html:54
 msgid "Failed"
 msgstr "Falhou"
 
@@ -152,13 +167,18 @@ msgstr "Falhou"
 #: questions/templates/questions/chapters.html:54
 #: questions/templates/questions/chapters.html:88
 #: questions/templates/questions/chapters.html:122
-#: questions/templates/questions/outcomes.html:52
-#: questions/templates/questions/outcomes.html:61
-#: questions/templates/questions/past_problems.html:21
-#: questions/templates/questions/past_problems.html:24
-#: questions/templates/questions/past_problems.html:69
+#: questions/templates/questions/outcomes.html:47
+#: questions/templates/questions/outcomes.html:57
+#: questions/templates/questions/past_problems.html:22
+#: questions/templates/questions/past_problems.html:25
+#: questions/templates/questions/past_problems.html:60
+#: questions/templates/questions/problem_solutions.html:19
 #: questions/templates/questions/show_chapter.html:33
-#: questions/templates/questions/solutions.html:22
+#: questions/templates/questions/solutions.html:50
+#: questions/templates/questions/student_logs.html:21
+#: questions/templates/questions/student_logs.html:24
+#: questions/templates/questions/student_logs.html:69
+#: questions/templates/questions/student_solutions.html:56
 msgid "Skipped"
 msgstr "Pulou"
 
@@ -176,7 +196,7 @@ msgid "Time (days)"
 msgstr "Tempo (dias)"
 
 #: questions/get_dashboards.py:381 questions/templates/questions/base.html:32
-#: questions/views.py:392
+#: questions/views.py:463
 msgid "Outcomes"
 msgstr "Resultados"
 
@@ -190,7 +210,7 @@ msgstr "Problema"
 #: questions/templates/questions/finished.html:11
 #: questions/templates/questions/show_class.html:8
 #: questions/templates/questions/student_dashboard.html:74
-#: questions/views.py:222
+#: questions/views.py:283
 msgid "Chapters"
 msgstr "Aulas"
 
@@ -225,7 +245,7 @@ msgstr "Entrega"
 
 #: questions/models.py:116
 msgid "Deadlines"
-msgstr ""
+msgstr "Prazos"
 
 #: questions/models.py:139
 msgid "Professors"
@@ -240,12 +260,14 @@ msgid "User profiles"
 msgstr "Perfis dos usuários"
 
 #: questions/models.py:204 questions/templates/questions/new_problem.html:62
-#: questions/templates/questions/past_problems.html:37
-#: questions/templates/questions/past_solutions.html:47 questions/views.py:399
+#: questions/templates/questions/past_solutions.html:47
+#: questions/templates/questions/student_logs.html:37 questions/views.py:481
 msgid "Solution"
 msgstr "Solução"
 
+#: questions/templates/questions/past_problems.html:38
 #: questions/models.py:205 questions/templates/questions/show_class.html:57
+#: questions/templates/questions/student_solutions.html:13
 msgid "Solutions"
 msgstr "Soluções"
 
@@ -267,11 +289,11 @@ msgstr "Logs dos usuários"
 
 #: questions/models.py:285
 msgid "Page access"
-msgstr ""
+msgstr "Acesso"
 
 #: questions/models.py:286
 msgid "Page accesses"
-msgstr ""
+msgstr "Acessos"
 
 #: questions/models.py:295
 msgid "Interactive"
@@ -279,7 +301,11 @@ msgstr ""
 
 #: questions/models.py:303
 msgid "Recommendations"
-msgstr ""
+msgstr "Recomendações"
+
+#: questions/models.py:312
+msgid "Comment"
+msgstr "Comentário"
 
 #: questions/templates/index.html:7
 msgid "Home"
@@ -302,7 +328,7 @@ msgstr "Começar"
 #: questions/templates/index.html:46
 #: questions/templates/registration/login.html:34
 #: questions/templates/registration/signup.html:7
-#: questions/templates/registration/signup.html:131 questions/views.py:96
+#: questions/templates/registration/signup.html:131 questions/views.py:95
 msgid "Create account"
 msgstr "Criar conta"
 
@@ -365,11 +391,11 @@ msgstr ""
 msgid "Current problem"
 msgstr "Problema atual"
 
-#: questions/templates/questions/base.html:27 questions/views.py:163
+#: questions/templates/questions/base.html:27 questions/views.py:199
 msgid "Past problems"
 msgstr "Problemas passados"
 
-#: questions/templates/questions/base.html:30 questions/views.py:583
+#: questions/templates/questions/base.html:30 questions/views.py:696
 msgid "Classes"
 msgstr "Turmas"
 
@@ -446,7 +472,8 @@ msgstr "Adicionar"
 #: questions/templates/questions/chapters.html:26
 #: questions/templates/questions/outcomes.html:10
 #: questions/templates/questions/outcomes.html:22
-#: questions/templates/questions/past_problems.html:136
+#: questions/templates/questions/past_problems.html:129
+#: questions/templates/questions/student_logs.html:134
 msgid "Search"
 msgstr "Pesquisar"
 
@@ -465,7 +492,6 @@ msgid "Hide inactive classes"
 msgstr "Esconder turmas inativas"
 
 #: questions/templates/questions/classes.html:17
-#: questions/templates/questions/outcomes.html:32
 #: questions/templates/questions/show_class.html:51
 msgid "Students"
 msgstr "Alunos"
@@ -479,14 +505,14 @@ msgid "Manage class"
 msgstr "Gerenciar turma"
 
 #: questions/templates/questions/classes.html:22
-#: questions/templates/questions/classes.html:63
+#: questions/templates/questions/classes.html:83
 msgid "Active"
-msgstr ""
+msgstr "Ativo"
 
 #: questions/templates/questions/classes.html:24
-#: questions/templates/questions/classes.html:59
+#: questions/templates/questions/classes.html:79
 msgid "Inactive"
-msgstr ""
+msgstr "Inativo"
 
 #: questions/templates/questions/classes.html:35
 msgid "New class"
@@ -535,7 +561,8 @@ msgid "mode and do new problems."
 msgstr " e fazer novos problemas."
 
 #: questions/templates/questions/new_problem.html:18
-#: questions/templates/questions/past_problems.html:31
+#: questions/templates/questions/past_problems.html:32
+#: questions/templates/questions/student_logs.html:31
 msgid "Title"
 msgstr "Título"
 
@@ -589,48 +616,49 @@ msgstr "Excluir"
 msgid "Export CSV"
 msgstr "Exportar CSV"
 
-#: questions/templates/questions/outcomes.html:36
+#: questions/templates/questions/outcomes.html:33
 msgid "Total"
 msgstr "Total"
 
-#: questions/templates/questions/outcomes.html:47
+#: questions/templates/questions/outcomes.html:52
 msgid "Passed at"
 msgstr "Passou em"
 
-#: questions/templates/questions/past_problems.html:8
+#: questions/templates/questions/past_problems.html:9
+#: questions/templates/questions/student_logs.html:8
 msgid "Filter"
 msgstr "Filtrar"
 
-#: questions/templates/questions/past_problems.html:32
-msgid "Day"
-msgstr "Dia"
-
-#: questions/templates/questions/past_problems.html:33
-msgid "Time "
-msgstr "Hora"
-
 #: questions/templates/questions/past_problems.html:34
 #, fuzzy
-#| msgid "Test cases"
-msgid "Test cases "
-msgstr "Casos de teste"
-
-#: questions/templates/questions/past_problems.html:35
-msgid "Status"
+#| msgid "Status"
+msgid "Status "
 msgstr "Status"
 
-#: questions/templates/questions/past_problems.html:36
-msgid "Error (Python)"
-msgstr "Erro (Python)"
+#: questions/templates/questions/past_problems.html:35
+#: questions/templates/questions/past_solutions.html:82
+#: questions/templates/questions/past_solutions.html:94
+#: questions/templates/questions/problem_solutions.html:33
+msgid "Comments"
+msgstr "Comentários"
 
-#: questions/templates/questions/past_problems.html:58
-#: questions/templates/questions/past_problems.html:65
-msgid "See submitted solution"
-msgstr "Ver solução enviada"
+#: questions/templates/questions/past_problems.html:36
+msgid "Attempts"
+msgstr "Tentativas"
+
+#: questions/templates/questions/past_problems.html:37
+msgid "Last submission"
+msgstr "Última tentativa"
+
+#: questions/templates/questions/past_problems.html:68
+msgid "See submitted solutions"
+msgstr "Ver soluções enviadas"
 
 #: questions/templates/questions/past_solutions.html:30
+#: questions/templates/questions/problem_solutions.html:22
 #: questions/templates/questions/show_problem.html:19
-#: questions/templates/questions/solutions.html:25
+#: questions/templates/questions/solutions.html:38
+#: questions/templates/questions/student_solutions.html:44
 msgid "Test cases"
 msgstr "Casos de teste"
 
@@ -638,24 +666,29 @@ msgstr "Casos de teste"
 msgid "Your answer"
 msgstr "Sua resposta"
 
-#: questions/templates/questions/past_solutions.html:131
+#: questions/templates/questions/past_solutions.html:101
+#: questions/templates/questions/past_solutions.html:106
+msgid "Add comment"
+msgstr "Adicionar comentário"
+
+#: questions/templates/questions/past_solutions.html:163
 #: questions/templates/questions/show_problem.html:69
 #: questions/templates/questions/show_problem.html:84
 #: questions/templates/questions/show_problem.html:118
 msgid "Next"
 msgstr "Próximo"
 
-#: questions/templates/questions/past_solutions.html:132
+#: questions/templates/questions/past_solutions.html:164
 #: questions/templates/questions/show_problem.html:119
 msgid "Input:"
 msgstr "Entrada:"
 
-#: questions/templates/questions/past_solutions.html:133
+#: questions/templates/questions/past_solutions.html:165
 #: questions/templates/questions/show_problem.html:120
 msgid "Expected output:"
 msgstr "Retorno esperado:"
 
-#: questions/templates/questions/past_solutions.html:134
+#: questions/templates/questions/past_solutions.html:166
 #: questions/templates/questions/show_problem.html:121
 msgid "Your output:"
 msgstr "Seu retorno:"
@@ -690,6 +723,7 @@ msgid "Time (H:M)"
 msgstr "Hora (H:M)"
 
 #: questions/templates/questions/show_class.html:59
+#: questions/templates/questions/student_solutions.html:15
 msgid "Dashboard"
 msgstr ""
 
@@ -706,6 +740,20 @@ msgstr "Executar"
 #: questions/templates/questions/show_problem.html:81
 msgid "Answer"
 msgstr "Responder"
+
+#: questions/templates/questions/solutions.html:18
+msgid "See class"
+msgstr "Ver turma"
+
+#: questions/templates/questions/solutions.html:35
+#: questions/templates/questions/student_solutions.html:41
+msgid "See solution"
+msgstr "Ver solução"
+
+#: questions/templates/questions/solutions.html:61
+#: questions/templates/questions/student_solutions.html:67
+msgid "No submission"
+msgstr "Sem submissões"
 
 #: questions/templates/questions/student_dashboard.html:20
 msgid "Average time"
@@ -744,6 +792,37 @@ msgstr "Tempo"
 #: questions/templates/questions/student_dashboard.html:91
 msgid "day(s)"
 msgstr "dia(s)"
+
+#: questions/templates/questions/student_logs.html:32
+msgid "Day"
+msgstr "Dia"
+
+#: questions/templates/questions/student_logs.html:33
+msgid "Time "
+msgstr "Hora"
+
+#: questions/templates/questions/student_logs.html:34
+#, fuzzy
+#| msgid "Test cases"
+msgid "Test cases "
+msgstr "Casos de teste"
+
+#: questions/templates/questions/student_logs.html:35
+msgid "Status"
+msgstr "Status"
+
+#: questions/templates/questions/student_logs.html:36
+msgid "Error (Python)"
+msgstr "Erro (Python)"
+
+#: questions/templates/questions/student_logs.html:58
+#: questions/templates/questions/student_logs.html:65
+msgid "See submitted solution"
+msgstr "Ver solução enviada"
+
+#: questions/templates/questions/student_solutions.html:25
+msgid "See chapter"
+msgstr "Ver aula"
 
 #: questions/templates/registration/login.html:7
 #: questions/templates/registration/login.html:24
@@ -854,15 +933,27 @@ msgstr ""
 "númerica.\n"
 "                                "
 
-#: questions/views.py:136
+#: questions/views.py:135
 msgid "Finished"
 msgstr "Finalizado"
 
-#: questions/views.py:518
+#: questions/views.py:516
+#, fuzzy
+#| msgid "Solution"
+msgid "Problem solutions"
+msgstr "Solução"
+
+#: questions/views.py:544
+#, fuzzy
+#| msgid "Solution"
+msgid "Student solutions"
+msgstr "Solução"
+
+#: questions/views.py:631
 msgid "New problem"
 msgstr "Novo problema"
 
-#: questions/views.py:557
+#: questions/views.py:670
 #, fuzzy
 #| msgid "User profile"
 msgid "Edit profile"
@@ -873,9 +964,6 @@ msgstr "Perfil do usuário"
 
 #~ msgid "Forgot Password"
 #~ msgstr "Esqueci a senha"
-
-#~ msgid "Submissions"
-#~ msgstr "Submissões"
 
 #~ msgid "ABOUT THIS RESEARCH"
 #~ msgstr "SOBRE A PESQUISA"

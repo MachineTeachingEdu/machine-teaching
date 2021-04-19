@@ -31,8 +31,8 @@
         </span>
     </div>
     {% endfor %}
-	<div class="card" style="width: calc(50% - 2rem); margin-left: 2rem; height: 11rem;">
-		<h3>{% blocktrans %}New class{% endblocktrans %}</h3>
+    <div class="card" style="width: calc(50% - 2rem); margin-left: 2rem; height: 11rem;">
+        <h3>{% blocktrans %}New class{% endblocktrans %}</h3>
         <form method="POST" action="{% url 'classes' %}" class="edit-profile">
             {% csrf_token %}
             {% for error in form.name.errors %}
@@ -47,6 +47,26 @@
 {% endblock %}
 {% block javascript %}
 <script type="text/javascript">
+
+    // Save page access
+    $(document).ready(function() {
+        $.ajax({
+            type: "POST",
+            url: '{% url "saveaccess" %}',
+            data: {
+                'page': 'Classes',
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            dataType: 'json',
+            success: function(data){
+            console.log('status: ' + data['status']);
+            },
+            error: function (request, status, error) {
+            console.log(request.status);
+            }
+        });
+    });
+
     function classToggle(class_id) {
         $.ajax({
             url: "{% url 'class_active' %}",
@@ -80,4 +100,3 @@
     };
 </script>
 {% endblock %}
-

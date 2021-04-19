@@ -63,3 +63,29 @@
     </div>
 </div>
 {% endblock %}
+{% block javascript %}
+<script type="text/javascript">
+
+
+    // Save page access
+    $(document).ready(function() {
+        $.ajax({
+            type: "POST",
+            url: '{% url "saveaccess" %}',
+            data: {
+                'page': 'Class',
+                'name': '{{onlineclass.name}}',
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            dataType: 'json',
+            success: function(data){
+            console.log('status: ' + data['status']);
+            },
+            error: function (request, status, error) {
+            console.log(request.status);
+            }
+        });
+    });
+    
+</script>
+{% endblock %}

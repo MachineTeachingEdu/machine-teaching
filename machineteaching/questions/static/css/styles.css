@@ -1392,10 +1392,13 @@ table.dataTable.no-footer {
 }
 #outcomes td:nth-child(1) {
     text-align: left !important;
-    min-width: 20rem !important;
+    min-width: 12rem !important;
+    border-right: none !important;
+}
+#outcomes td:nth-child(2) {
+    min-width: 12rem !important;
 }
 #outcomes td:last-child {
-    min-width: 20rem !important;
     border-right: none !important;
 }
 #outcomes td {
@@ -1664,14 +1667,17 @@ input:checked + .slider:before {
     display: flex;
     align-items: center;
 }
-
-
-
-
-
-
-
-
+.problem_solution {
+    height: 100%;
+    width: calc(50% - 2rem);
+    margin-right: 2rem;
+    position: relative;
+}
+.problem_solution .badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
 
 
 
