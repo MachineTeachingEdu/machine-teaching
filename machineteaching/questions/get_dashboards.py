@@ -263,7 +263,9 @@ def dashboard(user, professor=False):
         passed = UserLogView.objects.filter(user=user,
                                             problem__in=chapter_problems,
                                             final_outcome='P').order_by('-timestamp')
-        progress = round(100 * len(passed)/len(chapter_problems))
+        progress = 0
+        if chapter_problems.count():
+            progress = round(100 * len(passed)/len(chapter_problems))
         if progress == 100:
             time = (passed[0].timestamp - userlog[0].timestamp).days
         else:

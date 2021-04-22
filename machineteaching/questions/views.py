@@ -365,7 +365,6 @@ def new_chapter(request):
             deadline.save()
             classes = OnlineClass.objects.filter(professor__user=request.user)
             for item in classes:
-                item.chapter.add(chapter)
                 deadline.onlineclass.add(item)
             deadline.save()
             return redirect('show_chapter', chapter=chapter.id)

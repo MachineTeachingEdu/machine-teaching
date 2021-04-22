@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-19 18:07-0300\n"
+"POT-Creation-Date: 2021-04-22 16:55-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,67 +18,67 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: questions/forms.py:18
+#: questions/forms.py:19
 msgid "No"
 msgstr "Não"
 
-#: questions/forms.py:19
+#: questions/forms.py:20
 msgid "Yes"
 msgstr "Sim"
 
-#: questions/forms.py:25 questions/forms.py:144
+#: questions/forms.py:26 questions/forms.py:145
 #: questions/templates/questions/edit_profile.html:15
 #: questions/templates/registration/signup.html:45
 msgid "Class code"
 msgstr "Código da turma"
 
-#: questions/forms.py:26
+#: questions/forms.py:27
 msgid "Course"
 msgstr "Curso"
 
-#: questions/forms.py:27 questions/templates/registration/signup.html:112
+#: questions/forms.py:28 questions/templates/registration/signup.html:112
 msgid "Did you have any programming experience before this course?"
 msgstr "Você teve alguma experiência com programação antes desse curso?"
 
-#: questions/forms.py:28 questions/templates/registration/signup.html:121
+#: questions/forms.py:29 questions/templates/registration/signup.html:121
 msgid "I accept the "
 msgstr "Eu aceito os "
 
-#: questions/forms.py:28 questions/templates/index.html:82
+#: questions/forms.py:29 questions/templates/index.html:82
 #: questions/templates/questions/base.html:101
 #: questions/templates/registration/base.html:55
 #: questions/templates/registration/signup.html:122
 msgid "Terms and Conditions"
 msgstr "Termos e Condições"
 
-#: questions/forms.py:29 questions/templates/registration/signup.html:126
+#: questions/forms.py:30 questions/templates/registration/signup.html:126
 msgid "I've read the "
 msgstr "Eu li a "
 
-#: questions/forms.py:29 questions/templates/index.html:86
+#: questions/forms.py:30 questions/templates/index.html:86
 #: questions/templates/questions/base.html:105
 #: questions/templates/registration/base.html:59
 #: questions/templates/registration/signup.html:127
 msgid "Privacy Policy"
 msgstr "Política de Privacidade"
 
-#: questions/forms.py:44
+#: questions/forms.py:45
 msgid "Email addresses must be unique."
 msgstr "O endereço de email deve ser único."
 
-#: questions/forms.py:50 questions/forms.py:153
+#: questions/forms.py:51 questions/forms.py:154
 msgid "Invalid Class Code."
 msgstr "Código da turma inválido"
 
-#: questions/forms.py:55 questions/get_dashboards.py:22
+#: questions/forms.py:56 questions/get_dashboards.py:22
 #: questions/templates/questions/outcomes.html:13
 #: questions/templates/questions/solutions.html:13
 #: questions/templates/questions/student_dashboard.html:38
 msgid "Class"
 msgstr "Turma"
 
-#: questions/forms.py:56 questions/forms.py:162 questions/get_dashboards.py:236
-#: questions/get_dashboards.py:351 questions/models.py:30
+#: questions/forms.py:57 questions/forms.py:163 questions/get_dashboards.py:236
+#: questions/get_dashboards.py:353 questions/models.py:30
 #: questions/templates/questions/new_problem.html:44
 #: questions/templates/questions/outcomes.html:17
 #: questions/templates/questions/past_problems.html:33
@@ -87,21 +87,29 @@ msgstr "Turma"
 msgid "Chapter"
 msgstr "Aula"
 
-#: questions/forms.py:65
+#: questions/forms.py:66
 msgid "You don't have authorization to view this class."
 msgstr "Você não tem autorização para ver essa aula."
 
-#: questions/forms.py:107 questions/templates/questions/new_problem.html:22
+#: questions/forms.py:108 questions/templates/questions/new_problem.html:22
 msgid "Code"
 msgstr "Código"
 
-#: questions/forms.py:108
+#: questions/forms.py:109
 msgid "Multiple Choice"
 msgstr "Múltipla escolha"
 
-#: questions/forms.py:109 questions/templates/questions/new_problem.html:24
+#: questions/forms.py:110 questions/templates/questions/new_problem.html:24
 msgid "Text"
 msgstr "Texto"
+
+#: questions/forms.py:178
+msgid "The date must be in the format \"yyyy-mm-dd\" and must be valid."
+msgstr "A data deve estar no formato \"yyyy-mm-dd\" e deve ser válida."
+
+#: questions/forms.py:186
+msgid "The time must be in the format \"HH:MM\" and must be valid."
+msgstr "O horário deve estar no formato \"HH:MM\" e deve ser válido."
 
 #: questions/get_dashboards.py:18
 #: questions/templates/questions/student_dashboard.html:30
@@ -191,12 +199,12 @@ msgstr "Sem tentativa"
 msgid "Errors"
 msgstr "Erros"
 
-#: questions/get_dashboards.py:356
+#: questions/get_dashboards.py:358
 msgid "Time (days)"
 msgstr "Tempo (dias)"
 
-#: questions/get_dashboards.py:381 questions/templates/questions/base.html:32
-#: questions/views.py:463
+#: questions/get_dashboards.py:383 questions/templates/questions/base.html:32
+#: questions/views.py:462
 msgid "Outcomes"
 msgstr "Resultados"
 
@@ -261,12 +269,12 @@ msgstr "Perfis dos usuários"
 
 #: questions/models.py:204 questions/templates/questions/new_problem.html:62
 #: questions/templates/questions/past_solutions.html:47
-#: questions/templates/questions/student_logs.html:37 questions/views.py:481
+#: questions/templates/questions/student_logs.html:37 questions/views.py:480
 msgid "Solution"
 msgstr "Solução"
 
-#: questions/templates/questions/past_problems.html:38
-#: questions/models.py:205 questions/templates/questions/show_class.html:57
+#: questions/models.py:205 questions/templates/questions/past_problems.html:38
+#: questions/templates/questions/show_class.html:62
 #: questions/templates/questions/student_solutions.html:13
 msgid "Solutions"
 msgstr "Soluções"
@@ -395,7 +403,7 @@ msgstr "Problema atual"
 msgid "Past problems"
 msgstr "Problemas passados"
 
-#: questions/templates/questions/base.html:30 questions/views.py:696
+#: questions/templates/questions/base.html:30 questions/views.py:695
 msgid "Classes"
 msgstr "Turmas"
 
@@ -465,7 +473,7 @@ msgid "Name"
 msgstr "Nome"
 
 #: questions/templates/questions/chapters.html:20
-#: questions/templates/questions/show_class.html:44
+#: questions/templates/questions/show_class.html:49
 msgid "Add"
 msgstr "Adicionar"
 
@@ -492,7 +500,7 @@ msgid "Hide inactive classes"
 msgstr "Esconder turmas inativas"
 
 #: questions/templates/questions/classes.html:17
-#: questions/templates/questions/show_class.html:51
+#: questions/templates/questions/show_class.html:56
 msgid "Students"
 msgstr "Alunos"
 
@@ -714,15 +722,15 @@ msgstr "Progresso"
 msgid "Main errors"
 msgstr "Erros mais comuns"
 
-#: questions/templates/questions/show_class.html:38
+#: questions/templates/questions/show_class.html:40
 msgid "Date (yyyy-mm-dd)"
 msgstr "Data (yyyy-mm-dd)"
 
-#: questions/templates/questions/show_class.html:42
+#: questions/templates/questions/show_class.html:46
 msgid "Time (H:M)"
 msgstr "Hora (H:M)"
 
-#: questions/templates/questions/show_class.html:59
+#: questions/templates/questions/show_class.html:64
 #: questions/templates/questions/student_solutions.html:15
 msgid "Dashboard"
 msgstr ""
@@ -937,23 +945,23 @@ msgstr ""
 msgid "Finished"
 msgstr "Finalizado"
 
-#: questions/views.py:516
+#: questions/views.py:515
 #, fuzzy
 #| msgid "Solution"
 msgid "Problem solutions"
 msgstr "Solução"
 
-#: questions/views.py:544
+#: questions/views.py:543
 #, fuzzy
 #| msgid "Solution"
 msgid "Student solutions"
 msgstr "Solução"
 
-#: questions/views.py:631
+#: questions/views.py:630
 msgid "New problem"
 msgstr "Novo problema"
 
-#: questions/views.py:670
+#: questions/views.py:669
 #, fuzzy
 #| msgid "User profile"
 msgid "Edit profile"
