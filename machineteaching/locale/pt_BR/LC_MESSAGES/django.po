@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-22 16:55-0300\n"
+"POT-Creation-Date: 2021-04-28 02:12-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -748,6 +748,19 @@ msgstr "Executar"
 #: questions/templates/questions/show_problem.html:81
 msgid "Answer"
 msgstr "Responder"
+
+#: questions/templates/questions/show_problem.html:125
+msgid "Error"
+msgstr "Erro"
+
+#: questions/templates/questions/show_problem.html:126
+msgid ""
+"The solution uses <strong>print</strong> command, breaking the rule that the "
+"entire result of the function must be returned exclusively through its "
+"return values."
+msgstr "A solução faz uso do comando <strong>print</strong>, quebrando a regra de que "
+"todo o resultado da função deve ser devolvido exclusivamente através de "
+"valores de retorno da mesma."
 
 #: questions/templates/questions/solutions.html:18
 msgid "See class"

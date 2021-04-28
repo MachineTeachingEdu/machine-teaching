@@ -697,7 +697,7 @@ def classes(request):
                                                       'classes': classes})
 
 @permission_required('questions.view_userlogview', raise_exception=True)
-def show_class(request, onlineclass):
+def manage_class(request, onlineclass):
     if request.method == "POST":
         form = DeadlineForm(request.POST)
         if form.is_valid():
@@ -725,6 +725,13 @@ def show_class(request, onlineclass):
                                                          'chapters': chapters,
                                                          'onlineclass': onlineclass,
                                                          'form': form})
+
+
+def class_dashboard(request, onlineclass):
+    onlineclass = OnlineClass.objects.get(id=onlineclass)
+    return render(request, 'questions/class_dashboard.html', {'title': '',
+                                                         'onlineclass': onlineclass})
+
 
 @login_required
 def delete_deadline(request, onlineclass, deadline):

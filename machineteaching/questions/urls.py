@@ -35,7 +35,8 @@ urlpatterns = [
     path('dashboard', views.get_dashboard, name='dashboard'),
     path('student_dashboard/<int:id>', views.get_student_dashboard, name='student_dashboard'),
     path('classes', views.classes, name='classes'),
-    path('classes/<int:onlineclass>', views.show_class, name='show_class'),
+    path('classes/manage/<int:onlineclass>', views.manage_class, name='manage_class'),
+    path('classes/dashboard/<int:onlineclass>', views.class_dashboard, name='class_dashboard'),
     path('class_active', views.class_active, name='class_active'),
     path('delete_deadline/<int:onlineclass>/<int:deadline>', views.delete_deadline, name='delete_deadline'),
     path('terms_and_conditions', TemplateView.as_view(
