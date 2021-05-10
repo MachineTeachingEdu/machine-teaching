@@ -14,7 +14,7 @@
                 <div style="display: flex; justify-content: space-between;">
                 <div style="font-size: 1.2rem;">{{onlineclass.name}}</div>
                 <div>
-                    <a class="link" href="{% url 'show_class' onlineclass=onlineclass.id %}">
+                    <a class="link" href="{% url 'manage_class' onlineclass=onlineclass.id %}">
                     {% blocktrans %}See class{% endblocktrans %}</a>
                 </div>
                 </div>

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-04-28 02:12-0300\n"
+"POT-Creation-Date: 2021-04-29 02:40-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -70,15 +70,15 @@ msgstr "O endereço de email deve ser único."
 msgid "Invalid Class Code."
 msgstr "Código da turma inválido"
 
-#: questions/forms.py:56 questions/get_dashboards.py:22
+#: questions/forms.py:56 questions/get_dashboards.py:25
 #: questions/templates/questions/outcomes.html:13
 #: questions/templates/questions/solutions.html:13
 #: questions/templates/questions/student_dashboard.html:38
 msgid "Class"
 msgstr "Turma"
 
-#: questions/forms.py:57 questions/forms.py:163 questions/get_dashboards.py:236
-#: questions/get_dashboards.py:353 questions/models.py:30
+#: questions/forms.py:57 questions/forms.py:163 questions/get_dashboards.py:239
+#: questions/get_dashboards.py:356 questions/models.py:30
 #: questions/templates/questions/new_problem.html:44
 #: questions/templates/questions/outcomes.html:17
 #: questions/templates/questions/past_problems.html:33
@@ -111,24 +111,24 @@ msgstr "A data deve estar no formato \"yyyy-mm-dd\" e deve ser válida."
 msgid "The time must be in the format \"HH:MM\" and must be valid."
 msgstr "O horário deve estar no formato \"HH:MM\" e deve ser válido."
 
-#: questions/get_dashboards.py:18
+#: questions/get_dashboards.py:21
 #: questions/templates/questions/student_dashboard.html:30
 msgid "You"
 msgstr "Você"
 
-#: questions/get_dashboards.py:19
+#: questions/get_dashboards.py:22
 #: questions/templates/questions/student_dashboard.html:40
 msgid "Your class"
 msgstr "Sua turma"
 
-#: questions/get_dashboards.py:21
+#: questions/get_dashboards.py:24
 #: questions/templates/questions/outcomes.html:32
 #: questions/templates/questions/student_dashboard.html:28
 #: questions/templates/questions/student_solutions.html:8
 msgid "Student"
 msgstr "Aluno"
 
-#: questions/get_dashboards.py:53
+#: questions/get_dashboards.py:56 questions/get_dashboards.py:417
 #: questions/templates/questions/chapters.html:46
 #: questions/templates/questions/chapters.html:80
 #: questions/templates/questions/chapters.html:114
@@ -149,7 +149,7 @@ msgstr "Aluno"
 msgid "Passed"
 msgstr "Passou"
 
-#: questions/get_dashboards.py:53
+#: questions/get_dashboards.py:56 questions/get_dashboards.py:417
 #: questions/templates/questions/chapters.html:50
 #: questions/templates/questions/chapters.html:84
 #: questions/templates/questions/chapters.html:118
@@ -171,7 +171,7 @@ msgstr "Passou"
 msgid "Failed"
 msgstr "Falhou"
 
-#: questions/get_dashboards.py:53
+#: questions/get_dashboards.py:56 questions/get_dashboards.py:417
 #: questions/templates/questions/chapters.html:54
 #: questions/templates/questions/chapters.html:88
 #: questions/templates/questions/chapters.html:122
@@ -190,23 +190,37 @@ msgstr "Falhou"
 msgid "Skipped"
 msgstr "Pulou"
 
-#: questions/get_dashboards.py:53
+#: questions/get_dashboards.py:56 questions/get_dashboards.py:417
 msgid "No attempt"
 msgstr "Sem tentativa"
 
-#: questions/get_dashboards.py:241
+#: questions/get_dashboards.py:244
 #: questions/templates/questions/student_dashboard.html:50
 msgid "Errors"
 msgstr "Erros"
 
-#: questions/get_dashboards.py:358
+#: questions/get_dashboards.py:361
 msgid "Time (days)"
 msgstr "Tempo (dias)"
 
-#: questions/get_dashboards.py:383 questions/templates/questions/base.html:32
+#: questions/get_dashboards.py:386 questions/templates/questions/base.html:32
 #: questions/views.py:462
 msgid "Outcomes"
 msgstr "Resultados"
+
+#: questions/get_dashboards.py:660 questions/get_dashboards.py:695
+msgid "Tentativas"
+msgstr ""
+
+#: questions/get_dashboards.py:661
+msgid "Tempo (minutos)"
+msgstr ""
+
+#: questions/get_dashboards.py:696
+#, fuzzy
+#| msgid "Solution"
+msgid "Problemas resolvidos (%)"
+msgstr "Solução"
 
 #: questions/get_problem.py:52 questions/models.py:68
 msgid "Problem"
@@ -214,6 +228,7 @@ msgstr "Problema"
 
 #: questions/models.py:31 questions/templates/questions/base.html:28
 #: questions/templates/questions/base.html:47
+#: questions/templates/questions/class_dashboard.html:23
 #: questions/templates/questions/classes.html:17
 #: questions/templates/questions/finished.html:11
 #: questions/templates/questions/show_class.html:8
@@ -222,7 +237,8 @@ msgstr "Problema"
 msgid "Chapters"
 msgstr "Aulas"
 
-#: questions/models.py:69 questions/templates/questions/show_chapter.html:7
+#: questions/models.py:69 questions/templates/questions/class_dashboard.html:14
+#: questions/templates/questions/show_chapter.html:7
 #: questions/templates/questions/student_dashboard.html:11
 msgid "Problems"
 msgstr "Problemas"
@@ -485,6 +501,38 @@ msgstr "Adicionar"
 msgid "Search"
 msgstr "Pesquisar"
 
+#: questions/templates/questions/class_dashboard.html:9
+msgid "Class progress"
+msgstr "Progresso da turma"
+
+#: questions/templates/questions/class_dashboard.html:15
+msgid "class performance by problem"
+msgstr "desempenho da turma por problema"
+
+#: questions/templates/questions/class_dashboard.html:24
+msgid "tempo para entregar e para acertar os problemas"
+msgstr ""
+
+#: questions/templates/questions/class_dashboard.html:30
+#: questions/templates/questions/student_dashboard.html:80
+#: questions/templates/questions/student_dashboard.html:102
+msgid "Time"
+msgstr "Tempo"
+
+#: questions/templates/questions/class_dashboard.html:31
+msgid "to end a chapter"
+msgstr "para finalizar uma aula"
+
+#: questions/templates/questions/class_dashboard.html:44
+#: questions/templates/questions/classes.html:17
+#: questions/templates/questions/show_class.html:56
+msgid "Students"
+msgstr "Alunos"
+
+#: questions/templates/questions/class_dashboard.html:45
+msgid "desempenho resolvendo problemas"
+msgstr ""
+
 #: questions/templates/questions/classes.html:9
 #, fuzzy
 #| msgid "Professors"
@@ -498,11 +546,6 @@ msgstr "Mostrar turmas inativas"
 #: questions/templates/questions/classes.html:11
 msgid "Hide inactive classes"
 msgstr "Esconder turmas inativas"
-
-#: questions/templates/questions/classes.html:17
-#: questions/templates/questions/show_class.html:56
-msgid "Students"
-msgstr "Alunos"
 
 #: questions/templates/questions/classes.html:17
 msgid "Start date"
@@ -758,8 +801,9 @@ msgid ""
 "The solution uses <strong>print</strong> command, breaking the rule that the "
 "entire result of the function must be returned exclusively through its "
 "return values."
-msgstr "A solução faz uso do comando <strong>print</strong>, quebrando a regra de que "
-"todo o resultado da função deve ser devolvido exclusivamente através de "
+msgstr ""
+"A solução faz uso do comando <strong>print</strong>, quebrando a regra de "
+"que todo o resultado da função deve ser devolvido exclusivamente através de "
 "valores de retorno da mesma."
 
 #: questions/templates/questions/solutions.html:18
@@ -804,11 +848,6 @@ msgstr "Média de erros"
 #: questions/templates/questions/student_dashboard.html:103
 msgid "per chapter"
 msgstr "por aula"
-
-#: questions/templates/questions/student_dashboard.html:80
-#: questions/templates/questions/student_dashboard.html:102
-msgid "Time"
-msgstr "Tempo"
 
 #: questions/templates/questions/student_dashboard.html:91
 msgid "day(s)"

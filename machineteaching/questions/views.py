@@ -28,7 +28,7 @@ from questions.forms import (UserLogForm, SignUpForm, OutcomeForm, ChapterForm,
                              EditProfileForm, NewClassForm, DeadlineForm, CommentForm)
 from questions.serializers import RecommendationSerializer
 from questions.get_problem import get_problem
-from questions.get_dashboards import dashboard
+from questions.get_dashboards import student_dashboard, class_dashboard
 from questions.strategies import STRATEGIES_FUNC
 import csv
 
@@ -219,7 +219,9 @@ def get_student_logs(request, id, chapter=None, problem=None):
 def get_student_solutions(request, id, chapter):
     student = User.objects.get(id=id)
     chapter = Chapter.objects.get(id=chapter)
-    logs = UserLog.objects.filter(user=student, problem__chapter=chapter).order_by(
+    logs = UserLog.objects.filter(user=student, 
+                                  problem__chapter=chapter,
+                                  timestamp__gte=student.userprofile.user_class.start_date).order_by(
                                                 'problem__id',
                                                 '-timestamp').values('problem',
                                                                      'solution',
@@ -290,7 +292,8 @@ def get_chapter_problems(request):
 
 def get_past_solutions(request, problem_id):
     problem = Problem.objects.get(id=problem_id)
-    logs = UserLog.objects.filter(problem=problem).order_by('-timestamp')
+    logs = UserLog.objects.filter(problem=problem, 
+                                  timestamp__gte=request.user.userprofile.user_class.start_date).order_by('-timestamp')
     solutions = []
     for log in logs:
         comments = Comment.objects.filter(userlog=log)
@@ -314,7 +317,8 @@ def show_chapter(request, chapter):
     else:
         deadline = 0
     LOGGER.debug("Deadline: %s" % deadline)
-    userlogs = UserLog.objects.filter(problem__in=Problem.objects.filter(chapter=chapter).distinct())
+    userlogs = UserLog.objects.filter(problem__in=Problem.objects.filter(chapter=chapter).distinct(),
+                                      timestamp__gte=request.user.userprofile.user_class.start_date)
     errors = UserLogError.objects.filter(userlog__in=userlogs).values_list('error')
     counter = {}
     for error in errors:
@@ -482,7 +486,7 @@ def get_user_solution(request, id):
 
 @permission_required('questions.view_userlogview', raise_exception=True)
 def get_problem_solutions(request, problem_id, class_id):
-    logs = UserLog.objects.filter(
+    logs = UserLog.objects.filter(timestamp__gte=request.user.userprofile.user_class.start_date,
                 user__userprofile__user_class=class_id,
                 problem_id=problem_id).order_by('user__first_name',
                                                 'user__last_name',
@@ -521,7 +525,9 @@ def get_problem_solutions(request, problem_id, class_id):
 def get_student_solutions(request, id, chapter):
     student = User.objects.get(id=id)
     chapter = Chapter.objects.get(id=chapter)
-    logs = UserLog.objects.filter(user=student, problem__chapter=chapter).order_by(
+    logs = UserLog.objects.filter(user=student,
+                                  problem__chapter=chapter, 
+                                  timestamp__gte=student.userprofile.user_class.start_date).order_by(
                                                 'problem__id',
                                                 '-timestamp').values('problem',
                                                                      'solution',
@@ -709,7 +715,7 @@ def manage_class(request, onlineclass):
             onlineclass = OnlineClass.objects.get(id=onlineclass)
             deadline.onlineclass.add(onlineclass)
             deadline.save()
-            return redirect('show_class', onlineclass=onlineclass.id)
+            return redirect('manage_class', onlineclass=onlineclass.id)
     else:
         form = DeadlineForm()
     onlineclass = OnlineClass.objects.get(id=onlineclass)
@@ -727,16 +733,16 @@ def manage_class(request, onlineclass):
                                                          'form': form})
 
 
-def class_dashboard(request, onlineclass):
+def get_class_dashboard(request, onlineclass):
     onlineclass = OnlineClass.objects.get(id=onlineclass)
-    return render(request, 'questions/class_dashboard.html', {'title': '',
-                                                         'onlineclass': onlineclass})
+
+    return render(request, 'questions/class_dashboard.html', class_dashboard(onlineclass))
 
 
 @login_required
 def delete_deadline(request, onlineclass, deadline):
     Deadline.objects.filter(id=deadline).delete()
-    return redirect('show_class', onlineclass=onlineclass)
+    return redirect('manage_class', onlineclass=onlineclass)
 
 def class_active(request):
     if request.method == 'POST':
@@ -750,13 +756,13 @@ def class_active(request):
 
 @login_required
 def get_dashboard(request):
-    context = dashboard(request.user)
+    context = student_dashboard(request.user)
     return render(request, 'questions/student_dashboard.html', context)
 
 @permission_required('questions.view_userlogview', raise_exception=True)
 def get_student_dashboard(request, id):
     student = User.objects.get(id=id)
-    context = dashboard(student, professor=True)
+    context = student_dashboard(student, professor=True)
     context.update({'student': student})
     return render(request, 'questions/student_dashboard.html', context)
 
