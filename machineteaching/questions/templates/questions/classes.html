@@ -15,6 +15,7 @@
         <h3 style="margin-bottom: 0.5rem">{{class.name}}</h3>
         <span class="class_code">{{class.class_code}}</span><br>
         {% blocktrans %}Students{% endblocktrans %}: {{class.students}}<br>{% blocktrans %}Chapters{% endblocktrans %}: {{class.chapters}}<br>{% blocktrans %}Start date{% endblocktrans %}: {{class.start_date}}
+        <a href="{% url 'class_dashboard' onlineclass=class.id %}" class="link" style="position: absolute; right: 1rem; bottom:4rem">Dashboard</a>
         <a href="{% url 'manage_class' onlineclass=class.id %}"><button class="primary class_btn">{% blocktrans %}Manage class{% endblocktrans %}</button></a>
         <span class="class_active" id="active_{{class.id}}">
         <span style="margin-right: 1rem" id="{% if class.active %}active{% else %}inactive{% endif %}">

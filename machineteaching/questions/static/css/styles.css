@@ -1679,6 +1679,10 @@ input:checked + .slider:before {
     right: 1rem;
 }
 
+.heatmap .cursor-pointer {
+    cursor: default !important;
+}
+
 
 
 
