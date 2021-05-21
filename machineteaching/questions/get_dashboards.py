@@ -405,7 +405,7 @@ def student_dashboard(user, professor=False):
 
 def class_dashboard(onlineclass):
     students = User.objects.filter(userprofile__user_class=onlineclass)
-    chapters = Deadline.objects.filter(onlineclass=onlineclass).values_list('chapter', flat=True)
+    chapters = Deadline.objects.filter(onlineclass=onlineclass).values_list('chapter', flat=True).first()
     problems = Problem.objects.filter(chapter__in=chapters)
 
 
