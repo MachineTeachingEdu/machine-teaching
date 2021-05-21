@@ -292,7 +292,8 @@ def get_chapter_problems(request):
 
 def get_past_solutions(request, problem_id):
     problem = Problem.objects.get(id=problem_id)
-    logs = UserLog.objects.filter(problem=problem, 
+    logs = UserLog.objects.filter(user=request.user,
+                                  problem=problem,
                                   timestamp__gte=request.user.userprofile.user_class.start_date).order_by('-timestamp')
     solutions = []
     for log in logs:
