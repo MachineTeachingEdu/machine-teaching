@@ -122,6 +122,9 @@
     const passed_txt = '{% blocktrans %}Passed{% endblocktrans %}';
     const failed_txt = '{% blocktrans %}Failed{% endblocktrans %}';
 
+    const error = '{% blocktrans %}Error{% endblocktrans %}';
+    const print_error = '{% blocktrans %}The solution uses <strong>print</strong> command, breaking the rule that the entire result of the function must be returned exclusively through its return values.{% endblocktrans %}';
+
     {% if problem.question_type == 'C' %}
     var code = document.getElementById("code");
     var interactive = document.getElementById("interactive");

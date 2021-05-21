@@ -22,6 +22,19 @@ function passed() {
 function evaluate(args, func, expected_results){
     eval_div = document.getElementById("evaluation");
     eval_div.innerHTML = "";
+   // Get code
+   var prog = editor.getValue();
+
+    if (prog.includes('print(')) {
+        save_log('F', seconds_in_code, seconds_to_begin, seconds_in_page, 0);
+        eval_div.innerHTML = `
+        <div class="card" style="position: relative;" id="print_error">
+            <div class="badge danger" style="position: absolute; top: 1rem; right: 1rem">${failed_txt}</div>
+            <h3>${error}</h3>
+            <p>${print_error}</p>
+        </div>`;
+        $('.result').hide()
+    } else {
     answers = document.getElementById("output").innerHTML.split("\n");
     errors = 0;
 
@@ -74,10 +87,6 @@ function evaluate(args, func, expected_results){
         }
     }
 
-    $('#run').show();
-    $('.loader').hide();
-    $('.loader div').attr('style', 'width: 0;');
-
     // Display test case result
     var hits = Math.round(100-100*errors/expected_results.length);
     $('.result').css('display','flex');
@@ -100,7 +109,13 @@ function evaluate(args, func, expected_results){
         save_log('F', seconds_in_code, seconds_to_begin, seconds_in_page, hits);
     };
 
-}
+    };
+
+    $('#run').show();
+    $('.loader').hide();
+    $('.loader div').attr('style', 'width: 0;');
+
+};
 // Here's everything you need to run a python program in skulpt
 // grab the code from your textarea
 // get a reference to your pre element for output
@@ -113,7 +128,8 @@ function runit(args, func, expected_results) {
 
    // Get code
    var prog = editor.getValue();
-   
+
+
    // Prepare output display
    var mypre = document.getElementById("output");
    mypre.innerHTML = '';

@@ -17,7 +17,7 @@ html, body{
 }
 body {
 	margin: 0;
-	font-family: Nunito, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+	font-family: Nunito, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji !important;
 	font-weight: 200;
 	color: var(--text-color);
 	font-size: 1rem;
@@ -423,10 +423,10 @@ textarea::-moz-selection { background: #B5DCFF; }
 .handle {
     cursor: default;
 }
-.drag {
+.drag_col {
     width: 3rem;
 }
-.drag div {
+.drag_col div {
     background: #CCCCCC;
     height: 3px;
     margin-bottom: 3px;
@@ -1392,10 +1392,13 @@ table.dataTable.no-footer {
 }
 #outcomes td:nth-child(1) {
     text-align: left !important;
-    min-width: 20rem !important;
+    min-width: 12rem !important;
+    border-right: none !important;
+}
+#outcomes td:nth-child(2) {
+    min-width: 12rem !important;
 }
 #outcomes td:last-child {
-    min-width: 20rem !important;
     border-right: none !important;
 }
 #outcomes td {
@@ -1664,14 +1667,21 @@ input:checked + .slider:before {
     display: flex;
     align-items: center;
 }
+.problem_solution {
+    height: 100%;
+    width: calc(50% - 2rem);
+    margin-right: 2rem;
+    position: relative;
+}
+.problem_solution .badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
 
-
-
-
-
-
-
-
+.heatmap .cursor-pointer {
+    cursor: default !important;
+}
 
 
 

@@ -29,11 +29,11 @@
 <table id="outcomes" class="outcomes">
     <thead>
     <tr>
-        <th class="searchable">{% trans 'Students' %}</th>
+        <th class="searchable">{% trans 'Student' %}</th>
+        <th>{% trans "Total" %}</th>
         {% for item in problems %}
         <th><a class="link" href="{% if item.question_type == "C" %}{% url 'problem_solutions' problem_id=item.id class_id=class.id %}{% else%}#{% endif %}">{{ item.title }}</a></th>
         {% endfor %}
-        <th>{% trans "Total" %}</th>
     </tr>
     </thead>
 
@@ -41,6 +41,11 @@
     {% for student in outcomes %}
     <tr>
         <td> <a class="link" href={% url 'student_solutions' id=student.name.1 chapter=form.chapter.value%}>{{ student.name.0 }}</a> </td>
+        <td>
+            <span class="badge success">{{student.total.P}} {% trans "Passed" %}</span>
+            <span class="badge danger">{{student.total.F}} {% trans "Failed" %}</span>
+            <span class="badge warning">{{student.total.S}} {% trans "Skipped" %}</span>
+        </td>
         {% for item in student.outcomes %}
         <td>
             {% if item.0 == "P" %}
@@ -55,11 +60,6 @@
             {% endif %}
         </td>
         {% endfor %}
-        <td>
-            <span class="badge success">{{student.total.P}} {% trans "Passed" %}</span>
-            <span class="badge danger">{{student.total.F}} {% trans "Failed" %}</span>
-            <span class="badge warning">{{student.total.S}} {% trans "Skipped" %}</span>
-        </td>
     </tr>
     {% endfor %}
     </tbody>

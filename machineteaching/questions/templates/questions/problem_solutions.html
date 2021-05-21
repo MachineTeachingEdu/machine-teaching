@@ -3,45 +3,49 @@
 {% load i18n %}
 {% block content %}
 <div class="col col-12">
-  <div class="card">
-{% if students %}
-<div class="solutions">
-    {% for student in students %}
-        <div>
-            <h3>{{ student.name }} ({{ student.logs | length }})</h3>
-        </div>
-        <div style="display: flex; align-items: center;">
-        {% for log in student.logs %}
-        <div class="solution">
-            <span style="display:inline-block;">{{ log.timestamp }}</span>
-            {% if log.outcome == "P" %}
+    <div class="card">
+        <h3>{{problem.title}}</h3>
+        <span id="problem_content" class="no-select">{{ problem.content|linebreaks }}</span>
+    </div>
+    {% for solution in solutions %}
+    <div style="width: 100%; height: 30rem; padding-bottom: 2rem; display: flex;">
+        <div class="card problem_solution">
+            <span>{{ solution.log.timestamp }}</span>
+            {% if solution.log.outcome == "P" %}
             <span class="badge success">{% trans "Passed" %}</span>
-            {% elif log.outcome == "F" %}
+            {% elif solution.log.outcome == "F" %}
             <span class="badge danger">{% trans "Failed" %}</span>
-            {% elif log.outcome == "S" %}
+            {% elif solution.log.outcome == "S" %}
             <span class="badge warning">{% trans "Skipped" %}</span>
             {% endif %}
-            <div style="width: 100%; margin-top: 1rem; text-align: center;">
+            <div style="width: 100%; margin-top: 1rem; text-align: center; margin-bottom: 1rem;">
                 <div>{% blocktrans %}Test cases{% endblocktrans %}</div>
-                <div style="display: flex;">{% if log.test_case_hits != None %}{{ log.test_case_hits }}%{% endif %}
-                <div class="task-progress2" style="{% if log.test_case_hits != None %}background: var(--red);{% endif %} width: calc(100% - 5rem); height: 0.5rem; margin-left: 1rem; margin: auto;">
-                    <div style="width: {{ log.test_case_hits }}%; background: var(--green);"></div></div>
+                <div style="display: flex;">{% if solution.log.test_case_hits != None %}{{ solution.log.test_case_hits }}%{% endif %}
+                <div class="task-progress2" style="{% if solution.log.test_case_hits != None %}background: var(--red);{% endif %} width: calc(100% - 5rem); height: 0.5rem; margin-left: 1rem; margin: auto;">
+                    <div style="width: {{ solution.log.test_case_hits }}%; background: var(--green);"></div></div>
                 </div>
             </div>
-            <textarea class="code">{{ log.solution }}</textarea>
+            <textarea class="code" id="code" name="solution" style="display: none;">{{solution.log.solution}}</textarea>
         </div>
-        {% endfor %}
+        {% if solution.comments %}
+        <div style="width: 50%; height: 100%">
+        <div class="card" style="margin-bottom: 0; max-width: 100%; max-height: 100%">   
+            <h3>{% blocktrans %}Comments{% endblocktrans %}</h3>
+            <div style=" overflow: auto; max-height: 23rem;">
+                {% for comment in solution.comments %}
+                <h4>{{ comment.user.first_name }} {{ comment.user.last_name }}</h4>
+                <p>{{ comment.content }}</p>
+                {% endfor %}
+            </div>
         </div>
+        </div>
+        {% endif %}
+    </div>
     {% endfor %}
 </div>
-</div>
-</div>
-{% else %}
-<span style="text-align: center;"><h2>{% blocktrans %}No solution found{% endblocktrans %}</h2></span>
-{% endif %}
 {% endblock %}
 {% block javascript %}
-<script>
+<script type="text/javascript">
 
     // Save page access
     $(document).ready(function() {
@@ -50,31 +54,39 @@
             url: '{% url "saveaccess" %}',
             data: {
                 'page': 'Problem solutions',
-                'name': '{{title}}',
+                'name': '{{user.username}}',
                 'csrfmiddlewaretoken': '{{ csrf_token }}'
             },
             dataType: 'json',
             success: function(data){
-                console.log('status: ' + data['status']);
+            console.log('status: ' + data['status']);
             },
             error: function (request, status, error) {
-                console.log(request.status);
+            console.log(request.status);
             }
         });
     });
+
     var textareas = document.querySelectorAll(".code");
 
+    //code editor
     for (var i = 0; i < textareas.length; i++) {
-        editor = CodeMirror.fromTextArea(textareas[i], {
+        if (textareas[i].classList.contains('interactive')) {
+            lineNumbers = false
+        } else {
+            lineNumbers = true
+        }
+        var editor = CodeMirror.fromTextArea(textareas[i], {
             mode: {name: "python",
                 version: 2,
                 singleLineStringErrors: false},
-            lineNumbers: true,
+            lineNumbers: lineNumbers,
             indentUnit: 4,
             tabMode: "spaces",
-            matchBrackets: true
-        });
-    editor.setSize(500,300);}
-
+            matchBrackets: true,
+            readOnly: true
+    });
+    editor.setSize('100%',300);
+    }
 </script>
 {% endblock %}

@@ -15,7 +15,8 @@
         <h3 style="margin-bottom: 0.5rem">{{class.name}}</h3>
         <span class="class_code">{{class.class_code}}</span><br>
         {% blocktrans %}Students{% endblocktrans %}: {{class.students}}<br>{% blocktrans %}Chapters{% endblocktrans %}: {{class.chapters}}<br>{% blocktrans %}Start date{% endblocktrans %}: {{class.start_date}}
-        <a href="{% url 'show_class' onlineclass=class.id %}"><button class="primary class_btn">{% blocktrans %}Manage class{% endblocktrans %}</button></a>
+        <a href="{% url 'class_dashboard' onlineclass=class.id %}" class="link" style="position: absolute; right: 1rem; bottom:4rem">Dashboard</a>
+        <a href="{% url 'manage_class' onlineclass=class.id %}"><button class="primary class_btn">{% blocktrans %}Manage class{% endblocktrans %}</button></a>
         <span class="class_active" id="active_{{class.id}}">
         <span style="margin-right: 1rem" id="{% if class.active %}active{% else %}inactive{% endif %}">
             {% if class.active %}
@@ -31,8 +32,8 @@
         </span>
     </div>
     {% endfor %}
-	<div class="card" style="width: calc(50% - 2rem); margin-left: 2rem; height: 11rem;">
-		<h3>{% blocktrans %}New class{% endblocktrans %}</h3>
+    <div class="card" style="width: calc(50% - 2rem); margin-left: 2rem; height: 11rem;">
+        <h3>{% blocktrans %}New class{% endblocktrans %}</h3>
         <form method="POST" action="{% url 'classes' %}" class="edit-profile">
             {% csrf_token %}
             {% for error in form.name.errors %}
@@ -47,6 +48,26 @@
 {% endblock %}
 {% block javascript %}
 <script type="text/javascript">
+
+    // Save page access
+    $(document).ready(function() {
+        $.ajax({
+            type: "POST",
+            url: '{% url "saveaccess" %}',
+            data: {
+                'page': 'Classes',
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            dataType: 'json',
+            success: function(data){
+            console.log('status: ' + data['status']);
+            },
+            error: function (request, status, error) {
+            console.log(request.status);
+            }
+        });
+    });
+
     function classToggle(class_id) {
         $.ajax({
             url: "{% url 'class_active' %}",
@@ -80,4 +101,3 @@
     };
 </script>
 {% endblock %}
-

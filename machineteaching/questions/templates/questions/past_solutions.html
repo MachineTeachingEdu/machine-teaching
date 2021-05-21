@@ -77,6 +77,38 @@
     </div>
 
 {% endif %}
+{% if comments and not perms.questions.view_userlogview %}
+<div class="card">
+    <h3>{% blocktrans %}Comments{% endblocktrans %}</h3>
+    <div>
+        {% for comment in comments %}
+        <h4>{{ comment.user.first_name }} {{ comment.user.last_name }}</h4>
+        <p>{{ comment.content }}</p>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+
+{% if perms.questions.view_userlogview %}
+<div class="card">
+    <h3>{% blocktrans %}Comments{% endblocktrans %}</h3>
+    <div>
+        {% for comment in comments %}
+        <h4>{{ comment.user.first_name }} {{ comment.user.last_name }}</h4>
+        <p>{{ comment.content }}</p>
+        {% endfor %}
+
+        <a class="link add_comment" onclick="newComment()">{% blocktrans %}Add comment{% endblocktrans %}</a>
+        <form action="{% url 'past_solutions' id=log.id %}" method="POST">
+        {% csrf_token %}
+        <div style="text-align: center; display: none;" class="comment">
+            <textarea name="{{ form.content.name }}" style="width: 100%; height: 10rem; margin-bottom: 1rem;"></textarea>
+            <button type="submit" class="primary">{% blocktrans %}Add comment{% endblocktrans %}</button>
+        </div>
+        </form>
+    </div>
+</div>
+{% endif %}
 </div>
 {% endblock %}
 {% block javascript %}
@@ -89,7 +121,7 @@
             url: '{% url "saveaccess" %}',
             data: {
                 'page': 'Solution',
-                'name': '{{problem.id}} - {{problem.title}}',
+                'name': '{{log.id}} - {{log.user.username}}',
                 'csrfmiddlewaretoken': '{{ csrf_token }}'
             },
             dataType: 'json',
@@ -142,5 +174,10 @@
         html      = converter.makeHtml(text);
     $("#problem_content").html(html);
     console.log($("#problem_content").html())
+
+    function newComment() {
+        $('.add_comment').hide();
+        $('.comment').show();
+    };
 </script>
 {% endblock %}

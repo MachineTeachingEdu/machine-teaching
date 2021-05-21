@@ -4,38 +4,32 @@
 {% block content %}
 <div class="col col-12">
     <div style="display: flex;">
-        <div class="card" style="width: 50%; margin-right: 1rem">
-            <h3>{% blocktrans %}Student{% endblocktrans %}</h3>
-            <div style="display: flex; justify-content: space-between;">
-            <div style="font-size: 1.2rem;">{{student.first_name}} {{student.last_name}}</div>
-            <div>
-                <a style="margin-right: 1rem" class="link" href="{% url 'student_solutions' id=student.id %}">
-                {% blocktrans %}Solutions{% endblocktrans %}</a>
-                <a class="link" href="{% url 'student_dashboard' id=student.id %}">
-                {% blocktrans %}Dashboard{% endblocktrans %}</a>
-            </div>
-            </div>
+        <div class="card statement" style="width: 60%; margin-right: 1rem">
+            <h3>{{ problem.title }}</h3>
+            <span id="problem_content" class="no-select">{{ problem.content|linebreaks }}</span>
         </div>
-        <div class="card" style="width: 50%; margin-left: 1rem">
-            <h3>{% blocktrans %}Chapter{% endblocktrans %}</h3>
-            <div style="display: flex; justify-content: space-between;">
-            <div style="font-size: 1.2rem;">{{chapter.label}}</div>
-            <div>
-                <a class="link" href="{% url 'show_chapter' chapter=chapter.id %}">
-                {% blocktrans %}See chapter{% endblocktrans %}</a>
-            </div>
+        <div style="width: 40%; margin-left: 1rem">
+            <div class="card" >
+                <h3>{% blocktrans %}Class{% endblocktrans %}</h3>
+                <div style="display: flex; justify-content: space-between;">
+                <div style="font-size: 1.2rem;">{{onlineclass.name}}</div>
+                <div>
+                    <a class="link" href="{% url 'manage_class' onlineclass=onlineclass.id %}">
+                    {% blocktrans %}See class{% endblocktrans %}</a>
+                </div>
+                </div>
             </div>
         </div>
     </div>
 <div class="card">
-{% if problems %}
+{% if students %}
 <div class="solutions">
-    {% for problem in problems %}
+    {% for student in students %}
         <div>
-            <h3>{{ problem.problem.title }} ({{ problem.logs | length }})</h3>
+            <h3>{{ student.name }} ({{ student.logs | length }})</h3>
         </div>
         <div style="display: flex; align-items: center;">
-        {% for log in problem.logs %}
+        {% for log in student.logs %}
         <div class="solution">
             <span style="display:inline-block;">{{ log.timestamp }}</span>
             <div style="text-align: center;"><a class="link" href="{% url 'past_solutions' id=log.id %}">{% blocktrans %}See solution{% endblocktrans %}</a></div>
@@ -78,8 +72,8 @@
             type: "POST",
             url: '{% url "saveaccess" %}',
             data: {
-                'page': 'Student solutions',
-                'name': '{{student.username}} - {{chapter.label}}',
+                'page': 'Problem solutions',
+                'name': '{{problem.title}} - {{onlineclass.name}}',
                 'csrfmiddlewaretoken': '{{ csrf_token }}'
             },
             dataType: 'json',
@@ -105,5 +99,17 @@
         });
     editor.setSize(500,300);}
 
+    
+    // Load markdown
+    var converter = new showdown.Converter({'simplifiedAutoLink': true}),
+        text      = `{{problem.content}}`,
+        html      = converter.makeHtml(text);
+    $("#problem_content").html(html);
+    console.log($("#problem_content").html())
+
+    function newComment() {
+        $('.add_comment').hide();
+        $('.comment').show();
+    };
 </script>
 {% endblock %}

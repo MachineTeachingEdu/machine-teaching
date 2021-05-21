@@ -22,7 +22,7 @@
     </div>
     <div class="card">
         <h3>{% blocktrans %}Add chapter{% endblocktrans %}</h3>
-        <form action="{% url 'show_class' onlineclass=onlineclass.id %}" method="POST">
+        <form action="{% url 'manage_class' onlineclass=onlineclass.id %}" method="POST">
             {% csrf_token %}
                 {% for message in form.chapter.errors %}
                 <span id="error">{{ message }}</span></br>
@@ -32,14 +32,19 @@
                     <option value="{{ item.0 }}" {% if item.0 == chapter %}selected{% endif %}>{{ item.1 }}</option>
                     {% endfor %}
                 </select>
+                <div style="display: flex; text-align: center;">
+                <div style="width: 50%">
                 {% for message in form.date.errors %}
-                <span id="error">{{ message }}</span></br>
+                <span id="error" style="text-align: center;">{{ message }}</span></br>
                 {% endfor %}
-                <input type="date" name="date" placeholder="{% blocktrans %}Date (yyyy-mm-dd){% endblocktrans %}" required style="width: calc(50% - 1rem);">
+                <input type="date" name="date" placeholder="{% blocktrans %}Date (yyyy-mm-dd){% endblocktrans %}" required style="width: calc(100%);">
+                </div>
+                <div style="width: 50%">
                 {% for message in form.time.errors %}
-                <span id="error">{{ message }}</span></br>
+                <span id="error" style="margin-left: 1rem; text-align: center;">{{ message }}</span></br>
                 {% endfor %}
-                <input type="text" name="time" placeholder="{% blocktrans %}Time (H:M){% endblocktrans %}" required style="width: calc(50% - 1rem); margin-left: 1.5rem">
+                <input type="text" name="time" placeholder="{% blocktrans %}Time (H:M){% endblocktrans %}" required style="width: calc(100% - 1rem); margin-left: 1rem">
+                 </div></div>
             <div class="col-12" style="margin-top: 1rem; text-align: center;">
                 <button class="primary" type="submit">{% blocktrans %}Add{% endblocktrans %}</button>
             </div>
@@ -62,4 +67,30 @@
         </table>
     </div>
 </div>
+{% endblock %}
+{% block javascript %}
+<script type="text/javascript">
+
+
+    // Save page access
+    $(document).ready(function() {
+        $.ajax({
+            type: "POST",
+            url: '{% url "saveaccess" %}',
+            data: {
+                'page': 'Class',
+                'name': '{{onlineclass.name}}',
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            dataType: 'json',
+            success: function(data){
+            console.log('status: ' + data['status']);
+            },
+            error: function (request, status, error) {
+            console.log(request.status);
+            }
+        });
+    });
+    
+</script>
 {% endblock %}

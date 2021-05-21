@@ -5,8 +5,9 @@ from django.contrib.auth.models import User
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 from questions.models import (UserLog, OnlineClass, Chapter, Problem,
-                              Solution, PageAccess, Interactive, Deadline)
+                              Solution, PageAccess, Interactive, Deadline, Comment)
 import random
+import datetime
 
 class UserLogForm(ModelForm):
     class Meta:
@@ -168,3 +169,24 @@ class DeadlineForm(forms.Form):
         self.fields['chapter'].required = True
         self.fields['date'].required = True
         self.fields['time'].required = True
+
+    def clean_date(self):
+        date = self.cleaned_data.get('date')
+        try:
+            datetime.datetime.strptime(date, "%Y-%m-%d")
+        except:
+            raise forms.ValidationError(_(u'The date must be in the format "yyyy-mm-dd" and must be valid.'))
+        return date
+
+    def clean_time(self):
+        time = self.cleaned_data.get('time')
+        try:
+            datetime.datetime.strptime(time, "%H:%M")
+        except:
+            raise forms.ValidationError(_(u'The time must be in the format "HH:MM" and must be valid.'))
+        return time
+
+class CommentForm(ModelForm):
+    class Meta:
+        model = Comment
+        exclude = ['user', 'userlog']
