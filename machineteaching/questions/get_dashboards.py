@@ -649,7 +649,7 @@ def class_dashboard(onlineclass):
       if logs.filter(outcome="P").count():
         passed_times = logs.filter(outcome="P").values_list('seconds_in_code', flat=True)
         if passed_times.count():
-          avg_time = round(mean(passed_times)/60)
+          avg_time = round(mean(passed_times)/60,2)
 
         problem_attempts = []
         for student in students:
@@ -660,7 +660,7 @@ def class_dashboard(onlineclass):
             problem_attempts.append(student_attempts)
         avg_attempts = 0
         if len(problem_attempts):
-          avg_attempts = mean(problem_attempts)
+          avg_attempts = round(mean(problem_attempts),2)
 
       problem_ids.append(str(problem.id)+" - "+problem.title)
       problem_times.append(avg_time)
