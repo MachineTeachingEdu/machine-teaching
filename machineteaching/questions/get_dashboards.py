@@ -570,9 +570,11 @@ def class_dashboard(onlineclass):
     for student in students:
       names.append(student.first_name+' '+student.last_name)
     labels = []
+
+    n=1
     for chapter in chapters:
-      chapter = Chapter.objects.get(id=chapter)
-      labels.append(chapter.label)
+      labels.append(n)
+      n+=1
 
     fig2 = go.Figure(data=go.Heatmap(
     	z=matrix1,
@@ -647,7 +649,7 @@ def class_dashboard(onlineclass):
       if logs.filter(outcome="P").count():
         passed_times = logs.filter(outcome="P").values_list('seconds_in_code', flat=True)
         if passed_times.count():
-          avg_time = round(mean(passed_times)/60)
+          avg_time = round(mean(passed_times)/60,2)
 
         problem_attempts = []
         for student in students:
@@ -658,9 +660,9 @@ def class_dashboard(onlineclass):
             problem_attempts.append(student_attempts)
         avg_attempts = 0
         if len(problem_attempts):
-          avg_attempts = mean(problem_attempts)
+          avg_attempts = round(mean(problem_attempts),2)
 
-      problem_ids.append(problem.id)
+      problem_ids.append(str(problem.id)+" - "+problem.title)
       problem_times.append(avg_time)
       attempts.append(avg_attempts)
 
@@ -668,7 +670,7 @@ def class_dashboard(onlineclass):
     fig4 = go.Figure(data=go.Scatter(x=problem_times, 
     								 y=attempts,
                      customdata=problem_ids,
-                     hovertemplate=_('Problem')+' %{customdata}',
+                     hovertemplate='<b>%{customdata}</b><br>'+_('Attempts')+': %{y} ('+_('avg')+')<br>'+_('Time')+': %{x} min ('+_('avg')+')',
                      name = '',
     								 marker=dict(size=10,
                 					 color='rgba(33,150,243,0.8)',
@@ -724,7 +726,7 @@ def class_dashboard(onlineclass):
       name = '',
     	marker=dict(
     		size=size,
-        sizeref=2.*max(size)/5.**3,
+        sizeref=2.*max(size)/(40.**2),
     		sizemode='diameter',
         sizemin=1,
         color='rgba(33,150,243,0.9)'
@@ -834,7 +836,7 @@ def class_dashboard(onlineclass):
                             'attempts': attempts,
                             'problem_time': problem_time})
 
-    chapters_df = pd.DataFrame(students_table)
+    chapters_df = pd.DataFrame(chapter_table)
     chapters_df.dropna(subset = ['problem_time','attempts'], inplace=True)
         
 
