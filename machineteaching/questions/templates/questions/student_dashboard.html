@@ -80,15 +80,15 @@
                     <td style="text-align: center;">{% blocktrans %}Time{% endblocktrans %}</td>
                 </tr>
             	{% for chapter in chapters %}
-            	<tr class="row" onclick="window.location='{% url 'show_chapter' chapter=chapter.chapter.id %}';" style="cursor: pointer !important;">
-            	    <td class="col-6">{{ chapter.chapter.label }}</td>
+            	<tr class="row" onclick="window.location='{% url 'show_chapter' chapter=chapter.id %}';" style="cursor: pointer !important;">
+            	    <td class="col-6">{{ chapter.label }}</td>
                     <td class="col-4" style="text-align: right;">
                     <div class="task-progress" style="width: 100%">
                     	<div style="width: {{ chapter.progress }}%; background: {% if chapter.progress == 100 %}limegreen{% else %}var(--primary){% endif %}"></div>
                     </div>
                     <span>{{ chapter.progress }}%</span>
                     <td class="col-2" style="text-align: center;">
-                    {% if chapter.time != -1 %} {{ chapter.time }} {% blocktrans %}day(s){% endblocktrans %} {% else %}-{% endif %}</td>
+                    {% if chapter.chapter_time %} {{ chapter.chapter_time }} {% blocktrans %}day(s){% endblocktrans %} {% else %}-{% endif %}</td>
                     </td>
                 </tr>
                 {% endfor %}
