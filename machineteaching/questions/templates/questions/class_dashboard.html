@@ -36,7 +36,7 @@
             <div style="max-height: 15rem; overflow: auto;">
                 <table>
                 {% for chapter in chapter_table %}
-                <tr class="row">
+                <tr class="row" onclick="window.location='{% url 'show_chapter' chapter=chapter.id %}';" style="cursor: pointer;">
                     <td style="width: 22%">{{chapter.label}}</td>
                     <td style="width: 22%">
                     <div class="task-progress" style="width: 100%">

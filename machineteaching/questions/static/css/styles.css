@@ -1556,9 +1556,6 @@ table.dataTable.no-footer {
     font-size: 1.2rem;
     font-weight: 200;
 }
-.chapters *, .errors * {
-    cursor: default !important;
-}
 .modebar{
     display: none !important;
 }

@@ -259,59 +259,84 @@ def student_dashboard(user, professor=False):
                                        font_size=15,
                                        font_family='Nunito'))
 
-    # Get user chapters
-    chapters = Deadline.objects.filter(onlineclass=onlineclass).values_list('chapter', flat=True)
+    
+
+
+
+
     chapter_table = []
     for chapter in chapters:
-        chapter = Chapter.objects.get(id=chapter)
-        chapter_problems = Problem.objects.filter(chapter=chapter)
-        userlog = UserLog.objects.filter(
-              user=user,
-              problem__in=chapter_problems,
-              timestamp__gte=onlineclass.start_date).order_by('timestamp')
-        passed = UserLogView.objects.filter(user=user,
-                                            problem__in=chapter_problems,
-                                            final_outcome='P').order_by('-timestamp')
-        progress = 0
-        if chapter_problems.count():
-            progress = round(100 * len(passed)/len(chapter_problems))
-        if progress == 100:
-            time = (passed[0].timestamp - userlog[0].timestamp).days
-        else:
-            time = -1
-        chapter_table.append({'chapter': chapter, 'progress': progress, 'time': time})
+      chapter_problems = problems.filter(chapter=chapter)
 
-    # Chapter times plot
-    labels = []
-    student_times = []
-    for chapter in chapter_table:
-        if chapter['time'] >= 0:
-            labels.append(chapter['chapter'].label)
-            student_times.append(chapter['time'])
- 
-    class_times = []
-    for item in chapter_table:
-        if item['time'] >= 0:
-            chapter_problems = ExerciseSet.objects.filter(chapter=item['chapter']).values_list('problem')
-            students = User.objects.filter(userprofile__user_class=onlineclass)
-            times = []
-            for student in students:
-                  userlog = UserLog.objects.filter(
-                                            user=student,
-                                            problem__in=chapter_problems,
-                                            timestamp__gte=onlineclass.start_date).order_by('timestamp').all()
-                  passed = UserLogView.objects.filter(user=user,
-                                            problem__in=chapter_problems,
-                                            final_outcome='P').order_by('timestamp')
-                  progress = round(100 * len(passed)/len(chapter_problems))
-                  if progress == 100 and len(userlog) != 0:
-                      time = (passed.reverse()[0].timestamp - userlog[0].timestamp).days
-                      times.append(time)
-            class_times.append(mean(times))
+      progress = round(100*UserLogView.objects.filter(user=user,
+                                          problem__in=chapter_problems,
+                                          final_outcome='P').count()/chapter_problems.count())
+
+      logs = UserLog.objects.filter(user=user,
+                                      problem__in=chapter_problems,
+                                      timestamp__gte=onlineclass.start_date).order_by('timestamp')
+      
+      if logs.count():
+        first_log = logs.first().timestamp
+      times = []
+      for problem in chapter_problems:
+        passed = UserLog.objects.filter(user=user,
+                                        problem=problem,
+                                        outcome="P",
+                                        timestamp__gte=onlineclass.start_date).order_by('timestamp')
+        if passed.count():
+          first_passed = passed.first()
+          times.append(first_passed.timestamp)
+      times.sort()
+
+      chapter_time = None
+
+      if len(times) == chapter_problems.count():
+        chapter_passed = times[-1]
+        chapter_time = (chapter_passed-first_log).days
 
 
-    #color settings
+      chapter_times = []
+      for student in students:
+        logs = UserLog.objects.filter(user=student,
+                                      problem__in=chapter_problems,
+                                      timestamp__gte=onlineclass.start_date).order_by('timestamp')
+        if logs.count():
+          first_log = logs.first().timestamp
+        times = []
+        for problem in chapter_problems:
+          passed = UserLog.objects.filter(user=student,
+                                          problem=problem,
+                                          outcome="P",
+                                          timestamp__gte=onlineclass.start_date).order_by('timestamp')
+          if passed.count():
+            first_passed = passed.first()
+            times.append(first_passed.timestamp)
+        times.sort()
+        if len(times) == chapter_problems.count():
+          chapter_passed = times[-1]
+          chapter_times.append((chapter_passed-first_log).days)
+
+      class_time = None
+
+      if len(chapter_times):
+        class_time = round(mean(chapter_times))
+
+      chapter = Chapter.objects.get(id=chapter)
+
+      chapter_table.append({'label': chapter.label,
+                            'id': chapter.id,
+                            'progress': progress,
+                            'chapter_time': chapter_time,
+                            'class_time': class_time})
+
+    chapters_df = pd.DataFrame(chapter_table)
+    chapters_df.dropna(subset = ['chapter_time','class_time'], inplace=True)
+
+
     colors = []
+    student_times = chapters_df['chapter_time'].tolist()
+    class_times = chapters_df['class_time'].tolist()
     for i in range(len(student_times)):
         if student_times[i] == class_times[i]:
             colors.append('#2196F3');
@@ -320,62 +345,140 @@ def student_dashboard(user, professor=False):
         else:
             colors.append('rgb(255, 65, 65)')
 
-    #generating times plot
-    fig3 = go.Figure()
+    x = np.array(range(1,chapters_df['chapter_time'].count()+1))
 
-    fig3.add_trace(go.Scatter(name=class_label,
-                              x=labels,
-                              y=class_times,
-                              line_shape='linear',
-                              line = dict(color='rgb(200,200,200)', width=5),
-                              marker = dict(size=15, color='rgb(200,200,200)'),
-                              hoverinfo='none'))
-    
-    fig3.add_trace(go.Scatter(name=user_label,
-                              x=labels,
-                              y=student_times,
-                              line_shape='linear',
-                              line = dict(color='#2196F3', width=5),
-                              marker = dict(size=15, color=colors),
-                              hoverinfo='none'))
+    fig3 = make_subplots()
 
-    fig3.update_layout(autosize=True,
-                       height=300,
-                       margin=dict(
-                          l=10,
-                          r=10,
-                          b=10,
-                          t=0,
-                          pad=4
-                       ),
-                       legend=dict(
-                          bgcolor='rgba(0,0,0,0)',
-                          traceorder='reversed',
-                          yanchor="top",
-                          y=0.99,
-                          xanchor="right",
-                          x=0.99,
-                          orientation="h",
-                          font=dict(size=16)
-                       ),
-                       plot_bgcolor='white',
-                       xaxis_title=_('Chapter'),
-                       xaxis = dict(
-                         fixedrange = True,
-                         tickmode = 'linear',
-                         dtick = 1),
-                       yaxis_title=_('Time (days)'),
-                       yaxis = dict(
-                         fixedrange = True,
-                         tickmode = 'linear',
-                         tick0 = 1,
-                         dtick = 1),
+    fig3.add_trace(go.Scatter(x=x, 
+                        y=chapters_df['chapter_time'],
+                        line=dict( 
+                          color='rgba(33,150,243,1)',
+                          width=4),
+                        name=user_label,
+                        marker = dict(size=12, color=colors),
+                        hovertemplate='<b>'+_('Chapter')+' %{x}</b><br>%{y} '+_('day(s)'),
+                        # error_y=dict(
+                        #   type='percent',
+                        #   value=15,
+                        #   visible=True,
+                        #   color='rgba(33,150,243,0.4)')
+                        ))
+
+    fig3.add_trace(go.Scatter(x=x, 
+                        y=chapters_df['class_time'],
+                        line=dict( 
+                          color='#4C4C4C',
+                          width=4,
+                          dash='dot'),
+                        mode='lines',
+                        name=class_label,
+                        hovertemplate='<b>'+_('Chapter')+' %{x}</b><br>%{y} '+_('day(s)'),
+                        # error_y=dict(
+                        #   type='percent',
+                        #   value=20,
+                        #   visible=True,
+                        #   color='rgba(0,0,0,0.4)')
+                        ))
+
+    fig3.update_layout(height=300,
+                        hoverlabel=dict(
+                            bgcolor="white",
+                            font_size=14,
+                            font_family="Nunito",
+                        ),
                        font=dict(family="Nunito",
                                  size=14,
                                  color='rgb(76,83,90)'),
-                       hoverlabel=dict(bgcolor='white',
-                                       font_size=15,
-                                       font_family='Nunito'))
+                       plot_bgcolor  = "rgba(0, 0, 0, 0)",
+                       paper_bgcolor = "rgba(0, 0, 0, 0)",
+                       margin=dict(
+                         l=10,
+                         r=30,
+                         b=10,
+                         t=0,
+                         pad=4
+                      ),
+                       legend=dict(
+                        orientation="h",
+                        yanchor="bottom",
+                        y=1.02,
+                        xanchor="right",
+                        x=1
+                        ),
+                      xaxis = dict(
+                        title=_('Chapter'),
+                        showgrid=False,
+                        fixedrange = True,
+                        tickmode = 'linear',
+                        dtick = 1),
+                      yaxis = dict(
+                        title=_('Time (days)'),
+                        showgrid=False,
+                        fixedrange = True,
+                        tickmode = 'linear',
+                        tick0 = 0,),)
+
+
+
+
+    # #color settings
+
+    # #generating times plot
+    # fig3 = go.Figure()
+
+    # fig3.add_trace(go.Scatter(name=class_label,
+    #                           x=labels,
+    #                           y=class_times,
+    #                           line_shape='linear',
+    #                           line = dict(color='rgb(200,200,200)', width=5),
+    #                           marker = dict(size=15, color='rgb(200,200,200)'),
+    #                           hoverinfo='none'))
+    
+    # fig3.add_trace(go.Scatter(name=user_label,
+    #                           x=labels,
+    #                           y=student_times,
+    #                           line_shape='linear',
+    #                           line = dict(color='#2196F3', width=5),
+    #                           marker = dict(size=15, color=colors),
+    #                           hoverinfo='none'))
+
+    # fig3.update_layout(autosize=True,
+    #                    height=300,
+    #                    margin=dict(
+    #                       l=10,
+    #                       r=10,
+    #                       b=10,
+    #                       t=0,
+    #                       pad=4
+    #                    ),
+    #                    legend=dict(
+    #                       bgcolor='rgba(0,0,0,0)',
+    #                       traceorder='reversed',
+    #                       yanchor="top",
+    #                       y=0.99,
+    #                       xanchor="right",
+    #                       x=0.99,
+    #                       orientation="h",
+    #                       font=dict(size=16)
+    #                    ),
+    #                    plot_bgcolor='white',
+    #                    xaxis_title=_('Chapter'),
+    #                    xaxis = dict(
+    #                      fixedrange = True,
+    #                      tickmode = 'linear',
+    #                      dtick = 1),
+    #                    yaxis_title=_('Time (days)'),
+    #                    yaxis = dict(
+    #                      fixedrange = True,
+    #                      tickmode = 'linear',
+    #                      tick0 = 1,
+    #                      dtick = 1),
+    #                    font=dict(family="Nunito",
+    #                              size=14,
+    #                              color='rgb(76,83,90)'),
+    #                    hoverlabel=dict(bgcolor='white',
+    #                                    font_size=15,
+    #                                    font_family='Nunito'))
 
     problems_plot = opy.plot(fig,
                              auto_open=False,
@@ -404,7 +507,7 @@ def student_dashboard(user, professor=False):
 
 
 def class_dashboard(onlineclass):
-    students = User.objects.filter(userprofile__user_class=onlineclass)
+    students = User.objects.filter(userprofile__user_class=onlineclass).order_by('-first_name','-last_name')
     chapters = Deadline.objects.filter(onlineclass=onlineclass).values_list('chapter', flat=True)
     problems = Problem.objects.filter(chapter__in=chapters)
 
@@ -585,7 +688,7 @@ def class_dashboard(onlineclass):
 
     fig2.update_layout(height=650,
                        plot_bgcolor='white',
-                       xaxis=dict(fixedrange=True),
+                       xaxis=dict(fixedrange=True, tickmode='linear'),
                        yaxis=dict(fixedrange=True),
                       margin=dict(
                          l=0,
@@ -613,7 +716,7 @@ def class_dashboard(onlineclass):
     colorscale=["#FEC809", "rgb(255, 65, 65)"]))
 
     fig3.update_layout(height=650,
-                       xaxis=dict(fixedrange=True),
+                       xaxis=dict(fixedrange=True, tickmode='linear'),
                        yaxis=dict(fixedrange=True),
                        font=dict(family="Nunito",
                                  size=14,
@@ -726,9 +829,9 @@ def class_dashboard(onlineclass):
       name = '',
     	marker=dict(
     		size=size,
-        sizeref=2.*max(size)/(40.**2),
     		sizemode='diameter',
-        sizemin=1,
+        sizemin=10,
+        sizeref=50,
         color='rgba(33,150,243,0.9)'
     		)
     	)])
@@ -830,6 +933,7 @@ def class_dashboard(onlineclass):
       chapter = Chapter.objects.get(id=chapter)
 
       chapter_table.append({'label': chapter.label,
+                            'id': chapter.id,
                             'progress': progress,
                             'chapter_time': chapter_time,
                             'delays': delays,
@@ -844,7 +948,7 @@ def class_dashboard(onlineclass):
 
     #PLOT: chapters
 
-    x = ["Aula 1","Aula 2","Aula 3","Aula 4","Aula 5","Aula 6","Aula 7","Aula 8",]
+    x = np.array(range(1,chapters_df['attempts'].count()+1))
 
     fig6 = make_subplots(specs=[[{"secondary_y": True}]])
 
@@ -855,7 +959,7 @@ def class_dashboard(onlineclass):
                 				  width=4),
                 			  mode='lines',
                 			  name=_('Attempts'),
-                        hovertemplate='<b>%{x}</b><br>%{y} ('+_('avg')+')',
+                        hovertemplate='<b>'+_('Chapter')+' %{x}</b><br>%{y} ('+_('avg')+')',
                         # error_y=dict(
                         #   type='percent',
                         #   value=15,
@@ -872,14 +976,14 @@ def class_dashboard(onlineclass):
                 				  dash='dot'),
                 			  mode='lines',
                 			  name=_('Time'),
-                        hovertemplate='<b>%{x}</b><br>%{y} min ('+_('avg')+')',
+                        hovertemplate='<b>'+_('Chapter')+' %{x}</b><br>%{y} min ('+_('avg')+')',
                         # error_y=dict(
                         #   type='percent',
                         #   value=20,
                         #   visible=True,
                         #   color='rgba(0,0,0,0.4)')
                         ),
-                        secondary_y=True,)
+                        secondary_y=True)
 
     fig6.update_layout(height=300,
                         hoverlabel=dict(
@@ -906,6 +1010,7 @@ def class_dashboard(onlineclass):
                        	xanchor="right",
                        	x=1
                        	),
+                      y_axis_tickmode = 'linear',
                       xaxis_showgrid=False,
                       yaxis_showgrid=False)
     fig6.update_yaxes(title_text=_('Attempts per problem'), secondary_y=False)
@@ -925,7 +1030,7 @@ def class_dashboard(onlineclass):
     "students_plot": students_plot,
     "chapters_plot": chapters_plot,
     "chapter_table": chapter_table,
-    "students_table": students_table,
+    "students_table": students_table[-1::-1],
     "z": delays,
     'matrix1': matrix1
     }
