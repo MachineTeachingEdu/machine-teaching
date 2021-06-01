@@ -138,128 +138,6 @@ def student_dashboard(user, professor=False):
         class_time = round(times_sum/(len(times)*60))
     problems_time = {'student': student_time, 'class': class_time}
 
-    #errors plot data
-    # TODO: os codigos para alunos e turma são praticamente iguais
-    # vale a pena criar uma funcao que calcule os erros so passando
-    # como parametro o user (pode ser user__in=[user] ou user__id=[students])
-    labels = []
-    student_errors = []
-    for chapter in chapters:
-        chapter = Chapter.objects.get(id=chapter)
-        chapter_problems = Problem.objects.filter(chapter=chapter)
-        passed = UserLogView.objects.filter(user=user,
-                                            problem__in=chapter_problems,
-                                            final_outcome='P')
-        if len(passed) > 0:
-            problem_errors = []
-            for problem in chapter_problems:
-                timestamp = passed.filter(problem=problem).values_list('timestamp')
-                errors = UserLog.objects.filter(user=user,
-                                                problem=problem,
-                                                outcome='F',
-                                                timestamp__gte=onlineclass.start_date,
-                                                timestamp__lte=timestamp)
-                problem_errors.append(len(errors))
-            chapter_errors = mean(problem_errors)
-            student_errors.append(chapter_errors)
-            labels.append(chapter.label)
-    
-    average_errors = 0
-    if len(student_errors) != 0:
-        average_errors = round(mean(student_errors))
-
-    class_errors = []
-    for chapter in chapters:
-        chapter_problems = Problem.objects.filter(chapter=chapter)
-        passed = UserLogView.objects.filter(user__in=students,
-                                            problem__in=chapter_problems,
-                                            final_outcome='P')
-        if len(passed) > 0:
-            problem_errors = []
-            for problem in chapter_problems:
-                passed_problem = passed.filter(problem=problem)
-                errors = 0
-                for log in passed_problem:
-                    log_errors = UserLog.objects.filter(user__in=students,
-                                                        problem=problem,
-                                                        outcome='F',
-                                                        timestamp__gte=onlineclass.start_date,
-                                                        timestamp__lte=log.timestamp)
-                    errors += len(log_errors)
-                problem_errors.append(errors)
-            chapter_errors = mean(problem_errors)
-            class_errors.append(chapter_errors)
-
-    #color settings
-    colors = []
-    for i in range(len(student_errors)):
-        if student_errors[i] == class_errors[i]:
-            colors.append('#2196F3');
-        elif student_errors[i] < class_errors[i]:
-            colors.append('rgb(84, 210, 87)')
-        else:
-            colors.append('rgb(255, 65, 65)')
-
-    #generating errors plot
-    # TODO: esse e o proximo plot possuem uma estrutura muito parecida
-    # Acho que vale a pena criar um funcao para criar esses plots tb
-    fig2 = go.Figure()
-
-    fig2.add_trace(go.Scatter(name=class_label,
-                              x=labels,
-                              y=class_errors,
-                              line_shape='linear',
-                              line = dict(color='rgb(200,200,200)', width=5),
-                              marker = dict(size=15, color='rgb(200,200,200)'),
-                              hoverinfo='none'))
-
-    fig2.add_trace(go.Scatter(name=user_label,
-                              x=labels,
-                              y=student_errors,
-                              line_shape='linear',
-                              line = dict(color='#2196F3', width=5),
-                              marker = dict(size=15, color=colors),
-                              hoverinfo='none'))
-    
-    fig2.update_layout(autosize=True,
-                       height=300,
-                       margin=dict(
-                          l=10,
-                          r=10,
-                          b=10,
-                          t=0,
-                          pad=4
-                       ),
-                       legend=dict(
-                          bgcolor='rgba(0,0,0,0)',
-                          traceorder='reversed',
-                          yanchor="top",
-                          y=0.99,
-                          xanchor="right",
-                          x=0.99,
-                          orientation="h", 
-                          font=dict(size=16)
-                       ),
-                       plot_bgcolor='white',
-                       xaxis_title=_('Chapter'),
-                       xaxis = dict(
-                         fixedrange = True,
-                         tickmode = 'linear',
-                         dtick = 1),
-                       yaxis_title=_('Errors'),
-                       yaxis = dict(
-                         fixedrange = True,
-                         tickmode = 'linear',
-                         tick0 = 0,
-                         dtick = 1),
-                       font=dict(family="Nunito",
-                                 size=14,
-                                 color='rgb(76,83,90)'),
-                       hoverlabel=dict(bgcolor='white',
-                                       font_size=15,
-                                       font_family='Nunito'))
-
-    
 
 
 
@@ -322,16 +200,277 @@ def student_dashboard(user, professor=False):
       if len(chapter_times):
         class_time = round(mean(chapter_times))
 
+      c_errors = []
+      for problem in chapter_problems:
+        passed = UserLog.objects.filter(user__in=students,
+                                        problem=problem,
+                                        outcome="P",
+                                        timestamp__gte=onlineclass.start_date).order_by('timestamp')
+
+        if passed.count():
+          timestamp = passed.first().timestamp
+
+        errors = UserLog.objects.filter(user__in=students,
+                                        problem=problem,
+                                        outcome='F',
+                                        timestamp__gte=onlineclass.start_date,
+                                        timestamp__lte=timestamp).count()
+        c_errors.append(errors)
+
+      class_errors = None
+      if len(c_errors):
+        class_errors = round(mean(c_errors))
+
+      u_errors = []
+      for problem in chapter_problems:
+        passed = passed.filter(user=user)
+
+        if passed.count():
+          timestamp = passed.first().timestamp
+
+        errors = UserLog.objects.filter(user=user,
+                                        problem=problem,
+                                        outcome='F',
+                                        timestamp__gte=onlineclass.start_date,
+                                        timestamp__lte=timestamp).count()
+        u_errors.append(errors)
+
+      user_errors = None
+      if len(u_errors):
+        user_errors = round(mean(u_errors))
+
       chapter = Chapter.objects.get(id=chapter)
 
       chapter_table.append({'label': chapter.label,
                             'id': chapter.id,
                             'progress': progress,
                             'chapter_time': chapter_time,
-                            'class_time': class_time})
+                            'class_time': class_time,
+                            'class_errors': class_errors,
+                            'user_errors': user_errors})
 
     chapters_df = pd.DataFrame(chapter_table)
-    chapters_df.dropna(subset = ['chapter_time','class_time'], inplace=True)
+    chapters_df.dropna(subset = ['chapter_time','class_time','class_errors','user_errors'], inplace=True)
+
+    avg_errors = 0
+    if chapters_df['user_errors'].count():
+      avg_errors = round(chapters_df['user_errors'].mean())
+
+    #errors plot data
+    # TODO: os codigos para alunos e turma são praticamente iguais
+    # vale a pena criar uma funcao que calcule os erros so passando
+    # como parametro o user (pode ser user__in=[user] ou user__id=[students])
+    # labels = []
+    # student_errors = []
+    # for chapter in chapters:
+    #     chapter_problems = Problem.objects.filter(chapter=chapter)
+    #     passed = UserLogView.objects.filter(user=user,
+    #                                         problem__in=chapter_problems,
+    #                                         final_outcome='P')
+    #     if len(passed) > 0:
+    #         problem_errors = []
+    #         for problem in chapter_problems:
+    #             timestamp = passed.filter(problem=problem).values_list('timestamp')
+    #             errors = UserLog.objects.filter(user=user,
+    #                                             problem=problem,
+    #                                             outcome='F',
+    #                                             timestamp__gte=onlineclass.start_date,
+    #                                             timestamp__lte=timestamp)
+    #             problem_errors.append(len(errors))
+    #         chapter_errors = mean(problem_errors)
+    #         student_errors.append(chapter_errors)
+    #         labels.append(chapter.label)
+    
+    # average_errors = 0
+    # if len(student_errors) != 0:
+    #     average_errors = round(mean(student_errors))
+
+    # class_errors = []
+    # for chapter in chapters:
+    #     chapter_problems = problems.filter(chapter=chapter)
+    #     passed = UserLogView.objects.filter(user__in=students,
+    #                                         problem__in=chapter_problems,
+    #                                         final_outcome='P')
+    #     if len(passed) > 0:
+    #         problem_errors = []
+    #         for problem in chapter_problems:
+    #             passed_problem = passed.filter(problem=problem)
+    #             errors = 0
+    #             for log in passed_problem:
+    #                 log_errors = UserLog.objects.filter(user__in=students,
+    #                                                     problem=problem,
+    #                                                     outcome='F',
+    #                                                     timestamp__gte=onlineclass.start_date,
+    #                                                     timestamp__lte=log.timestamp)
+    #                 errors += len(log_errors)
+    #             problem_errors.append(errors)
+    #         chapter_errors = mean(problem_errors)
+    #         class_errors.append(chapter_errors)
+
+    # #color settings
+    # colors = []
+    # for i in range(len(student_errors)):
+    #     if student_errors[i] == class_errors[i]:
+    #         colors.append('#2196F3');
+    #     elif student_errors[i] < class_errors[i]:
+    #         colors.append('rgb(84, 210, 87)')
+    #     else:
+    #         colors.append('rgb(255, 65, 65)')
+
+    #generating errors plot
+    # TODO: esse e o proximo plot possuem uma estrutura muito parecida
+    # Acho que vale a pena criar um funcao para criar esses plots tb
+    # fig2 = go.Figure()
+
+    # fig2.add_trace(go.Scatter(name=class_label,
+    #                           x=labels,
+    #                           y=class_errors,
+    #                           line_shape='linear',
+    #                           line = dict(color='rgb(200,200,200)', width=5),
+    #                           marker = dict(size=15, color='rgb(200,200,200)'),
+    #                           hoverinfo='none'))
+
+    # fig2.add_trace(go.Scatter(name=user_label,
+    #                           x=labels,
+    #                           y=student_errors,
+    #                           line_shape='linear',
+    #                           line = dict(color='#2196F3', width=5),
+    #                           marker = dict(size=15, color=colors),
+    #                           hoverinfo='none'))
+    
+    # fig2.update_layout(autosize=True,
+    #                    height=300,
+    #                    margin=dict(
+    #                       l=10,
+    #                       r=10,
+    #                       b=10,
+    #                       t=0,
+    #                       pad=4
+    #                    ),
+    #                    legend=dict(
+    #                       bgcolor='rgba(0,0,0,0)',
+    #                       traceorder='reversed',
+    #                       yanchor="top",
+    #                       y=0.99,
+    #                       xanchor="right",
+    #                       x=0.99,
+    #                       orientation="h", 
+    #                       font=dict(size=16)
+    #                    ),
+    #                    plot_bgcolor='white',
+    #                    xaxis_title=_('Chapter'),
+    #                    xaxis = dict(
+    #                      fixedrange = True,
+    #                      tickmode = 'linear',
+    #                      dtick = 1),
+    #                    yaxis_title=_('Errors'),
+    #                    yaxis = dict(
+    #                      fixedrange = True,
+    #                      tickmode = 'linear',
+    #                      tick0 = 0,
+    #                      dtick = 1),
+    #                    font=dict(family="Nunito",
+    #                              size=14,
+    #                              color='rgb(76,83,90)'),
+    #                    hoverlabel=dict(bgcolor='white',
+    #                                    font_size=15,
+    #                                    font_family='Nunito'))
+
+    
+
+    colors = []
+    user_errors = chapters_df['user_errors'].tolist()
+    class_errors = chapters_df['class_errors'].tolist()
+    for i in range(len(user_errors)):
+        if user_errors[i] == class_errors[i]:
+            colors.append('#2196F3');
+        elif user_errors[i] < class_errors[i]:
+            colors.append('rgb(84, 210, 87)')
+        else:
+            colors.append('rgb(255, 65, 65)')
+
+    x = []
+    n=1
+    for item in chapters_df['user_errors'].tolist():
+      if item:
+        x.append(n)
+      n+=1
+
+    fig2 = make_subplots()
+
+    fig2.add_trace(go.Scatter(x=x, 
+                        y=chapters_df['user_errors'],
+                        line=dict( 
+                          color='rgba(33,150,243,1)',
+                          width=4),
+                        name=user_label,
+                        marker = dict(size=12, color=colors),
+                        hovertemplate='<b>'+_('Chapter')+' %{x}</b><br>%{y} '+_('error(s)'),
+                        # error_y=dict(
+                        #   type='percent',
+                        #   value=15,
+                        #   visible=True,
+                        #   color='rgba(33,150,243,0.4)')
+                        ))
+
+    fig2.add_trace(go.Scatter(x=x, 
+                        y=chapters_df['class_errors'],
+                        line=dict( 
+                          color='#4C4C4C',
+                          width=4,
+                          dash='dot'),
+                        mode='lines',
+                        name=class_label,
+                        hovertemplate='<b>'+_('Chapter')+' %{x}</b><br>%{y} '+_('error(s)'),
+                        # error_y=dict(
+                        #   type='percent',
+                        #   value=20,
+                        #   visible=True,
+                        #   color='rgba(0,0,0,0.4)')
+                        ))
+
+    fig2.update_layout(height=300,
+                        hoverlabel=dict(
+                            bgcolor="white",
+                            font_size=14,
+                            font_family="Nunito",
+                        ),
+                       font=dict(family="Nunito",
+                                 size=14,
+                                 color='rgb(76,83,90)'),
+                       plot_bgcolor  = "rgba(0, 0, 0, 0)",
+                       paper_bgcolor = "rgba(0, 0, 0, 0)",
+                       margin=dict(
+                         l=10,
+                         r=30,
+                         b=10,
+                         t=0,
+                         pad=4
+                      ),
+                       legend=dict(
+                        orientation="h",
+                        yanchor="bottom",
+                        y=1.02,
+                        xanchor="right",
+                        x=1
+                        ),
+                      xaxis = dict(
+                        title=_('Chapter'),
+                        showgrid=False,
+                        fixedrange = True,
+                        tickmode = 'linear',
+                        dtick = 1),
+                      yaxis_showgrid=False,
+                      yaxis = dict(
+                        title=_('Errors'),
+                        fixedrange = True,
+                        tickmode = 'linear',
+                        tick0 = 0,),)
+
+
+
+
+
 
 
     colors = []
@@ -345,7 +484,12 @@ def student_dashboard(user, professor=False):
         else:
             colors.append('rgb(255, 65, 65)')
 
-    x = np.array(range(1,chapters_df['chapter_time'].count()+1))
+    x = []
+    n=1
+    for item in chapters_df['user_errors'].tolist():
+      if item:
+        x.append(n)
+      n+=1
 
     fig3 = make_subplots()
 
@@ -411,9 +555,9 @@ def student_dashboard(user, professor=False):
                         fixedrange = True,
                         tickmode = 'linear',
                         dtick = 1),
+                      yaxis_showgrid=False,
                       yaxis = dict(
                         title=_('Time (days)'),
-                        showgrid=False,
                         fixedrange = True,
                         tickmode = 'linear',
                         tick0 = 0,),)
@@ -496,7 +640,7 @@ def student_dashboard(user, professor=False):
         "student_name": student_name,
         "problems_plot": problems_plot,
         "problems_time": problems_time,
-        "errors": average_errors,
+        "errors": avg_errors,
         "chapters": chapter_table,
         "errors_plot": errors_plot,
         "time_plot": time_plot,
@@ -1010,7 +1154,7 @@ def class_dashboard(onlineclass):
                        	xanchor="right",
                        	x=1
                        	),
-                      y_axis_tickmode = 'linear',
+                      yaxis_tickmode = 'linear',
                       xaxis_showgrid=False,
                       yaxis_showgrid=False)
     fig6.update_yaxes(title_text=_('Attempts per problem'), secondary_y=False)
