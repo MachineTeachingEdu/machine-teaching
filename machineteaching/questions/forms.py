@@ -41,7 +41,7 @@ class SignUpForm(UserCreationForm):
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
-        if email and User.objects.filter(email=email).exists():
+        if email.lower() and User.objects.filter(email=email).exists():
             raise forms.ValidationError(_(u'Email addresses must be unique.'))
         return email
 

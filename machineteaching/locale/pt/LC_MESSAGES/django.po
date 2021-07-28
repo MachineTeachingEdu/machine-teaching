@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-16 02:58-0300\n"
+"POT-Creation-Date: 2021-07-28 03:16-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,58 +18,1155 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: questions/templates/questions/base.html:32
-msgid "Machine Teaching Project"
+#: questions/forms.py:19
+msgid "No"
+msgstr ""
+
+#: questions/forms.py:20
+msgid "Yes"
+msgstr ""
+
+#: questions/forms.py:26 questions/forms.py:145
+#: questions/templates/questions/edit_profile.html:15
+#: questions/templates/registration/signup.html:45
+msgid "Class code"
+msgstr ""
+
+#: questions/forms.py:27
+msgid "Course"
+msgstr ""
+
+#: questions/forms.py:28 questions/templates/registration/signup.html:112
+msgid "Did you have any programming experience before this course?"
+msgstr ""
+
+#: questions/forms.py:29 questions/templates/registration/signup.html:121
+msgid "I accept the "
+msgstr ""
+
+#: questions/forms.py:29 questions/templates/index.html:82
+#: questions/templates/questions/base.html:102
+#: questions/templates/registration/base.html:55
+#: questions/templates/registration/signup.html:122
+msgid "Terms and Conditions"
+msgstr ""
+
+#: questions/forms.py:30 questions/templates/registration/signup.html:126
+msgid "I've read the "
+msgstr ""
+
+#: questions/forms.py:30 questions/templates/index.html:86
+#: questions/templates/questions/base.html:106
+#: questions/templates/registration/base.html:59
+#: questions/templates/registration/signup.html:127
+msgid "Privacy Policy"
+msgstr ""
+
+#: questions/forms.py:45
+msgid "Email addresses must be unique."
+msgstr ""
+
+#: questions/forms.py:51 questions/forms.py:154
+msgid "Invalid Class Code."
+msgstr ""
+
+#: questions/forms.py:56 questions/get_dashboards.py:27
+#: questions/templates/questions/manager_dashboard.html:85
+#: questions/templates/questions/outcomes.html:13
+#: questions/templates/questions/solutions.html:13
+#: questions/templates/questions/student_dashboard.html:38
+msgid "Class"
+msgstr ""
+
+#: questions/forms.py:57 questions/forms.py:163 questions/get_dashboards.py:408
+#: questions/get_dashboards.py:424 questions/get_dashboards.py:458
+#: questions/get_dashboards.py:503 questions/get_dashboards.py:519
+#: questions/get_dashboards.py:553 questions/get_dashboards.py:1106
+#: questions/get_dashboards.py:1123 questions/get_dashboards.py:1607
+#: questions/get_dashboards.py:1624 questions/models.py:30
+#: questions/templates/questions/class_dashboard.html:28
+#: questions/templates/questions/manager_dashboard.html:28
+#: questions/templates/questions/new_problem.html:44
+#: questions/templates/questions/outcomes.html:17
+#: questions/templates/questions/past_problems.html:33
+#: questions/templates/questions/show_class.html:11
+#: questions/templates/questions/student_solutions.html:20
+#, fuzzy
+#| msgid "Chapters"
+msgid "Chapter"
+msgstr "Aulas"
+
+#: questions/forms.py:66
+msgid "You don't have authorization to view this class."
+msgstr ""
+
+#: questions/forms.py:108 questions/templates/questions/new_problem.html:22
+msgid "Code"
+msgstr ""
+
+#: questions/forms.py:109
+msgid "Multiple Choice"
+msgstr ""
+
+#: questions/forms.py:110 questions/templates/questions/new_problem.html:24
+msgid "Text"
+msgstr ""
+
+#: questions/forms.py:178
+msgid "The date must be in the format \"yyyy-mm-dd\" and must be valid."
+msgstr ""
+
+#: questions/forms.py:186
+msgid "The time must be in the format \"HH:MM\" and must be valid."
+msgstr ""
+
+#: questions/get_dashboards.py:23
+#: questions/templates/questions/student_dashboard.html:30
+msgid "You"
+msgstr ""
+
+#: questions/get_dashboards.py:24
+#: questions/templates/questions/student_dashboard.html:40
+msgid "Your class"
+msgstr ""
+
+#: questions/get_dashboards.py:26
+#: questions/templates/questions/class_dashboard.html:85
+#: questions/templates/questions/class_dashboard.html:135
+#: questions/templates/questions/outcomes.html:32
+#: questions/templates/questions/student_dashboard.html:28
+#: questions/templates/questions/student_solutions.html:8
+msgid "Student"
+msgstr ""
+
+#: questions/get_dashboards.py:58 questions/get_dashboards.py:675
+#: questions/get_dashboards.py:1210
+#: questions/templates/questions/chapters.html:46
+#: questions/templates/questions/chapters.html:80
+#: questions/templates/questions/chapters.html:114
+#: questions/templates/questions/home.html:67
+#: questions/templates/questions/outcomes.html:45
+#: questions/templates/questions/past_problems.html:10
+#: questions/templates/questions/past_problems.html:13
+#: questions/templates/questions/past_problems.html:48
+#: questions/templates/questions/past_solutions.html:15
+#: questions/templates/questions/past_solutions.html:167
+#: questions/templates/questions/problem_solutions.html:15
+#: questions/templates/questions/show_chapter.html:25
+#: questions/templates/questions/show_problem.html:122
+#: questions/templates/questions/solutions.html:46
+#: questions/templates/questions/student_logs.html:9
+#: questions/templates/questions/student_logs.html:12
+#: questions/templates/questions/student_logs.html:55
+#: questions/templates/questions/student_solutions.html:52
+msgid "Passed"
+msgstr ""
+
+#: questions/get_dashboards.py:58 questions/get_dashboards.py:675
+#: questions/get_dashboards.py:1210
+#: questions/templates/questions/chapters.html:50
+#: questions/templates/questions/chapters.html:84
+#: questions/templates/questions/chapters.html:118
+#: questions/templates/questions/home.html:71
+#: questions/templates/questions/outcomes.html:46
+#: questions/templates/questions/outcomes.html:55
+#: questions/templates/questions/past_problems.html:16
+#: questions/templates/questions/past_problems.html:19
+#: questions/templates/questions/past_problems.html:54
+#: questions/templates/questions/past_solutions.html:19
+#: questions/templates/questions/past_solutions.html:168
+#: questions/templates/questions/problem_solutions.html:17
+#: questions/templates/questions/show_chapter.html:29
+#: questions/templates/questions/show_problem.html:123
+#: questions/templates/questions/solutions.html:48
+#: questions/templates/questions/student_logs.html:15
+#: questions/templates/questions/student_logs.html:18
+#: questions/templates/questions/student_logs.html:62
+#: questions/templates/questions/student_solutions.html:54
+msgid "Failed"
+msgstr ""
+
+#: questions/get_dashboards.py:58 questions/get_dashboards.py:675
+#: questions/get_dashboards.py:1210
+#: questions/templates/questions/chapters.html:54
+#: questions/templates/questions/chapters.html:88
+#: questions/templates/questions/chapters.html:122
+#: questions/templates/questions/home.html:75
+#: questions/templates/questions/outcomes.html:47
+#: questions/templates/questions/outcomes.html:57
+#: questions/templates/questions/past_problems.html:22
+#: questions/templates/questions/past_problems.html:25
+#: questions/templates/questions/past_problems.html:60
+#: questions/templates/questions/problem_solutions.html:19
+#: questions/templates/questions/show_chapter.html:33
+#: questions/templates/questions/solutions.html:50
+#: questions/templates/questions/student_logs.html:21
+#: questions/templates/questions/student_logs.html:24
+#: questions/templates/questions/student_logs.html:69
+#: questions/templates/questions/student_solutions.html:56
+msgid "Skipped"
+msgstr ""
+
+#: questions/get_dashboards.py:58 questions/get_dashboards.py:675
+#: questions/get_dashboards.py:1210
+msgid "No attempt"
+msgstr ""
+
+#: questions/get_dashboards.py:408 questions/get_dashboards.py:424
+#: questions/templates/questions/home.html:39
+msgid "error(s)"
+msgstr ""
+
+#: questions/get_dashboards.py:465 questions/templates/questions/home.html:36
+#: questions/templates/questions/student_dashboard.html:50
+msgid "Errors"
+msgstr ""
+
+#: questions/get_dashboards.py:503 questions/get_dashboards.py:519
+#: questions/templates/questions/student_dashboard.html:91
+msgid "day(s)"
+msgstr ""
+
+#: questions/get_dashboards.py:560
+msgid "Time (days)"
+msgstr ""
+
+#: questions/get_dashboards.py:639 questions/templates/questions/base.html:33
+#: questions/views.py:468
+msgid "Outcomes"
+msgstr "Resultados"
+
+#: questions/get_dashboards.py:920 questions/get_dashboards.py:947
+#: questions/get_dashboards.py:971 questions/get_dashboards.py:1003
+#: questions/get_dashboards.py:1105 questions/get_dashboards.py:1412
+#: questions/get_dashboards.py:1439 questions/get_dashboards.py:1606
+#: questions/templates/questions/past_problems.html:36
+msgid "Attempts"
+msgstr ""
+
+#: questions/get_dashboards.py:920 questions/get_dashboards.py:971
+#: questions/get_dashboards.py:1106 questions/get_dashboards.py:1123
+#: questions/get_dashboards.py:1412 questions/get_dashboards.py:1607
+#: questions/get_dashboards.py:1624
+msgid "avg"
+msgstr ""
+
+#: questions/get_dashboards.py:920 questions/get_dashboards.py:971
+#: questions/get_dashboards.py:1122 questions/get_dashboards.py:1412
+#: questions/get_dashboards.py:1623
+#: questions/templates/questions/class_dashboard.html:64
+#: questions/templates/questions/manager_dashboard.html:64
+#: questions/templates/questions/student_dashboard.html:80
+#: questions/templates/questions/student_dashboard.html:102
+msgid "Time"
+msgstr ""
+
+#: questions/get_dashboards.py:948 questions/get_dashboards.py:1440
+msgid "Time (minutes)"
+msgstr ""
+
+#: questions/get_dashboards.py:971 questions/get_dashboards.py:1004
+#: questions/templates/questions/class_dashboard.html:86
+#: questions/templates/questions/manager_dashboard.html:86
+msgid "Solved problems"
+msgstr ""
+
+#: questions/get_dashboards.py:1160 questions/get_dashboards.py:1661
+#: questions/templates/questions/class_dashboard.html:32
+#: questions/templates/questions/class_dashboard.html:89
+#: questions/templates/questions/manager_dashboard.html:32
+#: questions/templates/questions/manager_dashboard.html:89
+msgid "Attempts per problem"
+msgstr ""
+
+#: questions/get_dashboards.py:1161 questions/get_dashboards.py:1662
+msgid "Time per problem (minutes)"
+msgstr ""
+
+#: questions/get_problem.py:52 questions/models.py:68
+#, fuzzy
+#| msgid "Past Problems"
+msgid "Problem"
+msgstr "Problemas Passados"
+
+#: questions/models.py:31 questions/templates/questions/base.html:29
+#: questions/templates/questions/base.html:48
+#: questions/templates/questions/class_dashboard.html:25
+#: questions/templates/questions/class_dashboard.html:57
+#: questions/templates/questions/classes.html:17
+#: questions/templates/questions/finished.html:11
+#: questions/templates/questions/manager_dashboard.html:25
+#: questions/templates/questions/manager_dashboard.html:57
+#: questions/templates/questions/show_class.html:8
+#: questions/templates/questions/student_dashboard.html:74
+#: questions/views.py:286
+msgid "Chapters"
+msgstr "Aulas"
+
+#: questions/models.py:69 questions/templates/questions/class_dashboard.html:16
+#: questions/templates/questions/manager_dashboard.html:16
+#: questions/templates/questions/show_chapter.html:7
+#: questions/templates/questions/student_dashboard.html:11
+#, fuzzy
+#| msgid "Past Problems"
+msgid "Problems"
+msgstr "Problemas Passados"
+
+#: questions/models.py:84
+msgid "Exercise Set"
+msgstr ""
+
+#: questions/models.py:85
+msgid "Exercises Sets"
+msgstr ""
+
+#: questions/models.py:97
+msgid "OnlineClass"
+msgstr ""
+
+#: questions/models.py:98
+msgid "OnlineClasses"
+msgstr ""
+
+#: questions/models.py:115 questions/templates/questions/chapters.html:17
+#: questions/templates/questions/home.html:53
+#: questions/templates/questions/show_chapter.html:74
+#: questions/templates/questions/show_class.html:12
+msgid "Deadline"
+msgstr ""
+
+#: questions/models.py:116
+msgid "Deadlines"
+msgstr ""
+
+#: questions/models.py:139
+msgid "Professors"
+msgstr ""
+
+#: questions/models.py:169
+msgid "User profile"
+msgstr ""
+
+#: questions/models.py:170
+msgid "User profiles"
+msgstr ""
+
+#: questions/models.py:204 questions/templates/questions/new_problem.html:62
+#: questions/templates/questions/past_solutions.html:47
+#: questions/templates/questions/student_logs.html:37 questions/views.py:486
+msgid "Solution"
+msgstr ""
+
+#: questions/models.py:205 questions/templates/questions/past_problems.html:38
+#: questions/templates/questions/show_class.html:62
+#: questions/templates/questions/student_solutions.html:13
+msgid "Solutions"
+msgstr ""
+
+#: questions/models.py:214
+msgid "Test Case"
+msgstr ""
+
+#: questions/models.py:215
+msgid "Test Cases"
+msgstr ""
+
+#: questions/models.py:242
+msgid "User log"
+msgstr ""
+
+#: questions/models.py:243
+msgid "User logs"
+msgstr ""
+
+#: questions/models.py:285
+msgid "Page access"
+msgstr ""
+
+#: questions/models.py:286
+msgid "Page accesses"
+msgstr ""
+
+#: questions/models.py:295
+msgid "Interactive"
+msgstr ""
+
+#: questions/models.py:303
+msgid "Recommendations"
+msgstr ""
+
+#: questions/models.py:312
+msgid "Comment"
+msgstr ""
+
+#: questions/templates/index.html:7 questions/templates/questions/base.html:26
+msgid "Home"
+msgstr ""
+
+#: questions/templates/index.html:24
+#: questions/templates/questions/base.html:168
+#: questions/templates/registration/base.html:24
+msgid "Close"
+msgstr ""
+
+#: questions/templates/index.html:38
+msgid "Welcome to "
+msgstr ""
+
+#: questions/templates/index.html:41
+msgid "Start"
+msgstr ""
+
+#: questions/templates/index.html:46
+#: questions/templates/registration/login.html:34
+#: questions/templates/registration/signup.html:7
+#: questions/templates/registration/signup.html:131 questions/views.py:96
+msgid "Create account"
+msgstr ""
+
+#: questions/templates/index.html:50
+msgid "Watch "
+msgstr ""
+
+#: questions/templates/index.html:50
+msgid "tutorials"
+msgstr ""
+
+#: questions/templates/index.html:50
+msgid " on how to use Machine Teaching"
+msgstr ""
+
+#: questions/templates/index.html:51
+msgid "Our goals"
+msgstr ""
+
+#: questions/templates/index.html:56
+msgid "Understand students' learning processes "
+msgstr ""
+
+#: questions/templates/index.html:62
+msgid "Improve teaching methodologies"
+msgstr ""
+
+#: questions/templates/index.html:68
+msgid "Stimulate students to learn the Python language "
+msgstr ""
+
+#: questions/templates/index.html:75 questions/templates/index.html:89
+#: questions/templates/questions/base.html:109
+#: questions/templates/registration/base.html:62
+msgid "About this research"
+msgstr ""
+
+#: questions/templates/index.html:80
+#: questions/templates/questions/base.html:100
+#: questions/templates/registration/base.html:53
+msgid "Check the "
+msgstr ""
+
+#: questions/templates/index.html:84
+#: questions/templates/questions/base.html:104
+#: questions/templates/registration/base.html:57
+msgid "and the "
+msgstr ""
+
+#: questions/templates/index.html:91
+#: questions/templates/questions/base.html:114
+#: questions/templates/registration/base.html:64
+msgid ""
+"© 2020 Copyright: <a href=\"http://machineteaching.tech\">machineteaching."
+"tech"
+msgstr ""
+
+#: questions/templates/questions/base.html:27
+#, fuzzy
+#| msgid "Current Problem"
+msgid "Current problem"
+msgstr "Problema Atual"
+
+#: questions/templates/questions/base.html:28 questions/views.py:200
+#, fuzzy
+#| msgid "Past Problems"
+msgid "Past problems"
+msgstr "Problemas Passados"
+
+#: questions/templates/questions/base.html:31
+#: questions/templates/questions/manager_dashboard.html:82
+#: questions/templates/questions/manager_dashboard.html:118
+#: questions/views.py:703
+msgid "Classes"
 msgstr ""
 
 #: questions/templates/questions/base.html:37
 msgid "Strategy"
 msgstr "Estratégia"
 
-#: questions/templates/questions/base.html:40
+#: questions/templates/questions/base.html:42
+#: questions/templates/questions/finished.html:9
+#: questions/templates/questions/finished.html:14
 msgid "Sequential"
 msgstr "Sequencial"
 
-#: questions/templates/questions/base.html:42
+#: questions/templates/questions/base.html:44
+#: questions/templates/questions/finished.html:12
+#: questions/templates/questions/finished.html:14
 msgid "Random"
 msgstr "Aleatório"
 
-#: questions/templates/questions/base.html:51
-#: questions/templates/questions/base.html:75
-msgid "Current Problem"
-msgstr "Problema Atual"
-
-#: questions/templates/questions/base.html:52
-#: questions/templates/questions/base.html:76
-msgid "Past Problems"
-msgstr "Problemas Passados"
-
-#: questions/templates/questions/base.html:53
-#: questions/templates/questions/base.html:77
-msgid "Chapters"
-msgstr "Aulas"
-
-#: questions/templates/questions/base.html:56
-#: questions/templates/questions/base.html:80
-msgid "Outcomes"
-msgstr "Resultados"
-
-#: questions/templates/questions/base.html:59
-#: questions/templates/questions/base.html:83
+#: questions/templates/questions/base.html:73
 msgid "Hello"
 msgstr "Olá"
 
-#: questions/templates/questions/base.html:59
-#: questions/templates/questions/base.html:83
+#: questions/templates/questions/base.html:77
+msgid "Administration"
+msgstr ""
+
+#: questions/templates/questions/base.html:79
+#: questions/templates/questions/edit_profile.html:8
+msgid "Change class"
+msgstr ""
+
+#: questions/templates/questions/base.html:82
 msgid "Logout"
 msgstr "Sair"
 
-#: questions/templates/questions/base.html:61
-#: questions/templates/questions/base.html:93
-msgid "Signup"
-msgstr "Cadastro"
+#: questions/templates/questions/base.html:112
+msgid "Tutorials"
+msgstr ""
 
-#: questions/templates/questions/base.html:62
-#: questions/templates/questions/base.html:94
+#: questions/templates/questions/base.html:122
+msgid "Register your course"
+msgstr ""
+
+#: questions/templates/questions/base.html:124
+#: questions/templates/registration/signup.html:56
+msgid "Your course"
+msgstr ""
+
+#: questions/templates/questions/base.html:151
+#: questions/templates/registration/signup.html:86
+msgid "Other course"
+msgstr ""
+
+#: questions/templates/questions/base.html:152
+msgid "Register"
+msgstr ""
+
+#: questions/templates/questions/chapters.html:10
+#: questions/templates/questions/show_class.html:24
+#, fuzzy
+#| msgid "Chapters"
+msgid "Add chapter"
+msgstr "Aulas"
+
+#: questions/templates/questions/chapters.html:14
+#: questions/templates/questions/student_dashboard.html:78
+msgid "Name"
+msgstr ""
+
+#: questions/templates/questions/chapters.html:20
+#: questions/templates/questions/show_class.html:49
+msgid "Add"
+msgstr ""
+
+#: questions/templates/questions/chapters.html:26
+#: questions/templates/questions/outcomes.html:10
+#: questions/templates/questions/outcomes.html:22
+#: questions/templates/questions/past_problems.html:129
+#: questions/templates/questions/student_logs.html:134
+msgid "Search"
+msgstr ""
+
+#: questions/templates/questions/class_dashboard.html:9
+msgid "Class progress"
+msgstr ""
+
+#: questions/templates/questions/class_dashboard.html:10
+#: questions/templates/questions/manager_dashboard.html:10
+#, fuzzy
+#| msgid "Past Problems"
+msgid "on all problems"
+msgstr "Problemas Passados"
+
+#: questions/templates/questions/class_dashboard.html:17
+msgid "class performance by problem"
+msgstr ""
+
+#: questions/templates/questions/class_dashboard.html:29
+#: questions/templates/questions/home.html:8
+#: questions/templates/questions/manager_dashboard.html:9
+#: questions/templates/questions/manager_dashboard.html:29
+#: questions/templates/questions/show_chapter.html:65
+#: questions/templates/questions/student_dashboard.html:79
+msgid "Progress"
+msgstr ""
+
+#: questions/templates/questions/class_dashboard.html:30
+#: questions/templates/questions/manager_dashboard.html:30
+msgid "Time to finish (avg)"
+msgstr ""
+
+#: questions/templates/questions/class_dashboard.html:31
+#: questions/templates/questions/manager_dashboard.html:31
+msgid "Delays (students)"
+msgstr ""
+
+#: questions/templates/questions/class_dashboard.html:33
+#: questions/templates/questions/class_dashboard.html:90
+#: questions/templates/questions/class_dashboard.html:124
+#: questions/templates/questions/manager_dashboard.html:33
+#: questions/templates/questions/manager_dashboard.html:90
+#: questions/templates/questions/manager_dashboard.html:124
+msgid "Time per problem (avg)"
+msgstr ""
+
+#: questions/templates/questions/class_dashboard.html:47
+#: questions/templates/questions/class_dashboard.html:106
+#: questions/templates/questions/manager_dashboard.html:47
+#: questions/templates/questions/manager_dashboard.html:106
+msgid "days"
+msgstr ""
+
+#: questions/templates/questions/class_dashboard.html:50
+#: questions/templates/questions/class_dashboard.html:109
+#: questions/templates/questions/manager_dashboard.html:50
+#: questions/templates/questions/manager_dashboard.html:109
+msgid "min"
+msgstr ""
+
+#: questions/templates/questions/class_dashboard.html:58
+#: questions/templates/questions/manager_dashboard.html:58
+msgid "average attempts and time to complete a problem"
+msgstr ""
+
+#: questions/templates/questions/class_dashboard.html:65
+#: questions/templates/questions/manager_dashboard.html:65
+msgid "to end a chapter"
+msgstr ""
+
+#: questions/templates/questions/class_dashboard.html:69
+#: questions/templates/questions/manager_dashboard.html:69
+msgid "Not finished"
+msgstr ""
+
+#: questions/templates/questions/class_dashboard.html:70
+#: questions/templates/questions/manager_dashboard.html:70
+msgid "Finished late"
+msgstr ""
+
+#: questions/templates/questions/class_dashboard.html:74
+#: questions/templates/questions/manager_dashboard.html:74
+msgid "max. time"
+msgstr ""
+
+#: questions/templates/questions/class_dashboard.html:82
+#: questions/templates/questions/class_dashboard.html:118
+#: questions/templates/questions/classes.html:17
+#: questions/templates/questions/show_class.html:56
+msgid "Students"
+msgstr ""
+
+#: questions/templates/questions/class_dashboard.html:87
+#: questions/templates/questions/manager_dashboard.html:87
+msgid "Time per chapter (avg)"
+msgstr ""
+
+#: questions/templates/questions/class_dashboard.html:88
+#: questions/templates/questions/manager_dashboard.html:88
+msgid "Delays"
+msgstr ""
+
+#: questions/templates/questions/class_dashboard.html:119
+#: questions/templates/questions/manager_dashboard.html:119
+msgid "solving problems performance"
+msgstr ""
+
+#: questions/templates/questions/class_dashboard.html:136
+#: questions/templates/registration/login.html:17
+#: questions/templates/registration/signup.html:42
+msgid "E-mail"
+msgstr ""
+
+#: questions/templates/questions/class_dashboard.html:137
+msgid " "
+msgstr ""
+
+#: questions/templates/questions/classes.html:9
+msgid "Professor"
+msgstr ""
+
+#: questions/templates/questions/classes.html:10
+msgid "Show inactive classes"
+msgstr ""
+
+#: questions/templates/questions/classes.html:11
+msgid "Hide inactive classes"
+msgstr ""
+
+#: questions/templates/questions/classes.html:17
+msgid "Start date"
+msgstr ""
+
+#: questions/templates/questions/classes.html:19
+msgid "Manage class"
+msgstr ""
+
+#: questions/templates/questions/classes.html:23
+#: questions/templates/questions/classes.html:84
+msgid "Active"
+msgstr ""
+
+#: questions/templates/questions/classes.html:25
+#: questions/templates/questions/classes.html:80
+msgid "Inactive"
+msgstr ""
+
+#: questions/templates/questions/classes.html:36
+msgid "New class"
+msgstr ""
+
+#: questions/templates/questions/classes.html:42
+msgid "Class name"
+msgstr ""
+
+#: questions/templates/questions/classes.html:43
+msgid "Create"
+msgstr ""
+
+#: questions/templates/questions/edit_profile.html:16
+#: questions/templates/registration/password_reset_confirm.html:14
+msgid "Change"
+msgstr ""
+
+#: questions/templates/questions/finished.html:8
+msgid "You finished all available problems in"
+msgstr ""
+
+#: questions/templates/questions/finished.html:9
+msgid " mode. You can:"
+msgstr ""
+
+#: questions/templates/questions/finished.html:11
+#: questions/templates/questions/finished.html:12
+msgid "Go to"
+msgstr ""
+
+#: questions/templates/questions/finished.html:11
+msgid "and come back to skipped problems."
+msgstr ""
+
+#: questions/templates/questions/finished.html:12
+msgid "mode and try other problems."
+msgstr ""
+
+#: questions/templates/questions/finished.html:14
+msgid "mode. You can go to "
+msgstr ""
+
+#: questions/templates/questions/finished.html:14
+msgid "mode and do new problems."
+msgstr ""
+
+#: questions/templates/questions/home.html:19
+#, fuzzy
+#| msgid "Current Problem"
+msgid "Next problem"
+msgstr "Problema Atual"
+
+#: questions/templates/questions/home.html:21
+msgid "Switch to random mode to see new problems"
+msgstr ""
+
+#: questions/templates/questions/home.html:27
+#: questions/templates/questions/student_dashboard.html:20
+msgid "Average time"
+msgstr ""
+
+#: questions/templates/questions/home.html:28
+#: questions/templates/questions/student_dashboard.html:21
+msgid "to perform a problem"
+msgstr ""
+
+#: questions/templates/questions/home.html:32
+#: questions/templates/questions/home.html:41
+msgid "No problems completed"
+msgstr ""
+
+#: questions/templates/questions/home.html:37
+#: questions/templates/questions/student_dashboard.html:51
+msgid "before you get right a problem"
+msgstr ""
+
+#: questions/templates/questions/home.html:49
+#, fuzzy
+#| msgid "Chapters"
+msgid "Current chapter"
+msgstr "Aulas"
+
+#: questions/templates/questions/home.html:86
+msgid "There are still no chapters or all deadlines have expired"
+msgstr ""
+
+#: questions/templates/questions/manager_dashboard.html:17
+msgid "performance per problem"
+msgstr ""
+
+#: questions/templates/questions/new_problem.html:18
+#: questions/templates/questions/past_problems.html:32
+#: questions/templates/questions/student_logs.html:31
+msgid "Title"
+msgstr ""
+
+#: questions/templates/questions/new_problem.html:23
+msgid "Multiple choice"
+msgstr ""
+
+#: questions/templates/questions/new_problem.html:49
+msgid "Position"
+msgstr ""
+
+#: questions/templates/questions/new_problem.html:52
+#: questions/templates/questions/show_chapter.html:56
+msgid "Add problem"
+msgstr ""
+
+#: questions/templates/questions/new_problem.html:76
+msgid "Header"
+msgstr ""
+
+#: questions/templates/questions/new_problem.html:77
+msgid "Tip"
+msgstr ""
+
+#: questions/templates/questions/new_problem.html:79
+msgid "Cluster"
+msgstr ""
+
+#: questions/templates/questions/new_problem.html:89
+msgid "Test case generator"
+msgstr ""
+
+#: questions/templates/questions/new_problem.html:106
+msgid "Options"
+msgstr ""
+
+#: questions/templates/questions/new_problem.html:115
+msgid "Add Option"
+msgstr ""
+
+#: questions/templates/questions/new_problem.html:121
+msgid "Correct answer"
+msgstr ""
+
+#: questions/templates/questions/new_problem.html:186
+#: questions/templates/questions/show_class.html:18
+msgid "Delete"
+msgstr ""
+
+#: questions/templates/questions/outcomes.html:23
+msgid "Export CSV"
+msgstr ""
+
+#: questions/templates/questions/outcomes.html:33
+msgid "Total"
+msgstr ""
+
+#: questions/templates/questions/outcomes.html:52
+msgid "Passed at"
+msgstr ""
+
+#: questions/templates/questions/past_problems.html:9
+#: questions/templates/questions/student_logs.html:8
+msgid "Filter"
+msgstr ""
+
+#: questions/templates/questions/past_problems.html:34
+msgid "Status "
+msgstr ""
+
+#: questions/templates/questions/past_problems.html:35
+#: questions/templates/questions/past_solutions.html:82
+#: questions/templates/questions/past_solutions.html:94
+#: questions/templates/questions/problem_solutions.html:33
+msgid "Comments"
+msgstr ""
+
+#: questions/templates/questions/past_problems.html:37
+msgid "Last submission"
+msgstr ""
+
+#: questions/templates/questions/past_problems.html:68
+msgid "See submitted solutions"
+msgstr ""
+
+#: questions/templates/questions/past_solutions.html:30
+#: questions/templates/questions/problem_solutions.html:22
+#: questions/templates/questions/show_problem.html:19
+#: questions/templates/questions/solutions.html:38
+#: questions/templates/questions/student_solutions.html:44
+msgid "Test cases"
+msgstr ""
+
+#: questions/templates/questions/past_solutions.html:73
+msgid "Your answer"
+msgstr ""
+
+#: questions/templates/questions/past_solutions.html:101
+#: questions/templates/questions/past_solutions.html:106
+msgid "Add comment"
+msgstr ""
+
+#: questions/templates/questions/past_solutions.html:163
+#: questions/templates/questions/show_problem.html:69
+#: questions/templates/questions/show_problem.html:84
+#: questions/templates/questions/show_problem.html:118
+msgid "Next"
+msgstr ""
+
+#: questions/templates/questions/past_solutions.html:164
+#: questions/templates/questions/show_problem.html:119
+msgid "Input:"
+msgstr ""
+
+#: questions/templates/questions/past_solutions.html:165
+#: questions/templates/questions/show_problem.html:120
+msgid "Expected output:"
+msgstr ""
+
+#: questions/templates/questions/past_solutions.html:166
+#: questions/templates/questions/show_problem.html:121
+msgid "Your output:"
+msgstr ""
+
+#: questions/templates/questions/show_chapter.html:10
+msgid "Edit"
+msgstr ""
+
+#: questions/templates/questions/show_chapter.html:11
+msgid "Cancel"
+msgstr ""
+
+#: questions/templates/questions/show_chapter.html:12
+msgid "Save"
+msgstr ""
+
+#: questions/templates/questions/show_chapter.html:85
+msgid "Main errors"
+msgstr ""
+
+#: questions/templates/questions/show_class.html:40
+msgid "Date (yyyy-mm-dd)"
+msgstr ""
+
+#: questions/templates/questions/show_class.html:46
+msgid "Time (H:M)"
+msgstr ""
+
+#: questions/templates/questions/show_class.html:64
+#: questions/templates/questions/student_solutions.html:15
+msgid "Dashboard"
+msgstr ""
+
+#: questions/templates/questions/show_problem.html:13
+msgid "Skip"
+msgstr ""
+
+#: questions/templates/questions/show_problem.html:37
+msgid "Run"
+msgstr ""
+
+#: questions/templates/questions/show_problem.html:66
+#: questions/templates/questions/show_problem.html:77
+#: questions/templates/questions/show_problem.html:81
+msgid "Answer"
+msgstr ""
+
+#: questions/templates/questions/show_problem.html:125
+msgid "Error"
+msgstr ""
+
+#: questions/templates/questions/show_problem.html:126
+msgid ""
+"The solution uses <strong>print</strong> command, breaking the rule that the "
+"entire result of the function must be returned exclusively through its "
+"return values."
+msgstr ""
+
+#: questions/templates/questions/solutions.html:18
+msgid "See class"
+msgstr ""
+
+#: questions/templates/questions/solutions.html:35
+#: questions/templates/questions/student_solutions.html:41
+msgid "See solution"
+msgstr ""
+
+#: questions/templates/questions/solutions.html:61
+#: questions/templates/questions/student_solutions.html:67
+msgid "No submission"
+msgstr ""
+
+#: questions/templates/questions/student_dashboard.html:54
+msgid "error"
+msgstr ""
+
+#: questions/templates/questions/student_dashboard.html:55
+msgid "on average"
+msgstr ""
+
+#: questions/templates/questions/student_dashboard.html:65
+msgid "Average errors"
+msgstr ""
+
+#: questions/templates/questions/student_dashboard.html:66
+#: questions/templates/questions/student_dashboard.html:103
+#, fuzzy
+#| msgid "Chapters"
+msgid "per chapter"
+msgstr "Aulas"
+
+#: questions/templates/questions/student_logs.html:32
+msgid "Day"
+msgstr ""
+
+#: questions/templates/questions/student_logs.html:33
+msgid "Time "
+msgstr ""
+
+#: questions/templates/questions/student_logs.html:34
+msgid "Test cases "
+msgstr ""
+
+#: questions/templates/questions/student_logs.html:35
+msgid "Status"
+msgstr ""
+
+#: questions/templates/questions/student_logs.html:36
+msgid "Error (Python)"
+msgstr ""
+
+#: questions/templates/questions/student_logs.html:58
+#: questions/templates/questions/student_logs.html:65
+msgid "See submitted solution"
+msgstr ""
+
+#: questions/templates/questions/student_solutions.html:25
+#, fuzzy
+#| msgid "Chapters"
+msgid "See chapter"
+msgstr "Aulas"
+
+#: questions/templates/registration/login.html:7
+#: questions/templates/registration/login.html:24
+#: questions/templates/registration/password_reset_complete.html:18
+#: questions/templates/registration/password_reset_confirm.html:34
+#: questions/templates/registration/password_reset_done.html:21
+#: questions/templates/registration/signup.html:137
 msgid "Login"
 msgstr "Entrar"
+
+#: questions/templates/registration/login.html:21
+#: questions/templates/registration/signup.html:99
+msgid "Password"
+msgstr ""
+
+#: questions/templates/registration/login.html:23
+msgid "Forgot password?"
+msgstr ""
+
+#: questions/templates/registration/password_reset_complete.html:7
+#: questions/templates/registration/password_reset_confirm.html:8
+#: questions/templates/registration/password_reset_confirm.html:22
+#: questions/templates/registration/password_reset_done.html:7
+#: questions/templates/registration/password_reset_form.html:7
+msgid "Password reset"
+msgstr ""
+
+#: questions/templates/registration/password_reset_complete.html:10
+msgid "Your password has been set. You may go ahead and "
+msgstr ""
+
+#: questions/templates/registration/password_reset_complete.html:10
+msgid "sign in"
+msgstr ""
+
+#: questions/templates/registration/password_reset_complete.html:10
+msgid " now."
+msgstr ""
+
+#: questions/templates/registration/password_reset_confirm.html:10
+msgid "Change password"
+msgstr ""
+
+#: questions/templates/registration/password_reset_confirm.html:25
+msgid ""
+"The password reset link was invalid, possibly because it has already been "
+"used.\n"
+"      Please request a new password reset."
+msgstr ""
+
+#: questions/templates/registration/password_reset_done.html:10
+msgid ""
+"We've emailed you instructions for setting your password, if an account "
+"exists with the email you entered. You should receive them shortly."
+msgstr ""
+
+#: questions/templates/registration/password_reset_done.html:13
+msgid ""
+"If you don't receive an email, please make sure you've entered the address "
+"you registered with, and check your spam folder."
+msgstr ""
+
+#: questions/templates/registration/password_reset_form.html:13
+msgid "Submit"
+msgstr ""
+
+#: questions/templates/registration/signup.html:26
+msgid "First name"
+msgstr ""
+
+#: questions/templates/registration/signup.html:29
+msgid "Last name"
+msgstr ""
+
+#: questions/templates/registration/signup.html:102
+msgid "Password confirmation"
+msgstr ""
+
+#: questions/templates/registration/signup.html:104
+msgid ""
+"\n"
+"                        \t    1) Your password can't be too similar to your "
+"other personal information.\n"
+"                        \t    2) Your password must contain at least 8 "
+"characters.\n"
+"                        \t    3) Your password can't be a commonly used "
+"password.\n"
+"                        \t    4) Your password can't be entirely numeric.\n"
+"                                "
+msgstr ""
+
+#: questions/views.py:136
+msgid "Finished"
+msgstr ""
+
+#: questions/views.py:521
+msgid "Problem solutions"
+msgstr ""
+
+#: questions/views.py:551
+msgid "Student solutions"
+msgstr ""
+
+#: questions/views.py:638
+#, fuzzy
+#| msgid "Current Problem"
+msgid "New problem"
+msgstr "Problema Atual"
+
+#: questions/views.py:677
+msgid "Edit profile"
+msgstr ""
+
+#~ msgid "Signup"
+#~ msgstr "Cadastro"

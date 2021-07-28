@@ -9,7 +9,7 @@ urlpatterns = [
     path('saveinteractive', views.save_interactive, name='saveinteractive'),
     path('saveprofile', context_processors.context, name='saveprofile'),
     path('edit_profile', views.edit_profile, name='edit_profile'),
-    path('start', views.get_next_problem, name='start'),
+    path('start', views.start, name='start'),
     path('next', views.get_next_problem, name='next'),
     path('savelog', views.save_user_log, name='savelog'),
     path('export', views.export, name='export'),
@@ -38,6 +38,7 @@ urlpatterns = [
     path('classes/manage/<int:onlineclass>', views.manage_class, name='manage_class'),
     path('classes/dashboard/<int:onlineclass>', views.get_class_dashboard, name='class_dashboard'),
     path('class_active', views.class_active, name='class_active'),
+    path('manager_dashboard', views.get_manager_dashboard, name='manager_dashboard'),
     path('delete_deadline/<int:onlineclass>/<int:deadline>', views.delete_deadline, name='delete_deadline'),
     path('terms_and_conditions', TemplateView.as_view(
         template_name='questions/conditions.html'),

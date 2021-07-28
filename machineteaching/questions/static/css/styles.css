@@ -1682,6 +1682,31 @@ input:checked + .slider:before {
 
 
 
+.progress-bar {
+    border-radius: 0.5rem;
+    height: 1rem;
+    width: 100%;
+    background: #dee2e6;
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+    overflow: hidden;
+    display: flex;
+}
+.progress-bar .p {
+    height: 100%;
+    background: var(--green);
+}
+.progress-bar .s {
+    height: 100%;
+    background: var(--yellow);
+}
+.progress-bar .f {
+    height: 100%;
+    background: var(--red);
+}
+
+
+
 
 
 
