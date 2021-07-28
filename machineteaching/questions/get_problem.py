@@ -33,10 +33,10 @@ def get_problem(problem_id):
             # Make list deepcopy
             args = copy.deepcopy(args_case)
             result = eval(solution.header)(*args)
-            if type(result) == str:
-                expected_results.append("'"+str(result)+"'")
-            else:
-                expected_results.append(str(result))
+            # if type(result) == str:
+            #     expected_results.append("'"+str(result)+"'")
+            # else:
+            expected_results.append(str(result))
         #print(expected_results)
         #except Problem.DoesNotExist:
             #raise Problem.DoesNotExist
