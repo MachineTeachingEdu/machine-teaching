@@ -1,0 +1,156 @@
+{% extends "questions/base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+<div class="col-12" style="display: flex; padding: 1rem; height: 25rem">
+    <div class="col-5" style="margin-right: 1rem; height: 100%">
+        <div class="card" style=" height: 100%">
+            <h3 style="margin-bottom: 0">{% blocktrans %}Progress{% endblocktrans %}</h3>
+            <span style="display: inline-block;">{% blocktrans %}on all problems{% endblocktrans %}</span>
+            {{progress_plot|safe}}
+        </div>
+    </div>
+    <div class="col-7" style="margin-left: 1rem; height: 100%">
+        <div class="card" style=" height: 100%">
+            <h3 style="margin-bottom: 0">{% blocktrans %}Problems{% endblocktrans %}</h3>
+            <span style="margin-bottom: 1rem; display: inline-block;">{% blocktrans %}performance per problem{% endblocktrans %}</span>
+            {{problems_plot|safe}}
+        </div>
+    </div>
+</div>
+<div class="col-12" style="display: flex; padding: 1rem; height: 50rem">
+    <div class="col-7" style="margin-right: 1rem; height: 100%">
+        <div class="card" style="height: calc(50% - 1rem);">
+            <h3 style="margin-bottom: 0.5rem">{% blocktrans %}Chapters{% endblocktrans %}</h3>
+                <table style="margin-right: 1rem; display: block;">
+                <tr class="row" style="border: none; font-size: 13px; font-weight: 300; background: #EBECEF">
+                    <td style="width: 22%; padding: 0.3rem 1rem">{% blocktrans %}Chapter{% endblocktrans %}</td>
+                    <td style="width: 22%; padding: 0.3rem 1rem">{% blocktrans %}Progress{% endblocktrans %}</td>
+                    <td style="width: 12%; padding: 0.3rem 1rem; text-align: center;">{% blocktrans %}Time to finish (avg){% endblocktrans %}</td>
+                    <td style="width: 12%; padding: 0.3rem 1rem; text-align: center;">{% blocktrans %}Delays (students){% endblocktrans %}</td>
+                    <td style="width: 16%; padding: 0.3rem 1rem; text-align: center;">{% blocktrans %}Attempts per problem{% endblocktrans %}</td>
+                    <td style="width: 16%; padding: 0.3rem 1rem; text-align: center;">{% blocktrans %}Time per problem (avg){% endblocktrans %}</td>
+                </tr>
+            </table>
+            <div style="max-height: 15rem; overflow: auto;">
+                <table>
+                {% for chapter in chapter_table %}
+                <tr class="row" onclick="window.location='{% url 'show_chapter' chapter=chapter.id %}';" style="cursor: pointer;">
+                    <td style="width: 22%">{{chapter.label}}</td>
+                    <td style="width: 22%">
+                    <div class="task-progress" style="width: 100%">
+                        <div style="width: {{ chapter.progress }}%; background: {% if chapter.progress == 100 %}limegreen{% else %}var(--primary){% endif %}"></div>
+                    </div>
+                    <span>{{ chapter.progress }}%</span>
+                    </td>
+                    <td style="width: 12%; text-align: center;">{% if chapter.chapter_time != None %}{{chapter.chapter_time}} {% blocktrans %}days{% endblocktrans %}{% endif %}</td>
+                    <td style="width: 12%; text-align: center;">{{chapter.delays}}</td>
+                    <td style="width: 16%; text-align: center;">{% if chapter.attempts != None %}{{chapter.attempts}}{% endif %}</td>
+                    <td style="width: 16%; text-align: center;">{% if chapter.problem_time != None %}{{chapter.problem_time}} {% blocktrans %}min{% endblocktrans %}{% endif %}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        </div>
+        <div class="card" style="height: calc(50% - 1rem); position: relative;">
+            <h3 style="margin-bottom: 0">{% blocktrans %}Chapters{% endblocktrans %}</h3>
+            <span style="margin-bottom: 1rem; display: inline-block;">{% blocktrans %}average attempts and time to complete a problem{% endblocktrans %}</span>
+            <div style="position: absolute; top: 3rem; width: calc(100% - 4rem)">{{chapters_plot|safe}}</div>
+        </div>
+    </div>
+    <div class="col-5" style="margin-left: 1rem; height: 100%">
+        <div class="card" style=" height: 100%; position: relative;" class="heatmap">
+            <h3 style="margin-bottom: 0">{% blocktrans %}Time{% endblocktrans %}</h3>
+            <span style="margin-bottom: 1rem; display: inline-block;">{% blocktrans %}to end a chapter{% endblocktrans %}</span>
+            <div style="position: absolute; top: 6.5rem; left: 1rem; width: calc(100% - 2.5rem)">{{heatmap_plot|safe}}</div>
+            <div style="position: absolute; top: 6.5rem; left: 1rem; width: calc(100% - 2.5rem)">{{heatmap2_plot|safe}}</div>
+            <div style="position: absolute; display: flex; flex-wrap: wrap; top: 4.5rem; right: 2rem; align-items: center;">
+                <div style="display: flex; align-items: center;"><div style="width: 0.9rem; height: 0.9rem; background: var(--red); margin-right: 0.5rem"></div><span style="font-size: 0.9rem; margin-right: 1rem;">{% blocktrans %}Not finished{% endblocktrans %}</span></div>
+                <div style="display: flex; align-items: center;"><div style="width: 0.9rem; height: 0.9rem; background: #FEC809; margin-right: 0.5rem"></div><span style="font-size: 0.9rem; margin-right: 1rem;">{% blocktrans %}Finished late{% endblocktrans %}</span></div>
+                <div style="display: flex; align-items: center;"><span style="font-size: 0.9rem; margin-right: 0.3rem;">0</span><div style="width: 2.5rem; height: 0.9rem; margin-right: 0.3rem;
+                    background: rgb(33,150,243);
+                    background: linear-gradient(90deg, rgba(33,150,243,0.2) 0%, rgba(33,150,243,1) 100%); 
+                "></div><span style="font-size: 0.9rem">{% blocktrans %}max. time{% endblocktrans %}</span></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-12" style="display: flex; padding: 1rem; height: 30rem">
+    <div class="col-6" style="margin-right: 1rem; height: 100%">
+        <div class="card" style=" height: 100%">
+            <h3 style="margin-bottom: 0.5rem">{% blocktrans %}Classes{% endblocktrans %}</h3>
+                <table style="margin-right: 1rem; display: block;">
+                <tr class="row" style="border: none; font-size: 13px; font-weight: 300; background: #EBECEF">
+                    <td style="width: 22%; padding: 0.3rem 0 0.3rem 1rem">{% blocktrans %}Class{% endblocktrans %}</td>
+                    <td style="width: 18%; padding: 0.3rem 0">{% blocktrans %}Solved problems{% endblocktrans %}</td>
+                    <td style="width: 18%; padding: 0.3rem 0; text-align: center;">{% blocktrans %}Time per chapter (avg){% endblocktrans %}</td>
+                    <td style="width: 8%; padding: 0.3rem 0; text-align: center;">{% blocktrans %}Delays{% endblocktrans %}</td>
+                    <td style="width: 16%; padding: 0.3rem 0; text-align: center;">{% blocktrans %}Attempts per problem{% endblocktrans %}</td>
+                    <td style="width: 18%; padding: 0.3rem 0; text-align: center;">{% blocktrans %}Time per problem (avg){% endblocktrans %}</td>
+                </tr>
+            </table>
+            <div style="max-height: 20rem; overflow: auto;">
+                <table>
+                {% for student in students_table %}
+                <tr class="row" onclick="window.location='{% url 'student_dashboard' id=student.id %}';" style="cursor: pointer;">
+                    <td style="width: 22%">{{student.name}}</td>
+                    <td style="width: 18%; padding-left: 0">
+                    <div class="task-progress" style="width: 100%; display: flex;">
+                        <div style="width: {{ student.passed }}%; background: var(--green); opacity: 1"></div>
+                        <div style="width: {{ student.skipped }}%; background: var(--yellow); opacity: 1"></div>
+                        <div style="width: {{ student.failed }}%; background: var(--red); opacity: 1"></div>
+                    </div>
+                    <span>{{ student.passed }}%</span>
+                    </td>
+                    <td style="width: 18%; text-align: center;">{% if student.chapter_time != None %}{{student.chapter_time}} {% blocktrans %}days{% endblocktrans %}{% endif %}</td>
+                    <td style="width: 8%; text-align: center;">{{student.delays}}</td>
+                    <td style="width: 16%; text-align: center;">{% if student.attempts != None %}{{student.attempts}}{% endif %}</td>
+                    <td style="width: 18%; text-align: center;">{% if student.problem_time != None %}{{student.problem_time}} {% blocktrans %}min{% endblocktrans %}{% endif %}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        </div>
+    </div>
+    <div class="col-6" style="margin-left: 1rem; height: 100%">
+        <div class="card" style=" height: 100%; position: relative;">
+            <h3 style="margin-bottom: 0">{% blocktrans %}Classes{% endblocktrans %}</h3>
+            <span style="margin-bottom: 1rem; display: inline-block;">{% blocktrans %}solving problems performance{% endblocktrans %}</span>
+            {{students_plot|safe}}
+            <div style="position: absolute; top:2.5rem; right:2rem; display: flex;">
+                <div style="width: 1.5rem; height: 1.5rem; background: rgba(33,150,243,0.8);
+                border-radius: 100%; margin-right: 0.5rem"></div>
+                {% blocktrans %}Time per problem (avg){% endblocktrans %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block javascript %}
+<script type="text/javascript">
+
+
+    // Save page access
+    $(document).ready(function() {
+        $.ajax({
+            type: "POST",
+            url: '{% url "saveaccess" %}',
+            data: {
+                'page': 'Class Dashboard',
+                'name': '{{onlineclass.name}}',
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            dataType: 'json',
+            success: function(data){
+            console.log('status: ' + data['status']);
+            },
+            error: function (request, status, error) {
+            console.log(request.status);
+            }
+        });
+    });
+    
+</script>
+{% endblock %}

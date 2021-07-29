@@ -20,6 +20,7 @@ import json
 from functools import wraps
 import time
 from datetime import datetime
+from statistics import mean
 from questions.models import (Problem, Solution, UserLog, UserProfile,
                               Professor, OnlineClass, UserLogView, Chapter,
                               Deadline, UserLogError, ExerciseSet, Recommendations, Comment)
@@ -28,7 +29,7 @@ from questions.forms import (UserLogForm, SignUpForm, OutcomeForm, ChapterForm,
                              EditProfileForm, NewClassForm, DeadlineForm, CommentForm)
 from questions.serializers import RecommendationSerializer
 from questions.get_problem import get_problem
-from questions.get_dashboards import student_dashboard, class_dashboard
+from questions.get_dashboards import student_dashboard, class_dashboard, manager_dashboard
 from questions.strategies import STRATEGIES_FUNC
 import csv
 
@@ -68,7 +69,7 @@ def signup(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            user.username = form.cleaned_data.get('email')
+            user.username = form.cleaned_data.get('email').lower()
             user.save()
             user.refresh_from_db()  # load the instance created by the signal
             LOGGER.debug(form.cleaned_data.get('professor'))
@@ -735,11 +736,13 @@ def manage_class(request, onlineclass):
                                                          'onlineclass': onlineclass,
                                                          'form': form})
 
-
 def get_class_dashboard(request, onlineclass):
     onlineclass = OnlineClass.objects.get(id=onlineclass)
 
     return render(request, 'questions/class_dashboard.html', class_dashboard(onlineclass))
+
+def get_manager_dashboard(request):
+    return render(request, 'questions/manager_dashboard.html', manager_dashboard())
 
 
 @login_required
@@ -768,6 +771,87 @@ def get_student_dashboard(request, id):
     context = student_dashboard(student, professor=True)
     context.update({'student': student})
     return render(request, 'questions/student_dashboard.html', context)
+
+@login_required
+def start(request):
+    onlineclass = request.user.userprofile.user_class
+    chapters = Deadline.objects.filter(onlineclass=onlineclass).values_list('chapter', flat=True)
+    problems = Problem.objects.filter(chapter__in=chapters)
+    passed = UserLogView.objects.filter(user=request.user,
+                                        problem__in=problems,
+                                        final_outcome='P').count()
+    failed = UserLogView.objects.filter(user=request.user,
+                                        problem__in=problems,
+                                        final_outcome='F').count()
+    skipped = UserLogView.objects.filter(user=request.user,
+                                        problem__in=problems,
+                                        final_outcome='S').count()
+    progress = [round(100*passed/problems.count()),round(100*skipped/problems.count()),round(100*failed/problems.count())]
+    progress += [sum(progress)]
+    if request.user.userprofile.sequential:
+        strategy = 'sequential'
+    else:
+        strategy = 'random'
+    problem_id = STRATEGIES_FUNC[strategy](request.user)
+    next_problem = None
+    if problem_id:
+        next_problem = Problem.objects.get(id=problem_id)
+
+    times = UserLog.objects.filter(user=request.user,
+                                   problem__in=problems,
+                                   outcome='P',
+                                   timestamp__gte=onlineclass.start_date).values_list('seconds_in_page', flat=True)
+    time = None
+    if len(times):
+        time = round(mean(times)/60)
+
+    u_errors = []
+    for problem in problems:
+        passed = UserLog.objects.filter(user=request.user,
+                                            problem=problem,
+                                            outcome='P',
+                                            timestamp__gte=onlineclass.start_date)
+        if passed.count():
+            timestamp = passed.first().timestamp
+
+            errors = UserLog.objects.filter(user=request.user,
+                                            problem=problem,
+                                            outcome='F',
+                                            timestamp__gte=onlineclass.start_date,
+                                            timestamp__lte=timestamp).count()
+            u_errors.append(errors)
+
+    errors = None
+    if len(u_errors):
+        errors = round(mean(u_errors))
+
+    current_chapter = Deadline.objects.filter(deadline__gte=datetime.now(),
+                                              onlineclass=onlineclass).first()
+    chapter, problems = None, None
+    if current_chapter:
+        chapter = Chapter.objects.filter(pk=current_chapter.chapter.id)
+
+        problems = ExerciseSet.objects.filter(chapter=current_chapter.id).order_by('order', '-id')
+
+    userlog = UserLog.objects.filter(
+        user=request.user,
+        timestamp__gte=onlineclass.start_date)
+    passed = userlog.filter(outcome='P').values_list('problem_id', flat=True
+                                              ).distinct()
+    skipped = userlog.filter(outcome='S').values_list('problem_id', flat=True
+                                              ).distinct()
+    failed = userlog.filter(outcome='F').values_list('problem_id', flat=True
+                                              ).distinct()
+
+    return render(request, 'questions/home.html', {'progress': progress,
+                                                   'next_problem': next_problem,
+                                                   'time': time,
+                                                   'errors': errors,
+                                                   'current_chapter': current_chapter,
+                                                   'problems': problems,
+                                                   'passed': passed,
+                                                   'failed': failed,
+                                                   'skipped': skipped})
 
 class AttemptsList(APIView):
     def get(self, request, format=None):
