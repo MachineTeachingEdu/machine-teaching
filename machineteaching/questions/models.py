@@ -73,6 +73,7 @@ class ExerciseSet(models.Model):
     chapter = models.ForeignKey(Chapter, on_delete=models.CASCADE)
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
     order = models.PositiveIntegerField()
+    history = HistoricalRecords()
 
     def __unicode__(self):
         return "%d - %s" % (self.order, self.problem)
@@ -224,8 +225,8 @@ class UserLog(models.Model):
                   ("D", "Distraction"),
                   ("I", "Interpretation"))
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    problem = models.ForeignKey(Problem, on_delete=models.PROTECT)
     solution = models.TextField(blank=True)
     outcome = models.CharField(max_length=2, choices=OUTCOMES)
     console = models.TextField(blank=True)
@@ -237,6 +238,7 @@ class UserLog(models.Model):
     error_type = models.CharField(max_length=2, choices=ERROR_TYPE,
                                   default="D")
     test_case_hits = models.IntegerField(blank=True, null=True)
+    user_class = models.ForeignKey(OnlineClass, on_delete=models.PROTECT, null=True)
 
     class Meta:
         verbose_name = _('User log')
