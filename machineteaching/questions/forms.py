@@ -12,7 +12,7 @@ import datetime
 class UserLogForm(ModelForm):
     class Meta:
         model = UserLog
-        exclude = ['timestamp', 'user', 'error_type']
+        exclude = ['timestamp', 'user', 'error_type', 'user_class']
 
 
 class SignUpForm(UserCreationForm):
