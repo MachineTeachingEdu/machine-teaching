@@ -18,84 +18,68 @@ import logging
 
 LOGGER = logging.getLogger(__name__)
 
-
-def student_dashboard(user, professor=False):
-    # Separate labels from student view to professor view
-    user_label = _("You")
-    class_label = _("Your class")
-    if professor:
-        user_label = _("Student")
-        class_label = _("Class")
-
-    # Get user class and all its students
-    onlineclass = user.userprofile.user_class
-    students = User.objects.filter(userprofile__user_class=onlineclass)
-
-    # TODO: get logs after class has started to avoid logs from students that came from a previous class
-    chapters = Deadline.objects.filter(onlineclass=onlineclass).values_list('chapter', flat=True)
-    problems = Problem.objects.filter(chapter__in=chapters)
-
-    # Get student logs
-    user_passed = UserLogView.objects.filter(user=user,
+# Funções para pegar dados
+def get_logs_distribution(user, problems, onlineclass):
+    passed = UserLogView.objects.filter(user__in=user,
                                         problem__in=problems,
-                                        final_outcome='P')
-    user_failed = UserLogView.objects.filter(user=user,
+                                        final_outcome='P',
+                                        timestamp__gte=onlineclass.start_date)
+    failed = UserLogView.objects.filter(user__in=user,
                                         problem__in=problems,
-                                        final_outcome='F')
-    user_skipped = UserLogView.objects.filter(user=user,
+                                        final_outcome='F',
+                                        timestamp__gte=onlineclass.start_date)
+    skipped = UserLogView.objects.filter(user__in=user,
                                         problem__in=problems,
-                                        final_outcome='S')
+                                        final_outcome='S',
+                                        timestamp__gte=onlineclass.start_date)
+    return passed, failed, skipped
 
-    # Get class logs
-    students = User.objects.filter(userprofile__user_class=onlineclass)
-    class_passed = UserLogView.objects.filter(user__in=students,
-                                        problem__in=problems,
-                                        final_outcome='P')
-    class_failed = UserLogView.objects.filter(user__in=students,
-                                        problem__in=problems,
-                                        final_outcome='F')
-    class_skipped = UserLogView.objects.filter(user__in=students,
-                                        problem__in=problems,
-                                        final_outcome='S')
+def percentage(value, total):
+  return 100 * value / total
 
-    #problems plot data
+def get_progress_per_problem(user, problems, onlineclass):
+  passed, failed, skipped = get_logs_distribution(user, problems, onlineclass)
+  total = len(user) * len(problems)
+  total_done = len(passed) + len(failed) + len(skipped)
+  values = [percentage(len(passed), total),
+            percentage(len(failed), total),
+            percentage(len(skipped), total),
+            percentage(total-total_done, total)]
+  return values
+
+def get_time_in_page_per_problem(user, problems, onlineclass):
+  passed = UserLogView.objects.filter(user__in=user,
+                                      problem__in=problems,
+                                      final_outcome='P',
+                                      timestamp__gte=onlineclass.start_date)
+  
+
+def get_error_per_problem(user, problems):
+  pass
+
+def get_error_type_per_chapter(user, chapter):
+  pass
+
+def get_on_time_exercises(user, chapter):
+  pass
+
+# Funções de plot
+def create_progress_plot(n_plots, values, size, text, hole, column_widths=[1]):
     labels = [_("Passed"), _("Failed"), _("Skipped"), _("No attempt")]
-    student_values = [len(user_passed),
-                      len(user_failed),
-                      len(user_skipped),
-                      len(problems)-len(user_passed)-len(user_failed)-len(user_skipped)]
-
-
-    class_values = [len(class_passed),
-                    len(class_failed),
-                    len(class_skipped),
-                    len(students)*len(problems)-len(class_passed)-len(class_failed)-len(class_skipped)]
-
     #color settings
     colors =['rgb(84, 210, 87)','rgb(255, 65, 65)','#FEC809','rgb(222,226,230)']
 
-    #generating problems plot
-    fig = make_subplots(1, 2, specs=[[{'type':'domain'}, {'type':'domain'}]], column_widths=[0.7, 0.3])
-
-    fig.add_trace(go.Pie(labels=labels,
-                         values=student_values, 
-                         title=dict(
-                            text=user_label,
-                            font=dict(family="Nunito", size=40, color='rgb(76,83,90)')),
-                         textinfo="none",
-                         hole=.9,
-                         marker=dict(colors=colors),
-                         hoverinfo='percent'),1,1)
-
-    fig.add_trace(go.Pie(labels=labels,
-                         values=class_values, 
-                         title=dict(
-                            text=class_label,
-                            font=dict(family="Nunito", size=17, color='rgb(76,83,90)')),
-                         textinfo="none",
-                         hole=.85,
-                         marker=dict(colors=colors),
-                         hoverinfo='percent'),1,2)
+    fig = make_subplots(1, n_plots, specs=[[{'type':'domain'}]*n_plots], column_widths=column_widths)
+    for i in range(n_plots):
+      fig.add_trace(go.Pie(labels=labels,
+                          values=values[i], 
+                          title=dict(
+                              text=text[i],
+                              font=dict(family="Nunito", size=size[i], color='rgb(76,83,90)')),
+                          textinfo="none",
+                          hole=hole[i],
+                          marker=dict(colors=colors),
+                            hoverinfo='percent'),1, i+1)
 
     fig.update_layout(autosize=True,
                       height=300,
@@ -116,6 +100,33 @@ def student_dashboard(user, professor=False):
                       hoverlabel=dict(bgcolor='white',
                                    font_size=15,
                                    font_family='Nunito'))
+    plot = opy.plot(fig, auto_open=False, output_type='div')
+    return plot
+
+def student_dashboard(user, professor=False):
+    # Separate labels from student view to professor view
+    user_label = _("You")
+    class_label = _("Your class")
+    if professor:
+        user_label = _("Student")
+        class_label = _("Class")
+
+    # Get user class and all its students
+    onlineclass = user.userprofile.user_class
+    students = User.objects.filter(userprofile__user_class=onlineclass)
+
+    chapters = Deadline.objects.filter(onlineclass=onlineclass).values_list('chapter', flat=True)
+    problems = Problem.objects.filter(chapter__in=chapters)
+
+    #Progress plot
+    student_values = get_progress_per_problem([user], problems, onlineclass)
+    class_values = get_progress_per_problem(students, problems, onlineclass)
+
+    text = [user_label, class_label]
+    size = [40, 17]
+    hole = [0.9, .85]
+    column_widths = [0.7, 0.3]
+    progress_plot = create_progress_plot(2, [student_values, class_values], size, text, hole, column_widths)
 
     # Average time view
     times = UserLog.objects.filter(user__in=students,
@@ -124,9 +135,13 @@ def student_dashboard(user, professor=False):
                                    timestamp__gte=onlineclass.start_date)
     student_times = times.filter(user=user).values_list('seconds_in_page')
     
-    # Calculate average time to solve problem in minutes
-    student_time = round(student_times.aggregate(avg_time=Avg('seconds_in_page'))['avg_time']/60)
-    class_time = round(times.aggregate(avg_time=Avg('seconds_in_page'))['avg_time']/60)
+    # Calculate average time in page to solve problem in minutes
+    student_time = 0
+    class_time = 0
+    if student_times.aggregate(avg_time=Avg('seconds_in_page'))['avg_time']:
+      student_time = round(student_times.aggregate(avg_time=Avg('seconds_in_page'))['avg_time']/60)
+    if times.aggregate(avg_time=Avg('seconds_in_page'))['avg_time']:
+      class_time = round(times.aggregate(avg_time=Avg('seconds_in_page'))['avg_time']/60) 
     problems_time = {'student': student_time, 'class': class_time}
 
     chapter_table = []
@@ -245,128 +260,6 @@ def student_dashboard(user, professor=False):
     avg_errors = 0
     if chapters_df['user_errors'].count():
       avg_errors = round(chapters_df['user_errors'].mean())
-
-    #errors plot data
-    # TODO: os codigos para alunos e turma são praticamente iguais
-    # vale a pena criar uma funcao que calcule os erros so passando
-    # como parametro o user (pode ser user__in=[user] ou user__id=[students])
-    # labels = []
-    # student_errors = []
-    # for chapter in chapters:
-    #     chapter_problems = Problem.objects.filter(chapter=chapter)
-    #     passed = UserLogView.objects.filter(user=user,
-    #                                         problem__in=chapter_problems,
-    #                                         final_outcome='P')
-    #     if len(passed) > 0:
-    #         problem_errors = []
-    #         for problem in chapter_problems:
-    #             timestamp = passed.filter(problem=problem).values_list('timestamp')
-    #             errors = UserLog.objects.filter(user=user,
-    #                                             problem=problem,
-    #                                             outcome='F',
-    #                                             timestamp__gte=onlineclass.start_date,
-    #                                             timestamp__lte=timestamp)
-    #             problem_errors.append(len(errors))
-    #         chapter_errors = mean(problem_errors)
-    #         student_errors.append(chapter_errors)
-    #         labels.append(chapter.label)
-    
-    # average_errors = 0
-    # if len(student_errors) != 0:
-    #     average_errors = round(mean(student_errors))
-
-    # class_errors = []
-    # for chapter in chapters:
-    #     chapter_problems = problems.filter(chapter=chapter)
-    #     passed = UserLogView.objects.filter(user__in=students,
-    #                                         problem__in=chapter_problems,
-    #                                         final_outcome='P')
-    #     if len(passed) > 0:
-    #         problem_errors = []
-    #         for problem in chapter_problems:
-    #             passed_problem = passed.filter(problem=problem)
-    #             errors = 0
-    #             for log in passed_problem:
-    #                 log_errors = UserLog.objects.filter(user__in=students,
-    #                                                     problem=problem,
-    #                                                     outcome='F',
-    #                                                     timestamp__gte=onlineclass.start_date,
-    #                                                     timestamp__lte=log.timestamp)
-    #                 errors += len(log_errors)
-    #             problem_errors.append(errors)
-    #         chapter_errors = mean(problem_errors)
-    #         class_errors.append(chapter_errors)
-
-    # #color settings
-    # colors = []
-    # for i in range(len(student_errors)):
-    #     if student_errors[i] == class_errors[i]:
-    #         colors.append('#2196F3');
-    #     elif student_errors[i] < class_errors[i]:
-    #         colors.append('rgb(84, 210, 87)')
-    #     else:
-    #         colors.append('rgb(255, 65, 65)')
-
-    #generating errors plot
-    # TODO: esse e o proximo plot possuem uma estrutura muito parecida
-    # Acho que vale a pena criar um funcao para criar esses plots tb
-    # fig2 = go.Figure()
-
-    # fig2.add_trace(go.Scatter(name=class_label,
-    #                           x=labels,
-    #                           y=class_errors,
-    #                           line_shape='linear',
-    #                           line = dict(color='rgb(200,200,200)', width=5),
-    #                           marker = dict(size=15, color='rgb(200,200,200)'),
-    #                           hoverinfo='none'))
-
-    # fig2.add_trace(go.Scatter(name=user_label,
-    #                           x=labels,
-    #                           y=student_errors,
-    #                           line_shape='linear',
-    #                           line = dict(color='#2196F3', width=5),
-    #                           marker = dict(size=15, color=colors),
-    #                           hoverinfo='none'))
-    
-    # fig2.update_layout(autosize=True,
-    #                    height=300,
-    #                    margin=dict(
-    #                       l=10,
-    #                       r=10,
-    #                       b=10,
-    #                       t=0,
-    #                       pad=4
-    #                    ),
-    #                    legend=dict(
-    #                       bgcolor='rgba(0,0,0,0)',
-    #                       traceorder='reversed',
-    #                       yanchor="top",
-    #                       y=0.99,
-    #                       xanchor="right",
-    #                       x=0.99,
-    #                       orientation="h", 
-    #                       font=dict(size=16)
-    #                    ),
-    #                    plot_bgcolor='white',
-    #                    xaxis_title=_('Chapter'),
-    #                    xaxis = dict(
-    #                      fixedrange = True,
-    #                      tickmode = 'linear',
-    #                      dtick = 1),
-    #                    yaxis_title=_('Errors'),
-    #                    yaxis = dict(
-    #                      fixedrange = True,
-    #                      tickmode = 'linear',
-    #                      tick0 = 0,
-    #                      dtick = 1),
-    #                    font=dict(family="Nunito",
-    #                              size=14,
-    #                              color='rgb(76,83,90)'),
-    #                    hoverlabel=dict(bgcolor='white',
-    #                                    font_size=15,
-    #                                    font_family='Nunito'))
-
-    
 
     colors = []
     user_errors = chapters_df['user_errors'].tolist()
@@ -552,71 +445,6 @@ def student_dashboard(user, professor=False):
                         tickmode = 'linear',
                         tick0 = 0,),)
 
-
-
-
-    # #color settings
-
-    # #generating times plot
-    # fig3 = go.Figure()
-
-    # fig3.add_trace(go.Scatter(name=class_label,
-    #                           x=labels,
-    #                           y=class_times,
-    #                           line_shape='linear',
-    #                           line = dict(color='rgb(200,200,200)', width=5),
-    #                           marker = dict(size=15, color='rgb(200,200,200)'),
-    #                           hoverinfo='none'))
-    
-    # fig3.add_trace(go.Scatter(name=user_label,
-    #                           x=labels,
-    #                           y=student_times,
-    #                           line_shape='linear',
-    #                           line = dict(color='#2196F3', width=5),
-    #                           marker = dict(size=15, color=colors),
-    #                           hoverinfo='none'))
-
-    # fig3.update_layout(autosize=True,
-    #                    height=300,
-    #                    margin=dict(
-    #                       l=10,
-    #                       r=10,
-    #                       b=10,
-    #                       t=0,
-    #                       pad=4
-    #                    ),
-    #                    legend=dict(
-    #                       bgcolor='rgba(0,0,0,0)',
-    #                       traceorder='reversed',
-    #                       yanchor="top",
-    #                       y=0.99,
-    #                       xanchor="right",
-    #                       x=0.99,
-    #                       orientation="h",
-    #                       font=dict(size=16)
-    #                    ),
-    #                    plot_bgcolor='white',
-    #                    xaxis_title=_('Chapter'),
-    #                    xaxis = dict(
-    #                      fixedrange = True,
-    #                      tickmode = 'linear',
-    #                      dtick = 1),
-    #                    yaxis_title=_('Time (days)'),
-    #                    yaxis = dict(
-    #                      fixedrange = True,
-    #                      tickmode = 'linear',
-    #                      tick0 = 1,
-    #                      dtick = 1),
-    #                    font=dict(family="Nunito",
-    #                              size=14,
-    #                              color='rgb(76,83,90)'),
-    #                    hoverlabel=dict(bgcolor='white',
-    #                                    font_size=15,
-    #                                    font_family='Nunito'))
-
-    problems_plot = opy.plot(fig,
-                             auto_open=False,
-                             output_type='div')
     errors_plot = opy.plot(fig2,
                              auto_open=False,
                              output_type='div')
@@ -628,7 +456,7 @@ def student_dashboard(user, professor=False):
     context = {
         "title": _("Outcomes") + ' - ' + student_name,
         "student_name": student_name,
-        "problems_plot": problems_plot,
+        "problems_plot": progress_plot,
         "problems_time": problems_time,
         "errors": avg_errors,
         "chapters": chapter_table,
@@ -645,67 +473,35 @@ def class_dashboard(onlineclass):
     chapters = Deadline.objects.filter(onlineclass=onlineclass).values_list('chapter', flat=True)
     problems = Problem.objects.filter(chapter__in=chapters)
 
+    #Progress plot
+    class_values = get_progress_per_problem(students, problems, onlineclass)
+    passed, failed, skipped, no_attempts = class_values
+    total_done = round(passed + failed + skipped)
 
+    text = [f"{total_done}%"]
+    size = [50]
+    hole = [0.9]
+    progress_plot = create_progress_plot(1, [class_values], size, text, hole)
 
-    #PLOT: class progress
-
-    passed = UserLogView.objects.filter(user__in=students,
-                                        problem__in=problems,
-                                        final_outcome='P')
-    failed = UserLogView.objects.filter(user__in=students,
-                                        problem__in=problems,
-                                        final_outcome='F')
-    skipped = UserLogView.objects.filter(user__in=students,
-                                        problem__in=problems,
-                                        final_outcome='S')
-
-
-    total = len(passed)+len(failed)+len(skipped)
-    
-    labels = [_("Passed"), _("Failed"), _("Skipped"), _("No attempt")]
-    values = [len(passed),
-                      len(failed),
-                      len(skipped),
-                      len(students)*len(problems)-total]
-    colors =['rgb(84, 210, 87)','rgb(255, 65, 65)','#FEC809','rgb(222,226,230)']
-
-    fig = go.Figure()
-
-    fig.add_trace(go.Pie(labels=labels,
-                         values=values, 
-                         title=dict(
-                            text=str(round(100*(len(passed)+len(failed)+len(skipped))/(len(students)*len(problems))))+"%",
-                            font=dict(family="Nunito", size=50, color='rgb(76,83,90)')),
-                         textinfo="none",
-                         hole=.9,
-                         marker=dict(colors=colors),
-                         hoverinfo='percent'))
-
-    fig.update_layout(autosize=True,
-                      height=280,
-                      margin=dict(
-                         l=10,
-                         r=30,
-                         b=0,
-                         t=0,
-                         pad=4
-                      ),
-                      legend=dict(
-                      orientation="h",
-                      xanchor='center',
-                      x=0.5,
-                      font=dict(family="Nunito",
-                                size=16,
-                                color='rgb(76,83,90)')),
-                      hoverlabel=dict(bgcolor='white',
-                                   font_size=15,
-                                   font_family='Nunito'))
-
-    progress_plot = opy.plot(fig,
-                             auto_open=False,
-                             output_type='div')
-
-
+    # fig.update_layout(autosize=True,
+    #                   height=280,
+    #                   margin=dict(
+    #                      l=10,
+    #                      r=30,
+    #                      b=0,
+    #                      t=0,
+    #                      pad=4
+    #                   ),
+    #                   legend=dict(
+    #                   orientation="h",
+    #                   xanchor='center',
+    #                   x=0.5,
+    #                   font=dict(family="Nunito",
+    #                             size=16,
+    #                             color='rgb(76,83,90)')),
+    #                   hoverlabel=dict(bgcolor='white',
+    #                                font_size=15,
+    #                                font_family='Nunito'))
 
 
     #PLOT: heatmap
@@ -770,8 +566,6 @@ def class_dashboard(onlineclass):
             line2.append(2)
           else:
             line2.append(None)
-
-
 
       matrix1.append(line1)
       matrix2.append(line2)
@@ -1431,7 +1225,7 @@ def manager_dashboard():
 
     # fig4.update_traces(colorscale="hsv")
 
-    problems_plot = opy.plot(fig4,
+    problems_plot2 = opy.plot(fig4,
     output_type='div')
 
 
