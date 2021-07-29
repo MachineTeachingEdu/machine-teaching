@@ -18,7 +18,7 @@
                     {% if next_problem %}
                     {% blocktrans %}Next problem{% endblocktrans %}: <a href="{% url 'show_problem' problem_id=next_problem.id %}"><span class="link">{{next_problem.title}}</span></a>
                     {% else %}
-                      {% blocktrans %}Switch to random mode to see new problems{% endblocktrans %}
+                      {% blocktrans %}Click on Chapters to see problems with an expired deadline or switch to random mode to see new problems{% endblocktrans %}
                     {% endif %}       
                 </div>
 	        </div>
