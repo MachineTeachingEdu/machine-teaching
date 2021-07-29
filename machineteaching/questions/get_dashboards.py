@@ -34,12 +34,17 @@ def get_logs_distribution(user, problems, onlineclass):
                                         timestamp__gte=onlineclass.start_date)
     return passed, failed, skipped
 
+def percentage(value, total):
+  return 100 * value / total
+
 def get_progress_per_problem(user, problems, onlineclass):
   passed, failed, skipped = get_logs_distribution(user, problems, onlineclass)
-  values = [len(passed),
-            len(failed),
-            len(skipped),
-            len(user)*len(problems)-len(passed)-len(failed)-len(skipped)]
+  total = len(user) * len(problems)
+  total_done = len(passed) + len(failed) + len(skipped)
+  values = [percentage(len(passed), total),
+            percentage(len(failed), total),
+            percentage(len(skipped), total),
+            percentage(total-total_done, total)]
   return values
 
 def get_time_in_page_per_problem(user, problems, onlineclass):
@@ -59,12 +64,12 @@ def get_on_time_exercises(user, chapter):
   pass
 
 # Funções de plot
-def progress_plot(n_plots, values, size, text, hole):
+def create_progress_plot(n_plots, values, size, text, hole, column_widths=[1]):
     labels = [_("Passed"), _("Failed"), _("Skipped"), _("No attempt")]
     #color settings
     colors =['rgb(84, 210, 87)','rgb(255, 65, 65)','#FEC809','rgb(222,226,230)']
 
-    fig = make_subplots(1, n_plots, specs=[[{'type':'domain'}, {'type':'domain'}]], column_widths=[0.7, 0.3])
+    fig = make_subplots(1, n_plots, specs=[[{'type':'domain'}]*n_plots], column_widths=column_widths)
     for i in range(n_plots):
       fig.add_trace(go.Pie(labels=labels,
                           values=values[i], 
@@ -74,7 +79,7 @@ def progress_plot(n_plots, values, size, text, hole):
                           textinfo="none",
                           hole=hole[i],
                           marker=dict(colors=colors),
-                          hoverinfo='percent'),1, i+1)
+                            hoverinfo='percent'),1, i+1)
 
     fig.update_layout(autosize=True,
                       height=300,
@@ -120,7 +125,8 @@ def student_dashboard(user, professor=False):
     text = [user_label, class_label]
     size = [40, 17]
     hole = [0.9, .85]
-    problems_plot = progress_plot(2, [student_values, class_values], size, text, hole)
+    column_widths = [0.7, 0.3]
+    progress_plot = create_progress_plot(2, [student_values, class_values], size, text, hole, column_widths)
 
     # Average time view
     times = UserLog.objects.filter(user__in=students,
@@ -450,7 +456,7 @@ def student_dashboard(user, professor=False):
     context = {
         "title": _("Outcomes") + ' - ' + student_name,
         "student_name": student_name,
-        "problems_plot": problems_plot,
+        "problems_plot": progress_plot,
         "problems_time": problems_time,
         "errors": avg_errors,
         "chapters": chapter_table,
@@ -467,15 +473,15 @@ def class_dashboard(onlineclass):
     chapters = Deadline.objects.filter(onlineclass=onlineclass).values_list('chapter', flat=True)
     problems = Problem.objects.filter(chapter__in=chapters)
 
-
     #Progress plot
     class_values = get_progress_per_problem(students, problems, onlineclass)
-    passed, failed, skipped, _ = class_values
+    passed, failed, skipped, no_attempts = class_values
+    total_done = round(passed + failed + skipped)
 
-    text = [str(round(100*(len(passed)+len(failed)+len(skipped))/(len(students)*len(problems))))+"%"]
+    text = [f"{total_done}%"]
     size = [50]
     hole = [0.9]
-    problems_plot = progress_plot(1, [class_values], size, text, hole)
+    progress_plot = create_progress_plot(1, [class_values], size, text, hole)
 
     # fig.update_layout(autosize=True,
     #                   height=280,
@@ -1219,7 +1225,7 @@ def manager_dashboard():
 
     # fig4.update_traces(colorscale="hsv")
 
-    problems_plot = opy.plot(fig4,
+    problems_plot2 = opy.plot(fig4,
     output_type='div')
 
 

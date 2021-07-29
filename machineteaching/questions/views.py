@@ -9,7 +9,7 @@ from django.contrib.messages import success, error
 #from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.db.models.functions import Lower
-from django.utils import timezone, translation
+from django.utils import timezone
 from django.utils.translation import gettext as _
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
@@ -30,6 +30,7 @@ from questions.forms import (UserLogForm, SignUpForm, OutcomeForm, ChapterForm,
 from questions.serializers import RecommendationSerializer
 from questions.get_problem import get_problem
 from questions.get_dashboards import student_dashboard, class_dashboard, manager_dashboard
+from questions.get_dashboards import *
 from questions.strategies import STRATEGIES_FUNC
 import csv
 
@@ -786,8 +787,12 @@ def start(request):
     skipped = UserLogView.objects.filter(user=request.user,
                                         problem__in=problems,
                                         final_outcome='S').count()
-    progress = [round(100*passed/problems.count()),round(100*skipped/problems.count()),round(100*failed/problems.count())]
-    progress += [sum(progress)]
+    progress = get_progress_per_problem([request.user], problems, onlineclass)
+    # Last item is progress sum
+    progress[3] = sum(progress[:3])
+    # Round values
+    progress = list(map(round, progress))
+
     if request.user.userprofile.sequential:
         strategy = 'sequential'
     else:
