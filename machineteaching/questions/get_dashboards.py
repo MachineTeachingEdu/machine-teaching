@@ -125,8 +125,8 @@ def student_dashboard(user, professor=False):
     student_times = times.filter(user=user).values_list('seconds_in_page')
     
     # Calculate average time to solve problem in minutes
-    student_time = round(student_times.aggregate(avg_time=Avg('seconds_in_page'))['avg_time'])/60
-    class_time = round(times.aggregate(avg_time=Avg('seconds_in_page'))['avg_time'])/60
+    student_time = round(student_times.aggregate(avg_time=Avg('seconds_in_page'))['avg_time']/60)
+    class_time = round(times.aggregate(avg_time=Avg('seconds_in_page'))['avg_time']/60)
     problems_time = {'student': student_time, 'class': class_time}
 
     chapter_table = []
