@@ -6,7 +6,6 @@ from plotly.subplots import make_subplots
 
 import numpy as np
 import pandas as pd
-import random
 from statistics import mean
 from datetime import datetime
 
@@ -14,18 +13,21 @@ from questions.models import (Chapter, Problem, UserLog,
                              UserLogView, User, ExerciseSet, Deadline)
 from django.utils.translation import gettext as _
 from django.utils import timezone
+from django.db.models import Avg
 import logging
 
 LOGGER = logging.getLogger(__name__)
 
 
 def student_dashboard(user, professor=False):
+    # Separate labels from student view to professor view
     user_label = _("You")
     class_label = _("Your class")
     if professor:
         user_label = _("Student")
         class_label = _("Class")
 
+    # Get user class and all its students
     onlineclass = user.userprofile.user_class
     students = User.objects.filter(userprofile__user_class=onlineclass)
 
@@ -33,6 +35,7 @@ def student_dashboard(user, professor=False):
     chapters = Deadline.objects.filter(onlineclass=onlineclass).values_list('chapter', flat=True)
     problems = Problem.objects.filter(chapter__in=chapters)
 
+    # Get student logs
     user_passed = UserLogView.objects.filter(user=user,
                                         problem__in=problems,
                                         final_outcome='P')
@@ -43,6 +46,7 @@ def student_dashboard(user, professor=False):
                                         problem__in=problems,
                                         final_outcome='S')
 
+    # Get class logs
     students = User.objects.filter(userprofile__user_class=onlineclass)
     class_passed = UserLogView.objects.filter(user__in=students,
                                         problem__in=problems,
@@ -120,27 +124,10 @@ def student_dashboard(user, professor=False):
                                    timestamp__gte=onlineclass.start_date)
     student_times = times.filter(user=user).values_list('seconds_in_page')
     
-    student_times_sum = 0 
-    for time in student_times:
-        student_times_sum += time[0]
-    if len(student_times) != 0:
-        student_time = round(student_times_sum/len(student_times))
-
-    times_sum = 0
-    for time in times.values_list('seconds_in_page'):
-        times_sum += time[0]
-    
-    student_time = 0
-    if len(student_times) != 0:
-        student_time = round(student_times_sum/(len(student_times)*60))
-    class_time = 0
-    if times:
-        class_time = round(times_sum/(len(times)*60))
+    # Calculate average time to solve problem in minutes
+    student_time = round(student_times.aggregate(avg_time=Avg('seconds_in_page'))['avg_time'])/60
+    class_time = round(times.aggregate(avg_time=Avg('seconds_in_page'))['avg_time'])/60
     problems_time = {'student': student_time, 'class': class_time}
-
-
-
-
 
     chapter_table = []
     for chapter in chapters:
@@ -208,7 +195,10 @@ def student_dashboard(user, professor=False):
                                         timestamp__gte=onlineclass.start_date).order_by('timestamp')
 
         if passed.count():
+          # Get timestamp from first success attempt
           timestamp = passed.first().timestamp
+        else:
+          timestamp = datetime.now()
 
         errors = UserLog.objects.filter(user__in=students,
                                         problem=problem,

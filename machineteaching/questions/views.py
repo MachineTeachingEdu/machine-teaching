@@ -67,7 +67,7 @@ def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            user = form.save()
+            user = form.save(commit=False)
             user.username = form.cleaned_data.get('email')
             user.save()
             user.refresh_from_db()  # load the instance created by the signal
@@ -146,6 +146,7 @@ def save_user_log(request):
     if form.is_valid():
         log = form.save(commit=False)
         log.user = request.user
+        log.user_class = request.user.userprofile.user_class
         log.save()
         return JsonResponse({'status': 'success'})
     LOGGER.debug("Log failed")
@@ -181,6 +182,7 @@ def get_past_problems(request):
             onlineclass = request.user.userprofile.user_class
             available_chapters = Deadline.objects.filter(onlineclass=onlineclass
                                                 ).values_list('chapter', flat=True)
+            problem_chapter = ''
             for chapter in exerciseset:
                 if chapter in available_chapters:
                     problem_chapter = Chapter.objects.get(id=chapter)
