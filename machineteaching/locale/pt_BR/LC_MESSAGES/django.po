@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-28 03:16-0300\n"
+"POT-Creation-Date: 2021-07-29 15:55-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -70,7 +70,7 @@ msgstr "O endereço de email deve ser único."
 msgid "Invalid Class Code."
 msgstr "Código da turma inválido"
 
-#: questions/forms.py:56 questions/get_dashboards.py:27
+#: questions/forms.py:56 questions/get_dashboards.py:112
 #: questions/templates/questions/manager_dashboard.html:85
 #: questions/templates/questions/outcomes.html:13
 #: questions/templates/questions/solutions.html:13
@@ -78,12 +78,12 @@ msgstr "Código da turma inválido"
 msgid "Class"
 msgstr "Turma"
 
-#: questions/forms.py:57 questions/forms.py:163 questions/get_dashboards.py:408
-#: questions/get_dashboards.py:424 questions/get_dashboards.py:458
-#: questions/get_dashboards.py:503 questions/get_dashboards.py:519
-#: questions/get_dashboards.py:553 questions/get_dashboards.py:1106
-#: questions/get_dashboards.py:1123 questions/get_dashboards.py:1607
-#: questions/get_dashboards.py:1624 questions/models.py:30
+#: questions/forms.py:57 questions/forms.py:163 questions/get_dashboards.py:291
+#: questions/get_dashboards.py:307 questions/get_dashboards.py:341
+#: questions/get_dashboards.py:386 questions/get_dashboards.py:402
+#: questions/get_dashboards.py:436 questions/get_dashboards.py:890
+#: questions/get_dashboards.py:907 questions/get_dashboards.py:1391
+#: questions/get_dashboards.py:1408 questions/models.py:30
 #: questions/templates/questions/class_dashboard.html:28
 #: questions/templates/questions/manager_dashboard.html:28
 #: questions/templates/questions/new_problem.html:44
@@ -118,27 +118,7 @@ msgstr "A data deve estar no formato \"yyyy-mm-dd\" e deve ser válida."
 msgid "The time must be in the format \"HH:MM\" and must be valid."
 msgstr "O horário deve estar no formato \"HH:MM\" e deve ser válido."
 
-#: questions/get_dashboards.py:23
-#: questions/templates/questions/student_dashboard.html:30
-msgid "You"
-msgstr "Você"
-
-#: questions/get_dashboards.py:24
-#: questions/templates/questions/student_dashboard.html:40
-msgid "Your class"
-msgstr "Sua turma"
-
-#: questions/get_dashboards.py:26
-#: questions/templates/questions/class_dashboard.html:85
-#: questions/templates/questions/class_dashboard.html:135
-#: questions/templates/questions/outcomes.html:32
-#: questions/templates/questions/student_dashboard.html:28
-#: questions/templates/questions/student_solutions.html:8
-msgid "Student"
-msgstr "Aluno"
-
-#: questions/get_dashboards.py:58 questions/get_dashboards.py:675
-#: questions/get_dashboards.py:1210
+#: questions/get_dashboards.py:68 questions/get_dashboards.py:994
 #: questions/templates/questions/chapters.html:46
 #: questions/templates/questions/chapters.html:80
 #: questions/templates/questions/chapters.html:114
@@ -160,8 +140,7 @@ msgstr "Aluno"
 msgid "Passed"
 msgstr "Passou"
 
-#: questions/get_dashboards.py:58 questions/get_dashboards.py:675
-#: questions/get_dashboards.py:1210
+#: questions/get_dashboards.py:68 questions/get_dashboards.py:994
 #: questions/templates/questions/chapters.html:50
 #: questions/templates/questions/chapters.html:84
 #: questions/templates/questions/chapters.html:118
@@ -184,8 +163,7 @@ msgstr "Passou"
 msgid "Failed"
 msgstr "Falhou"
 
-#: questions/get_dashboards.py:58 questions/get_dashboards.py:675
-#: questions/get_dashboards.py:1210
+#: questions/get_dashboards.py:68 questions/get_dashboards.py:994
 #: questions/templates/questions/chapters.html:54
 #: questions/templates/questions/chapters.html:88
 #: questions/templates/questions/chapters.html:122
@@ -205,55 +183,73 @@ msgstr "Falhou"
 msgid "Skipped"
 msgstr "Pulou"
 
-#: questions/get_dashboards.py:58 questions/get_dashboards.py:675
-#: questions/get_dashboards.py:1210
+#: questions/get_dashboards.py:68 questions/get_dashboards.py:994
 msgid "No attempt"
 msgstr "Sem tentativa"
 
-#: questions/get_dashboards.py:408 questions/get_dashboards.py:424
+#: questions/get_dashboards.py:108
+#: questions/templates/questions/student_dashboard.html:30
+msgid "You"
+msgstr "Você"
+
+#: questions/get_dashboards.py:109
+#: questions/templates/questions/student_dashboard.html:40
+msgid "Your class"
+msgstr "Sua turma"
+
+#: questions/get_dashboards.py:111
+#: questions/templates/questions/class_dashboard.html:85
+#: questions/templates/questions/class_dashboard.html:135
+#: questions/templates/questions/outcomes.html:32
+#: questions/templates/questions/student_dashboard.html:28
+#: questions/templates/questions/student_solutions.html:8
+msgid "Student"
+msgstr "Aluno"
+
+#: questions/get_dashboards.py:291 questions/get_dashboards.py:307
 #: questions/templates/questions/home.html:39
 #, fuzzy
 #| msgid "error"
 msgid "error(s)"
 msgstr "erro"
 
-#: questions/get_dashboards.py:465 questions/templates/questions/home.html:36
+#: questions/get_dashboards.py:348 questions/templates/questions/home.html:36
 #: questions/templates/questions/student_dashboard.html:50
 msgid "Errors"
 msgstr "Erros"
 
-#: questions/get_dashboards.py:503 questions/get_dashboards.py:519
+#: questions/get_dashboards.py:386 questions/get_dashboards.py:402
 #: questions/templates/questions/student_dashboard.html:91
 msgid "day(s)"
 msgstr "dia(s)"
 
-#: questions/get_dashboards.py:560
+#: questions/get_dashboards.py:443
 msgid "Time (days)"
 msgstr "Tempo (dias)"
 
-#: questions/get_dashboards.py:639 questions/templates/questions/base.html:33
-#: questions/views.py:468
+#: questions/get_dashboards.py:457 questions/templates/questions/base.html:33
+#: questions/views.py:472
 msgid "Outcomes"
 msgstr "Resultados"
 
-#: questions/get_dashboards.py:920 questions/get_dashboards.py:947
-#: questions/get_dashboards.py:971 questions/get_dashboards.py:1003
-#: questions/get_dashboards.py:1105 questions/get_dashboards.py:1412
-#: questions/get_dashboards.py:1439 questions/get_dashboards.py:1606
+#: questions/get_dashboards.py:704 questions/get_dashboards.py:731
+#: questions/get_dashboards.py:755 questions/get_dashboards.py:787
+#: questions/get_dashboards.py:889 questions/get_dashboards.py:1196
+#: questions/get_dashboards.py:1223 questions/get_dashboards.py:1390
 #: questions/templates/questions/past_problems.html:36
 msgid "Attempts"
 msgstr "Tentativas"
 
-#: questions/get_dashboards.py:920 questions/get_dashboards.py:971
-#: questions/get_dashboards.py:1106 questions/get_dashboards.py:1123
-#: questions/get_dashboards.py:1412 questions/get_dashboards.py:1607
-#: questions/get_dashboards.py:1624
+#: questions/get_dashboards.py:704 questions/get_dashboards.py:755
+#: questions/get_dashboards.py:890 questions/get_dashboards.py:907
+#: questions/get_dashboards.py:1196 questions/get_dashboards.py:1391
+#: questions/get_dashboards.py:1408
 msgid "avg"
 msgstr "média"
 
-#: questions/get_dashboards.py:920 questions/get_dashboards.py:971
-#: questions/get_dashboards.py:1122 questions/get_dashboards.py:1412
-#: questions/get_dashboards.py:1623
+#: questions/get_dashboards.py:704 questions/get_dashboards.py:755
+#: questions/get_dashboards.py:906 questions/get_dashboards.py:1196
+#: questions/get_dashboards.py:1407
 #: questions/templates/questions/class_dashboard.html:64
 #: questions/templates/questions/manager_dashboard.html:64
 #: questions/templates/questions/student_dashboard.html:80
@@ -261,17 +257,17 @@ msgstr "média"
 msgid "Time"
 msgstr "Tempo"
 
-#: questions/get_dashboards.py:948 questions/get_dashboards.py:1440
+#: questions/get_dashboards.py:732 questions/get_dashboards.py:1224
 msgid "Time (minutes)"
 msgstr "Tempo (minutos)"
 
-#: questions/get_dashboards.py:971 questions/get_dashboards.py:1004
+#: questions/get_dashboards.py:755 questions/get_dashboards.py:788
 #: questions/templates/questions/class_dashboard.html:86
 #: questions/templates/questions/manager_dashboard.html:86
 msgid "Solved problems"
 msgstr "Problemas resolvidos"
 
-#: questions/get_dashboards.py:1160 questions/get_dashboards.py:1661
+#: questions/get_dashboards.py:944 questions/get_dashboards.py:1445
 #: questions/templates/questions/class_dashboard.html:32
 #: questions/templates/questions/class_dashboard.html:89
 #: questions/templates/questions/manager_dashboard.html:32
@@ -279,7 +275,7 @@ msgstr "Problemas resolvidos"
 msgid "Attempts per problem"
 msgstr "Tentativas por problema"
 
-#: questions/get_dashboards.py:1161 questions/get_dashboards.py:1662
+#: questions/get_dashboards.py:945 questions/get_dashboards.py:1446
 msgid "Time per problem (minutes)"
 msgstr "Tempo por problema (minutos)"
 
@@ -297,7 +293,7 @@ msgstr "Problema"
 #: questions/templates/questions/manager_dashboard.html:57
 #: questions/templates/questions/show_class.html:8
 #: questions/templates/questions/student_dashboard.html:74
-#: questions/views.py:286
+#: questions/views.py:290
 msgid "Chapters"
 msgstr "Aulas"
 
@@ -308,92 +304,92 @@ msgstr "Aulas"
 msgid "Problems"
 msgstr "Problemas"
 
-#: questions/models.py:84
+#: questions/models.py:85
 msgid "Exercise Set"
 msgstr ""
 
-#: questions/models.py:85
+#: questions/models.py:86
 msgid "Exercises Sets"
 msgstr ""
 
-#: questions/models.py:97
+#: questions/models.py:98
 #, fuzzy
 #| msgid "Class"
 msgid "OnlineClass"
 msgstr "Turma"
 
-#: questions/models.py:98
+#: questions/models.py:99
 msgid "OnlineClasses"
 msgstr "Turmas"
 
-#: questions/models.py:115 questions/templates/questions/chapters.html:17
+#: questions/models.py:116 questions/templates/questions/chapters.html:17
 #: questions/templates/questions/home.html:53
 #: questions/templates/questions/show_chapter.html:74
 #: questions/templates/questions/show_class.html:12
 msgid "Deadline"
 msgstr "Entrega"
 
-#: questions/models.py:116
+#: questions/models.py:117
 msgid "Deadlines"
 msgstr "Prazos"
 
-#: questions/models.py:139
+#: questions/models.py:140
 msgid "Professors"
 msgstr "Professores"
 
-#: questions/models.py:169
+#: questions/models.py:170
 msgid "User profile"
 msgstr "Perfil do usuário"
 
-#: questions/models.py:170
+#: questions/models.py:171
 msgid "User profiles"
 msgstr "Perfis dos usuários"
 
-#: questions/models.py:204 questions/templates/questions/new_problem.html:62
+#: questions/models.py:205 questions/templates/questions/new_problem.html:62
 #: questions/templates/questions/past_solutions.html:47
-#: questions/templates/questions/student_logs.html:37 questions/views.py:486
+#: questions/templates/questions/student_logs.html:37 questions/views.py:490
 msgid "Solution"
 msgstr "Solução"
 
-#: questions/models.py:205 questions/templates/questions/past_problems.html:38
+#: questions/models.py:206 questions/templates/questions/past_problems.html:38
 #: questions/templates/questions/show_class.html:62
 #: questions/templates/questions/student_solutions.html:13
 msgid "Solutions"
 msgstr "Soluções"
 
-#: questions/models.py:214
+#: questions/models.py:215
 msgid "Test Case"
 msgstr "Caso de Teste"
 
-#: questions/models.py:215
+#: questions/models.py:216
 msgid "Test Cases"
 msgstr "Casos de Teste"
 
-#: questions/models.py:242
+#: questions/models.py:244
 msgid "User log"
 msgstr "Log do usuário"
 
-#: questions/models.py:243
+#: questions/models.py:245
 msgid "User logs"
 msgstr "Logs dos usuários"
 
-#: questions/models.py:285
+#: questions/models.py:287
 msgid "Page access"
 msgstr "Acesso"
 
-#: questions/models.py:286
+#: questions/models.py:288
 msgid "Page accesses"
 msgstr "Acessos"
 
-#: questions/models.py:295
+#: questions/models.py:297
 msgid "Interactive"
 msgstr ""
 
-#: questions/models.py:303
+#: questions/models.py:305
 msgid "Recommendations"
 msgstr "Recomendações"
 
-#: questions/models.py:312
+#: questions/models.py:314
 msgid "Comment"
 msgstr "Comentário"
 
@@ -418,7 +414,7 @@ msgstr "Começar"
 #: questions/templates/index.html:46
 #: questions/templates/registration/login.html:34
 #: questions/templates/registration/signup.html:7
-#: questions/templates/registration/signup.html:131 questions/views.py:96
+#: questions/templates/registration/signup.html:131 questions/views.py:97
 msgid "Create account"
 msgstr "Criar conta"
 
@@ -482,14 +478,14 @@ msgstr ""
 msgid "Current problem"
 msgstr "Problema atual"
 
-#: questions/templates/questions/base.html:28 questions/views.py:200
+#: questions/templates/questions/base.html:28 questions/views.py:204
 msgid "Past problems"
 msgstr "Problemas passados"
 
 #: questions/templates/questions/base.html:31
 #: questions/templates/questions/manager_dashboard.html:82
 #: questions/templates/questions/manager_dashboard.html:118
-#: questions/views.py:703
+#: questions/views.py:707
 msgid "Classes"
 msgstr "Turmas"
 
@@ -764,8 +760,14 @@ msgid "Next problem"
 msgstr "Próximo problema"
 
 #: questions/templates/questions/home.html:21
-msgid "Switch to random mode to see new problems"
-msgstr "Troque para o modo aleatório para ver novos problemas"
+#, fuzzy
+#| msgid "Switch to random mode to see new problems"
+msgid ""
+"Click on Chapters to see problems with an expired deadline or switch to "
+"random mode to see new problems"
+msgstr ""
+"Clique em Aulas para ver problemas com o prazo expirado ou troque para o "
+"modo aleatório para ver novos problemas"
 
 #: questions/templates/questions/home.html:27
 #: questions/templates/questions/student_dashboard.html:20
@@ -1155,27 +1157,27 @@ msgstr ""
 "númerica.\n"
 "                                "
 
-#: questions/views.py:136
+#: questions/views.py:137
 msgid "Finished"
 msgstr "Finalizado"
 
-#: questions/views.py:521
+#: questions/views.py:525
 #, fuzzy
 #| msgid "Solution"
 msgid "Problem solutions"
 msgstr "Solução"
 
-#: questions/views.py:551
+#: questions/views.py:555
 #, fuzzy
 #| msgid "Solution"
 msgid "Student solutions"
 msgstr "Solução"
 
-#: questions/views.py:638
+#: questions/views.py:642
 msgid "New problem"
 msgstr "Novo problema"
 
-#: questions/views.py:677
+#: questions/views.py:681
 #, fuzzy
 #| msgid "User profile"
 msgid "Edit profile"

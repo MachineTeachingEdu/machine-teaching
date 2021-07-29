@@ -1,3 +1,4 @@
+from datetime import datetime
 import logging
 import random
 from django.conf import settings
@@ -95,14 +96,16 @@ def eer_strategy(user):
 
 def sequential_strategy(user):
     # Get user solutions
-    user_passed = UserLog.objects.filter(user=user, outcome__in=["P", "S"]).values_list(
-            'problem', flat=True)
+    user_passed = UserLog.objects.filter(user=user, outcome__in=["P", "S"], 
+                                         timestamp__gte=user.userprofile.user_class.start_date).values_list(
+                                        'problem', flat=True)
 
     # Go to next available problem
     try:
-        problem_id = ExerciseSet.objects.filter(chapter__in=Deadline.objects.filter(onlineclass=user.userprofile.user_class
-                                                ).values_list('chapter',
-                                                              flat=True)).exclude(
+        available_chapters = Deadline.objects.filter(
+            onlineclass=user.userprofile.user_class,
+            deadline__gte=datetime.now()).values_list('chapter', flat=True)
+        problem_id = ExerciseSet.objects.filter(chapter__in=available_chapters).exclude(
                 problem__in=user_passed).order_by('chapter','order').values_list('problem')[0][0]
         LOGGER.debug("Selecting problem %d from sequential strategy", problem_id)
     except IndexError:

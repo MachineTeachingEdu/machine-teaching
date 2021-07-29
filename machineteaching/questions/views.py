@@ -151,6 +151,7 @@ def save_user_log(request):
         log.user_class = request.user.userprofile.user_class
         log.save()
         return JsonResponse({'status': 'success'})
+    # LOGGER.debug("Log failed: %s", form.errors)
     LOGGER.debug("Log failed")
     return JsonResponse({'status': 'failed'})
 
