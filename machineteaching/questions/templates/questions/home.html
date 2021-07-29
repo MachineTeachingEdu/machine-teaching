@@ -1,0 +1,119 @@
+{% extends "questions/base.html" %}
+{% load static %}
+{% load i18n %}
+{% block content %}
+
+		<div class="col-6">
+	        <div class="card" style="height: 15rem">
+	        	<h3>{% blocktrans %}Progress{% endblocktrans %}</h3>
+		        <div class="progress-bar" style="width: 100%; height: 1rem">
+                    <div class="p" style="width: {{progress.0}}%"></div>
+                    <div class="s" style="width: {{progress.1}}%"></div>
+                    <div class="f" style="width: {{progress.2}}%"></div>     
+                </div>
+                <div style="font-size: 45px; text-align: right;">
+                    {{progress.3}}%
+                </div>
+                <div class="next_btn" style="padding: 1rem; text-align: center;">
+                    {% if next_problem %}
+                    {% blocktrans %}Next problem{% endblocktrans %}: <a href="{% url 'show_problem' problem_id=next_problem.id %}"><span class="link">{{next_problem.title}}</span></a>
+                    {% else %}
+                      {% blocktrans %}Switch to random mode to see new problems{% endblocktrans %}
+                    {% endif %}       
+                </div>
+	        </div>
+            <div style="display: flex; justify-content: space-between;">
+                <div class="card" style="width: calc(50% - 1rem); height: 12rem">
+                    <h3 style="margin-bottom: 0.5rem">{% blocktrans %}Average time{% endblocktrans %}</h3>
+                    <span>{% blocktrans %}to perform a problem{% endblocktrans %}</span><br><br>
+                    {% if time %}
+                    <div style="font-size: 45px; text-align: center;">{{time}} min</div>
+                    {% else %}
+                    <div style="text-align: center;">{% blocktrans %}No problems completed{% endblocktrans %}</div>
+                    {% endif %}
+                </div>
+                <div class="card" style="width: calc(50% - 1rem); height: 12rem">
+                    <h3 style="margin-bottom: 0.5rem">{% blocktrans %}Errors{% endblocktrans %}</h3>
+                    <span>{% blocktrans %}before you get right a problem{% endblocktrans %}</span><br><br>
+                    {% if errors %}
+                    <div style="font-size: 45px; text-align: center;">{{errors}} {% blocktrans %}error(s){% endblocktrans %}</div>
+                    {% else %}
+                    <div style="text-align: center;">{% blocktrans %}No problems completed{% endblocktrans %}</div>
+                    {% endif %}
+                </div>
+            </div>
+	    </div>
+
+	    <div class="col-6" style="padding-left: 2rem;">
+            <div class="card" style="height: 29rem;">
+                <h3>{% blocktrans %}Current chapter{% endblocktrans %}</h3>
+                {% if current_chapter %}
+                  <span style="font-size: 30px; display: inline-block;">{{current_chapter.chapter}}</span>
+                <div style="margin-bottom: 1rem;">
+                    {% blocktrans %}Deadline{% endblocktrans %}: {{current_chapter.deadline}}
+                </div>
+                
+                  <div style="max-height: 20rem; overflow-y: auto;">
+                  <table>
+                    <tbody>
+                    {% for item in problems %}
+                    <tr class="row" id="{{ item.problem.id }}">
+                      <td class="col-9" onclick="window.location='{% url 'show_problem' problem_id=item.problem.id %}';">
+                         {{ item.problem.title }}
+                      </td>
+                      <td class="col-3" onclick="window.location='{% url 'show_problem' problem_id=item.problem.id %}';" style="text-align: right;">
+                        {% if item.problem.id in passed %}
+                        <span class="badge success">
+                        {% blocktrans %}Passed{% endblocktrans %}
+                        </span>
+                        {% elif item.problem.id in failed %}
+                        <span class="badge danger">
+                        {% blocktrans %}Failed{% endblocktrans %}
+                        </span>
+                        {% elif item.problem.id in skipped %}
+                        <span class="badge warning">
+                        {% blocktrans %}Skipped{% endblocktrans %}
+                        </span>
+                        {% endif %}
+                      </td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                    </table>
+                    </div>
+                {% else %}
+                <div style="text-align: center;">
+                {% blocktrans %}There are still no chapters or all deadlines have expired{% endblocktrans %}
+                </div>
+                {% endif %}
+                
+            </div>
+        </div>
+
+
+{% endblock %}}
+
+{% block javascript %}
+<script type="text/javascript">
+	
+    // Save page access
+    $(document).ready(function() {
+        $.ajax({
+            type: "POST",
+            url: '{% url "saveaccess" %}',
+            data: {
+                'page': 'Home',
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            dataType: 'json',
+            success: function(data){
+            console.log('status: ' + data['status']);
+            },
+            error: function (request, status, error) {
+            console.log(request.status);
+            }
+        });
+    });
+    
+</script>
+{% endblock %}
