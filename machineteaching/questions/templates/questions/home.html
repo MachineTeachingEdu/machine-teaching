@@ -26,7 +26,7 @@
                 <div class="card" style="width: calc(50% - 1rem); height: 12rem">
                     <h3 style="margin-bottom: 0.5rem">{% blocktrans %}Average time{% endblocktrans %}</h3>
                     <span>{% blocktrans %}to perform a problem{% endblocktrans %}</span><br><br>
-                    {% if time %}
+                    {% if time is not None%}
                     <div style="font-size: 45px; text-align: center;">{{time}} min</div>
                     {% else %}
                     <div style="text-align: center;">{% blocktrans %}No problems completed{% endblocktrans %}</div>

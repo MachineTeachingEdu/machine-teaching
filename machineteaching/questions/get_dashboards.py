@@ -478,7 +478,7 @@ def class_dashboard(onlineclass):
     passed, failed, skipped, no_attempts = class_values
     total_done = round(passed + failed + skipped)
 
-    text = [f"{total_done}%"]
+    text = [str(total_done) + "%"]
     size = [50]
     hole = [0.9]
     progress_plot = create_progress_plot(1, [class_values], size, text, hole)
