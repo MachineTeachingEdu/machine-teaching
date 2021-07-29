@@ -452,7 +452,8 @@ msgstr " e a "
 msgid ""
 "© 2020 Copyright: <a href=\"http://machineteaching.tech\">machineteaching."
 "tech"
-msgstr ""
+msgstr "© 2020 Copyright: <a href=\"http://machineteaching.tech\">machineteaching."
+"tech"
 
 #: questions/templates/questions/base.html:26
 msgid "Current problem"
@@ -1018,7 +1019,7 @@ msgid ""
 "The password reset link was invalid, possibly because it has already been "
 "used.\n"
 "      Please request a new password reset."
-msgstr ""
+msgstr "O link para reset de senha é inválido, possivelmente porque já foi usado."
 
 #: questions/templates/registration/password_reset_done.html:10
 msgid ""
