@@ -157,7 +157,8 @@ def save_user_log(request):
 
 @login_required
 def get_past_problems(request):
-    logs = UserLog.objects.filter(user=request.user).order_by('-timestamp')
+    logs = UserLog.objects.filter(user=request.user, 
+    timestamp__gte=request.user.userprofile.user_class.start_date).order_by('-timestamp')
     passed = logs.filter(outcome='P').values_list('problem_id', flat=True
                                                   ).distinct()
     skipped = logs.filter(outcome='S').values_list('problem_id', flat=True
