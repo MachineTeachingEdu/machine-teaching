@@ -832,12 +832,11 @@ def start(request):
         errors = round(mean(u_errors))
 
     current_chapter = Deadline.objects.filter(deadline__gte=datetime.now(),
-                                              onlineclass=onlineclass).first()
-    chapter, problems = None, None
+                                              onlineclass=onlineclass).order_by('deadline'
+                                              ).first()
+    problems = None
     if current_chapter:
-        chapter = Chapter.objects.filter(pk=current_chapter.chapter.id)
-
-        problems = ExerciseSet.objects.filter(chapter=current_chapter.id).order_by('order', '-id')
+        problems = ExerciseSet.objects.filter(chapter=current_chapter.chapter.id).order_by('order')
 
     userlog = UserLog.objects.filter(
         user=request.user,
