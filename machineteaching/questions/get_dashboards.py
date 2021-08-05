@@ -118,7 +118,7 @@ def student_dashboard(user, professor=False):
     onlineclass = user.userprofile.user_class
     students = User.objects.filter(userprofile__user_class=onlineclass)
 
-    chapters = Deadline.objects.filter(onlineclass=onlineclass).values_list('chapter', flat=True)
+    chapters = Deadline.objects.filter(onlineclass=onlineclass).order_by('-deadline').values_list('chapter', flat=True)
     problems = Problem.objects.filter(chapter__in=chapters)
 
     #Progress plot
@@ -471,7 +471,7 @@ def student_dashboard(user, professor=False):
 
 def class_dashboard(onlineclass):
     students = User.objects.filter(userprofile__user_class=onlineclass).order_by('-first_name','-last_name')
-    chapters = Deadline.objects.filter(onlineclass=onlineclass).values_list('chapter', flat=True)
+    chapters = Deadline.objects.filter(onlineclass=onlineclass).order_by('-deadline').values_list('chapter', flat=True)
     problems = Problem.objects.filter(chapter__in=chapters)
 
     #Progress plot
