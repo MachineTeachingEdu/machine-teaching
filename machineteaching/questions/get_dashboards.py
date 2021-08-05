@@ -181,7 +181,6 @@ def student_dashboard(user, professor=False):
         chapter_passed = times[-1]
         chapter_time = (chapter_passed-first_log).days
 
-
       chapter_times = []
       for student in students:
         logs = UserLog.objects.filter(user=student,
@@ -189,6 +188,7 @@ def student_dashboard(user, professor=False):
                                       timestamp__gte=onlineclass.start_date).order_by('timestamp')
         if logs.count():
           first_log = logs.first().timestamp
+
         times = []
         for problem in chapter_problems:
           passed = UserLog.objects.filter(user=student,
@@ -204,12 +204,12 @@ def student_dashboard(user, professor=False):
           chapter_times.append((chapter_passed-first_log).days)
 
       class_time = None
-
       if len(chapter_times):
         class_time = round(mean(chapter_times))
 
       c_errors = []
       for problem in chapter_problems:
+        # Faz sentido o primeiro acerto da turma TODA?
         passed = UserLog.objects.filter(user__in=students,
                                         problem=problem,
                                         outcome="P",
@@ -221,12 +221,13 @@ def student_dashboard(user, professor=False):
         else:
           timestamp = datetime.now()
 
-          errors = UserLog.objects.filter(user__in=students,
-                                          problem=problem,
-                                          outcome='F',
-                                          timestamp__gte=onlineclass.start_date,
-                                          timestamp__lte=timestamp).count()
-          c_errors.append(errors)
+        errors = UserLog.objects.filter(user__in=students,
+                                        problem=problem,
+                                        outcome='F',
+                                        timestamp__gte=onlineclass.start_date,
+                                        timestamp__lte=timestamp).count()
+            
+        c_errors.append(errors)
 
       class_errors = None
       if len(c_errors):
@@ -259,7 +260,6 @@ def student_dashboard(user, professor=False):
                             'class_time': class_time,
                             'class_errors': class_errors,
                             'user_errors': user_errors})
-
     if len(chapter_table) > 0:
       chapters_df = pd.DataFrame(chapter_table)
       chapters_df.dropna(subset = ['chapter_time','class_time','class_errors','user_errors'], inplace=True)
