@@ -3,10 +3,11 @@
 {% load i18n %}
 {% block content %}
 
-		<div class="col-6">
-	        <div class="card" style="height: 15rem">
-	        	<h3>{% blocktrans %}Progress{% endblocktrans %}</h3>
-		        <div class="progress-bar" style="width: 100%; height: 1rem">
+		<div class="col col-3">
+            <div class="card" style="height: 14rem">
+	        	<h3 style="margin-bottom: 0">{% blocktrans %}Total progress{% endblocktrans %}</h3>
+                {% blocktrans %}in all problems{% endblocktrans %}
+		        <div class="progress-bar" style="width: 100%; height: 0.7rem; margin-top: 1rem">
                     <div class="p" style="width: {{progress.0}}%"></div>
                     <div class="s" style="width: {{progress.1}}%"></div>
                     <div class="f" style="width: {{progress.2}}%"></div>     
@@ -14,16 +15,28 @@
                 <div style="font-size: 45px; text-align: right;">
                     {{progress.3}}%
                 </div>
-                <div class="next_btn" style="padding: 1rem; text-align: center;">
+                <div class="next_btn" style="text-align: center; font-size: 0.9rem; padding: 0.5rem;">
                     {% if next_problem %}
                     {% blocktrans %}Next problem{% endblocktrans %}: <a href="{% url 'show_problem' problem_id=next_problem.id %}"><span class="link">{{next_problem.title}}</span></a>
                     {% else %}
-                      {% blocktrans %}Click on Chapters to see problems with an expired deadline or switch to random mode to see new problems{% endblocktrans %}
+                      <span>{% blocktrans %}All problems have been finalized{% endblocktrans %}</span>
                     {% endif %}       
                 </div>
 	        </div>
-            <div style="display: flex; justify-content: space-between;">
-                <div class="card" style="width: calc(50% - 1rem); height: 12rem">
+            <div class="card" style="height: 14rem">
+                <h3 style="margin-bottom: 1.5rem">{% blocktrans %}Main errors{% endblocktrans %}</h3>
+                {% if main_errors.0 %}
+                <div style="font-size: 45px; text-align: center;">{{main_errors.0.error}}</div>
+                {% if main_errors.1 %}
+                <div style="font-size: 30px; text-align: center;">{{main_errors.1.error}}</div>
+                {% endif %}
+                {% else %}
+                <div style="text-align: center;">{% blocktrans %}No errors to show{% endblocktrans %}</div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col col-3">
+                <div class="card" style="height: 14rem">
                     <h3 style="margin-bottom: 0.5rem">{% blocktrans %}Average time{% endblocktrans %}</h3>
                     <span>{% blocktrans %}to perform a problem{% endblocktrans %}</span><br><br>
                     {% if time is not None%}
@@ -32,7 +45,7 @@
                     <div style="text-align: center;">{% blocktrans %}No problems completed{% endblocktrans %}</div>
                     {% endif %}
                 </div>
-                <div class="card" style="width: calc(50% - 1rem); height: 12rem">
+                <div class="card" style="height: 14rem">
                     <h3 style="margin-bottom: 0.5rem">{% blocktrans %}Errors{% endblocktrans %}</h3>
                     <span>{% blocktrans %}before you get right a problem{% endblocktrans %}</span><br><br>
                     {% if errors %}
@@ -41,16 +54,18 @@
                     <div style="text-align: center;">{% blocktrans %}No problems completed{% endblocktrans %}</div>
                     {% endif %}
                 </div>
-            </div>
 	    </div>
 
-	    <div class="col-6" style="padding-left: 2rem;">
-            <div class="card" style="height: 29rem;">
+	    <div class="col col-6" style="padding-left: 2rem;">
+            <div class="card" style="height: 30rem; position: relative;">
                 <h3>{% blocktrans %}Current chapter{% endblocktrans %}</h3>
                 {% if current_chapter %}
-                  <span style="font-size: 30px; display: inline-block;">{{current_chapter.chapter}}</span>
-                <div style="margin-bottom: 1rem;">
+                  <span style="font-size: 22px; display: inline-block; margin-bottom: 1rem;">{{current_chapter.chapter}}</span>
+                <div style=" position: absolute; top: 1rem; right: 1rem; text-align: right;">
+                    <span class="badge-warning">
                     {% blocktrans %}Deadline{% endblocktrans %}: {{current_chapter.deadline}}
+                    </span><br>
+                    <span class="badge-b">{% blocktrans %}Estimated time to finish this chapter{% endblocktrans %}: {{chapter_time}} {% blocktrans %}minutes{% endblocktrans %}</span>
                 </div>
                 
                   <div style="max-height: 20rem; overflow-y: auto;">

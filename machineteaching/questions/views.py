@@ -324,16 +324,11 @@ def show_chapter(request, chapter):
     else:
         deadline = 0
     LOGGER.debug("Deadline: %s" % deadline)
-    userlogs = UserLog.objects.filter(problem__in=Problem.objects.filter(chapter=chapter).distinct(),
-                                      timestamp__gte=request.user.userprofile.user_class.start_date)
-    errors = UserLogError.objects.filter(userlog__in=userlogs).values_list('error')
-    counter = {}
-    for error in errors:
-        if error in counter:
-            counter[error] += 1
-        else:
-            counter[error] = 1
-    main_errors = sorted(counter, key=counter.get, reverse=True)[:2]
+
+    errors = get_error_type_per_chapter(User.objects.filter(userprofile__user_class=onlineclass),
+                                                            [chapter],onlineclass)
+    main_errors = errors
+
     # Get exercise where student passed
     userlog = UserLog.objects.filter(
         user=request.user,
@@ -832,12 +827,16 @@ def start(request):
     if len(u_errors):
         errors = round(mean(u_errors))
 
+    main_errors = get_error_type_per_chapter([request.user],chapters,onlineclass)
+
     current_chapter = Deadline.objects.filter(deadline__gte=datetime.now(),
                                               onlineclass=onlineclass).order_by('deadline'
                                               ).first()
     problems = None
+    chapter_time = None
     if current_chapter:
         problems = ExerciseSet.objects.filter(chapter=current_chapter.chapter.id).order_by('order')
+        chapter_time = get_time_to_finish_chapter(request.user, current_chapter.chapter, onlineclass)
 
     userlog = UserLog.objects.filter(
         user=request.user,
@@ -849,11 +848,14 @@ def start(request):
     failed = userlog.filter(outcome='F').values_list('problem_id', flat=True
                                               ).distinct()
 
-    return render(request, 'questions/home.html', {'progress': progress,
+    return render(request, 'questions/home.html', {'title': _('home'),
+                                                   'progress': progress,
                                                    'next_problem': next_problem,
                                                    'time': time,
                                                    'errors': errors,
+                                                   'main_errors': main_errors,
                                                    'current_chapter': current_chapter,
+                                                   'chapter_time': chapter_time,
                                                    'problems': problems,
                                                    'passed': passed,
                                                    'failed': failed,
