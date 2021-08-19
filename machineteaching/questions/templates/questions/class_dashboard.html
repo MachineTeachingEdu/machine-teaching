@@ -127,23 +127,31 @@
     </div>
 </div>
 
-<div class="col-12" style="display: flex; padding: 1rem; height: 25rem">
+<div class="col-12" style="display: flex; padding: 1rem; height: 30rem">
     <div class="card" style="width: 100%">
         <h3></h3>
         <table>
             <tr class="row" style="border: none; font-size: 13px; font-weight: 300; background: #EBECEF; padding: 1rem 0;">
                 <td style="width: 30%; padding: 0.3rem 1rem">{% blocktrans %}Student{% endblocktrans %}</td>
                 <td style="width: 30%; padding: 0.3rem 1rem">{% blocktrans %}E-mail{% endblocktrans %}</td>
-                <td style="width: 40%; padding: 0.3rem 1rem">{% blocktrans %} {% endblocktrans %}</td>
+                <td style="width: 40%; padding: 0.3rem 1rem; text-align: center;">{% blocktrans %}Drop out risk{% endblocktrans %}</td>
             </tr>
         </table>
-            <div style="max-height: 18rem; overflow-y: auto;">
+            <div style="max-height: 25rem; overflow-y: auto;">
                 <table>
                 {% for student in students_table %}
                 <tr class="row">
                     <td style="width: 30%;">{{student.name}}</td>
                     <td style="width: 30%;">{{student.username}}</td>
-                    <td style="width: 40%;"></td>
+                    <td style="width: 40%; text-align: center;">
+                        <div class="task-progress" style="width: 5rem%; margin: auto; display: flex;">
+                        <div style="width: calc(100% - {{student.prediction.0}}% / 0.12); background: 
+                        {% if student.prediction.0 < 4 %}var(--red)
+                        {% elif student.prediction.0 < 8 %}var(--yellow)
+                        {% else %}var(--green){% endif %}; opacity: 1"></div>
+                        </div>
+                        {{student.prediction.1}}
+                    </td>
                 </tr>
                 {% endfor %}
             </table>

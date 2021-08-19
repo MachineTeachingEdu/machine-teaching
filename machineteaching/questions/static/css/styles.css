@@ -451,7 +451,16 @@ textarea::-moz-selection { background: #B5DCFF; }
     display: inline-block;
     font-size: 0.8rem;
     font-weight: 400;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
+}
+.badge-b {
+    background-color: rgba(27, 113, 214, 0.2);
+    color: #1B71D6;
+    border-radius: 4px;
+    padding: 0.2rem 0.4rem;
+    display: inline-block;
+    font-size: 0.8rem;
+    font-weight: 400;
 }
 .success {    
 	background: #c8e6c9;
