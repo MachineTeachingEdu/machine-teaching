@@ -16,3 +16,4 @@ django-simple-history
 django-import-export
 dash
 django-rest-framework
+statsmodel
