@@ -638,7 +638,7 @@ def class_dashboard(onlineclass):
       if len(times_list):
         problem_time = round(mean(times_list))
 
-      chapter = Chapter.objects.get(pk=46)
+      chapter = Chapter.objects.get(pk=20)
       prediction = predict_drop_out(student,chapter, onlineclass)
 
       student = {'name': student.first_name+' '+student.last_name,
