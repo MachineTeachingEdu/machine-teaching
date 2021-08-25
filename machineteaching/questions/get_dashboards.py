@@ -73,10 +73,18 @@ def get_time_to_finish_chapter(user, chapter, onlineclass):
     passed_times = UserLog.objects.filter(user__in=class_students,
                                       problem=problem,
                                       outcome='P',
-                                      timestamp__gte=onlineclass.start_date).values_list('seconds_in_page')
+                                      timestamp__gte=onlineclass.start_date).values_list('seconds_in_page', flat=True)
     if passed_times.count():
       medians.append(median(passed_times))
-  time_to_finish = round(sum(medians))
+    else:
+      passed_times = UserLog.objects.filter(problem=problem,
+                                      outcome='P',
+                                      timestamp__gte=onlineclass.start_date).values_list('seconds_in_page', flat=True)
+      if passed_times.count():
+        medians.append(median(passed_times))
+  time_to_finish = round(sum(medians)/60)
+  if problems.count() == 0:
+    time_to_finish = None
   return time_to_finish
 
 def get_error_per_problem(user, problems):
@@ -630,7 +638,7 @@ def class_dashboard(onlineclass):
       if len(times_list):
         problem_time = round(mean(times_list))
 
-      chapter = Chapter.objects.get(pk=46)
+      chapter = Chapter.objects.get(pk=20)
       prediction = predict_drop_out(student,chapter, onlineclass)
 
       student = {'name': student.first_name+' '+student.last_name,
