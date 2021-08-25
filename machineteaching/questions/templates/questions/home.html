@@ -60,12 +60,13 @@
             <div class="card" style="height: 30rem; position: relative;">
                 <h3>{% blocktrans %}Current chapter{% endblocktrans %}</h3>
                 {% if current_chapter %}
-                  <span style="font-size: 22px; display: inline-block; margin-bottom: 1rem;">{{current_chapter.chapter}}</span>
+                  <span style="font-size: 18px; display: inline-block; margin-bottom: 1rem; margin-top: 2rem">{{current_chapter.chapter}}</span>
                 <div style=" position: absolute; top: 1rem; right: 1rem; text-align: right;">
                     <span class="badge-warning">
                     {% blocktrans %}Deadline{% endblocktrans %}: {{current_chapter.deadline}}
                     </span><br>
-                    <span class="badge-b">{% blocktrans %}Estimated time to finish this chapter{% endblocktrans %}: {{chapter_time}} {% blocktrans %}minutes{% endblocktrans %}</span>
+
+                    <span class="badge-b">{% if chapter_time != None %}{% blocktrans %}Estimated time to finish this chapter{% endblocktrans %}: {{chapter_time}} {% blocktrans %}minutes{% endblocktrans %}{% else %}{% blocktrans %}Finished chapter{% endblocktrans %}{% endif %}</span>
                 </div>
                 
                   <div style="max-height: 20rem; overflow-y: auto;">
