@@ -135,7 +135,7 @@ function runit(args, func, expected_results) {
    mypre.innerHTML = '';
    let results = [];
    Sk.pre = "output";
-   Sk.configure({output:outf, read:builtinRead, __future__: Sk.python3, execLimit: 300});
+   Sk.configure({output:outf, read:builtinRead, __future__: Sk.python3, execLimit: 500});
    (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'mycanvas';
 
    // Extract data type from JSON 
