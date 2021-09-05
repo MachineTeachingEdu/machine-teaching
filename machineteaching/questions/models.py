@@ -314,6 +314,16 @@ class Comment(models.Model):
         verbose_name = _('Comment')
 
 
+class DropOutModel(models.Model):
+    model_file = models.URLField() # guarda o pickle do modelo
+    #attributes = JsonField  # guarda uma lista de atributos a serem utilizados. Aí no código, cada atributo pode chamar uma função para calcular o valor daquele atributo
+    completed_chapter = models.ManyToManyField(Chapter) # modelo a ser usado quando o último capitulo completo for esse
+
+    class Meta:
+        verbose_name = _('Drop out model')
+        verbose_name_plural = _('Drop out models')
+
+
 @receiver(post_save, sender=User)
 def create_user_model(sender, instance, created, **kwargs):
     if created:
