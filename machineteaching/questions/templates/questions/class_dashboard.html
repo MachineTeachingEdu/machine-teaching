@@ -1,3 +1,4 @@
+
 {% extends "questions/base.html" %}
 {% load static %}
 {% load i18n %}
@@ -60,7 +61,7 @@
         </div>
     </div>
     <div class="col-5" style="margin-left: 1rem; height: 100%">
-        <div class="card" style=" height: 100%; position: relative;" class="heatmap">
+        <div class="card" style=" height: 100%; position: relative; overflow-y: auto;" class="heatmap">
             <h3 style="margin-bottom: 0">{% blocktrans %}Time{% endblocktrans %}</h3>
             <span style="margin-bottom: 1rem; display: inline-block;">{% blocktrans %}to end a chapter{% endblocktrans %}</span>
             <div style="position: absolute; top: 6.5rem; left: 1rem; width: calc(100% - 2.5rem)">{{heatmap_plot|safe}}</div>
@@ -127,9 +128,9 @@
     </div>
 </div>
 
-<div class="col-12" style="display: flex; padding: 1rem; height: 30rem">
+<div class="col-12" style="display: flex; padding: 1rem; height: 41rem">
     <div class="card" style="width: 100%">
-        <h3></h3>
+        <h3>{% blocktrans %}Drop out risk{% endblocktrans %}</h3>
         <table>
             <tr class="row" style="border: none; font-size: 13px; font-weight: 300; background: #EBECEF; padding: 1rem 0;">
                 <td style="width: 30%; padding: 0.3rem 1rem">{% blocktrans %}Student{% endblocktrans %}</td>
@@ -137,20 +138,19 @@
                 <td style="width: 40%; padding: 0.3rem 1rem; text-align: center;">{% blocktrans %}Drop out risk{% endblocktrans %}</td>
             </tr>
         </table>
-            <div style="max-height: 25rem; overflow-y: auto;">
+            <div style="max-height: 30rem; overflow-y: auto;">
                 <table>
                 {% for student in students_table %}
-                <tr class="row">
-                    <td style="width: 30%;">{{student.name}}</td>
-                    <td style="width: 30%;">{{student.username}}</td>
+                <tr class="row" style="background: 
+                        {% if student.prediction.0 < 4 %}#FFB1AF
+                        {% elif student.prediction.0 < 8 %}#FFEEA5
+                        {% else %}#C8F69B{% endif %}; border: none;">
+                    <td style="width: 30%;"><span style="background: #FFF; padding: 0.3rem 1rem; border-radius: 5px">{{student.name}}</span></td>
+                    <td style="width: 30%;"><span style="background: #FFF; padding: 0.3rem 1rem; border-radius: 5px">{{student.username}}</span></td>
                     <td style="width: 40%; text-align: center;">
-                        <div class="task-progress" style="width: 5rem%; margin: auto; display: flex;">
-                        <div style="width: calc(100% - {{student.prediction.0}}% / 0.12); background: 
-                        {% if student.prediction.0 < 4 %}var(--red)
-                        {% elif student.prediction.0 < 8 %}var(--yellow)
-                        {% else %}var(--green){% endif %}; opacity: 1"></div>
-                        </div>
+                        <span style="background: #FFF; padding: 0.3rem 1rem; border-radius: 5px">
                         {{student.prediction.1}}
+                        </span>
                     </td>
                 </tr>
                 {% endfor %}
