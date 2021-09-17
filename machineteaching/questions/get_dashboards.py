@@ -693,6 +693,7 @@ def class_dashboard(onlineclass):
     colorscale=["rgba(33,150,243,0.2)", "rgb(33,150,243)"]))
 
     fig2.update_layout(height=heatmap_height(names),
+                       width= 470,
                        plot_bgcolor='white',
                        xaxis=dict(fixedrange=True, tickmode='linear'),
                        yaxis=dict(fixedrange=True),
@@ -722,6 +723,7 @@ def class_dashboard(onlineclass):
     colorscale=["#FEC809", "rgb(255, 65, 65)"]))
 
     fig3.update_layout(height=heatmap_height(names),
+                       width= 470,
                        xaxis=dict(fixedrange=True, tickmode='linear'),
                        yaxis=dict(fixedrange=True),
                        font=dict(family="Nunito",

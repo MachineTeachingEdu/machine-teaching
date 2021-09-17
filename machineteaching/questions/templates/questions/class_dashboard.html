@@ -64,8 +64,8 @@
         <div class="card" style=" height: 100%; position: relative; overflow-y: auto;" class="heatmap">
             <h3 style="margin-bottom: 0">{% blocktrans %}Time{% endblocktrans %}</h3>
             <span style="margin-bottom: 1rem; display: inline-block;">{% blocktrans %}to end a chapter{% endblocktrans %}</span>
-            <div style="position: absolute; top: 6.5rem; left: 1rem; width: calc(100% - 2.5rem)">{{heatmap_plot|safe}}</div>
-            <div style="position: absolute; top: 6.5rem; left: 1rem; width: calc(100% - 2.5rem)">{{heatmap2_plot|safe}}</div>
+            <div style="position: absolute; top: 6.5rem; left: calc(50% - 235px); width: 470px;">{{heatmap_plot|safe}}</div>
+            <div style="position: absolute; top: 6.5rem; left: calc(50% - 235px); width: 470px;">{{heatmap2_plot|safe}}</div>
             <div style="position: absolute; display: flex; flex-wrap: wrap; top: 4.5rem; right: 2rem; align-items: center;">
                 <div style="display: flex; align-items: center;"><div style="width: 0.9rem; height: 0.9rem; background: var(--red); margin-right: 0.5rem"></div><span style="font-size: 0.9rem; margin-right: 1rem;">{% blocktrans %}Not finished{% endblocktrans %}</span></div>
                 <div style="display: flex; align-items: center;"><div style="width: 0.9rem; height: 0.9rem; background: #FEC809; margin-right: 0.5rem"></div><span style="font-size: 0.9rem; margin-right: 1rem;">{% blocktrans %}Finished late{% endblocktrans %}</span></div>
