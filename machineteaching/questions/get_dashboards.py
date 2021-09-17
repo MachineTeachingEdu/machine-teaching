@@ -11,15 +11,14 @@ import statsmodels.api as sm
 from datetime import datetime
 
 from questions.models import (Chapter, Problem, UserLog, OnlineClass,
-                             UserLogView, User, ExerciseSet, Deadline, UserLogError)
+                             UserLogView, User, ExerciseSet, Deadline,
+                             UserLogError, DropOutModel)
 from django.utils.translation import gettext as _
 from django.utils import timezone
 from django.db.models import Avg, Count
 import logging
 
 import pickle
-with open("questions/models/model_week2.pkl", "rb") as pklfile:
-    model = pickle.load(pklfile)
 
 
 LOGGER = logging.getLogger(__name__)
@@ -98,9 +97,9 @@ def get_error_type_per_chapter(user, chapter, onlineclass):
                     userlog__in=userlogs).values('error').annotate(Count('error')).order_by('-error__count')
     return errors
 
-def get_on_time_exercises(user, chapter, onlineclass):
-  problems = Problem.objects.filter(chapter=chapter)
-  deadline = Deadline.objects.filter(chapter=chapter,
+def get_on_time_exercises(user, chapters, onlineclass):
+  problems = Problem.objects.filter(chapter__in=chapters)
+  deadline = Deadline.objects.filter(chapter__in=chapters,
                                      onlineclass=onlineclass).first().deadline
   on_time_exercises = UserLogView.objects.filter(user=user,
                                                  problem__in=problems,
@@ -109,18 +108,30 @@ def get_on_time_exercises(user, chapter, onlineclass):
                                                  timestamp__lte=deadline)
   return [[on_time_exercises.count()]]
 
-def predict_drop_out(user, chapter, onlineclass):
-  X = get_on_time_exercises(user,chapter,onlineclass)
-  X = sm.add_constant(X, has_constant='add')
-  y_pred = model.predict(X)[0]
+def predict_drop_out(user, onlineclass):
+  # Get last completed chapter and model
+  completed_chapter = Deadline.objects.filter(onlineclass=onlineclass,
+                        deadline__lte=datetime.now()).order_by('deadline').last().chapter
+  model = completed_chapter.drop_out_model
+  if model:
+    chapters = model.completed_chapter.all()
+    # Open model file
+    with open(model.model_file, "rb") as pklfile:
+      model = pickle.load(pklfile)
 
-  if y_pred < 4:
-    risk = _('High')
-  elif y_pred < 8:
-    risk = _('Medium')
+    X = get_on_time_exercises(user,chapters,onlineclass)
+    X = sm.add_constant(X, has_constant='add')
+    y_pred = model.predict(X)[0]
+
+    if y_pred < 4:
+      risk = _('High')
+    elif y_pred < 8:
+      risk = _('Medium')
+    else:
+      risk = _('Low')
+    return round(y_pred), risk
   else:
-    risk = _('Low')
-  return round(y_pred), risk
+    return None
 
 # Funções de plot
 def create_progress_plot(n_plots, values, size, text, hole, column_widths=[1]):
@@ -638,8 +649,7 @@ def class_dashboard(onlineclass):
       if len(times_list):
         problem_time = round(mean(times_list))
 
-      chapter = Chapter.objects.get(pk=20)
-      prediction = predict_drop_out(student,chapter, onlineclass)
+      prediction = predict_drop_out(student,onlineclass)
 
       student = {'name': student.first_name+' '+student.last_name,
                        'username': student.username,

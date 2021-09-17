@@ -144,7 +144,7 @@
                 <tr class="row" style="background: 
                         {% if student.prediction.0 < 4 %}#FFB1AF
                         {% elif student.prediction.0 < 8 %}#FFEEA5
-                        {% else %}#C8F69B{% endif %}; border: none;">
+                        {% elif student.prediction.0 %}#C8F69B{% else %}white{% endif %}; border: none;">
                     <td style="width: 30%;"><span style="background: #FFF; padding: 0.3rem 1rem; border-radius: 5px">{{student.name}}</span></td>
                     <td style="width: 30%;"><span style="background: #FFF; padding: 0.3rem 1rem; border-radius: 5px">{{student.username}}</span></td>
                     <td style="width: 40%; text-align: center;">
