@@ -586,7 +586,7 @@ def class_dashboard(onlineclass):
       line2 = []
       for chapter in chapters:
         chapter_problems = problems.filter(chapter=chapter)
-        deadline = Deadline.objects.get(onlineclass=onlineclass, chapter=chapter).deadline
+        deadline = Deadline.objects.filter(onlineclass=onlineclass, chapter=chapter).first().deadline
 
         logs = UserLog.objects.filter(user=student,
                                       problem__in=chapter_problems,
@@ -668,6 +668,13 @@ def class_dashboard(onlineclass):
       labels.append(n)
       n+=1
 
+    def heatmap_height(names):
+      height = 650
+      x = len(names)
+      if x > 34:
+        height = x*20
+      return height
+
     fig2 = go.Figure(data=go.Heatmap(
     	z=matrix1,
         x=labels,
@@ -675,7 +682,7 @@ def class_dashboard(onlineclass):
         hoverinfo='none',
     colorscale=["rgba(33,150,243,0.2)", "rgb(33,150,243)"]))
 
-    fig2.update_layout(height=650,
+    fig2.update_layout(height=heatmap_height(names),
                        plot_bgcolor='white',
                        xaxis=dict(fixedrange=True, tickmode='linear'),
                        yaxis=dict(fixedrange=True),
@@ -704,7 +711,7 @@ def class_dashboard(onlineclass):
         hoverinfo= 'none',
     colorscale=["#FEC809", "rgb(255, 65, 65)"]))
 
-    fig3.update_layout(height=650,
+    fig3.update_layout(height=heatmap_height(names),
                        xaxis=dict(fixedrange=True, tickmode='linear'),
                        yaxis=dict(fixedrange=True),
                        font=dict(family="Nunito",
@@ -878,7 +885,7 @@ def class_dashboard(onlineclass):
       attempts_list = []
       times_list = []
       for student in students:
-        deadline = Deadline.objects.get(onlineclass=onlineclass, chapter=chapter).deadline
+        deadline = Deadline.objects.filter(onlineclass=onlineclass, chapter=chapter).first().deadline
 
         logs = UserLog.objects.filter(user=student,
                                       problem__in=chapter_problems,

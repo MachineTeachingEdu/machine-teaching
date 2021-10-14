@@ -579,11 +579,8 @@ function showAbout(language) {
         Python language as a way to <span class="highlight">uncover students’ difficulties, to understand their
             knowledge and to provide timely feedback to keep students engaged.</span>
             </p>
-            Interested? Take a look at 
-            <a class="highlight" target="_blank"
-            href="https://drive.google.com/file/d/1SqqBEAIjiOaGY3Ajdp9tPmsw7Dc-N8Ly/view">
-            our paper</a>.</div>
-        <p>References:<br>
+        <strong>References</strong>
+        <p>
         [1]    P. Brusilovsky et al., “Increasing Adoption of Smart Learning Content for Computer Science Education,” 2014, doi: 10.1145/2713609.2713611.<br>
         [2]    L. Benotti, M. J. Gomez, F. Aloi, and F. Bulgarelli, “The effect of a web-based coding tool with automatic feedback on students’ performance and perceptions,” SIGCSE 2018 - Proceedings of the 49th ACM Technical Symposium on Computer Science Education. 2018.<br>
         [3]    I. Jivet, M. Scheffel, M. Specht, and H. Drachsler, “License to evaluate: Preparing learning analytics dashboards for educational practice,” ACM International Conference Proceeding Series. 2018.<br>
@@ -597,6 +594,35 @@ function showAbout(language) {
         [11]    R. Mason and Simon, “Introductory Programming Courses in Australasia in 2016,” in Proceedings of the Nineteenth Australasian Computing Education Conference, Geelong, VIC, Australia, Jan. 2017, pp. 81–89, doi: 10.1145/3013499.3013512.<br>
         [12]    A. Luxton-Reilly et al., “Introductory programming: a systematic literature review,” in Proceedings Companion of the 23rd Annual ACM Conference on Innovation and Technology in Computer Science Education, Larnaca, Cyprus, Jul. 2018, pp. 55–106, doi: 10.1145/3293881.3295779.<br>
         </p>
+
+            <h3>Interested? Take a look at </h3>
+1. Our <a class="highlight" href="https://github.com/laura-moraes/machine-teaching">
+Github</a><br><br>
+
+2.  <a class="highlight" href="https://www.lauramoraes.com/festival-do-conhecimento">
+Festival do Conhecimento da UFRJ 2021</a>
+<br><br>
+1.  <a class="highlight" href="https://drive.google.com/file/d/1SqqBEAIjiOaGY3Ajdp9tPmsw7Dc-N8Ly/view">
+Laura O. Moraes, Carlos Eduardo Pedreira (2020). Designing an Intelligent Tutoring System Across Multiple Classes. 4th Educational Data Mining in Computer Science Education (CSEDM), 2020, Virtual Workshop.</a>
+<br><br>
+2.  <a class="highlight" href="https://arxiv.org/pdf/2104.10748.pdf">
+Laura O. Moraes, Carlos Eduardo Pedreira (2021). Clustering Introductory Computer Science Exercises Using Topic Modeling Methods. IEEE Transactions on Learning Technologies, vol. 14, no. 1, pp. 42-54, Feb. 2021.
+</a>
+<br><br>
+3. Laura O. Moraes, Carlos Eduardo Pedreira (2021). Unsupervised Concept Extraction in an Introduction to Programming Course. PhD Thesis in Systems Engineering and Computer Science - COPPE, Universidade Federal do Rio de Janeiro (UFRJ), Rio de Janeiro.
+<br>
+<a class="highlight" href="https://www.google.com/url?q=https%3A%2F%2Fwww.cos.ufrj.br%2Fuploadfile%2Fpublicacao%2F2985.pdf&sa=D&sntz=1&usg=AFQjCNFRKRM3sEvvm5WmBejYmIgb-WOEHQ">PDF</a>
+<a class="highlight" href="https://www.youtube.com/watch?v=vRHcWa9_Z6c">Video</a> 
+<a class="highlight" href="https://docs.google.com/presentation/d/1m-uBlYE2_x0S9TJIU2Aqp-ewiED4Y1ng0DvPmWEGEno/edit?usp=sharing">Slides</a>
+<br><br>
+4. Chunpai Wang, Shaghayegh Sahebi, Siqian Zhao, Peter Brusilovsky, Laura O. Moraes (2021). Knowledge Tracing for Complex Problem Solving: Granular Rank-Based Tensor Factorization. Proceedings of the 29th ACM Conference on User Modeling, Adaptation and Personalization (UMAP 21).
+<br>
+<a class="highlight" href="https://www.google.com/url?q=https%3A%2F%2Fdl.acm.org%2Fdoi%2Fpdf%2F10.1145%2F3450613.3456831&sa=D&sntz=1&usg=AFQjCNExqFzRFk-jpsHO_kPb0s-H4EHFLw">PDF</a> 
+<a class="highlight" href="https://www.google.com/url?q=https%3A%2F%2Fgithub.com%2Fpersai-lab%2FUMAP2021-GRATE&sa=D&sntz=1&usg=AFQjCNHm7skxJkNzOdzo6FFgXpXQ5ggClQ">Code</a> 
+<a class="highlight" href="https://www.google.com/url?q=https%3A%2F%2Fdl.acm.org%2Fdoi%2F10.1145%2F3450613.3456831%23video_stream_uuid%253A1c4475cc-85df-4fc4-9cca-9078d591fa23&sa=D&sntz=1&usg=AFQjCNHOeH5o4o7CF3uHAlu2FZV_sSuitw">Video</a>
+<br><br>
+
+
         <h3>Support</h3><br>
         ${logos}`
     }
@@ -607,11 +633,8 @@ function showAbout(language) {
             <p class="research">Além disso, o Python é uma linguagem de propósito geral, o que significa que pode ser usada em uma grande variedade de projetos. Isso é ótimo para estimular os alunos, pois eles podem trabalhar em projetos com os quais realmente se identificam. Python também possui uma interface amigável e, nos últimos sete anos, tem sido a linguagem de programação com maior crescimento em termos de adoção [9],<span class="highlight"> estando correlacionada com carreiras em alta, como DevOps e Cientista de Dados [10]</span>. De acordo com a revisão de 2015 [8],apenas 11&#37; dos artigos de Mineração de Dados Educacionais e <i>Learning Analytics</i> sobre cursos de programação relataram o uso de Python como a linguagem utilizada no curso.  No entanto, isso está mudando. Uma revisão de 2017 sobre os cursos de Introdução à Programação nas universidades da Australásia [11] relatou uma mudança de Java para Python nos últimos anos enquanto a revisão de 2018 [12] já apresentou um número maior de artigos usando Python como a linguagem principal do curso. Ainda assim, embora já tenhamos diferentes ferramentas para apoiar a aprendizagem online, ainda é difícil encontrar bancos de dados abertos contendo respostas e submissões de alunos para problemas em Python e outras informações importantes para se obter uma melhor percepção do conhecimento dos alunos.</p>
             <p class="research">As condições apresentadas motivam nossos principais objetivos: o desenvolvimento, a implantação e o uso de sistemas inteligentes online em aulas de Introdução à Programação usando a linguagem Python como uma forma de <span class="highlight">descobrir as dificuldades dos alunos, compreender seus conhecimentos e processos cognitivos de aprendizado e fornecer feedback para mantê-los envolvidos e engajados.</span>
             </p>
-            Se interessou? Leia o
-            <a class="highlight" target="_blank"
-            href="https://drive.google.com/file/d/1SqqBEAIjiOaGY3Ajdp9tPmsw7Dc-N8Ly/view">
-            nosso artigo</a>.</div>
-            <p>Referências:<br>
+            <strong>Referências</strong>
+            <p>
         [1]    P. Brusilovsky et al., “Increasing Adoption of Smart Learning Content for Computer Science Education,” 2014, doi: 10.1145/2713609.2713611.<br>
         [2]    L. Benotti, M. J. Gomez, F. Aloi, and F. Bulgarelli, “The effect of a web-based coding tool with automatic feedback on students’ performance and perceptions,” SIGCSE 2018 - Proceedings of the 49th ACM Technical Symposium on Computer Science Education. 2018.<br>
         [3]    I. Jivet, M. Scheffel, M. Specht, and H. Drachsler, “License to evaluate: Preparing learning analytics dashboards for educational practice,” ACM International Conference Proceeding Series. 2018.<br>
@@ -625,6 +648,71 @@ function showAbout(language) {
         [11]    R. Mason and Simon, “Introductory Programming Courses in Australasia in 2016,” in Proceedings of the Nineteenth Australasian Computing Education Conference, Geelong, VIC, Australia, Jan. 2017, pp. 81–89, doi: 10.1145/3013499.3013512.<br>
         [12]    A. Luxton-Reilly et al., “Introductory programming: a systematic literature review,” in Proceedings Companion of the 23rd Annual ACM Conference on Innovation and Technology in Computer Science Education, Larnaca, Cyprus, Jul. 2018, pp. 55–106, doi: 10.1145/3293881.3295779.<br>
         </p>
+
+
+            <h3>Se interessou? Veja mais em </h3>
+1. Nosso <a class="highlight" href="https://github.com/laura-moraes/machine-teaching">
+Github</a><br><br>
+
+2.  <a class="highlight" href="https://www.lauramoraes.com/festival-do-conhecimento">
+Festival do Conhecimento da UFRJ 2021</a>
+<br><br>
+1.  <a class="highlight" href="https://drive.google.com/file/d/1SqqBEAIjiOaGY3Ajdp9tPmsw7Dc-N8Ly/view">
+Laura O. Moraes, Carlos Eduardo Pedreira (2020). Designing an Intelligent Tutoring System Across Multiple Classes. 4th Educational Data Mining in Computer Science Education (CSEDM), 2020, Virtual Workshop.</a>
+<br><br>
+2.  <a class="highlight" href="https://arxiv.org/pdf/2104.10748.pdf">
+Laura O. Moraes, Carlos Eduardo Pedreira (2021). Clustering Introductory Computer Science Exercises Using Topic Modeling Methods. IEEE Transactions on Learning Technologies, vol. 14, no. 1, pp. 42-54, Feb. 2021.
+</a>
+<br><br>
+3. Laura O. Moraes, Carlos Eduardo Pedreira (2021). Unsupervised Concept Extraction in an Introduction to Programming Course. PhD Thesis in Systems Engineering and Computer Science - COPPE, Universidade Federal do Rio de Janeiro (UFRJ), Rio de Janeiro.
+<br>
+<a class="highlight" href="https://www.google.com/url?q=https%3A%2F%2Fwww.cos.ufrj.br%2Fuploadfile%2Fpublicacao%2F2985.pdf&sa=D&sntz=1&usg=AFQjCNFRKRM3sEvvm5WmBejYmIgb-WOEHQ">PDF</a>
+<a class="highlight" href="https://www.youtube.com/watch?v=vRHcWa9_Z6c">Video</a> 
+<a class="highlight" href="https://docs.google.com/presentation/d/1m-uBlYE2_x0S9TJIU2Aqp-ewiED4Y1ng0DvPmWEGEno/edit?usp=sharing">Slides</a>
+<br><br>
+4. Chunpai Wang, Shaghayegh Sahebi, Siqian Zhao, Peter Brusilovsky, Laura O. Moraes (2021). Knowledge Tracing for Complex Problem Solving: Granular Rank-Based Tensor Factorization. Proceedings of the 29th ACM Conference on User Modeling, Adaptation and Personalization (UMAP 21).
+<br>
+<a class="highlight" href="https://www.google.com/url?q=https%3A%2F%2Fdl.acm.org%2Fdoi%2Fpdf%2F10.1145%2F3450613.3456831&sa=D&sntz=1&usg=AFQjCNExqFzRFk-jpsHO_kPb0s-H4EHFLw">PDF</a> 
+<a class="highlight" href="https://www.google.com/url?q=https%3A%2F%2Fgithub.com%2Fpersai-lab%2FUMAP2021-GRATE&sa=D&sntz=1&usg=AFQjCNHm7skxJkNzOdzo6FFgXpXQ5ggClQ">Code</a> 
+<a class="highlight" href="https://www.google.com/url?q=https%3A%2F%2Fdl.acm.org%2Fdoi%2F10.1145%2F3450613.3456831%23video_stream_uuid%253A1c4475cc-85df-4fc4-9cca-9078d591fa23&sa=D&sntz=1&usg=AFQjCNHOeH5o4o7CF3uHAlu2FZV_sSuitw">Video</a>
+<br><br>
+
+<h3>Equipe</h3>
+
+<table>
+<tr>
+    <td style="padding: 15px 10px 15px 30px; width: 260px; height: 260px;">
+    <img src="${carlos}" style="width: 200px; height: 200px; overflow: hidden; border-radius: 100%" />
+    </td>
+    <td style="padding: 30px">
+    <strong>Carlos Eduardo Pedreira</strong> possui bacharelado (1975) e mestrado (1981) em Engenharia Elétrica pela Pontifícia Universidade Católica do Rio de Janeiro. Em 1987, ele terminou seu doutorado no Imperial College of Science, Technology and Medicine, University of London. Atualmente é Professor da Universidade Federal do Rio de Janeiro onde é chefe do setor de Inteligência Artificial do Departamento de Sistemas e Computação da COPPE (PESC/COPPE). É pesquisador visitante na Universidade de Salamanca, Espanha, desde 2002. Seus principais interesses de pesquisa são Classificação de Padrões e Aprendizado de Máquina. Ele foi o presidente fundador da Sociedade Brasileira de Inteligência Computacional e recebeu o Prêmio Banco Santander de Ciência e Inovação em 2006. Foi orientador de doutorado de Laura O. Moraes na criação deste projeto.
+    </td>
+</tr><tr>
+    <td style="padding: 15px 10px 15px 30px; width: 260px; height: 260px;">
+    <img src="${carla}" style="width: 200px; height: 200px; overflow: hidden; border-radius: 100%" />
+    </td>
+    <td style="padding: 30px">
+    <strong>Carla Delgado</strong> é professora do Instituto de Computação da UFRJ e possui diversas publicações na área de tecnologias para educação e ensino de computação. Tem grande interesse na área de didática da computação e informática aplicada à educação, estando à frente de um grupo de pesquisa sobre estes temas. É co-responsável pela construção e gestão da metodologia e material didático dos cursos de programação oferecidos pelo Instituto de Computação aos alunos de praticamente todos os cursos de graduação da UFRJ na área de exatas (incluindo, por exemplo cursos de graduação de matemática, meteorologia e todas as engenharias)
+    </td>
+</tr><tr>
+    <td style="padding: 15px 10px 15px 30px; width: 260px; height: 260px;">
+    <img src="${laura}" style="width: 200px; height: 200px; overflow: hidden; border-radius: 100%" />
+    </td>
+    <td style="padding: 30px">
+    <strong>Laura Moraes</strong> foi quem iniciou projeto. Criou a plataforma durante seu doutorado em Engenharia de Sistemas e Computação (COPPE/PESC) na linha de pesquisa de Inteligência Artificial. Atualmente é professora do Colégio Pedro II e se dedica às atividades de pesquisa na área de tecnologia para educação, principalmente educação em computação. Em 2018, foi fellow no programa Data Science for Social Good, onde criou modelos para previsão de indivíduos em  risco de desemprego longo organizado pela University of Chicago com a Nova SBE. Em 2019, foi finalista do 2nd PFL Engineering PhD Summit, na Suíça, onde apresentou os resultados preliminares do projeto.
+    </td>
+</tr><tr>
+    <td style="padding: 15px 10px 15px 30px; width: 260px; height: 260px;">
+    <img src="${joao}" style="width: 200px; height: 200px; overflow: hidden; border-radius: 100%" />
+    </td>
+    <td style="padding: 30px">
+    <strong>João Pedro Freire</strong> é aluno do curso de Estatística da UFRJ. Começou no projeto como aluno, utilizando o sistema Machine Teaching durante o curso de introdução a programação. Após a finalização do curso, se voluntariou para incorporar melhorias e avançar o sistema com novas funcionalidades. Atualmente é aluno de Iniciação Científica com bolsa do CNPq neste projeto.
+    </td>
+</tr>
+</table>
+
+
+
         <h3>Apoio</h3><br>
         ${logos}`
     }
