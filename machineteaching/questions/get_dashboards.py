@@ -618,6 +618,7 @@ def class_dashboard(onlineclass):
             problem_attempts = logs.filter(problem=problem, timestamp__lte=first_passed.timestamp).count()
             attempts_list.append(problem_attempts)
         times.sort()
+
         if len(times) == chapter_problems.count():
           chapter_passed = times[-1]
           chapter_times.append((chapter_passed-first_log).days)
@@ -665,6 +666,7 @@ def class_dashboard(onlineclass):
       students_table.append(student)
 
     students_df = pd.DataFrame(students_table)
+    print(students_df)
     students_df.dropna(subset = ['problem_time','passed','attempts'], inplace=True)
 
 
