@@ -42,14 +42,18 @@ function evaluate(args, func, expected_results){
     for (i = 0; i < expected_results.length; i++){
         //console.log(answers[i]);
         try {
-            answers_parsed = JSON.parse(answers[i]);
+            // Permite a correção de dicionários fora de ordem
+            // answers_parsed = JSON.parse(answers[i]);
+            answers_parsed = JSON.parse(answers[i].replace(/'/g, '"'));
         }
         catch(e) {
             answers_parsed = answers[i];
         }
         //console.log(answers_parsed)
         try {
-            expected_results_parsed = JSON.parse(expected_results[i]);
+            // Permite a correção de dicionários fora de ordem
+            //expected_results_parsed = JSON.parse(expected_results[i]);
+            expected_results_parsed = JSON.parse(expected_results[i].replace(/'/g, '"'));
         } catch(e) {
             expected_results_parsed = expected_results[i];
         }
