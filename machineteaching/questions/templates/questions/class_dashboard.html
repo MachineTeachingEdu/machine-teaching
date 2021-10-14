@@ -64,8 +64,8 @@
         <div class="card" style=" height: 100%; position: relative; overflow-y: auto;" class="heatmap">
             <h3 style="margin-bottom: 0">{% blocktrans %}Time{% endblocktrans %}</h3>
             <span style="margin-bottom: 1rem; display: inline-block;">{% blocktrans %}to end a chapter{% endblocktrans %}</span>
-            <div style="position: absolute; top: 6.5rem; left: 1rem; width: calc(100% - 2.5rem)">{{heatmap_plot|safe}}</div>
-            <div style="position: absolute; top: 6.5rem; left: 1rem; width: calc(100% - 2.5rem)">{{heatmap2_plot|safe}}</div>
+            <div style="position: absolute; top: 6.5rem; left: calc(50% - 235px); width: 470px;">{{heatmap_plot|safe}}</div>
+            <div style="position: absolute; top: 6.5rem; left: calc(50% - 235px); width: 470px;">{{heatmap2_plot|safe}}</div>
             <div style="position: absolute; display: flex; flex-wrap: wrap; top: 4.5rem; right: 2rem; align-items: center;">
                 <div style="display: flex; align-items: center;"><div style="width: 0.9rem; height: 0.9rem; background: var(--red); margin-right: 0.5rem"></div><span style="font-size: 0.9rem; margin-right: 1rem;">{% blocktrans %}Not finished{% endblocktrans %}</span></div>
                 <div style="display: flex; align-items: center;"><div style="width: 0.9rem; height: 0.9rem; background: #FEC809; margin-right: 0.5rem"></div><span style="font-size: 0.9rem; margin-right: 1rem;">{% blocktrans %}Finished late{% endblocktrans %}</span></div>
@@ -144,7 +144,7 @@
                 <tr class="row" style="background: 
                         {% if student.prediction.0 < 4 %}#FFB1AF
                         {% elif student.prediction.0 < 8 %}#FFEEA5
-                        {% else %}#C8F69B{% endif %}; border: none;">
+                        {% elif student.prediction.0 %}#C8F69B{% else %}white{% endif %}; border: none;">
                     <td style="width: 30%;"><span style="background: #FFF; padding: 0.3rem 1rem; border-radius: 5px">{{student.name}}</span></td>
                     <td style="width: 30%;"><span style="background: #FFF; padding: 0.3rem 1rem; border-radius: 5px">{{student.username}}</span></td>
                     <td style="width: 40%; text-align: center;">

@@ -18,6 +18,8 @@ from django.utils.translation import ugettext_lazy as _
 class Chapter(models.Model):
     id = models.AutoField(primary_key=True)
     label = models.CharField(max_length=200, blank=False)
+    drop_out_model = models.ForeignKey('DropOutModel', on_delete=models.SET_NULL,
+                                null=True, blank=True)
     history = HistoricalRecords()
 
     def __unicode__(self):
@@ -312,6 +314,16 @@ class Comment(models.Model):
 
     class Meta:
         verbose_name = _('Comment')
+
+
+class DropOutModel(models.Model):
+    model_file = models.CharField(max_length=200, blank=False) # guarda o pickle do modelo
+    #attributes = JsonField  # guarda uma lista de atributos a serem utilizados. Aí no código, cada atributo pode chamar uma função para calcular o valor daquele atributo
+    completed_chapter = models.ManyToManyField(Chapter) # modelo a ser usado quando o último capitulo completo for esse
+
+    class Meta:
+        verbose_name = _('Drop out model')
+        verbose_name_plural = _('Drop out models')
 
 
 @receiver(post_save, sender=User)
