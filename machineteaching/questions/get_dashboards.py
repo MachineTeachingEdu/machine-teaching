@@ -666,7 +666,6 @@ def class_dashboard(onlineclass):
       students_table.append(student)
 
     students_df = pd.DataFrame(students_table)
-    print(students_df)
     students_df.dropna(subset = ['problem_time','passed','attempts'], inplace=True)
 
 
