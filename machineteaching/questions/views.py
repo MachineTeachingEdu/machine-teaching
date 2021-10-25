@@ -689,9 +689,10 @@ def classes(request):
     else:
         form = NewClassForm()
     onlineclasses = OnlineClass.objects.filter(professor__user=request.user)
+    professors = Professor.objects.all().values_list('user')
     classes = []
     for onlineclass in onlineclasses:
-        students = User.objects.filter(userprofile__user_class=onlineclass)
+        students = User.objects.filter(userprofile__user_class=onlineclass).exclude(pk__in=professors)
         chapters = Deadline.objects.filter(onlineclass=onlineclass)
         classes.append({'id': onlineclass.id,
                         'name': onlineclass.name,
@@ -721,8 +722,9 @@ def manage_class(request, onlineclass):
     else:
         form = DeadlineForm()
     onlineclass = OnlineClass.objects.get(id=onlineclass)
-    students = User.objects.filter(userprofile__user_class=onlineclass)
-    students = User.objects.filter(userprofile__user_class=onlineclass).order_by(Lower('first_name').asc(), Lower('last_name').asc())
+    professors = Professor.objects.all().values_list('user')
+    students = User.objects.filter(userprofile__user_class=onlineclass).exclude(
+        pk__in=professors).order_by(Lower('first_name').asc(), Lower('last_name').asc())
     deadlines = Deadline.objects.filter(onlineclass=onlineclass)
     chapters = []
     for deadline in deadlines:
