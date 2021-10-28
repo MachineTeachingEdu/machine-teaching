@@ -20,7 +20,6 @@ import logging
 
 import pickle
 
-
 LOGGER = logging.getLogger(__name__)
 
 # Funções para pegar dados
