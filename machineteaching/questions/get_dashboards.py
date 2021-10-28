@@ -77,8 +77,7 @@ def get_time_to_finish_chapter(user, chapter, onlineclass):
       medians.append(median(passed_times))
     else:
       passed_times = UserLog.objects.filter(problem=problem,
-                                      outcome='P',
-                                      timestamp__gte=onlineclass.start_date).values_list('seconds_in_page', flat=True)
+                                      outcome='P').values_list('seconds_in_page', flat=True)
       if passed_times.count():
         medians.append(median(passed_times))
   time_to_finish = round(sum(medians)/60)
