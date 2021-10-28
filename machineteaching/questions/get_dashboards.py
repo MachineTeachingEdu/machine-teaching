@@ -685,66 +685,66 @@ def class_dashboard(onlineclass):
         height = x*20
       return height
 
-  #   fig2 = go.Figure(data=go.Heatmap(
-  #   	z=matrix1,
-  #       x=labels,
-  #       y=names,
-  #       hoverinfo='none',
-  #   colorscale=["rgba(33,150,243,0.2)", "rgb(33,150,243)"]))
+    fig2 = go.Figure(data=go.Heatmap(
+    	z=matrix1,
+        x=labels,
+        y=names,
+        hoverinfo='none',
+    colorscale=["rgba(33,150,243,0.2)", "rgb(33,150,243)"]))
 
-  #   fig2.update_layout(height=heatmap_height(names),
-  #                      width= 470,
-  #                      plot_bgcolor='white',
-  #                      xaxis=dict(fixedrange=True, tickmode='linear'),
-  #                      yaxis=dict(fixedrange=True),
-  #                     margin=dict(
-  #                        l=0,
-  #                        r=0,
-  #                        b=0,
-  #                        t=0,
-  #                        pad=4
-  #                     ),
-  #                      font=dict(family="Nunito",
-  #                                size=14,
-  #                                color='rgb(76,83,90)'),)
-  #   fig2.update_traces(showscale=False)
+    fig2.update_layout(height=heatmap_height(names),
+                       width= 470,
+                       plot_bgcolor='white',
+                       xaxis=dict(fixedrange=True, tickmode='linear'),
+                       yaxis=dict(fixedrange=True),
+                      margin=dict(
+                         l=0,
+                         r=0,
+                         b=0,
+                         t=0,
+                         pad=4
+                      ),
+                       font=dict(family="Nunito",
+                                 size=14,
+                                 color='rgb(76,83,90)'),)
+    fig2.update_traces(showscale=False)
 
-  #   heatmap_plot = opy.plot(fig2,
-		# output_type='div')
-
-
+    heatmap_plot = opy.plot(fig2,
+		output_type='div')
 
 
-  #   fig3 = go.Figure(data=go.Heatmap(
-  #   	z=matrix2,
-  #       x=labels,
-  #       y=names,
-  #       hoverinfo= 'none',
-  #   colorscale=["#FEC809", "rgb(255, 65, 65)"]))
 
-  #   fig3.update_layout(height=heatmap_height(names),
-  #                      width= 470,
-  #                      xaxis=dict(fixedrange=True, tickmode='linear'),
-  #                      yaxis=dict(fixedrange=True),
-  #                      font=dict(family="Nunito",
-  #                                size=14,
-  #                                color='rgb(76,83,90)'),
-  #   	 			   plot_bgcolor  = "rgba(0, 0, 0, 0)",
-  #   	 			   paper_bgcolor = "rgba(0, 0, 0, 0)",
-  #                     margin=dict(
-  #                        l=0,
-  #                        r=0,
-  #                        b=0,
-  #                        t=0,
-  #                        pad=4
-  #                     ),
-  #                     xaxis_showgrid=False,
-  #                     yaxis_showgrid=False)
 
-  #   fig3.update_traces(showscale=False)
+    fig3 = go.Figure(data=go.Heatmap(
+    	z=matrix2,
+        x=labels,
+        y=names,
+        hoverinfo= 'none',
+    colorscale=["#FEC809", "rgb(255, 65, 65)"]))
 
-  #   heatmap2_plot = opy.plot(fig3,
-		# output_type='div')
+    fig3.update_layout(height=heatmap_height(names),
+                       width= 470,
+                       xaxis=dict(fixedrange=True, tickmode='linear'),
+                       yaxis=dict(fixedrange=True),
+                       font=dict(family="Nunito",
+                                 size=14,
+                                 color='rgb(76,83,90)'),
+    	 			   plot_bgcolor  = "rgba(0, 0, 0, 0)",
+    	 			   paper_bgcolor = "rgba(0, 0, 0, 0)",
+                      margin=dict(
+                         l=0,
+                         r=0,
+                         b=0,
+                         t=0,
+                         pad=4
+                      ),
+                      xaxis_showgrid=False,
+                      yaxis_showgrid=False)
+
+    fig3.update_traces(showscale=False)
+
+    heatmap2_plot = opy.plot(fig3,
+		output_type='div')
 
 
 
@@ -778,178 +778,178 @@ def class_dashboard(onlineclass):
       attempts.append(avg_attempts)
 
 
-  #   fig4 = go.Figure(data=go.Scatter(x=problem_times, 
-  #   								 y=attempts,
-  #                    customdata=problem_ids,
-  #                    hovertemplate='<b>%{customdata}</b><br>'+_('Attempts')+': %{y} ('+_('avg')+')<br>'+_('Time')+': %{x} min ('+_('avg')+')',
-  #                    name = '',
-  #   								 marker=dict(size=10,
-  #               					 color='rgba(33,150,243,0.8)',
-  #               					 colorscale="portland"),
-  #               					 mode='markers',))
+    fig4 = go.Figure(data=go.Scatter(x=problem_times, 
+    								 y=attempts,
+                     customdata=problem_ids,
+                     hovertemplate='<b>%{customdata}</b><br>'+_('Attempts')+': %{y} ('+_('avg')+')<br>'+_('Time')+': %{x} min ('+_('avg')+')',
+                     name = '',
+    								 marker=dict(size=10,
+                					 color='rgba(33,150,243,0.8)',
+                					 colorscale="portland"),
+                					 mode='markers',))
 
-  #   fig4.update_layout(height=270,
-  #                      font=dict(family="Nunito",
-  #                                size=14,
-  #                                color='rgb(76,83,90)'),
-  #                       hoverlabel=dict(
-  #                           bgcolor="white",
-  #                           font_size=14,
-  #                           font_family="Nunito",
-  #                       ),
-  #   				   plot_bgcolor  = "rgba(0, 0, 0, 0)",
-  #   	 			   paper_bgcolor = "rgba(0, 0, 0, 0)",
-  #                      margin=dict(
-  #                        l=10,
-  #                        r=10,
-  #                        b=10,
-  #                        t=0,
-  #                        pad=4
-  #                     ),
-  #                     xaxis_showgrid=False,
-  #                     yaxis_showgrid=False,
-  #                     yaxis_title=_('Attempts'),
-  #                     xaxis_title=_('Time (minutes)'),)
+    fig4.update_layout(height=270,
+                       font=dict(family="Nunito",
+                                 size=14,
+                                 color='rgb(76,83,90)'),
+                        hoverlabel=dict(
+                            bgcolor="white",
+                            font_size=14,
+                            font_family="Nunito",
+                        ),
+    				   plot_bgcolor  = "rgba(0, 0, 0, 0)",
+    	 			   paper_bgcolor = "rgba(0, 0, 0, 0)",
+                       margin=dict(
+                         l=10,
+                         r=10,
+                         b=10,
+                         t=0,
+                         pad=4
+                      ),
+                      xaxis_showgrid=False,
+                      yaxis_showgrid=False,
+                      yaxis_title=_('Attempts'),
+                      xaxis_title=_('Time (minutes)'),)
 
-  #   # fig4.update_traces(colorscale="hsv")
+    # fig4.update_traces(colorscale="hsv")
 
-  #   problems_plot = opy.plot(fig4,
-		# output_type='div')
+    problems_plot = opy.plot(fig4,
+		output_type='div')
 
 
 
 
     #PLOT: students
 
-  #   size = list(students_df['problem_time']+0.1)
-  #   x = students_df['passed']
-  #   y = students_df['attempts']
+    size = list(students_df['problem_time']+0.1)
+    x = students_df['passed']
+    y = students_df['attempts']
 
-  #   if not len(size):
-  #     size = [1]
+    if not len(size):
+      size = [1]
       
-  #   fig5 = go.Figure(data=[go.Scatter(
-  #   	x=x,
-  #   	y=y,
-  #     customdata=students_df['name'],
-  #     hovertemplate='<b>%{customdata}</b><br>'+_('Solved problems')+': %{x}%<br>'+_('Attempts')+': %{y} ('+_('avg')+')<br>'+_('Time')+': %{marker.size:.0f} min ('+_('avg')+')',
-  #   	mode='markers',
-  #     name = '',
-  #   	marker=dict(
-  #   		size=size,
-  #   		sizemode='diameter',
-  #       sizemin=10,
-  #       sizeref=50,
-  #       color='rgba(33,150,243,0.9)'
-  #   		)
-  #   	)])
+    fig5 = go.Figure(data=[go.Scatter(
+    	x=x,
+    	y=y,
+      customdata=students_df['name'],
+      hovertemplate='<b>%{customdata}</b><br>'+_('Solved problems')+': %{x}%<br>'+_('Attempts')+': %{y} ('+_('avg')+')<br>'+_('Time')+': %{marker.size:.0f} min ('+_('avg')+')',
+    	mode='markers',
+      name = '',
+    	marker=dict(
+    		size=size,
+    		sizemode='diameter',
+        sizemin=10,
+        sizeref=50,
+        color='rgba(33,150,243,0.9)'
+    		)
+    	)])
 
-  #   fig5.update_layout(height=330,
-  #                      font=dict(family="Nunito",
-  #                                size=14,
-  #                                color='rgb(76,83,90)'),
-  #                      hoverlabel=dict(
-  #                           bgcolor="white",
-  #                           font_size=14,
-  #                           font_family="Nunito",
-  #                      ),
-  #   				           plot_bgcolor  = "rgba(0, 0, 0, 0)",
-  #   	 			           paper_bgcolor = "rgba(0, 0, 0, 0)",
-  #                      margin=dict(
-  #                        l=10,
-  #                        r=10,
-  #                        b=10,
-  #                        t=0,
-  #                        pad=4
-  #                     ),
-  #                     xaxis_showgrid=False,
-  #                     yaxis_showgrid=False,
-  #                     yaxis_title=_('Attempts'),
-  #                     xaxis_title=_('Solved problems')+' (%)',)
+    fig5.update_layout(height=330,
+                       font=dict(family="Nunito",
+                                 size=14,
+                                 color='rgb(76,83,90)'),
+                       hoverlabel=dict(
+                            bgcolor="white",
+                            font_size=14,
+                            font_family="Nunito",
+                       ),
+    				           plot_bgcolor  = "rgba(0, 0, 0, 0)",
+    	 			           paper_bgcolor = "rgba(0, 0, 0, 0)",
+                       margin=dict(
+                         l=10,
+                         r=10,
+                         b=10,
+                         t=0,
+                         pad=4
+                      ),
+                      xaxis_showgrid=False,
+                      yaxis_showgrid=False,
+                      yaxis_title=_('Attempts'),
+                      xaxis_title=_('Solved problems')+' (%)',)
 
-  #   students_plot = opy.plot(fig5,
-		# output_type='div')
-
-
+    students_plot = opy.plot(fig5,
+		output_type='div')
 
 
-    chapter_table = []
-    counter = 0
-    for chapter in chapters:
-      finished = 0
-      for i in matrix1:
-        n = i[counter]
-        if n != None:
-          finished += 1
+
+
+  #   chapter_table = []
+  #   counter = 0
+  #   for chapter in chapters:
+  #     finished = 0
+  #     for i in matrix1:
+  #       n = i[counter]
+  #       if n != None:
+  #         finished += 1
         
-      delays = 0
-      for i in matrix2:
-        n = i[counter]
-        if n == 1:
-          delays += 1
+  #     delays = 0
+  #     for i in matrix2:
+  #       n = i[counter]
+  #       if n == 1:
+  #         delays += 1
 
-      progress = round(100*(delays+finished)/students.count())
+  #     progress = round(100*(delays+finished)/students.count())
 
-      chapter_problems = problems.filter(chapter=chapter)
+  #     chapter_problems = problems.filter(chapter=chapter)
 
-      chapter_times = []
-      delays = 0
-      attempts_list = []
-      times_list = []
-      for student in students:
-        deadline = Deadline.objects.filter(onlineclass=onlineclass, chapter=chapter).first().deadline
+  #     chapter_times = []
+  #     delays = 0
+  #     attempts_list = []
+  #     times_list = []
+  #     for student in students:
+  #       deadline = Deadline.objects.filter(onlineclass=onlineclass, chapter=chapter).first().deadline
 
-        logs = UserLog.objects.filter(user=student,
-                                      problem__in=chapter_problems,
-                                      timestamp__gte=onlineclass.start_date).order_by('timestamp')
-        if logs.count():
-          first_log = logs.first().timestamp
-        times = []
-        for problem in chapter_problems:
-          passed = UserLog.objects.filter(user=student,
-                                          problem=problem,
-                                          outcome="P",
-                                          timestamp__gte=onlineclass.start_date).order_by('timestamp')
-          if passed.count():
-            first_passed = passed.first()
-            problem_time = round(mean(list(passed.values_list('seconds_in_code', flat=True)))/60)
-            times_list.append(problem_time)
-            times.append(first_passed.timestamp)
-            problem_attempts = logs.filter(problem=problem, timestamp__lte=first_passed.timestamp).count()
-            attempts_list.append(problem_attempts)
-        times.sort()
-        if len(times) == chapter_problems.count():
-          chapter_passed = times[-1]
-          chapter_times.append((chapter_passed-first_log).days)
-          if chapter_passed > deadline:
-            delays += 1
+  #       logs = UserLog.objects.filter(user=student,
+  #                                     problem__in=chapter_problems,
+  #                                     timestamp__gte=onlineclass.start_date).order_by('timestamp')
+  #       if logs.count():
+  #         first_log = logs.first().timestamp
+  #       times = []
+  #       for problem in chapter_problems:
+  #         passed = UserLog.objects.filter(user=student,
+  #                                         problem=problem,
+  #                                         outcome="P",
+  #                                         timestamp__gte=onlineclass.start_date).order_by('timestamp')
+  #         if passed.count():
+  #           first_passed = passed.first()
+  #           problem_time = round(mean(list(passed.values_list('seconds_in_code', flat=True)))/60)
+  #           times_list.append(problem_time)
+  #           times.append(first_passed.timestamp)
+  #           problem_attempts = logs.filter(problem=problem, timestamp__lte=first_passed.timestamp).count()
+  #           attempts_list.append(problem_attempts)
+  #       times.sort()
+  #       if len(times) == chapter_problems.count():
+  #         chapter_passed = times[-1]
+  #         chapter_times.append((chapter_passed-first_log).days)
+  #         if chapter_passed > deadline:
+  #           delays += 1
 
-      counter += 1
+  #     counter += 1
 
 
-      chapter_time = None
-      problem_time = None
-      attempts = None
+  #     chapter_time = None
+  #     problem_time = None
+  #     attempts = None
 
-      if len(chapter_times):
-        chapter_time = round(mean(chapter_times))
-      if len(attempts_list):
-        attempts = round(mean(attempts_list))
-      if len(times_list):
-        problem_time = round(mean(times_list))
+  #     if len(chapter_times):
+  #       chapter_time = round(mean(chapter_times))
+  #     if len(attempts_list):
+  #       attempts = round(mean(attempts_list))
+  #     if len(times_list):
+  #       problem_time = round(mean(times_list))
 
-      chapter = Chapter.objects.get(id=chapter)
+  #     chapter = Chapter.objects.get(id=chapter)
 
-      chapter_table.append({'label': chapter.label,
-                            'id': chapter.id,
-                            'progress': progress,
-                            'chapter_time': chapter_time,
-                            'delays': delays,
-                            'attempts': attempts,
-                            'problem_time': problem_time})
+  #     chapter_table.append({'label': chapter.label,
+  #                           'id': chapter.id,
+  #                           'progress': progress,
+  #                           'chapter_time': chapter_time,
+  #                           'delays': delays,
+  #                           'attempts': attempts,
+  #                           'problem_time': problem_time})
 
-    chapters_df = pd.DataFrame(chapter_table)
-    chapters_df.dropna(subset = ['problem_time','attempts'], inplace=True)
+  #   chapters_df = pd.DataFrame(chapter_table)
+  #   chapters_df.dropna(subset = ['problem_time','attempts'], inplace=True)
         
 
 
@@ -1032,10 +1032,10 @@ def class_dashboard(onlineclass):
 
     context = { "title": 'Dashboard - '+onlineclass.name,
     # "progress_plot": progress_plot,
-    # "heatmap_plot": heatmap_plot,
-    # "heatmap2_plot": heatmap2_plot,
-    # "problems_plot": problems_plot,
-    # "students_plot": students_plot,
+    "heatmap_plot": heatmap_plot,
+    "heatmap2_plot": heatmap2_plot,
+    "problems_plot": problems_plot,
+    "students_plot": students_plot,
     # "chapters_plot": chapters_plot,
     # "chapter_table": chapter_table,
     "students_table": students_table[-1::-1],
