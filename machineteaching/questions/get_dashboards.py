@@ -20,7 +20,6 @@ import logging
 
 import pickle
 
-
 LOGGER = logging.getLogger(__name__)
 
 # Funções para pegar dados
@@ -754,7 +753,7 @@ def class_dashboard(onlineclass):
     problem_times = []
     attempts = []
     for problem in problems:
-      logs = UserLog.objects.filter(problem=problem, timestamp__gte=onlineclass.start_date)
+      logs = UserLog.objects.filter(problem=problem, user_class=onlineclass, timestamp__gte=onlineclass.start_date)
       avg_time = None
       avg_attempts = None
       if logs.filter(outcome="P").count():
@@ -873,161 +872,161 @@ def class_dashboard(onlineclass):
 
 
 
-    chapter_table = []
-    counter = 0
-    for chapter in chapters:
-      finished = 0
-      for i in matrix1:
-        n = i[counter]
-        if n != None:
-          finished += 1
+  #   chapter_table = []
+  #   counter = 0
+  #   for chapter in chapters:
+  #     finished = 0
+  #     for i in matrix1:
+  #       n = i[counter]
+  #       if n != None:
+  #         finished += 1
         
-      delays = 0
-      for i in matrix2:
-        n = i[counter]
-        if n == 1:
-          delays += 1
+  #     delays = 0
+  #     for i in matrix2:
+  #       n = i[counter]
+  #       if n == 1:
+  #         delays += 1
 
-      progress = round(100*(delays+finished)/students.count())
+  #     progress = round(100*(delays+finished)/students.count())
 
-      chapter_problems = problems.filter(chapter=chapter)
+  #     chapter_problems = problems.filter(chapter=chapter)
 
-      chapter_times = []
-      delays = 0
-      attempts_list = []
-      times_list = []
-      for student in students:
-        deadline = Deadline.objects.filter(onlineclass=onlineclass, chapter=chapter).first().deadline
+  #     chapter_times = []
+  #     delays = 0
+  #     attempts_list = []
+  #     times_list = []
+  #     for student in students:
+  #       deadline = Deadline.objects.filter(onlineclass=onlineclass, chapter=chapter).first().deadline
 
-        logs = UserLog.objects.filter(user=student,
-                                      problem__in=chapter_problems,
-                                      timestamp__gte=onlineclass.start_date).order_by('timestamp')
-        if logs.count():
-          first_log = logs.first().timestamp
-        times = []
-        for problem in chapter_problems:
-          passed = UserLog.objects.filter(user=student,
-                                          problem=problem,
-                                          outcome="P",
-                                          timestamp__gte=onlineclass.start_date).order_by('timestamp')
-          if passed.count():
-            first_passed = passed.first()
-            problem_time = round(mean(list(passed.values_list('seconds_in_code', flat=True)))/60)
-            times_list.append(problem_time)
-            times.append(first_passed.timestamp)
-            problem_attempts = logs.filter(problem=problem, timestamp__lte=first_passed.timestamp).count()
-            attempts_list.append(problem_attempts)
-        times.sort()
-        if len(times) == chapter_problems.count():
-          chapter_passed = times[-1]
-          chapter_times.append((chapter_passed-first_log).days)
-          if chapter_passed > deadline:
-            delays += 1
+  #       logs = UserLog.objects.filter(user=student,
+  #                                     problem__in=chapter_problems,
+  #                                     timestamp__gte=onlineclass.start_date).order_by('timestamp')
+  #       if logs.count():
+  #         first_log = logs.first().timestamp
+  #       times = []
+  #       for problem in chapter_problems:
+  #         passed = UserLog.objects.filter(user=student,
+  #                                         problem=problem,
+  #                                         outcome="P",
+  #                                         timestamp__gte=onlineclass.start_date).order_by('timestamp')
+  #         if passed.count():
+  #           first_passed = passed.first()
+  #           problem_time = round(mean(list(passed.values_list('seconds_in_code', flat=True)))/60)
+  #           times_list.append(problem_time)
+  #           times.append(first_passed.timestamp)
+  #           problem_attempts = logs.filter(problem=problem, timestamp__lte=first_passed.timestamp).count()
+  #           attempts_list.append(problem_attempts)
+  #       times.sort()
+  #       if len(times) == chapter_problems.count():
+  #         chapter_passed = times[-1]
+  #         chapter_times.append((chapter_passed-first_log).days)
+  #         if chapter_passed > deadline:
+  #           delays += 1
 
-      counter += 1
+  #     counter += 1
 
 
-      chapter_time = None
-      problem_time = None
-      attempts = None
+  #     chapter_time = None
+  #     problem_time = None
+  #     attempts = None
 
-      if len(chapter_times):
-        chapter_time = round(mean(chapter_times))
-      if len(attempts_list):
-        attempts = round(mean(attempts_list))
-      if len(times_list):
-        problem_time = round(mean(times_list))
+  #     if len(chapter_times):
+  #       chapter_time = round(mean(chapter_times))
+  #     if len(attempts_list):
+  #       attempts = round(mean(attempts_list))
+  #     if len(times_list):
+  #       problem_time = round(mean(times_list))
 
-      chapter = Chapter.objects.get(id=chapter)
+  #     chapter = Chapter.objects.get(id=chapter)
 
-      chapter_table.append({'label': chapter.label,
-                            'id': chapter.id,
-                            'progress': progress,
-                            'chapter_time': chapter_time,
-                            'delays': delays,
-                            'attempts': attempts,
-                            'problem_time': problem_time})
+  #     chapter_table.append({'label': chapter.label,
+  #                           'id': chapter.id,
+  #                           'progress': progress,
+  #                           'chapter_time': chapter_time,
+  #                           'delays': delays,
+  #                           'attempts': attempts,
+  #                           'problem_time': problem_time})
 
-    chapters_df = pd.DataFrame(chapter_table)
-    chapters_df.dropna(subset = ['problem_time','attempts'], inplace=True)
+  #   chapters_df = pd.DataFrame(chapter_table)
+  #   chapters_df.dropna(subset = ['problem_time','attempts'], inplace=True)
         
 
 
 
-    #PLOT: chapters
+  #   #PLOT: chapters
 
-    x = np.array(range(1,chapters_df['attempts'].count()+1))
+  #   x = np.array(range(1,chapters_df['attempts'].count()+1))
 
-    fig6 = make_subplots(specs=[[{"secondary_y": True}]])
+  #   fig6 = make_subplots(specs=[[{"secondary_y": True}]])
 
-    fig6.add_trace(go.Scatter(x=x, 
-    						        y=chapters_df['attempts'],
-                			  line=dict( 
-                				  color='rgba(33,150,243,1)',
-                				  width=4),
-                			  mode='lines',
-                			  name=_('Attempts'),
-                        hovertemplate='<b>'+_('Chapter')+' %{x}</b><br>%{y} ('+_('avg')+')',
-                        # error_y=dict(
-                        #   type='percent',
-                        #   value=15,
-                        #   visible=True,
-                        #   color='rgba(33,150,243,0.4)')
-                        ),
-                        secondary_y=False)
+  #   fig6.add_trace(go.Scatter(x=x, 
+  #   						        y=chapters_df['attempts'],
+  #               			  line=dict( 
+  #               				  color='rgba(33,150,243,1)',
+  #               				  width=4),
+  #               			  mode='lines',
+  #               			  name=_('Attempts'),
+  #                       hovertemplate='<b>'+_('Chapter')+' %{x}</b><br>%{y} ('+_('avg')+')',
+  #                       # error_y=dict(
+  #                       #   type='percent',
+  #                       #   value=15,
+  #                       #   visible=True,
+  #                       #   color='rgba(33,150,243,0.4)')
+  #                       ),
+  #                       secondary_y=False)
 
-    fig6.add_trace(go.Scatter(x=x, 
-    						        y=chapters_df['problem_time'],
-                			  line=dict( 
-                				  color='#4C4C4C',
-                				  width=4,
-                				  dash='dot'),
-                			  mode='lines',
-                			  name=_('Time'),
-                        hovertemplate='<b>'+_('Chapter')+' %{x}</b><br>%{y} min ('+_('avg')+')',
-                        # error_y=dict(
-                        #   type='percent',
-                        #   value=20,
-                        #   visible=True,
-                        #   color='rgba(0,0,0,0.4)')
-                        ),
-                        secondary_y=True)
+  #   fig6.add_trace(go.Scatter(x=x, 
+  #   						        y=chapters_df['problem_time'],
+  #               			  line=dict( 
+  #               				  color='#4C4C4C',
+  #               				  width=4,
+  #               				  dash='dot'),
+  #               			  mode='lines',
+  #               			  name=_('Time'),
+  #                       hovertemplate='<b>'+_('Chapter')+' %{x}</b><br>%{y} min ('+_('avg')+')',
+  #                       # error_y=dict(
+  #                       #   type='percent',
+  #                       #   value=20,
+  #                       #   visible=True,
+  #                       #   color='rgba(0,0,0,0.4)')
+  #                       ),
+  #                       secondary_y=True)
 
-    fig6.update_layout(height=300,
-                        hoverlabel=dict(
-                            bgcolor="white",
-                            font_size=14,
-                            font_family="Nunito",
-                        ),
-                       font=dict(family="Nunito",
-                                 size=14,
-                                 color='rgb(76,83,90)'),
-    				           plot_bgcolor  = "rgba(0, 0, 0, 0)",
-    	 			           paper_bgcolor = "rgba(0, 0, 0, 0)",
-                       margin=dict(
-                         l=10,
-                         r=30,
-                         b=10,
-                         t=0,
-                         pad=4
-                      ),
-                       legend=dict(
-                       	orientation="h",
-                       	yanchor="bottom",
-                       	y=1.02,
-                       	xanchor="right",
-                       	x=1
-                       	),
-                      yaxis_tickmode = 'linear',
-                      xaxis_showgrid=False,
-                      yaxis_showgrid=False)
-    fig6.update_yaxes(title_text=_('Attempts per problem'), secondary_y=False)
-    fig6.update_yaxes(title_text=_('Time per problem (minutes)'), secondary_y=True)
+  #   fig6.update_layout(height=300,
+  #                       hoverlabel=dict(
+  #                           bgcolor="white",
+  #                           font_size=14,
+  #                           font_family="Nunito",
+  #                       ),
+  #                      font=dict(family="Nunito",
+  #                                size=14,
+  #                                color='rgb(76,83,90)'),
+  #   				           plot_bgcolor  = "rgba(0, 0, 0, 0)",
+  #   	 			           paper_bgcolor = "rgba(0, 0, 0, 0)",
+  #                      margin=dict(
+  #                        l=10,
+  #                        r=30,
+  #                        b=10,
+  #                        t=0,
+  #                        pad=4
+  #                     ),
+  #                      legend=dict(
+  #                      	orientation="h",
+  #                      	yanchor="bottom",
+  #                      	y=1.02,
+  #                      	xanchor="right",
+  #                      	x=1
+  #                      	),
+  #                     yaxis_tickmode = 'linear',
+  #                     xaxis_showgrid=False,
+  #                     yaxis_showgrid=False)
+  #   fig6.update_yaxes(title_text=_('Attempts per problem'), secondary_y=False)
+  #   fig6.update_yaxes(title_text=_('Time per problem (minutes)'), secondary_y=True)
 
-    # fig4.update_traces(colorscale="hsv")
+  #   # fig4.update_traces(colorscale="hsv")
 
-    chapters_plot = opy.plot(fig6,
-		output_type='div')
+  #   chapters_plot = opy.plot(fig6,
+		# output_type='div')
 
 
     context = { "title": 'Dashboard - '+onlineclass.name,
@@ -1036,8 +1035,8 @@ def class_dashboard(onlineclass):
     "heatmap2_plot": heatmap2_plot,
     "problems_plot": problems_plot,
     "students_plot": students_plot,
-    "chapters_plot": chapters_plot,
-    "chapter_table": chapter_table,
+    # "chapters_plot": chapters_plot,
+    # "chapter_table": chapter_table,
     "students_table": students_table[-1::-1],
     "z": delays,
     'matrix1': matrix1
