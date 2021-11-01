@@ -15,6 +15,7 @@ from questions.models import (Chapter, Problem, UserLog, OnlineClass,
                              UserLogError, DropOutModel)
 from django.utils.translation import gettext as _
 from django.utils import timezone
+from django.db import connection
 from django.db.models import Avg, Count
 import logging
 
@@ -547,7 +548,7 @@ def class_dashboard(onlineclass):
     text = [str(total_done) + "%"]
     size = [50]
     hole = [0.9]
-    # progress_plot = create_progress_plot(1, [class_values], size, text, hole)
+    progress_plot = create_progress_plot(1, [class_values], size, text, hole)
 
     # fig.update_layout(autosize=True,
     #                   height=280,
@@ -679,7 +680,7 @@ def class_dashboard(onlineclass):
       n+=1
 
     def heatmap_height(names):
-      height = 650
+      height = 700
       x = len(names)
       if x > 34:
         height = x*20
@@ -857,7 +858,7 @@ def class_dashboard(onlineclass):
     	 			           paper_bgcolor = "rgba(0, 0, 0, 0)",
                        margin=dict(
                          l=10,
-                         r=10,
+                         r=20,
                          b=10,
                          t=0,
                          pad=4
@@ -1031,11 +1032,12 @@ def class_dashboard(onlineclass):
 
 
     context = { "title": 'Dashboard - '+onlineclass.name,
-    # "progress_plot": progress_plot,
+    "progress_plot": progress_plot,
     "heatmap_plot": heatmap_plot,
     "heatmap2_plot": heatmap2_plot,
     "problems_plot": problems_plot,
     "students_plot": students_plot,
+    "queries": len(connection.queries),
     # "chapters_plot": chapters_plot,
     # "chapter_table": chapter_table,
     "students_table": students_table[-1::-1],
