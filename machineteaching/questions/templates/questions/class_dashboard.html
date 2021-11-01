@@ -20,10 +20,47 @@
         </div>
     </div>
 </div>
-<div class="col-12" style="display: flex; padding: 1rem; height: 50rem">
+<div class="col-12" style="display: flex; padding: 1rem; height: 57rem">
     <div class="col-7" style="margin-right: 1rem; height: 100%">
         <div class="card" style="height: calc(50% - 1rem);">
-            <h3 style="margin-bottom: 0.5rem">{% blocktrans %}Chapters{% endblocktrans %}</h3>
+
+
+            
+            <h3 style="margin-bottom: 0.5rem">{% blocktrans %}Students{% endblocktrans %}</h3>
+                <table style="margin-right: 1rem; display: block;">
+                <tr class="row" style="border: none; font-size: 13px; font-weight: 300; background: #EBECEF">
+                    <td style="width: 22%; padding: 0.3rem 0 0.3rem 1rem">{% blocktrans %}Student{% endblocktrans %}</td>
+                    <td style="width: 18%; padding: 0.3rem 0">{% blocktrans %}Solved problems{% endblocktrans %}</td>
+                    <td style="width: 18%; padding: 0.3rem 0; text-align: center;">{% blocktrans %}Time per chapter (avg){% endblocktrans %}</td>
+                    <td style="width: 8%; padding: 0.3rem 0; text-align: center;">{% blocktrans %}Delays{% endblocktrans %}</td>
+                    <td style="width: 16%; padding: 0.3rem 0; text-align: center;">{% blocktrans %}Attempts per problem{% endblocktrans %}</td>
+                    <td style="width: 18%; padding: 0.3rem 0; text-align: center;">{% blocktrans %}Time per problem (avg){% endblocktrans %}</td>
+                </tr>
+            </table>
+            <div style="max-height: 15rem; overflow: auto;">
+                <table>
+                {% for student in students_table %}
+                <tr class="row" onclick="window.location='{% url 'student_dashboard' id=student.id %}';" style="cursor: pointer;">
+                    <td style="width: 22%">{{student.name}}</td>
+                    <td style="width: 18%; padding-left: 0">
+                    <div class="task-progress" style="width: 100%; display: flex;">
+                        <div style="width: {{ student.passed }}%; background: var(--green); opacity: 1"></div>
+                        <div style="width: {{ student.skipped }}%; background: var(--yellow); opacity: 1"></div>
+                        <div style="width: {{ student.failed }}%; background: var(--red); opacity: 1"></div>
+                    </div>
+                    <span>{{ student.passed }}%</span>
+                    </td>
+                    <td style="width: 18%; text-align: center;">{% if student.chapter_time != None %}{{student.chapter_time}} {% blocktrans %}days{% endblocktrans %}{% endif %}</td>
+                    <td style="width: 8%; text-align: center;">{{student.delays}}</td>
+                    <td style="width: 16%; text-align: center;">{% if student.attempts != None %}{{student.attempts}}{% endif %}</td>
+                    <td style="width: 18%; text-align: center;">{% if student.problem_time != None %}{{student.problem_time}} {% blocktrans %}min{% endblocktrans %}{% endif %}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+
+
+            <!-- <h3 style="margin-bottom: 0.5rem">{% blocktrans %}Chapters{% endblocktrans %}</h3>
                 <table style="margin-right: 1rem; display: block;">
                 <tr class="row" style="border: none; font-size: 13px; font-weight: 300; background: #EBECEF">
                     <td style="width: 22%; padding: 0.3rem 1rem">{% blocktrans %}Chapter{% endblocktrans %}</td>
@@ -51,14 +88,26 @@
                     <td style="width: 16%; text-align: center;">{% if chapter.problem_time != None %}{{chapter.problem_time}} {% blocktrans %}min{% endblocktrans %}{% endif %}</td>
                 </tr>
                 {% endfor %}
-            </table>
-        </div>
+            </table> -->
         </div>
         <div class="card" style="height: calc(50% - 1rem); position: relative;">
-            <h3 style="margin-bottom: 0">{% blocktrans %}Chapters{% endblocktrans %}</h3>
+
+
+            <h3 style="margin-bottom: 0">{% blocktrans %}Students{% endblocktrans %}</h3>
+            <span style="margin-bottom: 1rem; display: inline-block;">{% blocktrans %}solving problems performance{% endblocktrans %}</span>
+            {{students_plot|safe}}
+            <div style="position: absolute; top:2.5rem; right:2rem; display: flex;">
+                <div style="width: 1.5rem; height: 1.5rem; background: rgba(33,150,243,0.8);
+                border-radius: 100%; margin-right: 0.5rem"></div>
+                {% blocktrans %}Time per problem (avg){% endblocktrans %}
+
+
+
+<!--             <h3 style="margin-bottom: 0">{% blocktrans %}Chapters{% endblocktrans %}</h3>
             <span style="margin-bottom: 1rem; display: inline-block;">{% blocktrans %}average attempts and time to complete a problem{% endblocktrans %}</span>
-<!--             <div style="position: absolute; top: 3rem; width: calc(100% - 4rem)">{{chapters_plot|safe}}</div> -->
+            <div style="position: absolute; top: 3rem; width: calc(100% - 4rem)">{{chapters_plot|safe}}</div> -->
         </div>
+    </div>
     </div>
     <div class="col-5" style="margin-left: 1rem; height: 100%">
         <div class="card" style=" height: 100%; position: relative; overflow-y: auto;" class="heatmap">
@@ -77,7 +126,7 @@
         </div>
     </div>
 </div>
-<div class="col-12" style="display: flex; padding: 1rem; height: 30rem">
+<!-- <div class="col-12" style="display: flex; padding: 1rem; height: 30rem">
     <div class="col-6" style="margin-right: 1rem; height: 100%">
         <div class="card" style=" height: 100%">
             <h3 style="margin-bottom: 0.5rem">{% blocktrans %}Students{% endblocktrans %}</h3>
@@ -126,9 +175,10 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
-<div class="col-12" style="display: flex; padding: 1rem; height: 41rem">
+Consultas: {{queries}}
+<!-- <div class="col-12" style="display: flex; padding: 1rem; height: 41rem">
     <div class="card" style="width: 100%">
         <h3>{% blocktrans %}Drop out risk{% endblocktrans %}</h3>
         <table>
@@ -157,7 +207,7 @@
             </table>
         </div>
     </div>
-</div>
+</div> -->
 {% endblock %}
 {% block javascript %}
 <script type="text/javascript">
