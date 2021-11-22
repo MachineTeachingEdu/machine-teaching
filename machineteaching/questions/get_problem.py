@@ -8,7 +8,7 @@ LOGGER = logging.getLogger(__name__)
 
 # Modules than can be used inside the solution
 import math
-
+import numpy as np
 
 def get_problem(problem_id):
     #try:
@@ -36,7 +36,10 @@ def get_problem(problem_id):
             # if type(result) == str:
             #     expected_results.append("'"+str(result)+"'")
             # else:
-            expected_results.append(str(result))
+            if type(result) == np.ndarray:
+                expected_results.append(np.array_repr(result))
+            else:
+                expected_results.append(str(result))
         #print(expected_results)
         #except Problem.DoesNotExist:
             #raise Problem.DoesNotExist
@@ -45,6 +48,7 @@ def get_problem(problem_id):
         "problem": problem,
         "options": options,
         "solution": solution.content,
+        "advanced": solution.advanced_libraries,
         "test_case": ["%s" % item for item in test_case],
         "expected_results": expected_results,
         "tip": solution.tip,

@@ -4,7 +4,6 @@
 {% load escape_doublequote %}
 {% block content %}
 <div class="col col-5">
-
     <!-- problem statement -->
     <div class="card statement">
         <div>
@@ -43,14 +42,16 @@
     </div>
 
     <!-- output -->
-    <div style="display: none" id="output-div">
+    <div style="display: none;" id="output-div">
         <textarea id="output"></textarea>
     </div>
 
     <!-- interactive -->
-    <div class="card interactive">
+    
+    <div class="card interactive" {% if advanced %}style="display:none"{% endif %}>
         <textarea class="" id="interactive" cols="85" rows="1" style="display: none;"></textarea>
     </div>
+    
 
     {% elif problem.question_type == 'M' %}
     <!-- options -->
@@ -152,6 +153,17 @@
 
     editor.setSize('100%',300);
     editor2.setSize('100%',300);
+    {% endif %}
+
+    {% if advanced %}
+    // init Pyodide
+        async function main(){
+      await loadPyodide({ indexURL : 'https://cdn.jsdelivr.net/pyodide/v0.17.0/full/' });
+    }
+    let pyodideReadyPromise = main();
+    const advanced = true
+    {% else %}
+    const advanced = false
     {% endif %}
 
     $('.interactive .CodeMirror').remove();

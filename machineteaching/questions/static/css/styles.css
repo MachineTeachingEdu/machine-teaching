@@ -1474,9 +1474,23 @@ table.dataTable.no-footer {
     height: 20rem;
     display: block;
 }
-#id_chapter {
+#id_chapter, .select2-container {
     width: 15rem;
     margin-right: 1rem;
+    margin-bottom: 1rem !important;
+}
+.select2-container--default .select2-selection--single {
+    padding: 0.25rem 0.2rem !important;
+    border: 1px solid #ced4da !important;
+    height: 2.5rem !important;
+    transition: border 0.2s;
+}
+.select2-container--default .select2-selection--single:hover {
+    border-color: #2196F3 !important;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    top: calc(50% - 13px) !important;
+    right: 5px !important;
 }
 #id_order {
     width: 6rem;

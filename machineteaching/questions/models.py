@@ -183,6 +183,7 @@ class Cluster(models.Model):
 
 class Solution(models.Model):
     content = models.TextField(blank=False)
+    advanced_libraries = models.BooleanField(default=False)
     header = models.TextField(blank=True, null=True)
     problem = models.ForeignKey(Problem, on_delete=models.PROTECT)
     link = models.URLField(blank=True, null=True)
