@@ -74,6 +74,7 @@
 
     // Save page access
     $(document).ready(function() {
+        $('#id_chapter').select2();
         $.ajax({
             type: "POST",
             url: '{% url "saveaccess" %}',

@@ -35,7 +35,7 @@ function evaluate(args, func, expected_results){
         </div>`;
         $('.result').hide()
     } else {
-    answers = document.getElementById("output").innerHTML.split("\n");
+    answers = document.getElementById("output").value.split("\n");
     errors = 0;
 
     // For each test, compare results
@@ -120,6 +120,8 @@ function evaluate(args, func, expected_results){
     $('.loader div').attr('style', 'width: 0;');
 
 };
+
+
 // Here's everything you need to run a python program in skulpt
 // grab the code from your textarea
 // get a reference to your pre element for output
@@ -128,54 +130,84 @@ function evaluate(args, func, expected_results){
 function runit(args, func, expected_results) {
   $('#run').hide();
   $('.loader').show();
-  $('.loader div').animate({width: '100%'}, 2000);
 
-   // Get code
-   var prog = editor.getValue();
+  // Get code
+  var prog = editor.getValue();
 
+  console.log(args);
 
-   // Prepare output display
-   var mypre = document.getElementById("output");
-   mypre.innerHTML = '';
-   let results = [];
-   Sk.pre = "output";
-   Sk.configure({output:outf, read:builtinRead, __future__: Sk.python3, execLimit: 500});
-   (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'mycanvas';
+  if (advanced) {
+    var loadtime = 5000;
+    async function runpyodide() {
+      const output = document.getElementById("output");
+      output.value = "";
 
-   // Extract data type from JSON 
-   console.log(args);
+      function addToOutput(s) {
+        output.value += s + '\n';
+      }
 
-   for (i = 0; i < args.length; i++) {
-       item = args[i];
-       //console.log(item);
-       //prog_args = prog + "\nprint(" + func + "(*" + JSON.stringify(item) + "))";
-       prog_args = prog.replaceAll('\t','    ') +
-       "\nif type(" + func + "(*" + item + ")) == str:\n    print(\"'\"+" + 
-       func + "(*" + item + ")+\"'\")\nelse:\n    print(" + 
-       func + "(*" + item + "))";
-       // prog_args = prog + `
+      await pyodideReadyPromise;
+
+      for (i = 0; i < args.length; i++) {
+        item = args[i];
+        var code = prog.replaceAll('\t','    ') + "\n" + func + "(*" + item + ")" 
+        try {
+          let output = await pyodide.runPythonAsync(code);
+          addToOutput(output);
+        } catch(err) {
+          e = err.message.split('\n')
+          s = e[e.length-2]
+          addToOutput(s);
+        }
+      }
+    }
+    runpyodide()
+  } else {
+    var loadtime = 2000;
+    // Prepare output display
+  var mypre = document.getElementById("output");
+  mypre.innerHTML = '';
+  var results = [];
+  Sk.pre = "output";
+  Sk.configure({output:outf, read:builtinRead, __future__: Sk.python3, execLimit: 500});
+  (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'mycanvas';
+
+    
+  for (i = 0; i < args.length; i++) {
+      item = args[i];
+      //console.log(item);
+      //prog_args = prog + "\nprint(" + func + "(*" + JSON.stringify(item) + "))";
+      prog_args = prog.replaceAll('\t','    ') +
+      "\nif type(" + func + "(*" + item + ")) == str:\n    print(\"'\"+" + 
+      func + "(*" + item + ")+\"'\")\nelse:\n    print(" + 
+      func + "(*" + item + "))";
+      // prog_args = prog + `
 // try:
-    // print(` + func + `(*` + item + `))
+   // print(` + func + `(*` + item + `))
 // except Exception as err:
-    // print(repr(err))`
-       console.log(prog_args);
-       var myPromise = Sk.misceval.asyncToPromise(function() {
-           return Sk.importMainWithBody("<stdin>", false, prog_args, true);
-       });
-       myPromise.then(function(mod) {
-           results.push('success');
-           console.log('success');
-           //console.log(document.getElementById("output").innerHTML);
-      },
-           function(err) {
-           results.push(err.toString() + '\n');
-           console.log(err.toString());
-           /*document.getElementById("output").innerHTML += err.toString() + '\n';*/
-       });
-   };
+   // print(repr(err))`
+      console.log(prog_args);
+      var myPromise = Sk.misceval.asyncToPromise(function() {
+          return Sk.importMainWithBody("<stdin>", false, prog_args, true);
+      });
+      myPromise.then(function(mod) {
+          results.push('success');
+          console.log('success');
+          //console.log(document.getElementById("output").innerHTML);
+     },
+          function(err) {
+          results.push(err.toString() + '\n');
+          console.log(err.toString());
+          document.getElementById("output").innerHTML += err.toString() + '\n';
+      });
+  };
+  }
+
+  $('.loader div').animate({width: '100%'}, loadtime);
 
    // Wait for async run to finish
    setTimeout(function(){
+     if (!advanced) {
        //Write results in console
        var final_results = [];
        var correct_items = 0;
@@ -195,7 +227,7 @@ function runit(args, func, expected_results) {
        // Empty correct_results
        correct_results = []
        mypre.innerHTML = final_results.join('');
-
+     }
        // Evaluate results
        seconds_end_page = performance.now()
        seconds_in_page = Math.round((seconds_end_page - seconds_begin_page)/1000);
@@ -207,8 +239,9 @@ function runit(args, func, expected_results) {
         console.log("seconds in code: " + seconds_in_code);
        console.log("seconds in page:" + seconds_in_page);
        evaluate(args, func, expected_results);
-       }, 2000);
+       }, loadtime);
 };
+
 
 function skipit() {
    // Evaluate results
