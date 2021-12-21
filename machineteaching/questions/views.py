@@ -29,7 +29,7 @@ from questions.forms import (UserLogForm, SignUpForm, OutcomeForm, ChapterForm,
                              EditProfileForm, NewClassForm, DeadlineForm, CommentForm)
 from questions.serializers import RecommendationSerializer
 from questions.get_problem import get_problem
-from questions.get_dashboards import student_dashboard, class_dashboard, manager_dashboard
+from questions.get_dashboards import student_dashboard, class_dashboard, manager_dashboard, predict_drop_out
 from questions.get_dashboards import *
 from questions.strategies import STRATEGIES_FUNC
 import csv
@@ -725,13 +725,16 @@ def manage_class(request, onlineclass):
     professors = Professor.objects.all().values_list('user')
     students = User.objects.filter(userprofile__user_class=onlineclass).exclude(
         pk__in=professors).order_by(Lower('first_name').asc(), Lower('last_name').asc())
+    students_list = []
+    for student in students:
+        students_list.append({'student':student, 'predict':predict_drop_out(student.id, onlineclass)[0]})
     deadlines = Deadline.objects.filter(onlineclass=onlineclass)
     chapters = []
     for deadline in deadlines:
         chapter = Chapter.objects.get(deadline=deadline)
         chapters.append({'chapter':chapter, 'deadline':deadline})
     return render(request, 'questions/show_class.html', {'title': onlineclass.name,
-                                                         'students': students,
+                                                         'students_list': students_list,
                                                          'chapters': chapters,
                                                          'onlineclass': onlineclass,
                                                          'form': form})
