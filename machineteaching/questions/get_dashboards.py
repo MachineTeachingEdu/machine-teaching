@@ -108,15 +108,18 @@ def get_error_type_per_chapter(user, chapter, onlineclass):
 
 
 def get_on_time_exercises(user, chapters, onlineclass):
-    problems = Problem.objects.filter(chapter__in=chapters)
-    deadline = Deadline.objects.filter(chapter__in=chapters,
-                                       onlineclass=onlineclass).first().deadline
-    on_time_exercises = UserLogView.objects.filter(user=user,
-                                                   problem__in=problems,
-                                                   final_outcome='P',
-                                                   timestamp__gte=onlineclass.start_date,
-                                                   timestamp__lte=deadline)
-    return [[on_time_exercises.count()]]
+    on_time_list = []
+    for c in chapter:
+        problems = Problem.objects.filter(chapter=c)
+        deadline = Deadline.objects.filter(chapter=c,
+                                        onlineclass=onlineclass).first().deadline
+        on_time_exercises = UserLogView.objects.filter(user=user,
+                                                    problem__in=problems,
+                                                    final_outcome='P',
+                                                    timestamp__gte=onlineclass.start_date,
+                                                    timestamp__lte=deadline)
+        on_time_list.append(on_time_exercises.count())
+    return [on_time_list]
 
 
 def predict_drop_out(user, onlineclass):
@@ -124,7 +127,7 @@ def predict_drop_out(user, onlineclass):
     completed_chapter = Deadline.objects.filter(onlineclass=onlineclass,
                                                 deadline__lte=datetime.now()).order_by('deadline').last().chapter
     model = completed_chapter.drop_out_model
-    if model:
+    try:
         chapters = model.completed_chapter.all()
         # Open model file
         with open(model.model_file, "rb") as pklfile:
@@ -134,14 +137,8 @@ def predict_drop_out(user, onlineclass):
         X = sm.add_constant(X, has_constant='add')
         y_pred = model.predict(X)[0]
 
-        if y_pred < 7:
-            risk = _('High')
-        elif y_pred < 9:
-            risk = _('Medium')
-        else:
-            risk = _('Low')
-        return round(y_pred), risk
-    else:
+        return round(y_pred)
+    except:
         return None
 
 # Funções de plot
