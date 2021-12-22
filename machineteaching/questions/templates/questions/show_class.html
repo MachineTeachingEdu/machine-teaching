@@ -65,7 +65,7 @@
         <h3>{% blocktrans %}Students{% endblocktrans %}</h3>
         <table>
             {% for student in students_list %}
-            <tr class="row" style="border: none; border-left: 5px solid {% if student.predict < 7 %}var(--red){% elif student.predict < 9 %}var(--yellow){% else %}var(--green){% endif %} ; background-color: {% if student.predict < 7 %}#FFB1AF{% elif student.predict < 9 %}#FFEEA5{% else %}#C8F69B{% endif %};">
+            <tr class="row" style="border: none; border-left: 5px solid {% if student.predict < 7 %}var(--red){% elif student.predict < 9 %}var(--yellow){% elif student.predict < 20 %}var(--green){% else %}#fff{% endif %} ; background-color: {% if student.predict < 7 %}#FFB1AF{% elif student.predict < 9 %}#FFEEA5{% elif student.predict < 20 %}#C8F69B{% else %}#fff{% endif %};">
                 <td>
                     <span style="display: inline-block; background-color: #fff; border-radius: 5px; margin: 0 0 0; padding: 5px 8px;;">{{student.student.first_name}} {{student.student.last_name}}</span></td>
                 <td style="width: 8rem; text-align: right;"><a class="link" href="{% url 'student_solutions' id=student.student.id %}">

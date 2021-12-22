@@ -12,6 +12,7 @@ from django.db.models.functions import Lower
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from django.views.decorators.csrf import csrf_exempt
+from django.core.exceptions import PermissionDenied
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -722,27 +723,32 @@ def manage_class(request, onlineclass):
     else:
         form = DeadlineForm()
     onlineclass = OnlineClass.objects.get(id=onlineclass)
-    professors = Professor.objects.all().values_list('user')
-    students = User.objects.filter(userprofile__user_class=onlineclass).exclude(
-        pk__in=professors).order_by(Lower('first_name').asc(), Lower('last_name').asc())
-    students_list = []
-    for student in students:
-        students_list.append({'student':student, 'predict':predict_drop_out(student.id, onlineclass)[0]})
-    deadlines = Deadline.objects.filter(onlineclass=onlineclass)
-    chapters = []
-    for deadline in deadlines:
-        chapter = Chapter.objects.get(deadline=deadline)
-        chapters.append({'chapter':chapter, 'deadline':deadline})
-    return render(request, 'questions/show_class.html', {'title': onlineclass.name,
-                                                         'students_list': students_list,
-                                                         'chapters': chapters,
-                                                         'onlineclass': onlineclass,
-                                                         'form': form})
+    if onlineclass in Professor.objects.get(user=request.user).prof_class.all():
+        professors = Professor.objects.all().values_list('user')
+        students = User.objects.filter(userprofile__user_class=onlineclass).exclude(
+            pk__in=professors).order_by(Lower('first_name').asc(), Lower('last_name').asc())
+        students_list = []
+        for student in students:
+            students_list.append({'student':student, 'predict':predict_drop_out(student.id, onlineclass)})
+        deadlines = Deadline.objects.filter(onlineclass=onlineclass)
+        chapters = []
+        for deadline in deadlines:
+            chapter = Chapter.objects.get(deadline=deadline)
+            chapters.append({'chapter':chapter, 'deadline':deadline})
+        return render(request, 'questions/show_class.html', {'title': onlineclass.name,
+                                                            'students_list': students_list,
+                                                            'chapters': chapters,
+                                                            'onlineclass': onlineclass,
+                                                            'form': form})
+    else:
+        raise PermissionDenied()
 
 def get_class_dashboard(request, onlineclass):
     onlineclass = OnlineClass.objects.get(id=onlineclass)
-
-    return render(request, 'questions/class_dashboard.html', class_dashboard(onlineclass))
+    if onlineclass in Professor.objects.get(user=request.user).prof_class.all():
+        return render(request, 'questions/class_dashboard.html', class_dashboard(onlineclass))
+    else:
+        raise PermissionDenied()
 
 def get_manager_dashboard(request):
     return render(request, 'questions/manager_dashboard.html', manager_dashboard())

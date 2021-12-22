@@ -9,8 +9,8 @@ html, body{
 }
 /* colors */:root {
   --primary: #2196F3;
-
-  --text-color: rgb(76,83,90);
+  --box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  --text-color: rgb(41, 41, 41);
   --red: rgb(255, 65, 65);
   --green: rgb(84, 210, 87);
   --yellow: #FEC809;
@@ -18,7 +18,7 @@ html, body{
 body {
 	margin: 0;
 	font-family: Nunito, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji !important;
-	font-weight: 200;
+	font-weight: 300;
 	color: var(--text-color);
 	font-size: 1rem;
 }
@@ -32,7 +32,7 @@ h1,h2,h3,h4,h5 {
     font-family: inherit;
     font-weight: 500;
     line-height: 1.2;
-    color: inherit;
+    color: var(--text-color);
     cursor: default;
 }
 h3 {
@@ -101,7 +101,7 @@ textarea::-moz-selection { background: #B5DCFF; }
     flex-direction: column;
     user-select: none;
     transition: transform 0.4s cubic-bezier(0.05, 0.74, 0.2, 0.99);
-    background-color: rgb(47,53,58);
+    background-color: var(--text-color);
     color: #ffffff;
 }
 .menu-container {
@@ -142,10 +142,10 @@ textarea::-moz-selection { background: #B5DCFF; }
     transition: background-color 0.2s, box-shadow 0.2s;
 }
 .menu-item:hover {
-	background-color: rgb(75,84,92);
+	background-color: rgb(58, 58, 58);
 }
 .menu-selected, .menu input[type="radio"]:checked+label {
-	background-color: rgb(63,71,78);
+	background-color: rgb(66, 66, 66);
 }
 .menu a {
     color: rgb(215,215,215);
@@ -166,7 +166,7 @@ textarea::-moz-selection { background: #B5DCFF; }
     top: 0;
     right: 0;
     z-index: 2;
-    box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.2), 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12);
+    box-shadow:rgba(0, 0, 0, 0.2) 0px 7px 29px 0px;
 }
 .brand {
     height: 3.5rem;
@@ -188,7 +188,8 @@ textarea::-moz-selection { background: #B5DCFF; }
     background: #ffffff;
     height: 4rem;
     padding: 0 2rem 0 0.5rem;
-    border-bottom: 1px solid #dee2e6;
+    box-shadow: var(--box-shadow);
+    z-index: 10;
     display: -ms-flexbox;
     display: flex;
     -ms-flex-align: center;
@@ -242,10 +243,8 @@ textarea::-moz-selection { background: #B5DCFF; }
     color: var(--red) !important;
 }
 .logout:hover {
-    background-color: #FEE4E0 !important;
-}
-.logout:active {
-    background-color: #FEC5BC !important;
+    background-color: var(--red) !important;
+    color: #fff !important;
 }
 .admin-btn {
     width: 2.2rem;
@@ -324,9 +323,9 @@ textarea::-moz-selection { background: #B5DCFF; }
 .card {
 	background: #ffffff;
     padding: 1.25rem;
-    border: 1px solid #dee2e6;
+    box-shadow: var(--box-shadow);
     margin-bottom: 2rem;
-    border-radius: 4px;
+    border-radius: 10px;
 }
 .green-border {
     border-left: 4px solid var(--green);
@@ -365,8 +364,8 @@ textarea::-moz-selection { background: #B5DCFF; }
 .footer {
     background: #ffffff;
     height: 4rem;
-    border-top: 1px solid #dee2e6;
-    border-bottom: 1px solid #dee2e6;
+    z-index: 10;
+    box-shadow: var(--box-shadow);
     padding: 0 2rem;
     display: -ms-flexbox;
     display: flex;
@@ -1607,7 +1606,8 @@ table.dataTable.no-footer {
     color: var(--red);
 }
 .link.del:hover {
-    background: rgb(255,0,0,0.1);
+    background: var(--red);
+    color: #fff;
 }
 .switch {
   position: relative;
@@ -2063,3 +2063,20 @@ input:checked + .slider:before {
 .ql-snow .ql-fill, .ql-snow .ql-stroke.ql-fill {
     fill: #999999 !important;
 }
+
+::-webkit-scrollbar{
+    width: 6px;
+    height: 6px;
+    }
+    ::-webkit-scrollbar-thumb{
+    background: #919191;
+    border-radius: 3px;
+    margin-right: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover{
+    background: #A6A6A6;
+    }
+    ::-webkit-scrollbar-track{
+    background: rgba(0,0,0,0);
+    box-shadow: inset 0px 0px 0px 0px #F0F0F0;
+    }
