@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-26 11:16-0300\n"
+"POT-Creation-Date: 2022-01-26 11:28-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -210,10 +210,8 @@ msgstr "Aluno"
 
 #: questions/get_dashboards.py:384 questions/get_dashboards.py:401
 #: questions/templates/questions/home.html:52
-#, fuzzy
-#| msgid "error"
 msgid "error(s)"
-msgstr "erro"
+msgstr "erro(s)"
 
 #: questions/get_dashboards.py:442 questions/templates/questions/home.html:49
 #: questions/templates/questions/student_dashboard.html:50
@@ -315,8 +313,6 @@ msgid "Exercises Sets"
 msgstr ""
 
 #: questions/models.py:100
-#, fuzzy
-#| msgid "Class"
 msgid "OnlineClass"
 msgstr "Turma"
 
@@ -396,14 +392,10 @@ msgid "Comment"
 msgstr "Comentário"
 
 #: questions/models.py:325
-#, fuzzy
-#| msgid "Drop out risk"
 msgid "Drop out model"
 msgstr "Risco de abandono"
 
 #: questions/models.py:326
-#, fuzzy
-#| msgid "Drop out risk"
 msgid "Drop out models"
 msgstr "Risco de abandono"
 
@@ -432,13 +424,10 @@ msgstr "Veja os "
 #: questions/templates/503.html:44 questions/templates/index.html:89
 #: questions/templates/questions/base.html:104
 #: questions/templates/registration/base.html:57
-#, fuzzy
-#| msgid " and the "
 msgid "and the "
 msgstr " e a "
 
-#: questions/templates/503.html:51 questions/templates/index.html:96
-#: questions/templates/questions/base.html:114
+#: questions/templates/503.html:51 questions/templates/questions/base.html:114
 #: questions/templates/registration/base.html:64
 msgid ""
 "© 2020 Copyright: <a href=\"http://machineteaching.tech\">machineteaching."
@@ -489,6 +478,10 @@ msgstr "Melhorar metodologias de aprendizado"
 #: questions/templates/index.html:73
 msgid "Stimulate students to learn the Python language "
 msgstr "Estimular o aprendizado da linguagem Python"
+
+#: questions/templates/index.html:96
+msgid "GPL-3.0 License"
+msgstr "Licença GPL-3.0"
 
 #: questions/templates/questions/base.html:27
 msgid "Current problem"
@@ -781,14 +774,10 @@ msgid "mode and do new problems."
 msgstr " e fazer novos problemas."
 
 #: questions/templates/questions/home.html:8
-#, fuzzy
-#| msgid "Class progress"
 msgid "Total progress"
 msgstr "Progresso da turma"
 
 #: questions/templates/questions/home.html:9
-#, fuzzy
-#| msgid "on all problems"
 msgid "in all problems"
 msgstr "em todos os problemas"
 
@@ -830,10 +819,8 @@ msgid "before you get right a problem"
 msgstr "antes de acertar um problema"
 
 #: questions/templates/questions/home.html:61
-#, fuzzy
-#| msgid "per chapter"
 msgid "Current chapter"
-msgstr "por aula"
+msgstr "Aula atual"
 
 #: questions/templates/questions/home.html:69
 msgid "Estimated time to finish this chapter"
@@ -852,8 +839,6 @@ msgid "There are still no chapters or all deadlines have expired"
 msgstr "Não há aula para mostrar ou todos os prazos expiraram"
 
 #: questions/templates/questions/manager_dashboard.html:17
-#, fuzzy
-#| msgid "class performance by problem"
 msgid "performance per problem"
 msgstr "desempenho da turma por problema"
 
@@ -927,10 +912,8 @@ msgid "Filter"
 msgstr "Filtrar"
 
 #: questions/templates/questions/past_problems.html:34
-#, fuzzy
-#| msgid "Status"
 msgid "Status "
-msgstr "Status"
+msgstr "Status "
 
 #: questions/templates/questions/past_problems.html:35
 #: questions/templates/questions/past_solutions.html:82
@@ -1079,10 +1062,8 @@ msgid "Time "
 msgstr "Hora"
 
 #: questions/templates/questions/student_logs.html:34
-#, fuzzy
-#| msgid "Test cases"
 msgid "Test cases "
-msgstr "Casos de teste"
+msgstr "Casos de teste "
 
 #: questions/templates/questions/student_logs.html:35
 msgid "Status"
@@ -1210,14 +1191,10 @@ msgid "Finished"
 msgstr "Finalizado"
 
 #: questions/views.py:493
-#, fuzzy
-#| msgid "Solution"
 msgid "Problem solutions"
 msgstr "Solução"
 
 #: questions/views.py:524
-#, fuzzy
-#| msgid "Solution"
 msgid "Student solutions"
 msgstr "Solução"
 
@@ -1226,8 +1203,6 @@ msgid "New problem"
 msgstr "Novo problema"
 
 #: questions/views.py:650
-#, fuzzy
-#| msgid "User profile"
 msgid "Edit profile"
 msgstr "Perfil do usuário"
 
