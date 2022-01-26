@@ -39,30 +39,30 @@
     <tbody>
     {% for item in past_problems %}
     <tr>
-        <td>{{ item.log.problem.title }}</td>
-        <td>{{ item.log.timestamp|date:'d/m/Y'}}</td>
-        <td>{{ item.log.timestamp|date:'H:i'}}</td>
+        <td>{{ item.problem.title }}</td>
+        <td>{{ item.timestamp|date:'d/m/Y'}}</td>
+        <td>{{ item.timestamp|date:'H:i'}}</td>
         <td>
-            {% if item.log.problem.question_type == "C" and item.log.test_case_hits != None %}
-            <div class="task-progress2" style="background: var(--red);"><div style="width: {{ item.log.test_case_hits }}%; background: var(--green);"></div></div>
+            {% if item.problem.question_type == "C" and item.test_case_hits != None %}
+            <div class="task-progress2" style="background: var(--red);"><div style="width: {{ item.test_case_hits }}%; background: var(--green);"></div></div>
             {% else %}
             <div class="task-progress2"></div>
             {% endif %}
         </td>
-        {% if item.log.outcome == 'P' %}
+        {% if item.outcome == 'P' %}
         <td>
             <span class="badge success">
             {% blocktrans %}Passed{% endblocktrans %}
             </span></td>
         <td></td>
-        <td><a class="link" href={% url 'past_solutions' id=item.log.id %}>{% trans "See submitted solution" %}</a></td>
-        {% elif item.log.outcome == 'F' %}
+        <td><a class="link" href={% url 'past_solutions' id=item.id %}>{% trans "See submitted solution" %}</a></td>
+        {% elif item.outcome == 'F' %}
         <td>
             <span class="badge danger">
             {% blocktrans %}Failed{% endblocktrans %}
             </span></td>
-        <td>{{ item.error.0.0 }}</td>
-        <td><a class="link" href="{% url 'past_solutions' id=item.log.id %}">{% trans "See submitted solution" %}</a></td>
+        <td>{{ item.error.all.0 }}</td>
+        <td><a class="link" href="{% url 'past_solutions' id=item.id %}">{% trans "See submitted solution" %}</a></td>
         {% else %}
         <td>
             <span class="badge warning">

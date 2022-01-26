@@ -159,7 +159,7 @@ def save_user_log(request):
 @login_required
 def get_past_problems(request):
     logs = UserLog.objects.filter(user=request.user, 
-    timestamp__gte=request.user.userprofile.user_class.start_date).order_by('-timestamp')
+    user_class=request.user.userprofile.user_class).order_by('-timestamp')
     passed = logs.filter(outcome='P').values_list('problem_id', flat=True
                                                   ).distinct()
     skipped = logs.filter(outcome='S').values_list('problem_id', flat=True
@@ -196,6 +196,7 @@ def get_past_problems(request):
             problem_logs = logs.filter(problem=problem)
             comments = Comment.objects.filter(userlog__in=problem_logs).count()
             last = problem_logs.values_list('timestamp', flat=True)[0]
+            last = timezone.localtime(last)
             past_problems.append({'problem': problem,
                                   'chapter': problem_chapter,
                                   'comments': comments, 
@@ -209,46 +210,16 @@ def get_past_problems(request):
 @login_required
 def get_student_logs(request, id, chapter=None, problem=None):
     user = User.objects.get(pk=id)
+    LOGGER.debug("Getting logs for user %s", user)
     logs = UserLog.objects.filter(
-        user_id=id, timestamp__gte=user.userprofile.user_class.start_date)
+        user_id=id, user_class=user.userprofile.user_class).order_by('-timestamp')
     if chapter:
         logs = logs.filter(problem__chapter=chapter)
     if problem:
         logs = logs.filter(problem=problem)
-    past_problems = []
-    for log in logs.order_by('-timestamp'):
-        error = UserLogError.objects.filter(userlog=log).values_list('error')
-        past_problems.append({'log': log, 'error': error})
     return render(request, 'questions/student_logs.html', {
-        'title': user.first_name+' '+user.last_name, 'past_problems': past_problems, 'student': user})
+        'title': user.first_name+' '+user.last_name, 'past_problems': logs, 'student': user})
 
-@permission_required('questions.view_userlogview', raise_exception=True)
-def get_student_solutions(request, id, chapter):
-    student = User.objects.get(id=id)
-    chapter = Chapter.objects.get(id=chapter)
-    logs = UserLog.objects.filter(user=student, 
-                                  problem__chapter=chapter,
-                                  timestamp__gte=student.userprofile.user_class.start_date).order_by(
-                                                'problem__id',
-                                                '-timestamp').values('problem',
-                                                                     'solution',
-                                                                     'outcome',
-                                                                     'timestamp',
-                                                                     'test_case_hits',
-                                                                     'id')
-    problems = []
-    if logs.count():
-        current_problem = logs[0]["problem"]
-        problem = {'problem':Problem.objects.get(id=current_problem),'logs':[]}
-        for log in logs:
-            if log["problem"] != current_problem:
-                problems.append(problem)
-                current_problem = log["problem"]
-                problem = {'problem':Problem.objects.get(id=current_problem),'logs':[]}
-            problem['logs'].append(log)
-        problems.append(problem)
-    return render(request, 'questions/student_solutions.html', {'title':student.first_name+' '+student.last_name+' - '+chapter.label,
-                                                        'problems': problems})
 @login_required
 def get_chapter_problems(request):
     onlineclass = request.user.userprofile.user_class
@@ -298,10 +269,11 @@ def get_chapter_problems(request):
         })
 
 def get_past_solutions(request, problem_id):
+    LOGGER.debug("Getting solutions for problem %s", problem_id)
     problem = Problem.objects.get(id=problem_id)
     logs = UserLog.objects.filter(user=request.user,
                                   problem=problem,
-                                  timestamp__gte=request.user.userprofile.user_class.start_date).order_by('-timestamp')
+                                  user_class=request.user.userprofile.user_class).order_by('-timestamp')
     solutions = []
     for log in logs:
         comments = Comment.objects.filter(userlog=log)
@@ -489,8 +461,7 @@ def get_user_solution(request, id):
 
 @permission_required('questions.view_userlogview', raise_exception=True)
 def get_problem_solutions(request, problem_id, class_id):
-    logs = UserLog.objects.filter(timestamp__gte=request.user.userprofile.user_class.start_date,
-                user__userprofile__user_class=class_id,
+    logs = UserLog.objects.filter(user_class=class_id,
                 problem_id=problem_id).order_by('user__first_name',
                                                 'user__last_name',
                                                 'user_id',
@@ -527,10 +498,11 @@ def get_problem_solutions(request, problem_id, class_id):
 @permission_required('questions.view_userlogview', raise_exception=True)
 def get_student_solutions(request, id, chapter):
     student = User.objects.get(id=id)
+    LOGGER.debug("Getting logs for student %s", student)
     chapter = Chapter.objects.get(id=chapter)
     logs = UserLog.objects.filter(user=student,
                                   problem__chapter=chapter, 
-                                  timestamp__gte=student.userprofile.user_class.start_date).order_by(
+                                  user_class=student.userprofile.user_class).order_by(
                                                 'problem__id',
                                                 '-timestamp').values('problem',
                                                                      'solution',
