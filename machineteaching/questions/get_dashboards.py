@@ -109,7 +109,7 @@ def get_error_type_per_chapter(user, chapter, onlineclass):
 
 def get_on_time_exercises(user, chapters, onlineclass):
     on_time_list = []
-    for c in chapter:
+    for c in chapters:
         problems = Problem.objects.filter(chapter=c)
         deadline = Deadline.objects.filter(chapter=c,
                                         onlineclass=onlineclass).first().deadline

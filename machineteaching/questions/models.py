@@ -325,6 +325,12 @@ class DropOutModel(models.Model):
         verbose_name = _('Drop out model')
         verbose_name_plural = _('Drop out models')
 
+    def __unicode__(self):
+        return self.model_file
+
+    def __str__(self):
+        return "%s" % self.model_file
+
 
 @receiver(post_save, sender=User)
 def create_user_model(sender, instance, created, **kwargs):
