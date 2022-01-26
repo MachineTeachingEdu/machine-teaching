@@ -269,14 +269,14 @@ class UserModel(models.Model):
 
 
 class UserLogError(models.Model):
-    userlog = models.ForeignKey(UserLog, on_delete=models.CASCADE)
+    userlog = models.ForeignKey(UserLog, on_delete=models.CASCADE, related_name='error')
     error = models.CharField(max_length=255)
 
     def __unicode__(self):
-        return "%s: %s" % (self.userlog.user, self.error)
+        return "%s" % (self.error)
 
     def __str__(self):
-        return "%s: %s" % (self.userlog.user, self.error)
+        return "%s" % (self.error)
 
 
 class PageAccess(models.Model):
