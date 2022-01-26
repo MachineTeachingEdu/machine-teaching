@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-19 21:33-0300\n"
+"POT-Creation-Date: 2022-01-26 11:16-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -44,7 +44,8 @@ msgstr "Você teve alguma experiência com programação antes desse curso?"
 msgid "I accept the "
 msgstr "Eu aceito os "
 
-#: questions/forms.py:29 questions/templates/index.html:82
+#: questions/forms.py:29 questions/templates/503.html:42
+#: questions/templates/index.html:87
 #: questions/templates/questions/base.html:102
 #: questions/templates/registration/base.html:55
 #: questions/templates/registration/signup.html:122
@@ -55,7 +56,8 @@ msgstr "Termos e Condições"
 msgid "I've read the "
 msgstr "Eu li a "
 
-#: questions/forms.py:30 questions/templates/index.html:86
+#: questions/forms.py:30 questions/templates/503.html:46
+#: questions/templates/index.html:91
 #: questions/templates/questions/base.html:106
 #: questions/templates/registration/base.html:59
 #: questions/templates/registration/signup.html:127
@@ -70,7 +72,7 @@ msgstr "O endereço de email deve ser único."
 msgid "Invalid Class Code."
 msgstr "Código da turma inválido"
 
-#: questions/forms.py:56 questions/get_dashboards.py:168
+#: questions/forms.py:56 questions/get_dashboards.py:195
 #: questions/templates/questions/manager_dashboard.html:85
 #: questions/templates/questions/outcomes.html:13
 #: questions/templates/questions/solutions.html:13
@@ -78,13 +80,12 @@ msgstr "Código da turma inválido"
 msgid "Class"
 msgstr "Turma"
 
-#: questions/forms.py:57 questions/forms.py:163 questions/get_dashboards.py:347
-#: questions/get_dashboards.py:363 questions/get_dashboards.py:397
-#: questions/get_dashboards.py:442 questions/get_dashboards.py:458
-#: questions/get_dashboards.py:492 questions/get_dashboards.py:950
-#: questions/get_dashboards.py:967 questions/get_dashboards.py:1451
-#: questions/get_dashboards.py:1468 questions/models.py:31
-#: questions/templates/questions/class_dashboard.html:28
+#: questions/forms.py:57 questions/forms.py:163 questions/get_dashboards.py:383
+#: questions/get_dashboards.py:400 questions/get_dashboards.py:435
+#: questions/get_dashboards.py:475 questions/get_dashboards.py:493
+#: questions/get_dashboards.py:528 questions/get_dashboards.py:1484
+#: questions/get_dashboards.py:1501 questions/models.py:32
+#: questions/templates/questions/class_dashboard.html:66
 #: questions/templates/questions/manager_dashboard.html:28
 #: questions/templates/questions/new_problem.html:44
 #: questions/templates/questions/outcomes.html:17
@@ -118,19 +119,7 @@ msgstr "A data deve estar no formato \"yyyy-mm-dd\" e deve ser válida."
 msgid "The time must be in the format \"HH:MM\" and must be valid."
 msgstr "O horário deve estar no formato \"HH:MM\" e deve ser válido."
 
-#: questions/get_dashboards.py:115
-msgid "High"
-msgstr "Alto"
-
-#: questions/get_dashboards.py:117
-msgid "Medium"
-msgstr "Médio"
-
-#: questions/get_dashboards.py:119
-msgid "Low"
-msgstr "Baixo"
-
-#: questions/get_dashboards.py:124 questions/get_dashboards.py:1054
+#: questions/get_dashboards.py:148 questions/get_dashboards.py:1089
 #: questions/templates/questions/chapters.html:46
 #: questions/templates/questions/chapters.html:80
 #: questions/templates/questions/chapters.html:114
@@ -152,7 +141,7 @@ msgstr "Baixo"
 msgid "Passed"
 msgstr "Passou"
 
-#: questions/get_dashboards.py:124 questions/get_dashboards.py:1054
+#: questions/get_dashboards.py:148 questions/get_dashboards.py:1089
 #: questions/templates/questions/chapters.html:50
 #: questions/templates/questions/chapters.html:84
 #: questions/templates/questions/chapters.html:118
@@ -175,7 +164,7 @@ msgstr "Passou"
 msgid "Failed"
 msgstr "Falhou"
 
-#: questions/get_dashboards.py:124 questions/get_dashboards.py:1054
+#: questions/get_dashboards.py:148 questions/get_dashboards.py:1089
 #: questions/templates/questions/chapters.html:54
 #: questions/templates/questions/chapters.html:88
 #: questions/templates/questions/chapters.html:122
@@ -195,282 +184,252 @@ msgstr "Falhou"
 msgid "Skipped"
 msgstr "Pulou"
 
-#: questions/get_dashboards.py:124 questions/get_dashboards.py:1054
+#: questions/get_dashboards.py:148 questions/get_dashboards.py:1089
 msgid "No attempt"
 msgstr "Sem tentativa"
 
-#: questions/get_dashboards.py:164
+#: questions/get_dashboards.py:191
 #: questions/templates/questions/student_dashboard.html:30
 msgid "You"
 msgstr "Você"
 
-#: questions/get_dashboards.py:165
+#: questions/get_dashboards.py:192
 #: questions/templates/questions/student_dashboard.html:40
 msgid "Your class"
 msgstr "Sua turma"
 
-#: questions/get_dashboards.py:167
-#: questions/templates/questions/class_dashboard.html:85
+#: questions/get_dashboards.py:194
+#: questions/templates/questions/class_dashboard.html:32
 #: questions/templates/questions/class_dashboard.html:135
+#: questions/templates/questions/class_dashboard.html:185
 #: questions/templates/questions/outcomes.html:32
 #: questions/templates/questions/student_dashboard.html:28
 #: questions/templates/questions/student_solutions.html:8
 msgid "Student"
 msgstr "Aluno"
 
-#: questions/get_dashboards.py:347 questions/get_dashboards.py:363
+#: questions/get_dashboards.py:384 questions/get_dashboards.py:401
 #: questions/templates/questions/home.html:52
 #, fuzzy
 #| msgid "error"
 msgid "error(s)"
 msgstr "erro"
 
-#: questions/get_dashboards.py:404 questions/templates/questions/home.html:49
+#: questions/get_dashboards.py:442 questions/templates/questions/home.html:49
 #: questions/templates/questions/student_dashboard.html:50
 msgid "Errors"
 msgstr "Erros"
 
-#: questions/get_dashboards.py:442 questions/get_dashboards.py:458
+#: questions/get_dashboards.py:476 questions/get_dashboards.py:494
 #: questions/templates/questions/student_dashboard.html:91
 msgid "day(s)"
 msgstr "dia(s)"
 
-#: questions/get_dashboards.py:499
+#: questions/get_dashboards.py:535
 msgid "Time (days)"
 msgstr "Tempo (dias)"
 
-#: questions/get_dashboards.py:513 questions/templates/questions/base.html:33
-#: questions/views.py:468
+#: questions/get_dashboards.py:549 questions/templates/questions/base.html:33
+#: questions/views.py:441
 msgid "Outcomes"
 msgstr "Resultados"
 
-#: questions/get_dashboards.py:764 questions/get_dashboards.py:791
-#: questions/get_dashboards.py:815 questions/get_dashboards.py:847
-#: questions/get_dashboards.py:949 questions/get_dashboards.py:1256
-#: questions/get_dashboards.py:1283 questions/get_dashboards.py:1450
+#: questions/get_dashboards.py:810 questions/get_dashboards.py:838
+#: questions/get_dashboards.py:860 questions/get_dashboards.py:892
+#: questions/get_dashboards.py:1293 questions/get_dashboards.py:1321
+#: questions/get_dashboards.py:1482
 #: questions/templates/questions/past_problems.html:36
 msgid "Attempts"
 msgstr "Tentativas"
 
-#: questions/get_dashboards.py:764 questions/get_dashboards.py:815
-#: questions/get_dashboards.py:950 questions/get_dashboards.py:967
-#: questions/get_dashboards.py:1256 questions/get_dashboards.py:1451
-#: questions/get_dashboards.py:1468
+#: questions/get_dashboards.py:811 questions/get_dashboards.py:860
+#: questions/get_dashboards.py:1294 questions/get_dashboards.py:1484
+#: questions/get_dashboards.py:1502
 msgid "avg"
 msgstr "média"
 
-#: questions/get_dashboards.py:764 questions/get_dashboards.py:815
-#: questions/get_dashboards.py:966 questions/get_dashboards.py:1256
-#: questions/get_dashboards.py:1467
-#: questions/templates/questions/class_dashboard.html:64
+#: questions/get_dashboards.py:811 questions/get_dashboards.py:860
+#: questions/get_dashboards.py:1294 questions/get_dashboards.py:1500
+#: questions/templates/questions/class_dashboard.html:114
 #: questions/templates/questions/manager_dashboard.html:64
 #: questions/templates/questions/student_dashboard.html:80
 #: questions/templates/questions/student_dashboard.html:102
 msgid "Time"
 msgstr "Tempo"
 
-#: questions/get_dashboards.py:792 questions/get_dashboards.py:1284
+#: questions/get_dashboards.py:839 questions/get_dashboards.py:1322
 msgid "Time (minutes)"
 msgstr "Tempo (minutos)"
 
-#: questions/get_dashboards.py:815 questions/get_dashboards.py:848
-#: questions/templates/questions/class_dashboard.html:86
+#: questions/get_dashboards.py:859 questions/get_dashboards.py:893
+#: questions/templates/questions/class_dashboard.html:33
+#: questions/templates/questions/class_dashboard.html:136
 #: questions/templates/questions/manager_dashboard.html:86
 msgid "Solved problems"
 msgstr "Problemas resolvidos"
 
-#: questions/get_dashboards.py:1004 questions/get_dashboards.py:1505
-#: questions/templates/questions/class_dashboard.html:32
-#: questions/templates/questions/class_dashboard.html:89
+#: questions/get_dashboards.py:1539
+#: questions/templates/questions/class_dashboard.html:36
+#: questions/templates/questions/class_dashboard.html:70
+#: questions/templates/questions/class_dashboard.html:139
 #: questions/templates/questions/manager_dashboard.html:32
 #: questions/templates/questions/manager_dashboard.html:89
 msgid "Attempts per problem"
 msgstr "Tentativas por problema"
 
-#: questions/get_dashboards.py:1005 questions/get_dashboards.py:1506
+#: questions/get_dashboards.py:1541
 msgid "Time per problem (minutes)"
 msgstr "Tempo por problema (minutos)"
 
-#: questions/get_problem.py:52 questions/models.py:69
+#: questions/get_problem.py:52 questions/models.py:70
 msgid "Problem"
 msgstr "Problema"
 
-#: questions/models.py:32 questions/templates/questions/base.html:29
+#: questions/models.py:33 questions/templates/questions/base.html:29
 #: questions/templates/questions/base.html:48
-#: questions/templates/questions/class_dashboard.html:25
-#: questions/templates/questions/class_dashboard.html:57
+#: questions/templates/questions/class_dashboard.html:63
+#: questions/templates/questions/class_dashboard.html:106
 #: questions/templates/questions/classes.html:17
 #: questions/templates/questions/finished.html:11
 #: questions/templates/questions/manager_dashboard.html:25
 #: questions/templates/questions/manager_dashboard.html:57
 #: questions/templates/questions/show_class.html:8
 #: questions/templates/questions/student_dashboard.html:74
-#: questions/views.py:291
+#: questions/views.py:263
 msgid "Chapters"
 msgstr "Aulas"
 
-#: questions/models.py:70 questions/templates/questions/class_dashboard.html:16
+#: questions/models.py:71 questions/templates/questions/class_dashboard.html:17
 #: questions/templates/questions/manager_dashboard.html:16
 #: questions/templates/questions/show_chapter.html:7
 #: questions/templates/questions/student_dashboard.html:11
 msgid "Problems"
 msgstr "Problemas"
 
-#: questions/models.py:86
+#: questions/models.py:87
 msgid "Exercise Set"
 msgstr ""
 
-#: questions/models.py:87
+#: questions/models.py:88
 msgid "Exercises Sets"
 msgstr ""
 
-#: questions/models.py:99
+#: questions/models.py:100
 #, fuzzy
 #| msgid "Class"
 msgid "OnlineClass"
 msgstr "Turma"
 
-#: questions/models.py:100
+#: questions/models.py:101
 msgid "OnlineClasses"
 msgstr "Turmas"
 
-#: questions/models.py:117 questions/templates/questions/chapters.html:17
+#: questions/models.py:118 questions/templates/questions/chapters.html:17
 #: questions/templates/questions/home.html:66
 #: questions/templates/questions/show_chapter.html:74
 #: questions/templates/questions/show_class.html:12
 msgid "Deadline"
 msgstr "Entrega"
 
-#: questions/models.py:118
+#: questions/models.py:119
 msgid "Deadlines"
 msgstr "Prazos"
 
-#: questions/models.py:141
+#: questions/models.py:142
 msgid "Professors"
 msgstr "Professores"
 
-#: questions/models.py:171
+#: questions/models.py:172
 msgid "User profile"
 msgstr "Perfil do usuário"
 
-#: questions/models.py:172
+#: questions/models.py:173
 msgid "User profiles"
 msgstr "Perfis dos usuários"
 
-#: questions/models.py:206 questions/templates/questions/new_problem.html:62
+#: questions/models.py:207 questions/templates/questions/new_problem.html:62
 #: questions/templates/questions/past_solutions.html:47
-#: questions/templates/questions/student_logs.html:37 questions/views.py:486
+#: questions/templates/questions/student_logs.html:37 questions/views.py:459
 msgid "Solution"
 msgstr "Solução"
 
-#: questions/models.py:207 questions/templates/questions/past_problems.html:38
-#: questions/templates/questions/show_class.html:62
+#: questions/models.py:208 questions/templates/questions/past_problems.html:38
+#: questions/templates/questions/show_class.html:72
 #: questions/templates/questions/student_solutions.html:13
 msgid "Solutions"
 msgstr "Soluções"
 
-#: questions/models.py:216
+#: questions/models.py:217
 msgid "Test Case"
 msgstr "Caso de Teste"
 
-#: questions/models.py:217
+#: questions/models.py:218
 msgid "Test Cases"
 msgstr "Casos de Teste"
 
-#: questions/models.py:245
+#: questions/models.py:246
 msgid "User log"
 msgstr "Log do usuário"
 
-#: questions/models.py:246
+#: questions/models.py:247
 msgid "User logs"
 msgstr "Logs dos usuários"
 
-#: questions/models.py:288
+#: questions/models.py:289
 msgid "Page access"
 msgstr "Acesso"
 
-#: questions/models.py:289
+#: questions/models.py:290
 msgid "Page accesses"
 msgstr "Acessos"
 
-#: questions/models.py:298
+#: questions/models.py:299
 msgid "Interactive"
 msgstr ""
 
-#: questions/models.py:306
+#: questions/models.py:307
 msgid "Recommendations"
 msgstr "Recomendações"
 
-#: questions/models.py:315
+#: questions/models.py:316
 msgid "Comment"
 msgstr "Comentário"
 
-#: questions/templates/index.html:7 questions/templates/questions/base.html:26
+#: questions/models.py:325
+#, fuzzy
+#| msgid "Drop out risk"
+msgid "Drop out model"
+msgstr "Risco de abandono"
+
+#: questions/models.py:326
+#, fuzzy
+#| msgid "Drop out risk"
+msgid "Drop out models"
+msgstr "Risco de abandono"
+
+#: questions/templates/503.html:8 questions/templates/index.html:7
+#: questions/templates/questions/base.html:26
 msgid "Home"
 msgstr "Início"
 
-#: questions/templates/index.html:24
-#: questions/templates/questions/base.html:168
-#: questions/templates/registration/base.html:24
-msgid "Close"
-msgstr "Fechar"
-
-#: questions/templates/index.html:38
+#: questions/templates/503.html:28 questions/templates/index.html:43
 msgid "Welcome to "
 msgstr "Bem-vindo ao"
 
-#: questions/templates/index.html:41
-msgid "Start"
-msgstr "Começar"
-
-#: questions/templates/index.html:46
-#: questions/templates/registration/login.html:34
-#: questions/templates/registration/signup.html:7
-#: questions/templates/registration/signup.html:131 questions/views.py:97
-msgid "Create account"
-msgstr "Criar conta"
-
-#: questions/templates/index.html:50
-msgid "Watch "
-msgstr "Assista aos "
-
-#: questions/templates/index.html:50
-msgid "tutorials"
-msgstr "tutoriais"
-
-#: questions/templates/index.html:50
-msgid " on how to use Machine Teaching"
-msgstr " sobre como usar o Machine Teaching"
-
-#: questions/templates/index.html:51
-msgid "Our goals"
-msgstr "Nossos objetivos"
-
-#: questions/templates/index.html:56
-msgid "Understand students' learning processes "
-msgstr "Entender os processos de aprendizado dos alunos"
-
-#: questions/templates/index.html:62
-msgid "Improve teaching methodologies"
-msgstr "Melhorar metodologias de aprendizado"
-
-#: questions/templates/index.html:68
-msgid "Stimulate students to learn the Python language "
-msgstr "Estimular o aprendizado da linguagem Python"
-
-#: questions/templates/index.html:75 questions/templates/index.html:89
+#: questions/templates/503.html:35 questions/templates/503.html:49
+#: questions/templates/index.html:80 questions/templates/index.html:94
 #: questions/templates/questions/base.html:109
 #: questions/templates/registration/base.html:62
 msgid "About this research"
 msgstr "Sobre a pesquisa"
 
-#: questions/templates/index.html:80
+#: questions/templates/503.html:40 questions/templates/index.html:85
 #: questions/templates/questions/base.html:100
 #: questions/templates/registration/base.html:53
 msgid "Check the "
 msgstr "Veja os "
 
-#: questions/templates/index.html:84
+#: questions/templates/503.html:44 questions/templates/index.html:89
 #: questions/templates/questions/base.html:104
 #: questions/templates/registration/base.html:57
 #, fuzzy
@@ -478,7 +437,7 @@ msgstr "Veja os "
 msgid "and the "
 msgstr " e a "
 
-#: questions/templates/index.html:91
+#: questions/templates/503.html:51 questions/templates/index.html:96
 #: questions/templates/questions/base.html:114
 #: questions/templates/registration/base.html:64
 msgid ""
@@ -486,18 +445,63 @@ msgid ""
 "tech"
 msgstr ""
 
+#: questions/templates/index.html:29
+#: questions/templates/questions/base.html:173
+#: questions/templates/registration/base.html:24
+msgid "Close"
+msgstr "Fechar"
+
+#: questions/templates/index.html:46
+msgid "Start"
+msgstr "Começar"
+
+#: questions/templates/index.html:51
+#: questions/templates/registration/login.html:34
+#: questions/templates/registration/signup.html:7
+#: questions/templates/registration/signup.html:131 questions/views.py:98
+msgid "Create account"
+msgstr "Criar conta"
+
+#: questions/templates/index.html:55
+msgid "Watch "
+msgstr "Assista aos "
+
+#: questions/templates/index.html:55
+msgid "tutorials"
+msgstr "tutoriais"
+
+#: questions/templates/index.html:55
+msgid " on how to use Machine Teaching"
+msgstr " sobre como usar o Machine Teaching"
+
+#: questions/templates/index.html:56
+msgid "Our goals"
+msgstr "Nossos objetivos"
+
+#: questions/templates/index.html:61
+msgid "Understand students' learning processes "
+msgstr "Entender os processos de aprendizado dos alunos"
+
+#: questions/templates/index.html:67
+msgid "Improve teaching methodologies"
+msgstr "Melhorar metodologias de aprendizado"
+
+#: questions/templates/index.html:73
+msgid "Stimulate students to learn the Python language "
+msgstr "Estimular o aprendizado da linguagem Python"
+
 #: questions/templates/questions/base.html:27
 msgid "Current problem"
 msgstr "Problema atual"
 
-#: questions/templates/questions/base.html:28 questions/views.py:205
+#: questions/templates/questions/base.html:28 questions/views.py:207
 msgid "Past problems"
 msgstr "Problemas passados"
 
 #: questions/templates/questions/base.html:31
 #: questions/templates/questions/manager_dashboard.html:82
 #: questions/templates/questions/manager_dashboard.html:118
-#: questions/views.py:703
+#: questions/views.py:677
 msgid "Classes"
 msgstr "Turmas"
 
@@ -579,20 +583,68 @@ msgstr "Adicionar"
 msgid "Search"
 msgstr "Pesquisar"
 
-#: questions/templates/questions/class_dashboard.html:9
+#: questions/templates/questions/class_dashboard.html:10
 msgid "Class progress"
 msgstr "Progresso da turma"
 
-#: questions/templates/questions/class_dashboard.html:10
+#: questions/templates/questions/class_dashboard.html:11
 #: questions/templates/questions/manager_dashboard.html:10
 msgid "on all problems"
 msgstr "em todos os problemas"
 
-#: questions/templates/questions/class_dashboard.html:17
+#: questions/templates/questions/class_dashboard.html:18
 msgid "class performance by problem"
 msgstr "desempenho da turma por problema"
 
 #: questions/templates/questions/class_dashboard.html:29
+#: questions/templates/questions/class_dashboard.html:96
+#: questions/templates/questions/class_dashboard.html:132
+#: questions/templates/questions/class_dashboard.html:168
+#: questions/templates/questions/classes.html:17
+#: questions/templates/questions/show_class.html:65
+msgid "Students"
+msgstr "Alunos"
+
+#: questions/templates/questions/class_dashboard.html:34
+#: questions/templates/questions/class_dashboard.html:137
+#: questions/templates/questions/manager_dashboard.html:87
+msgid "Time per chapter (avg)"
+msgstr "Tempo por aula (média)"
+
+#: questions/templates/questions/class_dashboard.html:35
+#: questions/templates/questions/class_dashboard.html:138
+#: questions/templates/questions/manager_dashboard.html:88
+msgid "Delays"
+msgstr "Atrasos"
+
+#: questions/templates/questions/class_dashboard.html:37
+#: questions/templates/questions/class_dashboard.html:71
+#: questions/templates/questions/class_dashboard.html:102
+#: questions/templates/questions/class_dashboard.html:140
+#: questions/templates/questions/class_dashboard.html:174
+#: questions/templates/questions/manager_dashboard.html:33
+#: questions/templates/questions/manager_dashboard.html:90
+#: questions/templates/questions/manager_dashboard.html:124
+msgid "Time per problem (avg)"
+msgstr "Tempo por problema (média)"
+
+#: questions/templates/questions/class_dashboard.html:53
+#: questions/templates/questions/class_dashboard.html:85
+#: questions/templates/questions/class_dashboard.html:156
+#: questions/templates/questions/manager_dashboard.html:47
+#: questions/templates/questions/manager_dashboard.html:106
+msgid "days"
+msgstr "dias"
+
+#: questions/templates/questions/class_dashboard.html:56
+#: questions/templates/questions/class_dashboard.html:88
+#: questions/templates/questions/class_dashboard.html:159
+#: questions/templates/questions/manager_dashboard.html:50
+#: questions/templates/questions/manager_dashboard.html:109
+msgid "min"
+msgstr ""
+
+#: questions/templates/questions/class_dashboard.html:67
 #: questions/templates/questions/manager_dashboard.html:9
 #: questions/templates/questions/manager_dashboard.html:29
 #: questions/templates/questions/show_chapter.html:65
@@ -600,95 +652,57 @@ msgstr "desempenho da turma por problema"
 msgid "Progress"
 msgstr "Progresso"
 
-#: questions/templates/questions/class_dashboard.html:30
+#: questions/templates/questions/class_dashboard.html:68
 #: questions/templates/questions/manager_dashboard.html:30
 msgid "Time to finish (avg)"
 msgstr "Tempo (média)"
 
-#: questions/templates/questions/class_dashboard.html:31
+#: questions/templates/questions/class_dashboard.html:69
 #: questions/templates/questions/manager_dashboard.html:31
 msgid "Delays (students)"
 msgstr "Atrasos (alunos)"
 
-#: questions/templates/questions/class_dashboard.html:33
-#: questions/templates/questions/class_dashboard.html:90
-#: questions/templates/questions/class_dashboard.html:124
-#: questions/templates/questions/manager_dashboard.html:33
-#: questions/templates/questions/manager_dashboard.html:90
-#: questions/templates/questions/manager_dashboard.html:124
-msgid "Time per problem (avg)"
-msgstr "Tempo por problema (média)"
-
-#: questions/templates/questions/class_dashboard.html:47
-#: questions/templates/questions/class_dashboard.html:106
-#: questions/templates/questions/manager_dashboard.html:47
-#: questions/templates/questions/manager_dashboard.html:106
-msgid "days"
-msgstr "dias"
-
-#: questions/templates/questions/class_dashboard.html:50
-#: questions/templates/questions/class_dashboard.html:109
-#: questions/templates/questions/manager_dashboard.html:50
-#: questions/templates/questions/manager_dashboard.html:109
-msgid "min"
-msgstr ""
-
-#: questions/templates/questions/class_dashboard.html:58
-#: questions/templates/questions/manager_dashboard.html:58
-msgid "average attempts and time to complete a problem"
-msgstr "média de tentativas e tempo para acertar um problema"
-
-#: questions/templates/questions/class_dashboard.html:65
-#: questions/templates/questions/manager_dashboard.html:65
-msgid "to end a chapter"
-msgstr "para finalizar uma aula"
-
-#: questions/templates/questions/class_dashboard.html:69
-#: questions/templates/questions/manager_dashboard.html:69
-msgid "Not finished"
-msgstr "Não entregue"
-
-#: questions/templates/questions/class_dashboard.html:70
-#: questions/templates/questions/manager_dashboard.html:70
-msgid "Finished late"
-msgstr "Atraso"
-
-#: questions/templates/questions/class_dashboard.html:74
-#: questions/templates/questions/manager_dashboard.html:74
-msgid "max. time"
-msgstr "tempo máx."
-
-#: questions/templates/questions/class_dashboard.html:82
-#: questions/templates/questions/class_dashboard.html:118
-#: questions/templates/questions/classes.html:17
-#: questions/templates/questions/show_class.html:56
-msgid "Students"
-msgstr "Alunos"
-
-#: questions/templates/questions/class_dashboard.html:87
-#: questions/templates/questions/manager_dashboard.html:87
-msgid "Time per chapter (avg)"
-msgstr "Tempo por aula (média)"
-
-#: questions/templates/questions/class_dashboard.html:88
-#: questions/templates/questions/manager_dashboard.html:88
-msgid "Delays"
-msgstr "Atrasos"
-
-#: questions/templates/questions/class_dashboard.html:119
+#: questions/templates/questions/class_dashboard.html:97
+#: questions/templates/questions/class_dashboard.html:169
 #: questions/templates/questions/manager_dashboard.html:119
 msgid "solving problems performance"
 msgstr "desempenho resolvendo problemas"
 
-#: questions/templates/questions/class_dashboard.html:136
+#: questions/templates/questions/class_dashboard.html:107
+#: questions/templates/questions/manager_dashboard.html:58
+msgid "average attempts and time to complete a problem"
+msgstr "média de tentativas e tempo para acertar um problema"
+
+#: questions/templates/questions/class_dashboard.html:115
+#: questions/templates/questions/manager_dashboard.html:65
+msgid "to end a chapter"
+msgstr "para finalizar uma aula"
+
+#: questions/templates/questions/class_dashboard.html:119
+#: questions/templates/questions/manager_dashboard.html:69
+msgid "Not finished"
+msgstr "Não entregue"
+
+#: questions/templates/questions/class_dashboard.html:120
+#: questions/templates/questions/manager_dashboard.html:70
+msgid "Finished late"
+msgstr "Atraso"
+
+#: questions/templates/questions/class_dashboard.html:124
+#: questions/templates/questions/manager_dashboard.html:74
+msgid "max. time"
+msgstr "tempo máx."
+
+#: questions/templates/questions/class_dashboard.html:182
+#: questions/templates/questions/class_dashboard.html:187
+msgid "Drop out risk"
+msgstr "Risco de abandono"
+
+#: questions/templates/questions/class_dashboard.html:186
 #: questions/templates/registration/login.html:17
 #: questions/templates/registration/signup.html:42
 msgid "E-mail"
 msgstr ""
-
-#: questions/templates/questions/class_dashboard.html:137
-msgid "Drop out risk"
-msgstr "Risco de abandono"
 
 #: questions/templates/questions/classes.html:9
 msgid "Professor"
@@ -992,7 +1006,7 @@ msgstr "Data (yyyy-mm-dd)"
 msgid "Time (H:M)"
 msgstr "Hora (H:M)"
 
-#: questions/templates/questions/show_class.html:64
+#: questions/templates/questions/show_class.html:74
 #: questions/templates/questions/student_solutions.html:15
 msgid "Dashboard"
 msgstr ""
@@ -1191,35 +1205,44 @@ msgstr ""
 "númerica.\n"
 "                                "
 
-#: questions/views.py:137
+#: questions/views.py:138
 msgid "Finished"
 msgstr "Finalizado"
 
-#: questions/views.py:521
+#: questions/views.py:493
 #, fuzzy
 #| msgid "Solution"
 msgid "Problem solutions"
 msgstr "Solução"
 
-#: questions/views.py:551
+#: questions/views.py:524
 #, fuzzy
 #| msgid "Solution"
 msgid "Student solutions"
 msgstr "Solução"
 
-#: questions/views.py:638
+#: questions/views.py:611
 msgid "New problem"
 msgstr "Novo problema"
 
-#: questions/views.py:677
+#: questions/views.py:650
 #, fuzzy
 #| msgid "User profile"
 msgid "Edit profile"
 msgstr "Perfil do usuário"
 
-#: questions/views.py:851
+#: questions/views.py:834
 msgid "home"
 msgstr "início"
+
+#~ msgid "High"
+#~ msgstr "Alto"
+
+#~ msgid "Medium"
+#~ msgstr "Médio"
+
+#~ msgid "Low"
+#~ msgstr "Baixo"
 
 #, fuzzy
 #~| msgid "Switch to random mode to see new problems"
