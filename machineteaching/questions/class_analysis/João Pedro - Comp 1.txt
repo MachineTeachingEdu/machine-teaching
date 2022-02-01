@@ -1,0 +1,8 @@
+COMP 1
+Professor: Jo�o Pedro Freire (joaopedromts@icloud.com)
+
+Através da análise de dados da ferramenta Machine Teaching, foi identificado que os seguintes alunos estão em risco de abandono da disciplina Comp1:
+
+1. Aluno 2: nenhum exercício resolvido (joaopedro5@gmail.com)
+
+
