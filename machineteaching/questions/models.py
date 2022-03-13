@@ -11,7 +11,7 @@ import json
 from random import randint, SystemRandom
 import numpy as np
 from simple_history.models import HistoricalRecords
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 
 # Create your models here.
