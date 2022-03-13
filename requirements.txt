@@ -2,6 +2,7 @@ jupyter
 beautifulsoup4
 requests
 tqdm
+Cython
 django-extensions
 django
 psycopg2
@@ -17,3 +18,4 @@ django-import-export
 dash
 django-rest-framework
 statsmodels
+django-filter
