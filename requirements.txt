@@ -1,8 +1,9 @@
+Cython>=0.28.5
 jupyter
 beautifulsoup4
 requests
+gunicorn
 tqdm
-Cython
 django-extensions
 django
 psycopg2
