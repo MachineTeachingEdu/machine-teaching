@@ -1,5 +1,5 @@
 import dash
-import dash_html_components as html
+from dash import html
 import plotly.graph_objects as go
 import plotly.offline as opy
 from plotly.subplots import make_subplots
