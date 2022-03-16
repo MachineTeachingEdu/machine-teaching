@@ -31,6 +31,13 @@
               <a class="menu-item" href="{% url 'classes' %}">{% blocktrans %}Classes{% endblocktrans %}</a>
               {% endif %}
               <a class="menu-item" href="{% if perms.questions.view_userlogview %}{% url 'show_outcome' %}{% else %}{% url 'dashboard' %}{% endif %}">{% blocktrans %}Outcomes{% endblocktrans %}</a>
+              {% if perms.questions.view_userlogview %}
+              <!-- Forms for professors-->
+              <a class="menu-item" href="https://forms.gle/jvdqP1Vy8ULyLKBU6" target="_blank">Satisfaction Form</a>
+              {% else %}
+              <!-- Forms for students-->
+              <a class="menu-item" href="https://forms.gle/tgqFje6b57RXQ2359" target="_blank">Satisfaction Form</a>
+              {% endif %}
 
             </ul>
             <li class="menu-separator"></li>
@@ -45,7 +52,7 @@
 
             </ul>
             <li class="menu-separator"></li>
-            <div class="menu-title">{% blocktrans %}Chapters{% endblocktrans %}</div>
+            <div class="menu-title">{% blocktrans %}Chapters hehe{% endblocktrans %}</div>
             <ul class="menu">
 
               <!-- chapters -->
@@ -82,6 +89,17 @@
               <a class="link logout" href="{% url 'logout' %}" style="height: 2.2rem;">{% blocktrans %}Logout{% endblocktrans %}</a>
             </div></span>
           </div>
+        </div>
+
+        <!-- Banner with a link to answer the Satisfaction Form, to be used in the last part of the semester. -->
+        <div style='width: 100%;'>
+          {% if perms.questions.view_userlogview %}
+            <!-- Forms for professors-->
+          <a href="https://forms.gle/jvdqP1Vy8ULyLKBU6" target="_blank" class='link-to-forms'>Answer the professor satisfaction form!</a>
+          {% else %}
+            <!-- Forms for students-->
+          <a href="https://forms.gle/tgqFje6b57RXQ2359" target="_blank" class='link-to-forms'>Answer the student satisfaction form!</a>
+          {% endif %}
         </div>
 
         <!-- content --->
@@ -164,11 +182,15 @@
               const dcc = '{% static "img/logo/dcc.png" %}'
               const coppe = '{% static "img/logo/coppe.jpg" %}'
               const pesc = '{% static "img/logo/pesc.png" %}'
-              
+              const reditus = '{% static "img/logo/reditus.png" %}'
+              const unialcalá = '{% static "img/logo/unialcalá.png" %}'
+            
               const laura = '{% static "img/equipe/laura.png" %}'
               const carla = '{% static "img/equipe/carla.png" %}'
               const carlos = '{% static "img/equipe/carlos.png" %}'
               const joao = '{% static "img/equipe/joao.jpg" %}'
+              const hugo = '{% static "img/equipe/hugo.png" %}'
+              const gabriel = '{% static "img/equipe/gabriel.png" %}'
 
               const close = '{% blocktrans %}Close{% endblocktrans %}';
       </script>
@@ -196,14 +218,14 @@
               $("[name='sequential']").on('click', function(){
                   $.ajax({
                       type: "GET",
-                      url: '{% url 'update_strategy' %}',
+                      url: "{% url 'update_strategy' %}",
                       data: {
                 'sequential': $("[name='sequential']:checked").val(          )
                       },
                       dataType: 'json',
                       success: function(data){
                           console.log('status: ' + data['status']);
-                          window.location.href = '{% url 'start' %}';
+                          window.location.href = "{% url 'start' %}";
               
                       },
                       error: function (request, status, error) {
