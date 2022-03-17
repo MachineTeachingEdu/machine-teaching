@@ -44,6 +44,9 @@ RUN touch /opt/app/machineteaching/machineteaching/mt_dev.log
 
 # start server
 EXPOSE 8020
+RUN mkdir /var/www/machineteaching
+RUN mkdir /var/www/machineteaching/static/
+RUN python3 opt/app/machineteaching/manage.py collectstatic --noinput
 ENTRYPOINT [ "opt/app/init.sh" ]
 
 
