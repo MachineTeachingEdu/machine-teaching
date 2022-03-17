@@ -844,6 +844,10 @@ def start(request):
                                                    'failed': failed,
                                                    'skipped': skipped})
 
+# View to redirect to the satisfation form
+def satisfaction_form(request):
+    return render(request, 'questions/satisfaction_form.html')
+
 class AttemptsList(APIView):
     def get(self, request, format=None):
         date = request.query_params.get('date')
@@ -873,3 +877,4 @@ class Recommendations(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
