@@ -113,7 +113,6 @@ data/
 models/
 class_analysis/*/*
 
-settings.py
 db_*.json
 admin_*.json
 db_*.sql
