@@ -20,3 +20,4 @@ dash
 django-rest-framework
 statsmodels
 django-filter
+whitenoise

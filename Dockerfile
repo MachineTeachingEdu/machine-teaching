@@ -1,7 +1,7 @@
 FROM python:3.9.0-slim
 
+WORKDIR /app
 
-# install PostgreSQL drivers
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     apt-utils \
@@ -24,29 +24,8 @@ ADD requirements.txt .
 
 RUN pip install -r requirements.txt
 
-COPY nginx.default /etc/nginx/sites-available/default
+COPY machineteaching .
 
-# install nginx
-RUN ln -sf /dev/stdout /var/log/nginx/access.log \
-    && ln -sf /dev/stderr /var/log/nginx/error.log
+RUN python manage.py collectstatic --noinput
 
-ADD . .
-
-
-RUN mkdir -p /opt/app
-RUN mkdir -p /opt/app/machineteaching
-COPY requirements.txt init.sh opt/app/
-COPY machineteaching opt/app/machineteaching/
-RUN chmod  u+x  opt/app/init.sh
-RUN chown  -R www-data:www-data  opt/app
-
-RUN touch /opt/app/machineteaching/machineteaching/mt_dev.log
-
-# start server
-EXPOSE 8020
-RUN mkdir /var/www/machineteaching
-RUN mkdir /var/www/machineteaching/static/
-RUN python3 opt/app/machineteaching/manage.py collectstatic --noinput
-ENTRYPOINT [ "opt/app/init.sh" ]
-
-
+CMD gunicorn machineteaching.wsgi --bind 0.0.0.0:$PORT --workers 3
