@@ -10,19 +10,4 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='historicaluserprofile',
-            name='course',
-            field=models.CharField(max_length=200, null=True),
-        ),
-        migrations.AddField(
-            model_name='userlog',
-            name='test_case_hits',
-            field=models.IntegerField(blank=True, null=True),
-        ),
-        migrations.AddField(
-            model_name='userprofile',
-            name='course',
-            field=models.CharField(max_length=200, null=True),
-        ),
     ]
