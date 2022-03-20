@@ -1,10 +1,7 @@
 
 
-build:
-	docker build . --tag machineteaching_default
-
-run:
-	docker run -it -p 8020:8020 machineteaching_default
+up:
+	docker-compose up
 
 deploy:
 	heroku container:push web --app machine-teaching-ufrj
