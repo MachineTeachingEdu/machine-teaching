@@ -1,0 +1,10 @@
+version: "3.7"
+services:
+  machine_teaching_db:
+    image: postgres:9.6
+    environment:
+      - POSTGRES_USER=dev_user
+      - POSTGRES_PASSWORD=secure_password
+      - POSTGRES_DB=machine_teaching_db
+    ports:
+      - 5432:5432
