@@ -1,4 +1,6 @@
-FROM python:3.9.0-slim
+FROM python:3.9.0-slim as base
+
+RUN echo "Creating base Image"
 
 WORKDIR /app
 
@@ -9,8 +11,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     unixodbc-dev \
     gcc \
-    nginx \
-    vim \
     gnupg && \
     echo 'deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main' >> /etc/apt/sources.list.d/pgdg.list && \
     curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
@@ -26,6 +26,15 @@ RUN pip install -r requirements.txt
 
 COPY machineteaching .
 
-RUN python manage.py collectstatic --noinput
+COPY init.sh .
 
-CMD gunicorn machineteaching.wsgi --bind 0.0.0.0:$PORT --workers 3
+ARG ENVIRONMENT=PROD
+ENV ENVIRONMENT=${ENVIRONMENT}
+
+## Add the wait script to the image
+ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.9.0/wait /wait
+RUN chmod +x /wait
+RUN ["chmod", "+x", "/app/init.sh"]
+
+ENTRYPOINT ["/app/init.sh" ]
+

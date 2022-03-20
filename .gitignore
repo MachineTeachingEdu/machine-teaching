@@ -131,3 +131,5 @@ machineteaching/similarity\.pkl
 *.bkp
 machineteaching/questions/.DS_Store
 machineteaching/machineteaching/maintenance_mode_state.txt
+
+staticfiles
