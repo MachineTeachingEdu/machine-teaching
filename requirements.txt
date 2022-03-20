@@ -5,7 +5,7 @@ requests
 gunicorn
 tqdm
 django-extensions
-django
+django==2.2.5
 psycopg2
 django-picklefield
 numpy
@@ -21,3 +21,4 @@ django-rest-framework
 statsmodels
 django-filter
 whitenoise
+python-dotenv
