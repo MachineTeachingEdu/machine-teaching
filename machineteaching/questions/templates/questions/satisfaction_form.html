@@ -16,9 +16,9 @@
     </style>
     <div style="width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: space-around; align-items: center;">
         {% if perms.questions.view_userlogview %}
-           <iframe class='iframeForms' src="https://forms.gle/jvdqP1Vy8ULyLKBU6">Loading...</iframe>
+           <iframe class='iframeForms' src="https://forms.gle/jvdqP1Vy8ULyLKBU6">{% blocktrans %}Loading...{% endblocktrans %}</iframe>
         {% else %}
-            <iframe class='iframeForms' src="https://forms.gle/tgqFje6b57RXQ2359">Loading...</iframe>
+            <iframe class='iframeForms' src="https://forms.gle/tgqFje6b57RXQ2359">{% blocktrans %}Loading...{% endblocktrans %}</iframe>
         {% endif %}
     </div>
 {% endblock %}

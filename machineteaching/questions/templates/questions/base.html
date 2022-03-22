@@ -43,7 +43,7 @@
               <a class="menu-item" href="{% url 'classes' %}">{% blocktrans %}Classes{% endblocktrans %}</a>
               {% endif %}
               <a class="menu-item" href="{% if perms.questions.view_userlogview %}{% url 'show_outcome' %}{% else %}{% url 'dashboard' %}{% endif %}">{% blocktrans %}Outcomes{% endblocktrans %}</a>
-              <a class="menu-item" href="{% url 'satisfaction_form' %}" target="_blank">Satisfaction Form</a>
+              <a class="menu-item" href="{% url 'satisfaction_form' %}" target="_blank">{% blocktrans %}Satisfaction Form{% endblocktrans %}</a>
            
 
             </ul>
@@ -100,7 +100,7 @@
 
         <!-- Banner with a link to answer the Satisfaction Form, to be used in the last part of the semester. -->
         <div style='width: 100%;'>
-          <a href="{% url 'satisfaction_form' %}" target="_blank" class='link-to-forms'>Answer the satisfaction form!</a>
+          <a href="{% url 'satisfaction_form' %}" target="_blank" class='link-to-forms'>{% blocktrans %}Answer the satisfaction form!{% endblocktrans %}</a>
         </div>
 
         <!-- content --->
