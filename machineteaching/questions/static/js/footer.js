@@ -748,6 +748,13 @@ Laura O. Moraes, Carlos Eduardo Pedreira (2021). Clustering Introductory Compute
     <strong>Gabriel Xará</strong> é aluno do curso de Engenharia de Computação. Se aproximou do projeto por conta de seu interesse no ensino de programação. É responsável por auxiliar na parte de infraestrutura do Machine Teaching, e também por implementar ações que garantam integração e entrega contínua aos desenvolvedores do projeto.
     </td>
 </tr>
+<tr>
+    <td style="padding: 15px 10px 15px 30px; width: 260px; height: 260px;">
+    <img src="${arthur}" style="width: 200px; height: 200px; overflow: hidden; border-radius: 100%" />
+    </td>
+    <td style="padding: 30px">
+    <strong>Arthur Sasse</strong> é aluno de Ciência da Computação da UFRJ. Começou no projeto adaptando questões de Cálculo Numérico para a plataforma. Atualmente faz TCC na área de IA, focado na análise da similaridade entre os códigos submetidos pelos estudantes no Machine Teaching.
+    </td>
 </table>
 
 
