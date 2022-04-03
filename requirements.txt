@@ -1,19 +1,14 @@
 Cython>=0.28.5
-jupyter
 beautifulsoup4
 requests
 gunicorn
-tqdm
 django-extensions
 django==2.2.5
 psycopg2
 django-picklefield
 numpy
-scikit-learn==0.22.1
 matplotlib
 pandas
-seaborn
-jupyter
 django-simple-history
 django-import-export
 dash
@@ -22,3 +17,4 @@ statsmodels
 django-filter
 whitenoise
 python-dotenv
+Werkzeug==2.0.0
