@@ -884,7 +884,7 @@ class Recommendations(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 def send_comment_email(student, comment, link):
-    solution_link = f'http://127.0.0.1:8000{link}'
+    solution_link = f'http://machineteaching.tech{link}'
     student_email = student.email
     message_subject = f'Comentário adicionado ao exercício "{comment.userlog.problem.title}"'
     message_content = f'{student.first_name} {student.last_name}, foi adicionado um comentário no seu exercício "{comment.userlog.problem.title}". \n\n Professor: {comment.user} \n Comentário: {comment.content} \n\n Veja aqui: {solution_link}'
