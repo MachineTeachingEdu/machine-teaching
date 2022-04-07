@@ -494,9 +494,9 @@ input:hover, textarea:hover {
 input:focus, textarea:focus {
     border-color: #2196F3;
 }
-textarea {
+/* textarea {
     padding: 
-}
+} */
 input[type="checkbox"] {
     border-radius: 5px;
     width: 1rem !important;
@@ -2080,3 +2080,17 @@ input:checked + .slider:before {
     background: rgba(0,0,0,0);
     box-shadow: inset 0px 0px 0px 0px #F0F0F0;
     }
+
+.link-to-forms {
+    color: white; 
+    text-decoration: none; 
+    font-size: 0.8rem; 
+    width: 100%; 
+    height: 30px; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    cursor: pointer;
+    background-color: #1B71D6;
+
+}

@@ -528,21 +528,40 @@ function showPrivacy(language) {
 	$('.bg2 .card div').append(content);
 };
 
-var logos = `<div class="logos">
-             <a href="http://ufrj.br/">
-             <img src="${ufrj}"></a>
-             <a href="http://cnpq.br/">
-             <img src="${cnpq}"></a>
-             <a href="http://faperj.br/">
-             <img src="${faperj}"></a>
-             <br>
-             <a href="http://dcc.ufrj.br/">
-             <img src="${dcc}"></a>
-             <a href="http://coppe.ufrj.br/">
-             <img src="${coppe}"></a>
-             <a href="http://cos.ufrj.br/">
-             <img src="${pesc}"></a>
-             <br><br></div>`
+var logos = `<div class="logos" style="display: flex; align-items: center; flex-direction: column;">
+                <div style="display: flex; flex-direction: row; width: 100%; justify-content: space-around;">
+                    <a href="http://ufrj.br/">
+                    <img src="${ufrj}"></a>
+                    <a href="http://cnpq.br/">
+                    <img src="${cnpq}"></a>
+                </div>
+                <div style="display: flex; flex-direction: row; width: 100%; justify-content: space-around;">
+                    <a href="http://faperj.br/">
+                    <img src="${faperj}"></a>
+                    <a href="http://dcc.ufrj.br/">
+                    <img src="${dcc}"></a>
+                    <a href="http://coppe.ufrj.br/">
+                    <img src="${coppe}"></a>
+                </div>
+                <div style="display: flex; flex-direction: row; width: 100%; justify-content: space-around;">
+                    <a href="http://cos.ufrj.br/">
+                    <img src="${pesc}"></a>
+                    <a href="https://www.reditus.org.br">
+                    <img src="${reditus}"></a>
+                </div>
+             <br><br>
+             </div>`
+
+var universidades = `
+        <div class="logos" style="display: flex; align-items: center; flex-direction: column;">
+            <div style="display: flex; flex-direction: row; width: 100%; justify-content: space-around;">
+                <a href="http://ufrj.br/">
+                <img src="${ufrj}"></a>
+                <a href="https://www.uah.es/es/">
+                <img src="${unialcalá}"></a>
+            </div>
+        </div>
+        `
 
 
 function showAbout(language) {
@@ -624,7 +643,12 @@ Laura O. Moraes, Carlos Eduardo Pedreira (2021). Clustering Introductory Compute
 
 
         <h3>Support</h3><br>
-        ${logos}`
+        ${logos}
+        
+        <h3>Universities using this research</h3><br>
+        ${universidades}`
+
+        
     }
     else {
         var title = "Sobre a pesquisa"
@@ -708,13 +732,38 @@ Laura O. Moraes, Carlos Eduardo Pedreira (2021). Clustering Introductory Compute
     <td style="padding: 30px">
     <strong>João Pedro Freire</strong> é aluno do curso de Estatística da UFRJ. Começou no projeto como aluno, utilizando o sistema Machine Teaching durante o curso de introdução a programação. Após a finalização do curso, se voluntariou para incorporar melhorias e avançar o sistema com novas funcionalidades. Atualmente é aluno de Iniciação Científica com bolsa do CNPq neste projeto.
     </td>
+</tr><tr>
+    <td style="padding: 15px 10px 15px 30px; width: 260px; height: 260px;">
+    <img src="${hugo}" style="width: 200px; height: 200px; overflow: hidden; border-radius: 100%" />
+    </td>
+    <td style="padding: 30px">
+    <strong>Hugo Folloni</strong> é aluno de Ciência da Computação da UFRJ. Tem grande interesse por educação voltada a tecnologia e enxergou no projeto uma chance de unir seu interesse à sua formação, participando do processo seletivo e trabalhando com as áreas de funcionalidades e infraestrutura da plataforma. Atualmente, é aluno de Iniciação Científica do projeto com bolsa privada.
+    </td>
 </tr>
+<tr>
+    <td style="padding: 15px 10px 15px 30px; width: 260px; height: 260px;">
+    <img src="${gabriel}" style="width: 200px; height: 200px; overflow: hidden; border-radius: 100%" />
+    </td>
+    <td style="padding: 30px">
+    <strong>Gabriel Xará</strong> é aluno do curso de Engenharia de Computação. Se aproximou do projeto por conta de seu interesse no ensino de programação. É responsável por auxiliar na parte de infraestrutura do Machine Teaching, e também por implementar ações que garantam integração e entrega contínua aos desenvolvedores do projeto.
+    </td>
+</tr>
+<tr>
+    <td style="padding: 15px 10px 15px 30px; width: 260px; height: 260px;">
+    <img src="${arthur}" style="width: 200px; height: 200px; overflow: hidden; border-radius: 100%" />
+    </td>
+    <td style="padding: 30px">
+    <strong>Arthur Sasse</strong> é aluno de Ciência da Computação da UFRJ. Começou no projeto adaptando questões de Cálculo Numérico para a plataforma. Atualmente faz TCC na área de IA, focado na análise da similaridade entre os códigos submetidos pelos estudantes no Machine Teaching.
+    </td>
 </table>
 
 
 
         <h3>Apoio</h3><br>
-        ${logos}`
+        ${logos}
+        
+        <h3>Universidades que utilizam o projeto</h3><br>
+        ${universidades}`
     }
 
 	showBox()

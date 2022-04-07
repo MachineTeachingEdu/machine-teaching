@@ -34,6 +34,9 @@ from questions.get_dashboards import student_dashboard, class_dashboard, manager
 from questions.get_dashboards import *
 from questions.strategies import STRATEGIES_FUNC
 import csv
+from django.conf import settings
+from django.core.mail import send_mail
+
 
 LOGGER = logging.getLogger(__name__)
 
@@ -451,7 +454,9 @@ def get_user_solution(request, id):
         if form.is_valid():
             comment = form.save(commit=False)
             comment.user = request.user
-            comment.userlog = userlog
+            comment.userlog = userlog 
+            student = User.objects.get(pk=userlog.user_id)
+            send_comment_email(student, comment, request.path)
             comment.save()
             return redirect('past_solutions', id=userlog.id)
     else:
@@ -844,6 +849,10 @@ def start(request):
                                                    'failed': failed,
                                                    'skipped': skipped})
 
+# View to redirect to the satisfation form
+def satisfaction_form(request):
+    return render(request, 'questions/satisfaction_form.html')
+
 class AttemptsList(APIView):
     def get(self, request, format=None):
         date = request.query_params.get('date')
@@ -873,3 +882,19 @@ class Recommendations(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+def send_comment_email(student, comment, link):
+    solution_link = f'http://machineteaching.tech{link}'
+    student_email = student.email
+    message_subject = f'Comentário adicionado ao exercício "{comment.userlog.problem.title}"'
+    message_content = f'{student.first_name} {student.last_name}, foi adicionado um comentário no seu exercício "{comment.userlog.problem.title}". \n\n Professor: {comment.user} \n Comentário: {comment.content} \n\n Veja aqui: {solution_link}'
+    message_html = f"""
+        <div style='display: grid; grid-auto-flow: row; padding: 20px; width: 400px; height: 300px; background-color: #ffffff; border-radius: 10px;'>
+            <h4 style='color: #292929; grid-column: 1;'> {student.first_name} {student.last_name}, foi adicionado um comentário no seu exercício "{comment.userlog.problem.title}".</h4> 
+            <p style='color: #292929; margin-left: 20px; font-weight: 300; grid-column: 2;'> <strong>Professor:</strong> {comment.user} </p> 
+            <p style='color: #292929; margin-left: 20px; font-weight: 300; grid-column: 3;'> <strong>Comentário:</strong> {comment.content}</p>
+            <div style="grid-column: 4; width: 100%; height: 100%;">
+                <a href='{solution_link}' style='font-weight: 300; margin-left: 40%; width: 20%; height: 50%; padding: 0.5rem 1rem; justify-content: center; align-items: center; border-radius: 4px; text-decoration: none; color: white; background-color: #2196F3'>Veja aqui</a>            
+            </div>
+        </div>"""
+    send_mail(message_subject, message_content, None, [student_email], fail_silently=False, html_message=message_html)

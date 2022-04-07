@@ -55,4 +55,7 @@ urlpatterns = [
 
     # DEBUG PURPOSES
     path('<int:problem_id>/', views.show_problem, name='show_problem'),
+
+    # View to redirect to embed form
+    path('satisfaction_form', views.satisfaction_form, name='satisfaction_form'),
 ]

@@ -115,6 +115,8 @@ function evaluate(args, func, expected_results){
 
     };
 
+    runhiddentests(func);
+
     $('#run').show();
     $('.loader').hide();
     $('.loader div').attr('style', 'width: 0;');
