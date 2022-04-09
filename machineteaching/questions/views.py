@@ -884,17 +884,17 @@ class Recommendations(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 def send_comment_email(student, comment, link):
-    solution_link = f'http://machineteaching.tech{link}'
+    solution_link = 'http://machineteaching.tech{}'.format(link)
     student_email = student.email
-    message_subject = f'Comentário adicionado ao exercício "{comment.userlog.problem.title}"'
-    message_content = f'{student.first_name} {student.last_name}, foi adicionado um comentário no seu exercício "{comment.userlog.problem.title}". \n\n Professor: {comment.user} \n Comentário: {comment.content} \n\n Veja aqui: {solution_link}'
-    message_html = f"""
+    message_subject = 'Comentário adicionado ao exercício "{}"'.format(comment.userlog.problem.title)
+    message_content = '{} {}, foi adicionado um comentário no seu exercício "{}". \n\n Professor: {} \n Comentário: {} \n\n Veja aqui: {}'.format(student.first_name, student.last_name, comment.userlog.problem.title, comment.user, comment.content, solution_link)
+    message_html = """
         <div style='display: grid; grid-auto-flow: row; padding: 20px; width: 400px; height: 300px; background-color: #ffffff; border-radius: 10px;'>
-            <h4 style='color: #292929; grid-column: 1;'> {student.first_name} {student.last_name}, foi adicionado um comentário no seu exercício "{comment.userlog.problem.title}".</h4> 
-            <p style='color: #292929; margin-left: 20px; font-weight: 300; grid-column: 2;'> <strong>Professor:</strong> {comment.user} </p> 
-            <p style='color: #292929; margin-left: 20px; font-weight: 300; grid-column: 3;'> <strong>Comentário:</strong> {comment.content}</p>
+            <h4 style='color: #292929; grid-column: 1;'> {} {}, foi adicionado um comentário no seu exercício "{}".</h4> 
+            <p style='color: #292929; margin-left: 20px; font-weight: 300; grid-column: 2;'> <strong>Professor:</strong> {} </p> 
+            <p style='color: #292929; margin-left: 20px; font-weight: 300; grid-column: 3;'> <strong>Comentário:</strong> {}</p>
             <div style="grid-column: 4; width: 100%; height: 100%;">
-                <a href='{solution_link}' style='font-weight: 300; margin-left: 40%; width: 20%; height: 50%; padding: 0.5rem 1rem; justify-content: center; align-items: center; border-radius: 4px; text-decoration: none; color: white; background-color: #2196F3'>Veja aqui</a>            
+                <a href='{}' style='font-weight: 300; margin-left: 40%; width: 20%; height: 50%; padding: 0.5rem 1rem; justify-content: center; align-items: center; border-radius: 4px; text-decoration: none; color: white; background-color: #2196F3'>Veja aqui</a>            
             </div>
-        </div>"""
+        </div>""".format(student.first_name, student.last_name, comment.userlog.problem.title, comment.user, comment.content, solution_link)
     send_mail(message_subject, message_content, None, [student_email], fail_silently=False, html_message=message_html)
