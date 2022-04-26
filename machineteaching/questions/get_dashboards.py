@@ -241,7 +241,7 @@ def student_dashboard(user, professor=False):
         progress = round(100*UserLogView.objects.filter(user=user,
                                                         problem__in=chapter_problems,
                                                         final_outcome='P',
-                                                        timestamp__gte=onlineclass.start_date).count()/chapter_problems.count())
+                                                        user_class=onlineclass).count()/chapter_problems.count())
 
         logs = UserLog.objects.filter(user=user,
                                       problem__in=chapter_problems,
