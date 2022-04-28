@@ -17,12 +17,11 @@ def count_on_time_exercises(user, chapters, onlineclass):
                                                     timestamp__gte=onlineclass.start_date,
                                                     timestamp__lte=deadline)
         on_time_list.append(on_time_exercises.count())
-    return on_time_list
+    return sum(on_time_list)
 
 
 
-# classes = [119,102,103,97,99,100,101,104,109,110,98,112,113,115,117]
-classes = [1]
+classes = [119,102,103,97,99,100,101,104,109,110,98,112,113,115,117]
 
 for id in classes:
     onlineclass = OnlineClass.objects.get(pk=id)
@@ -39,7 +38,7 @@ for id in classes:
     i=1
     for student in students:
         predict = predict_drop_out(student.id, onlineclass, datetime(2022,2,1))
-        on_time_exercises = count_on_time_exercises(student, [43,44], onlineclass)
+        on_time_exercises = count_on_time_exercises(student, [17,19], onlineclass)
         if predict < 7:
             writer.writerow([student.userprofile.user_class.name,student.first_name,predict,on_time_exercises])
             i+=1
