@@ -8,15 +8,18 @@ from questions.get_dashboards import predict_drop_out
 def count_on_time_exercises(user, chapters, onlineclass):
     on_time_list = []
     for c in chapters:
-        problems = Problem.objects.filter(chapter=c)
-        deadline = Deadline.objects.filter(chapter=c,
-                                        onlineclass=onlineclass).first().deadline
-        on_time_exercises = UserLogView.objects.filter(user=user,
-                                                    problem__in=problems,
-                                                    final_outcome='P',
-                                                    timestamp__gte=onlineclass.start_date,
-                                                    timestamp__lte=deadline)
-        on_time_list.append(on_time_exercises.count())
+        try:
+            problems = Problem.objects.filter(chapter=c)
+            deadline = Deadline.objects.filter(chapter=c,
+                                            onlineclass=onlineclass).first().deadline
+            on_time_exercises = UserLogView.objects.filter(user=user,
+                                                        problem__in=problems,
+                                                        final_outcome='P',
+                                                        timestamp__gte=onlineclass.start_date,
+                                                        timestamp__lte=deadline)
+            on_time_list.append(on_time_exercises.count())
+        except:
+            pass
     return sum(on_time_list)
 
 
