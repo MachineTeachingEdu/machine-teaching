@@ -39,8 +39,11 @@ for id in classes:
     for student in students:
         predict = predict_drop_out(student.id, onlineclass, datetime(2022,2,1))
         on_time_exercises = count_on_time_exercises(student, [17,19], onlineclass)
-        if predict < 7:
-            writer.writerow([student.userprofile.user_class.name,student.first_name,predict,on_time_exercises])
-            i+=1
+        try:
+            if predict < 7:
+                writer.writerow([student.userprofile.user_class.name,student.first_name,predict,on_time_exercises])
+                i+=1
+        except:
+            pass
             
 f.close()
