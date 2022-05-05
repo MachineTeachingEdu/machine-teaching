@@ -12,6 +12,7 @@ from random import randint, SystemRandom
 import numpy as np
 from simple_history.models import HistoricalRecords
 from django.utils.translation import ugettext_lazy as _
+from functools import wraps
 
 
 # Create your models here.
@@ -390,7 +391,21 @@ def delete_professor_group(sender, instance, **kwargs):
     instance.user.save()
 
 
+def disable_for_loaddata(signal_handler):
+    """
+    Decorator that turns off signal handlers when loading fixture data.
+    """ 
+
+    @wraps(signal_handler)
+    def wrapper(*args, **kwargs):
+        if kwargs.get('raw'):
+            return
+        signal_handler(*args, **kwargs)
+    return wrapper
+
+
 @receiver(post_save, sender=Problem)
+@disable_for_loaddata
 def create_test_cases(sender, instance, created, **kwargs):
     # If generate test case is provided with the Problem, generate and
     # save the test cases
@@ -417,7 +432,6 @@ def create_test_cases(sender, instance, created, **kwargs):
                 test_case.problem = instance
                 test_case.content = json.dumps(item)
                 test_case.save()
-
 
 @receiver(post_save, sender=UserLog)
 def create_userlog_error(sender, instance, created, **kwargs):
