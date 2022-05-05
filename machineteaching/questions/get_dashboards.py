@@ -122,10 +122,10 @@ def get_on_time_exercises(user, chapters, onlineclass):
     return [on_time_list]
 
 
-def predict_drop_out(user, onlineclass):
+def predict_drop_out(user, onlineclass, date):
     # Get last completed chapter and model
     completed_chapter = Deadline.objects.filter(onlineclass=onlineclass,
-                                                deadline__lte=datetime.now()).order_by('deadline').last().chapter
+                                                deadline__lte=date).order_by('deadline').last().chapter
     model = completed_chapter.drop_out_model
     try:
         chapters = model.completed_chapter.all()
