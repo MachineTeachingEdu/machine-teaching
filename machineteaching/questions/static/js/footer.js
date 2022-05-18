@@ -529,13 +529,13 @@ function showPrivacy(language) {
 };
 
 var logos = `<div class="logos" style="display: flex; align-items: center; flex-direction: column;">
-                <div style="display: flex; flex-direction: row; width: 100%; justify-content: space-around;">
+                <div class="logos-row">
                     <a href="http://ufrj.br/">
                     <img src="${ufrj}"></a>
                     <a href="http://cnpq.br/">
                     <img src="${cnpq}"></a>
                 </div>
-                <div style="display: flex; flex-direction: row; width: 100%; justify-content: space-around;">
+                <div class="logos-row">
                     <a href="http://faperj.br/">
                     <img src="${faperj}"></a>
                     <a href="http://dcc.ufrj.br/">
@@ -543,7 +543,7 @@ var logos = `<div class="logos" style="display: flex; align-items: center; flex-
                     <a href="http://coppe.ufrj.br/">
                     <img src="${coppe}"></a>
                 </div>
-                <div style="display: flex; flex-direction: row; width: 100%; justify-content: space-around;">
+                <div class="logos-row">
                     <a href="http://cos.ufrj.br/">
                     <img src="${pesc}"></a>
                     <a href="https://www.reditus.org.br">
@@ -554,7 +554,7 @@ var logos = `<div class="logos" style="display: flex; align-items: center; flex-
 
 var universidades = `
         <div class="logos" style="display: flex; align-items: center; flex-direction: column;">
-            <div style="display: flex; flex-direction: row; width: 100%; justify-content: space-around;">
+            <div class="logos-row">
                 <a href="http://ufrj.br/">
                 <img src="${ufrj}"></a>
                 <a href="https://www.uah.es/es/">

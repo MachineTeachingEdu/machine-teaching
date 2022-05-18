@@ -957,7 +957,7 @@ msgstr "Casos de teste"
 #, fuzzy
 #| msgid "Test cases"
 msgid "Hidden test cases"
-msgstr "Casos de teste"
+msgstr "Casos de teste ocultos"
 
 #: .\questions\templates\questions\past_solutions.html:94
 msgid "Your answer"

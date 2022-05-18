@@ -604,7 +604,7 @@ def class_dashboard(onlineclass):
     for student in students:
         # students progress
 
-        passed, failed, skipped = get_logs_distribution([student], chapter_problems, onlineclass)
+        passed, failed, skipped = get_logs_distribution([student], problems, onlineclass)
 
         user_passed = round(percentage(passed.count(), problems.count()))
 

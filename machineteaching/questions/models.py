@@ -333,8 +333,21 @@ class DropOutModel(models.Model):
     def __str__(self):
         return "%s" % self.model_file
 
+def disable_for_loaddata(signal_handler):
+    """
+    Decorator that turns off signal handlers when loading fixture data.
+    """ 
+
+    @wraps(signal_handler)
+    def wrapper(*args, **kwargs):
+        if kwargs.get('raw'):
+            return
+        signal_handler(*args, **kwargs)
+    return wrapper
+
 
 @receiver(post_save, sender=User)
+@disable_for_loaddata
 def create_user_model(sender, instance, created, **kwargs):
     if created:
         # Create profile
@@ -351,6 +364,7 @@ def create_user_model(sender, instance, created, **kwargs):
 
 
 @receiver(post_save, sender=UserProfile)
+@disable_for_loaddata
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         # Generate data for the random fields of UserProfile
@@ -362,6 +376,7 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 
 @receiver(post_save, sender=OnlineClass)
+@disable_for_loaddata
 def create_class_code(sender, instance, created, **kwargs):
     if created:
         # Generate random string code to identify OnlineClass
@@ -372,6 +387,7 @@ def create_class_code(sender, instance, created, **kwargs):
 
 
 @receiver(post_save, sender=Professor)
+@disable_for_loaddata
 def add_professor_group(sender, instance, created, **kwargs):
     # Add as Professor group
     group = Group.objects.get(name="Professor")
@@ -391,20 +407,8 @@ def delete_professor_group(sender, instance, **kwargs):
     instance.user.save()
 
 
-def disable_for_loaddata(signal_handler):
-    """
-    Decorator that turns off signal handlers when loading fixture data.
-    """ 
-
-    @wraps(signal_handler)
-    def wrapper(*args, **kwargs):
-        if kwargs.get('raw'):
-            return
-        signal_handler(*args, **kwargs)
-    return wrapper
-
-
 @receiver(post_save, sender=Problem)
+@disable_for_loaddata
 @disable_for_loaddata
 def create_test_cases(sender, instance, created, **kwargs):
     # If generate test case is provided with the Problem, generate and
@@ -434,6 +438,7 @@ def create_test_cases(sender, instance, created, **kwargs):
                 test_case.save()
 
 @receiver(post_save, sender=UserLog)
+@disable_for_loaddata
 def create_userlog_error(sender, instance, created, **kwargs):
     if instance.outcome == 'F' and instance.console != '':
         user_errors = instance.console.split('\n')
