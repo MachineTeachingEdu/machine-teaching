@@ -253,6 +253,8 @@ class UserLogView(models.Model):
     final_outcome = models.CharField(max_length=2)
     timestamp = models.DateTimeField()
     user_class = models.ForeignKey(OnlineClass, on_delete=models.PROTECT)
+    seconds_in_code = models.IntegerField()
+    seconds_in_page = models.IntegerField()
 
     class Meta:
         managed = False
