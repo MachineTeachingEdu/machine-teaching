@@ -11,20 +11,18 @@ from django.core.exceptions import PermissionDenied
 from django.db.models.functions import Lower
 from django.utils import timezone
 from django.utils.translation import gettext as _
-from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import PermissionDenied
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 # import random
 import json
-from functools import wraps
 import time
 from datetime import datetime
 from statistics import mean
 from questions.models import (Problem, Solution, UserLog, UserProfile,
                               Professor, OnlineClass, UserLogView, Chapter,
-                              Deadline, UserLogError, ExerciseSet, Recommendations, Comment)
+                              Deadline, ExerciseSet, Recommendations, Comment)
 from questions.forms import (UserLogForm, SignUpForm, OutcomeForm, ChapterForm,
                              ProblemForm, SolutionForm, PageAccessForm, InteractiveForm,
                              EditProfileForm, NewClassForm, DeadlineForm, CommentForm)
@@ -36,30 +34,10 @@ from questions.strategies import STRATEGIES_FUNC
 import csv
 from django.conf import settings
 from django.core.mail import send_mail
+from decorators import must_be_yours
 
 
 LOGGER = logging.getLogger(__name__)
-
-# Custom decorator
-def must_be_yours(model=None):
-    def decorator(view_func):
-        @wraps(view_func)
-        def _wrapped_view(request, *args, **kwargs):
-            # user = request.user
-            # print user.id
-            pk = kwargs["id"]
-            obj = model.objects.get(pk=pk)
-            # Must be yours or from your student
-            is_professor = Professor.objects.filter(user=request.user)
-            LOGGER.info("Logged user is professor: %s" % bool(is_professor))
-            # Test if user is professor and if student is in his/her class
-            user_professor = is_professor and (obj.user.userprofile.user_class in is_professor[0].prof_class.all())
-            LOGGER.info("Logged user is student professor: %s" % bool(user_professor))
-            if not (obj.user == request.user) and not user_professor:
-                raise PermissionDenied
-            return view_func(request, *args, **kwargs)
-        return _wrapped_view
-    return decorator
 
 
 # Create your views here.
@@ -873,7 +851,7 @@ class AttemptsList(APIView):
 
 class Recommendations(APIView):
     def get(self, request, format=None):
-        recommendations = RecommendationsModel.objects.all()
+        recommendations = Recommendations.objects.all()
         serializer = RecommendationSerializer(recommendations, many=True)
         return Response(serializer.data)
     def post(self, request, format=None):

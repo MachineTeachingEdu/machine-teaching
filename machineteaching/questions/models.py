@@ -12,8 +12,7 @@ from random import randint, SystemRandom
 import numpy as np
 from simple_history.models import HistoricalRecords
 from django.utils.translation import ugettext_lazy as _
-from functools import wraps
-
+from decorators import disable_for_loaddata
 
 # Create your models here.
 class Chapter(models.Model):
@@ -335,18 +334,6 @@ class DropOutModel(models.Model):
     def __str__(self):
         return "%s" % self.model_file
 
-def disable_for_loaddata(signal_handler):
-    """
-    Decorator that turns off signal handlers when loading fixture data.
-    """ 
-
-    @wraps(signal_handler)
-    def wrapper(*args, **kwargs):
-        if kwargs.get('raw'):
-            return
-        signal_handler(*args, **kwargs)
-    return wrapper
-
 
 @receiver(post_save, sender=User)
 @disable_for_loaddata
@@ -410,7 +397,6 @@ def delete_professor_group(sender, instance, **kwargs):
 
 
 @receiver(post_save, sender=Problem)
-@disable_for_loaddata
 @disable_for_loaddata
 def create_test_cases(sender, instance, created, **kwargs):
     # If generate test case is provided with the Problem, generate and
