@@ -34,7 +34,7 @@ from questions.strategies import STRATEGIES_FUNC
 import csv
 from django.conf import settings
 from django.core.mail import send_mail
-from decorators import must_be_yours
+from questions.decorators import must_be_yours
 
 
 LOGGER = logging.getLogger(__name__)
