@@ -373,6 +373,9 @@ textarea::-moz-selection { background: #B5DCFF; }
     align-items: center;
     -ms-flex-pack: justify;
     justify-content: space-between;
+    width: 100vw;
+    position: fixed;
+    bottom: 0;
 }
 .footer-left {
     text-transform: uppercase;
@@ -650,7 +653,8 @@ option {
 }
 .container {
     background-color: rgb(246,246,246);
-    height: calc(100% - 30rem);
+    /* height: calc(100% - 30rem); */
+    height: 60%;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -735,6 +739,7 @@ option {
 }
 .bg2 .card {
     width: 70%;
+    height: 90%;
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
@@ -742,7 +747,9 @@ option {
 .popup-content {
     padding: 1rem;
     overflow-y: auto;
-    max-height: 40rem;
+    height: 95%;
+    width: 100%;
+    overflow-x: hidden;
 }
 .bg2 .card div a {
     text-decoration: underline;
@@ -794,10 +801,12 @@ option {
     position: absolute;
     top: 5rem;
     left: 0;
+    
 }
 .signup .card {
     width: 40%;
     padding: 1rem 0 1rem 0;
+    margin-top: 2rem;
 }
 .form input {
     margin-bottom: 1rem;
@@ -1730,6 +1739,13 @@ input:checked + .slider:before {
 }
 
 
+.logos-row {
+    display: flex; 
+    flex-direction: row; 
+    width: 100%; 
+    justify-content: space-around;
+}
+
 
 
 
@@ -1864,10 +1880,11 @@ input:checked + .slider:before {
         align-items: flex-start;
     }
     .bg2 .card {
-        height: calc(100% - 4.5rem);
-        width: 100%;
+        height: calc(100% - 8rem);
+        margin: 1.5rem;
+        width: 80%;
         border-radius: 0;
-        padding: 1rem 0;
+        padding: 1rem 1rem;
     }
 
     /* chapter page */
@@ -1884,6 +1901,142 @@ input:checked + .slider:before {
     .dashboard-item .card {
         margin: 0 !important;
     }
+
+    .bg2 table tr {
+        display: flex;
+        flex-direction: column;
+        margin: 15px 0;
+    }
+
+    .logos-row{
+        flex-direction: column;
+        align-items: center;
+    }
+}
+@media only screen and (max-width: 1200px) {
+    .signup{
+        height: 100vh;
+    }
+
+    .signup .card {
+        width: 70%;
+        height: fit-content;
+        /* padding: 10px; */
+        font-size: 24px;
+    }
+
+    .form {
+        display: flex;
+        flex-direction: column;
+        /* justify-content: space-around; */
+        /* align-items: center; */
+        font-size: 30px;
+        width: 100%; 
+        height: 100%;
+        
+    }
+
+    .form div{
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+    
+        justify-content: space-around;
+        align-items: center;
+    }
+
+
+    .signup  .form .col-6{
+        width: 90% !important;
+    }
+
+    .signup  .form .col-12{
+        width: 90% !important;
+        font-size: 20px;
+    }
+
+    .signup .form input{
+        width: 500px;
+        height: 40px;
+        font-size: 25px;
+        margin-top: 20px;
+    }
+
+    .signup .form select{
+        width: 500px;
+        height: 45px;
+        font-size: 25px;
+        margin-top: 20px;
+    }
+
+    .signup .form #text {
+        width: 100%;
+        height: 45px;
+
+    }
+
+    .signup .form div #text {
+        width: 100%;
+        height: 50px;
+        margin-top: 20px;
+        font-size: 30px;
+    }
+
+    .signup  .form .programming{
+        width: 90% !important;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+    }
+
+    .form .programming select {
+        width: 40%;
+    }
+
+    .signup  .form .terms{
+        width: 90% !important;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .signup .terms div {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-around;
+    }
+
+    .signup .terms div input{
+        margin: 100px;
+    }
+
+    .login .card {
+        height: 40vh;
+        width: 80vw;
+    }
+
+    .login form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .login form input {
+        width: 80%;
+        height: 10%;
+        margin-top: 40px;
+        font-size: 32px;
+    }
+    .login form button {
+        width: 70%;
+        margin-top: 40px;
+        height: 150%;
+    }
+
+    .container a button {
+        margin-top: 40px;
+    }
+
 }
 
 

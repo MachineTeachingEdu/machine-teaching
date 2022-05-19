@@ -29,15 +29,15 @@ def get_logs_distribution(user, problems, onlineclass):
     passed = UserLogView.objects.filter(user__in=user,
                                         problem__in=problems,
                                         final_outcome='P',
-                                        timestamp__gte=onlineclass.start_date)
+                                        user_class=onlineclass)
     failed = UserLogView.objects.filter(user__in=user,
                                         problem__in=problems,
                                         final_outcome='F',
-                                        timestamp__gte=onlineclass.start_date)
+                                        user_class=onlineclass)
     skipped = UserLogView.objects.filter(user__in=user,
                                          problem__in=problems,
                                          final_outcome='S',
-                                         timestamp__gte=onlineclass.start_date)
+                                         user_class=onlineclass)
     return passed, failed, skipped
 
 
@@ -238,10 +238,9 @@ def student_dashboard(user, professor=False):
     for chapter in chapters:
         chapter_problems = problems.filter(chapter=chapter)
 
-        progress = round(100*UserLogView.objects.filter(user=user,
-                                                        problem__in=chapter_problems,
-                                                        final_outcome='P',
-                                                        user_class=onlineclass).count()/chapter_problems.count())
+        passed, failed, skipped = get_logs_distribution([user], chapter_problems, onlineclass)
+
+        progress = round(percentage(passed.count(), chapter_problems.count()))
 
         logs = UserLog.objects.filter(user=user,
                                       problem__in=chapter_problems,
@@ -604,15 +603,15 @@ def class_dashboard(onlineclass):
     matrix2 = []
     for student in students:
         # students progress
-        user_passed = round(100*UserLogView.objects.filter(user=student,
-                                                           problem__in=problems,
-                                                           final_outcome='P').count()/problems.count())
-        user_skipped = round(100*UserLogView.objects.filter(user=student,
-                                                            problem__in=problems,
-                                                            final_outcome='S').count()/problems.count())
-        user_failed = round(100*UserLogView.objects.filter(user=student,
-                                                           problem__in=problems,
-                                                           final_outcome='F').count()/problems.count())
+
+        passed, failed, skipped = get_logs_distribution([student], problems, onlineclass)
+
+        user_passed = round(percentage(passed.count(), problems.count()))
+
+        user_skipped = round(percentage(skipped.count(), problems.count()))
+
+        user_failed = round(percentage(failed.count(), problems.count()))
+        
 
         chapter_times = []
         delays = 0
