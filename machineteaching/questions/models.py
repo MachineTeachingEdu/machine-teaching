@@ -12,7 +12,7 @@ from random import randint, SystemRandom
 import numpy as np
 from simple_history.models import HistoricalRecords
 from django.utils.translation import ugettext_lazy as _
-from decorators import disable_for_loaddata
+from questions.decorators import disable_for_loaddata
 
 # Create your models here.
 class Chapter(models.Model):
