@@ -11,8 +11,8 @@ import json
 from random import randint, SystemRandom
 import numpy as np
 from simple_history.models import HistoricalRecords
-from django.utils.translation import gettext_lazy as _
-
+from django.utils.translation import ugettext_lazy as _
+from questions.decorators import disable_for_loaddata
 
 # Create your models here.
 class Chapter(models.Model):
@@ -252,6 +252,9 @@ class UserLogView(models.Model):
     problem = models.ForeignKey(Problem, on_delete=models.PROTECT)
     final_outcome = models.CharField(max_length=2)
     timestamp = models.DateTimeField()
+    user_class = models.ForeignKey(OnlineClass, on_delete=models.PROTECT)
+    seconds_in_code = models.IntegerField()
+    seconds_in_page = models.IntegerField()
 
     class Meta:
         managed = False
@@ -333,6 +336,7 @@ class DropOutModel(models.Model):
 
 
 @receiver(post_save, sender=User)
+@disable_for_loaddata
 def create_user_model(sender, instance, created, **kwargs):
     if created:
         # Create profile
@@ -349,6 +353,7 @@ def create_user_model(sender, instance, created, **kwargs):
 
 
 @receiver(post_save, sender=UserProfile)
+@disable_for_loaddata
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         # Generate data for the random fields of UserProfile
@@ -360,6 +365,7 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 
 @receiver(post_save, sender=OnlineClass)
+@disable_for_loaddata
 def create_class_code(sender, instance, created, **kwargs):
     if created:
         # Generate random string code to identify OnlineClass
@@ -370,6 +376,7 @@ def create_class_code(sender, instance, created, **kwargs):
 
 
 @receiver(post_save, sender=Professor)
+@disable_for_loaddata
 def add_professor_group(sender, instance, created, **kwargs):
     # Add as Professor group
     group = Group.objects.get(name="Professor")
@@ -390,6 +397,7 @@ def delete_professor_group(sender, instance, **kwargs):
 
 
 @receiver(post_save, sender=Problem)
+@disable_for_loaddata
 def create_test_cases(sender, instance, created, **kwargs):
     # If generate test case is provided with the Problem, generate and
     # save the test cases
@@ -417,8 +425,8 @@ def create_test_cases(sender, instance, created, **kwargs):
                 test_case.content = json.dumps(item)
                 test_case.save()
 
-
 @receiver(post_save, sender=UserLog)
+@disable_for_loaddata
 def create_userlog_error(sender, instance, created, **kwargs):
     if instance.outcome == 'F' and instance.console != '':
         user_errors = instance.console.split('\n')

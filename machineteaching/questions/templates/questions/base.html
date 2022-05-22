@@ -16,6 +16,18 @@
       <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}" />
       <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
+      <!-- Adding support to LaTeX-->
+      <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+      </script>
+      <script>
+        MathJax = {
+          tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']]
+          }
+        };
+        </script>
+
     </head>
     <body>
         <div class="sidebar"><a href="http://machineteaching.tech" class="brand">Machine Teaching</a>
@@ -31,7 +43,10 @@
               <a class="menu-item" href="{% url 'classes' %}">{% blocktrans %}Classes{% endblocktrans %}</a>
               {% endif %}
               <a class="menu-item" href="{% if perms.questions.view_userlogview %}{% url 'show_outcome' %}{% else %}{% url 'dashboard' %}{% endif %}">{% blocktrans %}Outcomes{% endblocktrans %}</a>
-
+              {% if SHOW_SATISFACTION_FORM %}
+              <a class="menu-item" href="{% url 'satisfaction_form' %}" target="_blank">{% blocktrans %}Satisfaction Form{% endblocktrans %}</a>
+              {% endif %}
+        
             </ul>
             <li class="menu-separator"></li>
             <div class="menu-title">{% blocktrans %}Strategy{% endblocktrans %}</div>
@@ -83,6 +98,13 @@
             </div></span>
           </div>
         </div>
+
+        <!-- Banner with a link to answer the Satisfaction Form, to be used in the last part of the semester. -->
+        {% if SHOW_SATISFACTION_FORM %}
+        <div style='width: 100%;'>
+          <a href="{% url 'satisfaction_form' %}" target="_blank" class='link-to-forms'>{% blocktrans %}Answer the satisfaction form!{% endblocktrans %}</a>
+        </div>
+        {% endif %}
 
         <!-- content --->
         <div class="layout-content">
@@ -164,11 +186,16 @@
               const dcc = '{% static "img/logo/dcc.png" %}'
               const coppe = '{% static "img/logo/coppe.jpg" %}'
               const pesc = '{% static "img/logo/pesc.png" %}'
-              
+              const reditus = '{% static "img/logo/reditus.png" %}'
+              const unialcalá = '{% static "img/logo/unialcalá.png" %}'
+            
               const laura = '{% static "img/equipe/laura.png" %}'
               const carla = '{% static "img/equipe/carla.png" %}'
               const carlos = '{% static "img/equipe/carlos.png" %}'
               const joao = '{% static "img/equipe/joao.jpg" %}'
+              const hugo = '{% static "img/equipe/hugo.png" %}'
+              const gabriel = '{% static "img/equipe/gabriel.png" %}'
+              const arthur = '{% static "img/equipe/arthur.png" %}'
 
               const close = '{% blocktrans %}Close{% endblocktrans %}';
       </script>
@@ -196,14 +223,14 @@
               $("[name='sequential']").on('click', function(){
                   $.ajax({
                       type: "GET",
-                      url: '{% url 'update_strategy' %}',
+                      url: "{% url 'update_strategy' %}",
                       data: {
                 'sequential': $("[name='sequential']:checked").val(          )
                       },
                       dataType: 'json',
                       success: function(data){
                           console.log('status: ' + data['status']);
-                          window.location.href = '{% url 'start' %}';
+                          window.location.href = "{% url 'start' %}";
               
                       },
                       error: function (request, status, error) {

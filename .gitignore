@@ -111,6 +111,7 @@ bbc/
 hmm*/
 data/
 models/
+class_analysis/
 
 db_*.json
 db_*.sql
