@@ -90,6 +90,8 @@ def signup(request):
                 class_code=form.cleaned_data.get('class_code'))
             user.userprofile.user_class = user_class
             user.userprofile.course = form.cleaned_data.get('course')
+            user.userprofile.university = form.cleaned_data.get('university')
+            user.userprofile.registration = form.cleaned_data.get('registration')
             user.userprofile.save()
             username = form.cleaned_data.get('email')
             raw_password = form.cleaned_data.get('password1')
