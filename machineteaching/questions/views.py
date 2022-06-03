@@ -11,20 +11,18 @@ from django.core.exceptions import PermissionDenied
 from django.db.models.functions import Lower
 from django.utils import timezone
 from django.utils.translation import gettext as _
-from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import PermissionDenied
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 # import random
 import json
-from functools import wraps
 import time
 from datetime import datetime
 from statistics import mean
 from questions.models import (Problem, Solution, UserLog, UserProfile,
                               Professor, OnlineClass, UserLogView, Chapter,
-                              Deadline, UserLogError, ExerciseSet, Recommendations, Comment)
+                              Deadline, ExerciseSet, Recommendations, Comment)
 from questions.forms import (UserLogForm, SignUpForm, OutcomeForm, ChapterForm,
                              ProblemForm, SolutionForm, PageAccessForm, InteractiveForm,
                              EditProfileForm, NewClassForm, DeadlineForm, CommentForm)
@@ -36,11 +34,13 @@ from questions.strategies import STRATEGIES_FUNC
 import csv
 from django.conf import settings
 from django.core.mail import send_mail
+from functools import wraps
 
 
 LOGGER = logging.getLogger(__name__)
 
-# Custom decorator
+
+# Custom decorator, has to be in views.py file because it creates a circular import
 def must_be_yours(model=None):
     def decorator(view_func):
         @wraps(view_func)
@@ -886,7 +886,7 @@ class AttemptsList(APIView):
 
 class Recommendations(APIView):
     def get(self, request, format=None):
-        recommendations = RecommendationsModel.objects.all()
+        recommendations = Recommendations.objects.all()
         serializer = RecommendationSerializer(recommendations, many=True)
         return Response(serializer.data)
     def post(self, request, format=None):

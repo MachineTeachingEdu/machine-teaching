@@ -111,6 +111,7 @@ bbc/
 hmm*/
 data/
 models/
+class_analysis/
 
 settings.py
 db_*.json
