@@ -632,6 +632,17 @@ def save_access(request):
     return JsonResponse({'status': 'failed'})
 
 @login_required
+def save_university(request):
+    university = request.GET['university']
+    registration = request.GET['registration']
+    user = UserProfile.objects.get(user=request.user)
+    user.university = university
+    user.registration = registration
+    user.save()
+    return JsonResponse({'status': 'success'})
+
+
+@login_required
 def save_interactive(request):
     form = InteractiveForm(request.POST)
     if form.is_valid():
