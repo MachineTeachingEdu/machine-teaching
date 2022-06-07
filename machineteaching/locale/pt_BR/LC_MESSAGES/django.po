@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-04 12:11-0300\n"
+"POT-Creation-Date: 2022-06-07 12:17-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -332,7 +332,8 @@ msgstr "Turma"
 msgid "OnlineClasses"
 msgstr "Turmas"
 
-#: .\questions\models.py:118 .\questions\templates\questions\chapters.html:19
+#: .\questions\models.py:118 .\questions\templates\questions\chapters.html:18
+#: .\questions\templates\questions\chapters.html:19
 #: .\questions\templates\questions\home.html:66
 #: .\questions\templates\questions\show_chapter.html:74
 #: .\questions\templates\questions\show_class.html:12
@@ -596,7 +597,9 @@ msgstr "Adicione sua matrícula"
 msgid "Add chapter"
 msgstr "Adicionar aula"
 
+#: .\questions\templates\questions\chapters.html:14
 #: .\questions\templates\questions\chapters.html:15
+#: .\questions\templates\questions\show_class.html:30
 #: .\questions\templates\questions\student_dashboard.html:78
 msgid "Name"
 msgstr "Nome"

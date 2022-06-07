@@ -371,8 +371,8 @@ def show_outcome(request):
             problems = list(problems_all.values_list('id', flat=True))
             # Get latest student outcome for every student in class
             students = UserLogView.objects.filter(
-                user__userprofile__user_class=onlineclass,
-                problem_id__in=problems, timestamp__gte=onlineclass.start_date
+                user_class_id=onlineclass,
+                problem_id__in=problems
             ).order_by(Lower('user__first_name').asc(),
                        Lower('user__last_name').asc(),
                        'user_id',

@@ -27,7 +27,7 @@
                 {% for message in form.chapter.errors %}
                 <span id="error">{{ message }}</span></br>
                 {% endfor %}
-                <h4>Name</h4>
+                <h4>{% blocktrans %}Name{% endblocktrans %}</h4>
                 <select name="{{ form.chapter.name }}" id="id_chapter" required="required" style="width: 100%; margin-bottom: 1rem;">
                     {% for item in form.chapter.field.choices %}
                     <option value="{{ item.0 }}" {% if item.0 == chapter %}selected{% endif %}>{{ item.1 }}</option>
