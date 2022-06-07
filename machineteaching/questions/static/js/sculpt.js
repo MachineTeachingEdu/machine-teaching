@@ -113,15 +113,14 @@ function evaluate(args, func, expected_results){
         save_log('F', seconds_in_code, seconds_to_begin, seconds_in_page, hits);
     };
 
-    };
-
-    runhiddentests(func);
-
+    }
+     
     $('#run').show();
     $('.loader').hide();
     $('.loader div').attr('style', 'width: 0;');
 
 };
+
 // Here's everything you need to run a python program in skulpt
 // grab the code from your textarea
 // get a reference to your pre element for output
