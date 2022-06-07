@@ -85,7 +85,7 @@ for id in classes:
                                  aula_5,
                                  on_time_5,
                                  aula_6,
-                                 on_time_6
+                                 on_time_6,
                                  aula_7,
                                  on_time_7])
                 i+=1
