@@ -5,7 +5,7 @@
 {% block content %}
           <div class="signup">
           <h2>{% blocktrans %}Create account{% endblocktrans %}</h2>
-            <div class="card" style="margin-top: 2rem;">
+            <div class="card">
                 <form method="post" action="{% url 'signup' %}" class="form">
                     {% csrf_token %}
                     <div>
@@ -133,8 +133,8 @@
                     </div>
                 </form>
             </div>
-            <a href="{% url 'login' %}">
-            <button class="btn">{% blocktrans %}Login{% endblocktrans %}</button></a>
+            <a href="{% url 'login' %}" style='margin-bottom: 30px;'>
+            <button class="btn" style='margin-bottom: 30px;'>{% blocktrans %}Login{% endblocktrans %}</button></a>
           </div>
         </div>
       </div>

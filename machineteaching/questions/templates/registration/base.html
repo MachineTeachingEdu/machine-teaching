@@ -8,7 +8,8 @@
         <meta charset="utf-8">
 
         <!-- stylesheets -->
-        <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}" />
+        <!-- <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}" /> -->
+        <link rel="stylesheet" href="/static/css/styles.css?{% now 'U' %}"/>
         <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
         <!-- scripts -->
@@ -20,7 +21,17 @@
               const dcc = '{% static "img/logo/dcc.png" %}'
               const coppe = '{% static "img/logo/coppe.jpg" %}'
               const pesc = '{% static "img/logo/pesc.png" %}'
-              
+              const reditus = '{% static "img/logo/reditus.png" %}'
+              const unialcalá = '{% static "img/logo/unialcalá.png" %}'
+            
+              const laura = '{% static "img/equipe/laura.png" %}'
+              const carla = '{% static "img/equipe/carla.png" %}'
+              const carlos = '{% static "img/equipe/carlos.png" %}'
+              const joao = '{% static "img/equipe/joao.jpg" %}'
+              const hugo = '{% static "img/equipe/hugo.png" %}'
+              const gabriel = '{% static "img/equipe/gabriel.png" %}'
+              const arthur = '{% static "img/equipe/arthur.png" %}'
+
               const close = '{% blocktrans %}Close{% endblocktrans %}';
         </script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
