@@ -3,8 +3,8 @@ beautifulsoup4
 requests
 gunicorn
 django-extensions
-django==2.2.5
-psycopg2
+django==3.2.13
+psycopg2==2.8.6
 django-picklefield
 numpy
 matplotlib
@@ -18,3 +18,5 @@ django-filter
 whitenoise
 python-dotenv
 Werkzeug==2.0.0
+locust
+# apache-skywalking[http]
