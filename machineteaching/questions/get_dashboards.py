@@ -123,11 +123,11 @@ def get_on_time_exercises(user, chapters, onlineclass):
 
 
 def predict_drop_out(user, onlineclass, date):
-    # Get last completed chapter and model
-    completed_chapter = Deadline.objects.filter(onlineclass=onlineclass,
-                                                deadline__lte=date).order_by('deadline').last().chapter
-    model = completed_chapter.drop_out_model
     try:
+        # Get last completed chapter and model
+        completed_chapter = Deadline.objects.filter(onlineclass=onlineclass,
+                                                deadline__lte=date).order_by('deadline').last().chapter
+        model = completed_chapter.drop_out_model
         chapters = model.completed_chapter.all()
         # Open model file
         with open(model.model_file, "rb") as pklfile:

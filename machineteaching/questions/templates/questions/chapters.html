@@ -11,9 +11,11 @@
         <form action="{% url 'new_chapter' %}" method="POST">
             {% csrf_token %}
             <div class="col-8">
+                <h4>{% blocktrans %}Name{% endblocktrans %}</h4>
                 <input type="text" name="label" placeholder="{% blocktrans %}Name{% endblocktrans %}" required="">
             </div>
             <div class="col-4">
+                <h4>{% blocktrans %}Deadline{% endblocktrans %}</h4>
                 <input type="date" name="deadline" placeholder="{% blocktrans %}Deadline{% endblocktrans %} (yyyy-mm-dd)" required>
             </div>
             <div class="col-12">

@@ -161,6 +161,8 @@ class UserProfile(models.Model):
     course = models.CharField(max_length=200, blank=False, null=True)
     sequential = models.BooleanField(default=True)
     history = HistoricalRecords()
+    university = models.CharField(max_length=200, blank=False, null=True)
+    registration = models.CharField(max_length=200, blank=False, null=True)
 
     def __unicode__(self):
         return self.user

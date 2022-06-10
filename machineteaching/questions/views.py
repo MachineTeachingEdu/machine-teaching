@@ -90,6 +90,8 @@ def signup(request):
                 class_code=form.cleaned_data.get('class_code'))
             user.userprofile.user_class = user_class
             user.userprofile.course = form.cleaned_data.get('course')
+            user.userprofile.university = form.cleaned_data.get('university')
+            user.userprofile.registration = form.cleaned_data.get('registration')
             user.userprofile.save()
             username = form.cleaned_data.get('email')
             raw_password = form.cleaned_data.get('password1')
@@ -369,8 +371,8 @@ def show_outcome(request):
             problems = list(problems_all.values_list('id', flat=True))
             # Get latest student outcome for every student in class
             students = UserLogView.objects.filter(
-                user__userprofile__user_class=onlineclass,
-                problem_id__in=problems, timestamp__gte=onlineclass.start_date
+                user_class_id=onlineclass,
+                problem_id__in=problems
             ).order_by(Lower('user__first_name').asc(),
                        Lower('user__last_name').asc(),
                        'user_id',
@@ -628,6 +630,17 @@ def save_access(request):
         access.save()
         return JsonResponse({'status': 'success'})
     return JsonResponse({'status': 'failed'})
+
+@login_required
+def save_university(request):
+    university = request.GET['university']
+    registration = request.GET['registration']
+    user = UserProfile.objects.get(user=request.user)
+    user.university = university
+    user.registration = registration
+    user.save()
+    return JsonResponse({'status': 'success'})
+
 
 @login_required
 def save_interactive(request):

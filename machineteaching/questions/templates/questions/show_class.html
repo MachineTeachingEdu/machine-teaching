@@ -27,6 +27,7 @@
                 {% for message in form.chapter.errors %}
                 <span id="error">{{ message }}</span></br>
                 {% endfor %}
+                <h4>{% blocktrans %}Name{% endblocktrans %}</h4>
                 <select name="{{ form.chapter.name }}" id="id_chapter" required="required" style="width: 100%; margin-bottom: 1rem;">
                     {% for item in form.chapter.field.choices %}
                     <option value="{{ item.0 }}" {% if item.0 == chapter %}selected{% endif %}>{{ item.1 }}</option>
@@ -37,12 +38,14 @@
                 {% for message in form.date.errors %}
                 <span id="error" style="text-align: center;">{{ message }}</span></br>
                 {% endfor %}
+                <h4>{% blocktrans %}Deadline{% endblocktrans %}</h4>
                 <input type="date" name="date" placeholder="{% blocktrans %}Date (yyyy-mm-dd){% endblocktrans %}" required style="width: calc(100%);">
                 </div>
                 <div style="width: 50%">
                 {% for message in form.time.errors %}
                 <span id="error" style="margin-left: 1rem; text-align: center;">{{ message }}</span></br>
                 {% endfor %}
+                <h4>{% blocktrans %}Time{% endblocktrans %}</h4>
                 <input type="text" name="time" placeholder="{% blocktrans %}Time (H:M){% endblocktrans %}" required style="width: calc(100% - 1rem); margin-left: 1rem">
                  </div></div>
             <div class="col-12" style="margin-top: 1rem; text-align: center;">
