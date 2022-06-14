@@ -121,6 +121,39 @@ def get_on_time_exercises(user, chapters, onlineclass):
         on_time_list.append(on_time_exercises.count())
     return [on_time_list]
 
+def time_to_finish_exercise(user, problems, onlineclass):
+    return UserLogView.objects.filter(user=user,
+                                   problem__in=problems,
+                                   final_outcome='P',
+                                   timestamp__gte=onlineclass.start_date).values_list('seconds_in_page', flat=True)
+
+def get_time_to_finish_chapter_in_days(user, chapter_problems, onlineclass):
+    logs = UserLog.objects.filter(user=user,
+                                      problem__in=chapter_problems,
+                                      timestamp__gte=onlineclass.start_date).order_by('timestamp')
+
+    if logs.count():
+        first_log = logs.first().timestamp
+    times = []
+    for problem in chapter_problems:
+        passed = UserLog.objects.filter(user=user,
+                                        problem=problem,
+                                        outcome="P",
+                                        timestamp__gte=onlineclass.start_date).order_by('timestamp')
+        if passed.count():
+            first_passed = passed.first()
+            times.append(first_passed.timestamp)
+    times.sort()
+
+    chapter_time = None
+
+    if len(times) == chapter_problems.count():
+        chapter_passed = times[-1]
+        chapter_time = (chapter_passed-first_log).days
+    
+    return chapter_time
+
+
 
 def predict_drop_out(user, onlineclass, date):
     try:
