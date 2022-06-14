@@ -28,7 +28,7 @@ from questions.forms import (UserLogForm, SignUpForm, OutcomeForm, ChapterForm,
                              EditProfileForm, NewClassForm, DeadlineForm, CommentForm)
 from questions.serializers import RecommendationSerializer
 from questions.get_problem import get_problem
-from questions.get_dashboards import student_dashboard, class_dashboard, manager_dashboard, predict_drop_out
+from questions.get_dashboards import student_dashboard, class_dashboard, manager_dashboard, predict_drop_out, time_to_finish_exercise, get_time_to_finish_chapter_in_days
 from questions.get_dashboards import *
 from questions.strategies import STRATEGIES_FUNC
 import csv
@@ -800,13 +800,24 @@ def start(request):
     if problem_id:
         next_problem = Problem.objects.get(id=problem_id)
 
-    times = UserLog.objects.filter(user=request.user,
-                                   problem__in=problems,
-                                   outcome='P',
-                                   timestamp__gte=onlineclass.start_date).values_list('seconds_in_page', flat=True)
+    times = time_to_finish_exercise(request.user, problems, onlineclass)
     time = None
     if len(times):
         time = round(mean(times)/60)
+
+    chapter_times = []
+    for chapter in chapters:
+        chapter_problems = problems.filter(chapter=chapter)
+        solved_problems = UserLogView.objects.filter(user=request.user, 
+                                                        problem__in=chapter_problems,
+                                                        final_outcome='P').count()
+        if solved_problems == chapter_problems.count():      
+            chapter_times.append(get_time_to_finish_chapter_in_days(request.user, chapter_problems, onlineclass))
+        
+    chapter_times.sort()
+    time_to_finish_chapter = None
+    if len(chapter_times):
+        time_to_finish_chapter = round(mean(chapter_times))
 
     u_errors = []
     for problem in problems:
@@ -853,6 +864,7 @@ def start(request):
                                                    'progress': progress,
                                                    'next_problem': next_problem,
                                                    'time': time,
+                                                   'time_to_finish_chapter': time_to_finish_chapter,
                                                    'errors': errors,
                                                    'main_errors': main_errors,
                                                    'current_chapter': current_chapter,
