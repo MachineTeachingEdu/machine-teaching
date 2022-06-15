@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-14 00:16-0300\n"
+"POT-Creation-Date: 2022-06-14 18:40-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -262,7 +262,6 @@ msgstr ""
 #: .\questions\get_dashboards.py:1327 .\questions\get_dashboards.py:1533
 #: .\questions\templates\questions\class_dashboard.html:114
 #: .\questions\templates\questions\manager_dashboard.html:64
-#: .\questions\templates\questions\show_class.html:48
 #: .\questions\templates\questions\student_dashboard.html:80
 #: .\questions\templates\questions\student_dashboard.html:102
 msgid "Time"
@@ -343,7 +342,7 @@ msgstr ""
 #: .\questions\templates\questions\home.html:73
 #: .\questions\templates\questions\show_chapter.html:74
 #: .\questions\templates\questions\show_class.html:12
-#: .\questions\templates\questions\show_class.html:41
+#: .\questions\templates\questions\show_class.html:37
 msgid "Deadline"
 msgstr ""
 
@@ -1067,7 +1066,7 @@ msgstr ""
 msgid "Main errors"
 msgstr ""
 
-#: .\questions\templates\questions\show_class.html:42
+#: .\questions\templates\questions\show_class.html:43
 msgid "Date (yyyy-mm-dd)"
 msgstr ""
 
