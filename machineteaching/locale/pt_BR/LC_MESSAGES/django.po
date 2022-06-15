@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-14 00:16-0300\n"
+"POT-Creation-Date: 2022-06-14 18:40-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -260,7 +260,6 @@ msgstr "média"
 #: .\questions\get_dashboards.py:1327 .\questions\get_dashboards.py:1533
 #: .\questions\templates\questions\class_dashboard.html:114
 #: .\questions\templates\questions\manager_dashboard.html:64
-#: .\questions\templates\questions\show_class.html:48
 #: .\questions\templates\questions\student_dashboard.html:80
 #: .\questions\templates\questions\student_dashboard.html:102
 msgid "Time"
@@ -337,9 +336,9 @@ msgstr "Turmas"
 #: .\questions\templates\questions\home.html:73
 #: .\questions\templates\questions\show_chapter.html:74
 #: .\questions\templates\questions\show_class.html:12
-#: .\questions\templates\questions\show_class.html:41
+#: .\questions\templates\questions\show_class.html:37
 msgid "Deadline"
-msgstr "Entrega"
+msgstr "Data de entrega"
 
 #: .\questions\models.py:119
 msgid "Deadlines"
@@ -818,7 +817,7 @@ msgstr " e fazer novos problemas."
 
 #: .\questions\templates\questions\home.html:8
 msgid "Total progress"
-msgstr "Progresso da turma"
+msgstr "Progresso do aluno"
 
 #: .\questions\templates\questions\home.html:9
 msgid "in all problems"
@@ -1045,7 +1044,7 @@ msgstr "Salvar"
 msgid "Main errors"
 msgstr "Erros mais comuns"
 
-#: .\questions\templates\questions\show_class.html:42
+#: .\questions\templates\questions\show_class.html:43
 msgid "Date (yyyy-mm-dd)"
 msgstr "Data (yyyy-mm-dd)"
 

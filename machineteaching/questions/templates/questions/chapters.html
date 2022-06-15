@@ -8,13 +8,13 @@
     <!-- new chapter -->
     <div class="card add" style="padding: 0.7rem 1rem">
         <h3>{% blocktrans %}Add chapter{% endblocktrans %}</h3>
-        <form action="{% url 'new_chapter' %}" method="POST">
+        <form action="{% url 'new_chapter' %}" method="POST" style="display: flex; flex-direction: column;">
             {% csrf_token %}
             <div class="col-8">
                 <h4>{% blocktrans %}Name{% endblocktrans %}</h4>
                 <input type="text" name="label" placeholder="{% blocktrans %}Name{% endblocktrans %}" required="">
             </div>
-            <div class="col-4">
+            <div class="col-8" style="margin-top: 10px;">
                 <h4>{% blocktrans %}Deadline{% endblocktrans %}</h4>
                 <input type="date" name="deadline" placeholder="{% blocktrans %}Deadline{% endblocktrans %} (yyyy-mm-dd)" required>
             </div>
