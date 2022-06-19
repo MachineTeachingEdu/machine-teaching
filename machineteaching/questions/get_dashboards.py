@@ -128,17 +128,18 @@ def time_to_finish_exercise(user, problems, onlineclass):
                                    timestamp__gte=onlineclass.start_date).values_list('seconds_in_page', flat=True)
 
 def get_time_to_finish_chapter_in_days(user, chapter_problems, onlineclass):
-    logs = UserLogView.objects.filter(user=user,
-                                      problem__in=chapter_problems,
-                                      timestamp__gte=onlineclass.start_date).order_by('timestamp')
+    logs = UserLogView.objects.filter(user__in=[user],
+                                        problem__in=chapter_problems,
+                                        timestamp__gte=onlineclass.start_date).order_by('timestamp')
+
 
     if logs.count():
         first_log = logs.first().timestamp
     times = []
     for problem in chapter_problems:
-        passed = UserLogView.objects.filter(user=user,
+        passed = UserLogView.objects.filter(user__in=[user],
                                         problem=problem,
-                                        outcome="P",
+                                        final_outcome = 'P',
                                         timestamp__gte=onlineclass.start_date).order_by('timestamp')
         if passed.count():
             first_passed = passed.first()
