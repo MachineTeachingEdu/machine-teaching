@@ -10,8 +10,7 @@ for id in classes:
     onlineclass = OnlineClass.objects.get(pk=id)
     professors = Professor.objects.all().values_list('user')
     students = User.objects.filter(userprofile__user_class=onlineclass).exclude(pk__in=professors)
-
-    professor = User.objects.filter(pk__in=professors).first()
+    professor = onlineclass.professor.first().user
         
     f = open("questions/class_analysis/"+semester+"/"+professor.first_name+" - "+onlineclass.name.replace("/","_")+".txt","w+")
     f.write(onlineclass.name.upper()+'\nProfessor: '+professor.first_name+' '+professor.last_name+' ('+professor.email+')\n\n')
