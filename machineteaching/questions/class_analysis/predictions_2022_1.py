@@ -11,8 +11,8 @@ for id in classes:
     professors = Professor.objects.all().values_list('user')
     students = User.objects.filter(userprofile__user_class=onlineclass).exclude(pk__in=professors)
         
-    f = open(f"questions/class_analysis/{semester}/{professor.first_name} - {onlineclass.name}.txt","w+")
-    f.write(f'{onlineclass.name.upper()}\nProfessor: {professor.first_name} {professor.last_name} ({professor.email})\n\n')
+    f = open("questions/class_analysis/"+semester+"/"+professor.first_name+" - "+onlineclass.name+".txt","w+")
+    f.write(onlineclass.name.upper()+'\nProfessor: '+professor.first_name=' '+professor.last_name+' ('+professor.email+')\n\n')
     f.write('Através da análise de dados da ferramenta Machine Teaching, foi identificado que os seguintes alunos estão em risco de abandono da disciplina Comp1:\n\n')
 
     i=1
@@ -25,7 +25,7 @@ for id in classes:
                     last_log = "último exercício resolvido em "+UserLog.objects.filter(user=student).order_by('timestamp').last().timestamp.strftime("%m/%d/%Y")
                 except:
                     last_log = "nenhum exercício resolvido"
-                f.write(f'{i}. {student.first_name} {student.last_name}: {last_log} ({student.email})\n')
+                f.write(i+'. '+student.first_name+' '+student.last_name+': '+last_log+' ('+student.email+')\n')
                 i+=1
         except:
             pass
