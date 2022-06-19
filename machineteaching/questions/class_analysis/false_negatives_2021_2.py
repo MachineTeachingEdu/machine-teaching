@@ -42,7 +42,7 @@ classes = [119,102,103,97,99,100,101,104,109,110,98,112,113,115,117]
 date = datetime(2022,2,1)
 semester = '2021_2'
 
-f = open(f"questions/class_analysis/{semester}/false_negatives_{semester}.csv","w+")
+f = open("questions/class_analysis/"+semester+"/false_negatives_"+semester+".csv","w+")
 writer = csv.writer(f)
 writer.writerow(['turma','aluno','previsao','exercicios_resolvidos_8_9','aula_2','aula_2_on_time','aula_3','aula_3_on_time','aula_4','aula_4_on_time','aula_3_on_time','aula_4','aula_4_on_time','aula_5_on_time','aula_5','aula_6_on_time','aula_6_on_time','aula_7','aula_7_on_time'])
 
