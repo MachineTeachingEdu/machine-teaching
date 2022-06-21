@@ -814,9 +814,9 @@ def start(request):
         if solved_problems == chapter_problems.count():      
             chapter_times.append(get_time_to_finish_chapter_in_days(request.user, chapter_problems, onlineclass))
         
-    chapter_times.sort()
     time_to_finish_chapter = None
     if len(chapter_times):
+        chapter_times.sort()  
         time_to_finish_chapter = round(mean(chapter_times))
 
     u_errors = []
