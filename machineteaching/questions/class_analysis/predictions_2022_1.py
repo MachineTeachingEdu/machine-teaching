@@ -27,7 +27,7 @@ for id in classes:
                     last_log = "último exercício resolvido em "+UserLog.objects.filter(user=student).order_by('timestamp').last().timestamp.strftime("%m/%d/%Y")
                 except:
                     last_log = "nenhum exercício resolvido"
-                f.write(i+'. '+student.first_name+' '+student.last_name+': '+last_log+' ('+student.email+')\n')
+                f.write(str(i)+'. '+student.first_name+' '+student.last_name+': '+last_log+' ('+student.email+')\n')
                 i+=1
         except:
             pass
