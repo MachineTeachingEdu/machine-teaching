@@ -3,7 +3,7 @@ from questions.get_dashboards import predict_drop_out
 from datetime import datetime
 
 classes = [120,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,140,141,142,143]
-date = datetime(2022,6,18)
+date = datetime(2022,6,22)
 semester = '2022_1'
 
 for id in classes:
@@ -11,7 +11,7 @@ for id in classes:
     professors = Professor.objects.all().values_list('user')
     students = User.objects.filter(userprofile__user_class=onlineclass).exclude(pk__in=professors)
     if onlineclass.professor.count():
-        professor = onlineclass.professor.first().user
+        professor = onlineclass.professor.last().user
         
     f = open("questions/class_analysis/"+semester+"/"+professor.first_name+" - "+onlineclass.name.replace("/","_")+".txt","w+")
     f.write(onlineclass.name.upper()+'\nProfessor: '+professor.first_name+' '+professor.last_name+' ('+professor.email+')\n\n')
