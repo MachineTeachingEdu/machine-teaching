@@ -8,7 +8,8 @@ semester = '2022_1'
 
 for id in classes:
     onlineclass = OnlineClass.objects.get(pk=id)
-    students = User.objects.filter(userprofile__user_class=onlineclass).exclude(pk__in=onlineclass.professor)
+    professors = Professor.objects.all().values_list('user')
+    students = User.objects.filter(userprofile__user_class=onlineclass).exclude(pk__in=professors)
     if onlineclass.professor.count():
         professor = onlineclass.professor.exclude(pk__in=[319,344], assistant=True).last().user
         
