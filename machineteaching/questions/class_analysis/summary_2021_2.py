@@ -42,7 +42,7 @@ classes = [119,102,103,97,99,100,101,104,109,110,98,112,113,115,117]
 date = datetime(2022,2,1)
 semester = '2021_2'
 
-f = open(f"questions/class_analysis/{semester}/at_risk_{semester}.csv","w+")
+f = open("questions/class_analysis/"+semester+"/summary_"+semester+".csv","w+")
 writer = csv.writer(f)
 writer.writerow(['turma','aluno','previsao','exercicios_resolvidos_8_9','resultado'])
 
