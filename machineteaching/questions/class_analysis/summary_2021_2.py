@@ -38,7 +38,7 @@ def count_exercises(user, chapters, onlineclass):
     return sum(on_time_list)
 
 
-classes = [119,102,103,97,99,100,101,104,109,110,98,112,113,115,117]
+classes = [102,103,97,99,100,101,104,109,110,98,112,113,115,117]
 date = datetime(2022,2,1)
 semester = '2021_2'
 
@@ -50,7 +50,8 @@ writer.writerow(['turma','aluno','previsao','exercicios_resolvidos_8_9','resulta
 for id in classes:
     onlineclass = OnlineClass.objects.get(pk=id)
     professors = Professor.objects.all().values_list('user')
-    students = User.objects.filter(userprofile__user_class=onlineclass).exclude(pk__in=professors).order_by("first_name","last_name")
+    profiles = UserLogView.objects.filter(user_class=onlineclass).exclude(pk__in=professors).order_by("first_name","last_name").values("userprofile").distinct()
+    students = User.objects.filter(userprofile__in=profiles)
 
     i=1
     for student in students:
