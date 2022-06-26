@@ -50,8 +50,8 @@ writer.writerow(['turma','aluno','previsao','exercicios_resolvidos_8_9','resulta
 for id in classes:
     onlineclass = OnlineClass.objects.get(pk=id)
     professors = Professor.objects.all().values_list('user')
-    profiles = UserLogView.objects.filter(user_class=onlineclass).exclude(pk__in=professors).order_by("first_name","last_name").values("userprofile").distinct()
-    students = User.objects.filter(userprofile__in=profiles)
+    profiles = UserLogView.objects.filter(user_class=onlineclass).values("user").distinct()
+    students = User.objects.filter(pk__in=profiles).exclude(pk__in=professors).order_by("first_name","last_name")
 
     i=1
     for student in students:

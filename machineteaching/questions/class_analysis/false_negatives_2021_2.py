@@ -51,6 +51,8 @@ for id in classes:
     onlineclass = OnlineClass.objects.get(pk=id)
     professors = Professor.objects.all().values_list('user')
     students = User.objects.filter(userprofile__user_class=onlineclass).exclude(pk__in=professors)
+    profiles = UserLogView.objects.filter(user_class=onlineclass).values("user").distinct()
+    students = User.objects.filter(pk__in=profiles).exclude(pk__in=professors).order_by("first_name","last_name")
 
     i=1
     for student in students:
