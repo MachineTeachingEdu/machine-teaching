@@ -1,6 +1,7 @@
 from questions.models import (Professor, UserLog, User, OnlineClass)
 from questions.get_dashboards import predict_drop_out
 from datetime import datetime
+import csv
 
 classes = [120,123,124,125,126,127,128,129,130,131,132,133,134,135,136,137,138,140,141,142,143]
 date = datetime(2022,6,22)
