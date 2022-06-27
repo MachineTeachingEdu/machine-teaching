@@ -70,8 +70,8 @@ for id in classes:
                 else:
                     result = "VN"
 
-            writer.writerow([student.userprofile.user_class.name,
-                             student.first_name+student.last_name,
+            writer.writerow([onlineclass.name,
+                             student.first_name+" "+student.last_name,
                              predict,
                              on_time_exercises,
                              result])
