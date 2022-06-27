@@ -1,4 +1,4 @@
-from questions.models import (Professor, UserLog, User, OnlineClass, UserLogView)
+from questions.models import (Professor, UserLog, User, OnlineClass, UserLogView, Deadline)
 from questions.get_dashboards import predict_drop_out
 from datetime import datetime
 import csv
