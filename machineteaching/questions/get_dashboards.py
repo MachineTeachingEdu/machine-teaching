@@ -116,6 +116,7 @@ def get_on_time_exercises(user, chapters, onlineclass):
         on_time_exercises = UserLogView.objects.filter(user=user,
                                                     problem__in=problems,
                                                     final_outcome='P',
+                                                    user_class=onlineclass,
                                                     timestamp__gte=onlineclass.start_date,
                                                     timestamp__lte=deadline)
         on_time_list.append(on_time_exercises.count())
