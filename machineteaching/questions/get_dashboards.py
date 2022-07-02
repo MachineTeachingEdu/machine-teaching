@@ -733,7 +733,7 @@ def class_dashboard(onlineclass):
 
     names = []
     for student in students:
-        names.append(student.first_name+' '+student.last_name)
+        names.append((student.first_name+' '+student.last_name)[:25] + '...')
     labels = []
 
     n = 1

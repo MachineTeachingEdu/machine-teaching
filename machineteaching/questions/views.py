@@ -93,7 +93,7 @@ def signup(request):
             user.userprofile.university = form.cleaned_data.get('university')
             user.userprofile.registration = form.cleaned_data.get('registration')
             user.userprofile.save()
-            username = form.cleaned_data.get('email')
+            username = form.cleaned_data.get('email').lower()
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
