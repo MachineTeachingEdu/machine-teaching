@@ -26,6 +26,19 @@ RUN pip install -r requirements.txt
 
 COPY machineteaching .
 
-RUN python manage.py collectstatic --noinput
+COPY init.sh .
+
+ARG ENVIRONMENT=PROD
+ENV ENVIRONMENT=${ENVIRONMENT}
+
+## Add the wait script to the image
+ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.9.0/wait /wait
+RUN chmod +x /wait
+RUN ["chmod", "+x", "/app/init.sh"]
+
+EXPOSE 4317
+EXPOSE 4318
+
+ENTRYPOINT ["/app/init.sh" ]
 
 CMD gunicorn machineteaching.wsgi --bind 0.0.0.0:$PORT --workers 3

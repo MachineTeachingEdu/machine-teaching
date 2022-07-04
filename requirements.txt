@@ -18,3 +18,10 @@ django-filter
 whitenoise
 python-dotenv
 Werkzeug==2.0.0
+<<<<<<< HEAD
+=======
+locust
+opentelemetry-distro
+opentelemetry-exporter-otlp-proto-http
+# apache-skywalking[http]
+>>>>>>> configuration for open telemtry and signoz apm
