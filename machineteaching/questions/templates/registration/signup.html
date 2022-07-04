@@ -44,6 +44,26 @@
                         <div class="col-6">
                             <input type="text" name="{{ form.class_code.name }}" placeholder="{% blocktrans %}Class code{% endblocktrans %}" value="{{form.class_code.value|default_if_none:''}}"></input>Se não possui um código, utilize zDq-xVT-8G2 para entrar na turma aberta
                         </div>
+
+                        <div class="col-6">
+                            {% for error in form.university.errors %}
+                                <span>{{ error|escape }}</span>
+                            {% endfor %}
+                        </div>
+                        <div class="col-6">
+                            {% for error in form.registration.errors %}
+                                <span>{{ error|escape }}</span>
+                            {% endfor %}
+                        </div>
+
+                        <div class="col-6">
+                            <input type="text" name="{{ form.university.name }}" placeholder="{% blocktrans %}University{% endblocktrans %}" value="{{form.university.value|default_if_none:''}}"></input>
+                        </div>
+
+                        <div class="col-6">
+                            <input type="text" name="{{ form.registration.name }}" placeholder="{% blocktrans %}Registration{% endblocktrans %}" value="{{form.registration.value|default_if_none:''}}"></input>
+                        </div>
+
                         <div class="col-1"></div>
                         <div class="col-10">
                             {% for error in form.course.errors %}

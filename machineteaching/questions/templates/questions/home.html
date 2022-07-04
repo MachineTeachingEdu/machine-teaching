@@ -24,39 +24,46 @@
                 </div>
 	        </div>
             <div class="card" style="height: 14rem">
-                <h3 style="margin-bottom: 1.5rem">{% blocktrans %}Main errors{% endblocktrans %}</h3>
-                {% if main_errors.0 %}
-                <div style="font-size: 45px; text-align: center;">{{main_errors.0.error}}</div>
-                {% if main_errors.1 %}
-                <div style="font-size: 30px; text-align: center;">{{main_errors.1.error}}</div>
-                {% endif %}
+                <h3 style="margin-bottom: 0.5rem">{% blocktrans %}Errors{% endblocktrans %}</h3>
+                <span>{% blocktrans %}before you get right a problem{% endblocktrans %}</span><br><br>
+                {% if errors %}
+                <div style="font-size: 45px; text-align: center;">{{errors}} {% blocktrans %}error(s){% endblocktrans %}</div>
                 {% else %}
-                <div style="text-align: center;">{% blocktrans %}No errors to show{% endblocktrans %}</div>
+                <div style="text-align: center;">{% blocktrans %}No errors made{% endblocktrans %}</div>
                 {% endif %}
             </div>
         </div>
         <div class="col col-3">
-                <div class="card" style="height: 14rem">
+                <div class="card" style="height: 20rem; display: flex; flex-direction: column; justify-content: space-between;">
                     <h3 style="margin-bottom: 0.5rem">{% blocktrans %}Average time{% endblocktrans %}</h3>
-                    <span>{% blocktrans %}to perform a problem{% endblocktrans %}</span><br><br>
-                    {% if time is not None%}
-                    <div style="font-size: 45px; text-align: center;">{{time}} min</div>
-                    {% else %}
-                    <div style="text-align: center;">{% blocktrans %}No problems completed{% endblocktrans %}</div>
-                    {% endif %}
+                    <div style="height: 7rem;">
+                        <span>{% blocktrans %}to perform a problem{% endblocktrans %}</span><br><br>
+                        {% if time is not None%}
+                        <div style="font-size: 45px; text-align: center;">{{time}} min</div>
+                        {% else %}
+                        <div style="text-align: center;">{% blocktrans %}No problems completed{% endblocktrans %}</div>
+                        {% endif %}
+                    </div>
+                    <div style="height: 7rem;">
+                        <span>{% blocktrans %}to end a chapter{% endblocktrans %}</span><br><br>                        
+                        {% if time_to_finish_chapter is not None and time_to_finish_chapter == 0 %}
+                        <div style="font-size: 24px; text-align: center;">{% blocktrans %}Less than 1 day{% endblocktrans %}</div>
+                        {% elif time_to_finish_chapter is not None and time_to_finish_chapter != 0 %}
+                        <div style="font-size: 45px; text-align: center;">{{time_to_finish_chapter}} {% blocktrans %}days{% endblocktrans %}</div>
+                        {% else %}
+                        <div style="text-align: center;">{% blocktrans %}No chapters completed{% endblocktrans %}</div>
+                        {% endif %}
+                    </div>
                 </div>
-                <div class="card" style="height: 14rem">
-                    <h3 style="margin-bottom: 0.5rem">{% blocktrans %}Errors{% endblocktrans %}</h3>
-                    <span>{% blocktrans %}before you get right a problem{% endblocktrans %}</span><br><br>
-                    {% if errors %}
-                    <div style="font-size: 45px; text-align: center;">{{errors}} {% blocktrans %}error(s){% endblocktrans %}</div>
-                    {% else %}
-                    <div style="text-align: center;">{% blocktrans %}No problems completed{% endblocktrans %}</div>
-                    {% endif %}
+                <div class="card" style="height: 8rem;">
+                    <h3>Dashboard</h3>
+                    <div style='display: flex; width: 100%; justify-content: center; height: max-content;'>
+                        <a class='link' style="width: 80%; text-align: center;" href="/dashboard">{% blocktrans %}See more infos{% endblocktrans %}</a>
+                    </div>
                 </div>
 	    </div>
 
-	    <div class="col col-6" style="padding-left: 2rem;">
+	    <div class="col col-6" style="padding-left: 1rem;">
             <div class="card" style="height: 30rem; position: relative;">
                 <h3>{% blocktrans %}Current chapter{% endblocktrans %}</h3>
                 {% if current_chapter %}

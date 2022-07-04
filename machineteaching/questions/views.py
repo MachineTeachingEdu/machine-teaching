@@ -28,7 +28,7 @@ from questions.forms import (UserLogForm, SignUpForm, OutcomeForm, ChapterForm,
                              EditProfileForm, NewClassForm, DeadlineForm, CommentForm)
 from questions.serializers import RecommendationSerializer
 from questions.get_problem import get_problem
-from questions.get_dashboards import student_dashboard, class_dashboard, manager_dashboard, predict_drop_out
+from questions.get_dashboards import student_dashboard, class_dashboard, manager_dashboard, predict_drop_out, time_to_finish_exercise, get_time_to_finish_chapter_in_days
 from questions.get_dashboards import *
 from questions.strategies import STRATEGIES_FUNC
 import csv
@@ -90,6 +90,8 @@ def signup(request):
                 class_code=form.cleaned_data.get('class_code'))
             user.userprofile.user_class = user_class
             user.userprofile.course = form.cleaned_data.get('course')
+            user.userprofile.university = form.cleaned_data.get('university')
+            user.userprofile.registration = form.cleaned_data.get('registration')
             user.userprofile.save()
             username = form.cleaned_data.get('email')
             raw_password = form.cleaned_data.get('password1')
@@ -369,8 +371,8 @@ def show_outcome(request):
             problems = list(problems_all.values_list('id', flat=True))
             # Get latest student outcome for every student in class
             students = UserLogView.objects.filter(
-                user__userprofile__user_class=onlineclass,
-                problem_id__in=problems, timestamp__gte=onlineclass.start_date
+                user_class_id=onlineclass,
+                problem_id__in=problems
             ).order_by(Lower('user__first_name').asc(),
                        Lower('user__last_name').asc(),
                        'user_id',
@@ -630,6 +632,17 @@ def save_access(request):
     return JsonResponse({'status': 'failed'})
 
 @login_required
+def save_university(request):
+    university = request.GET['university']
+    registration = request.GET['registration']
+    user = UserProfile.objects.get(user=request.user)
+    user.university = university
+    user.registration = registration
+    user.save()
+    return JsonResponse({'status': 'success'})
+
+
+@login_required
 def save_interactive(request):
     form = InteractiveForm(request.POST)
     if form.is_valid():
@@ -787,13 +800,24 @@ def start(request):
     if problem_id:
         next_problem = Problem.objects.get(id=problem_id)
 
-    times = UserLog.objects.filter(user=request.user,
-                                   problem__in=problems,
-                                   outcome='P',
-                                   timestamp__gte=onlineclass.start_date).values_list('seconds_in_page', flat=True)
+    times = time_to_finish_exercise(request.user, problems, onlineclass)
     time = None
     if len(times):
         time = round(mean(times)/60)
+
+    chapter_times = []
+    for chapter in chapters:
+        chapter_problems = problems.filter(chapter=chapter)
+        solved_problems = UserLogView.objects.filter(user=request.user, 
+                                                        problem__in=chapter_problems,
+                                                        final_outcome='P').count()
+        if solved_problems == chapter_problems.count():      
+            chapter_times.append(get_time_to_finish_chapter_in_days(request.user, chapter_problems, onlineclass))
+        
+    chapter_times.sort()
+    time_to_finish_chapter = None
+    if len(chapter_times):
+        time_to_finish_chapter = round(mean(chapter_times))
 
     u_errors = []
     for problem in problems:
@@ -840,6 +864,7 @@ def start(request):
                                                    'progress': progress,
                                                    'next_problem': next_problem,
                                                    'time': time,
+                                                   'time_to_finish_chapter': time_to_finish_chapter,
                                                    'errors': errors,
                                                    'main_errors': main_errors,
                                                    'current_chapter': current_chapter,

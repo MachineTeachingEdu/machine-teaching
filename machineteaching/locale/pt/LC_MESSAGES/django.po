@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-26 18:09-0300\n"
+"POT-Creation-Date: 2022-06-14 18:40-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,7 +26,7 @@ msgstr ""
 msgid "Yes"
 msgstr ""
 
-#: .\questions\forms.py:26 .\questions\forms.py:145
+#: .\questions\forms.py:26 .\questions\forms.py:147
 #: .\questions\templates\questions\edit_profile.html:15
 #: .\questions\templates\registration\signup.html:45
 msgid "Class code"
@@ -36,43 +36,51 @@ msgstr ""
 msgid "Course"
 msgstr ""
 
-#: .\questions\forms.py:28 .\questions\templates\registration\signup.html:112
+#: .\questions\forms.py:28 .\questions\templates\registration\signup.html:64
+msgid "Registration"
+msgstr ""
+
+#: .\questions\forms.py:29 .\questions\templates\registration\signup.html:60
+msgid "University"
+msgstr ""
+
+#: .\questions\forms.py:30 .\questions\templates\registration\signup.html:132
 msgid "Did you have any programming experience before this course?"
 msgstr ""
 
-#: .\questions\forms.py:29 .\questions\templates\registration\signup.html:121
+#: .\questions\forms.py:31 .\questions\templates\registration\signup.html:141
 msgid "I accept the "
 msgstr ""
 
-#: .\questions\forms.py:29 .\questions\templates\503.html:42
+#: .\questions\forms.py:31 .\questions\templates\503.html:42
 #: .\questions\templates\index.html:92
-#: .\questions\templates\questions\base.html:124
-#: .\questions\templates\registration\base.html:55
-#: .\questions\templates\registration\signup.html:122
+#: .\questions\templates\questions\base.html:125
+#: .\questions\templates\registration\base.html:66
+#: .\questions\templates\registration\signup.html:142
 msgid "Terms and Conditions"
 msgstr ""
 
-#: .\questions\forms.py:30 .\questions\templates\registration\signup.html:126
+#: .\questions\forms.py:32 .\questions\templates\registration\signup.html:146
 msgid "I've read the "
 msgstr ""
 
-#: .\questions\forms.py:30 .\questions\templates\503.html:46
+#: .\questions\forms.py:32 .\questions\templates\503.html:46
 #: .\questions\templates\index.html:96
-#: .\questions\templates\questions\base.html:128
-#: .\questions\templates\registration\base.html:59
-#: .\questions\templates\registration\signup.html:127
+#: .\questions\templates\questions\base.html:129
+#: .\questions\templates\registration\base.html:70
+#: .\questions\templates\registration\signup.html:147
 msgid "Privacy Policy"
 msgstr ""
 
-#: .\questions\forms.py:45
+#: .\questions\forms.py:47
 msgid "Email addresses must be unique."
 msgstr ""
 
-#: .\questions\forms.py:51 .\questions\forms.py:154
+#: .\questions\forms.py:53 .\questions\forms.py:156
 msgid "Invalid Class Code."
 msgstr ""
 
-#: .\questions\forms.py:56 .\questions\get_dashboards.py:195
+#: .\questions\forms.py:58 .\questions\get_dashboards.py:228
 #: .\questions\templates\questions\manager_dashboard.html:85
 #: .\questions\templates\questions\outcomes.html:13
 #: .\questions\templates\questions\solutions.html:13
@@ -80,11 +88,11 @@ msgstr ""
 msgid "Class"
 msgstr ""
 
-#: .\questions\forms.py:57 .\questions\forms.py:163
-#: .\questions\get_dashboards.py:384 .\questions\get_dashboards.py:401
-#: .\questions\get_dashboards.py:436 .\questions\get_dashboards.py:476
-#: .\questions\get_dashboards.py:494 .\questions\get_dashboards.py:529
-#: .\questions\get_dashboards.py:1485 .\questions\get_dashboards.py:1502
+#: .\questions\forms.py:59 .\questions\forms.py:165
+#: .\questions\get_dashboards.py:416 .\questions\get_dashboards.py:433
+#: .\questions\get_dashboards.py:468 .\questions\get_dashboards.py:508
+#: .\questions\get_dashboards.py:526 .\questions\get_dashboards.py:561
+#: .\questions\get_dashboards.py:1517 .\questions\get_dashboards.py:1534
 #: .\questions\models.py:32
 #: .\questions\templates\questions\class_dashboard.html:66
 #: .\questions\templates\questions\manager_dashboard.html:28
@@ -98,35 +106,35 @@ msgstr ""
 msgid "Chapter"
 msgstr "Aulas"
 
-#: .\questions\forms.py:66
+#: .\questions\forms.py:68
 msgid "You don't have authorization to view this class."
 msgstr ""
 
-#: .\questions\forms.py:108 .\questions\templates\questions\new_problem.html:22
+#: .\questions\forms.py:110 .\questions\templates\questions\new_problem.html:22
 msgid "Code"
 msgstr ""
 
-#: .\questions\forms.py:109
+#: .\questions\forms.py:111
 msgid "Multiple Choice"
 msgstr ""
 
-#: .\questions\forms.py:110 .\questions\templates\questions\new_problem.html:24
+#: .\questions\forms.py:112 .\questions\templates\questions\new_problem.html:24
 msgid "Text"
 msgstr ""
 
-#: .\questions\forms.py:178
+#: .\questions\forms.py:180
 msgid "The date must be in the format \"yyyy-mm-dd\" and must be valid."
 msgstr ""
 
-#: .\questions\forms.py:186
+#: .\questions\forms.py:188
 msgid "The time must be in the format \"HH:MM\" and must be valid."
 msgstr ""
 
-#: .\questions\get_dashboards.py:148 .\questions\get_dashboards.py:1090
-#: .\questions\templates\questions\chapters.html:46
-#: .\questions\templates\questions\chapters.html:80
-#: .\questions\templates\questions\chapters.html:114
-#: .\questions\templates\questions\home.html:83
+#: .\questions\get_dashboards.py:181 .\questions\get_dashboards.py:1122
+#: .\questions\templates\questions\chapters.html:48
+#: .\questions\templates\questions\chapters.html:82
+#: .\questions\templates\questions\chapters.html:116
+#: .\questions\templates\questions\home.html:90
 #: .\questions\templates\questions\outcomes.html:45
 #: .\questions\templates\questions\past_problems.html:10
 #: .\questions\templates\questions\past_problems.html:13
@@ -144,11 +152,11 @@ msgstr ""
 msgid "Passed"
 msgstr ""
 
-#: .\questions\get_dashboards.py:148 .\questions\get_dashboards.py:1090
-#: .\questions\templates\questions\chapters.html:50
-#: .\questions\templates\questions\chapters.html:84
-#: .\questions\templates\questions\chapters.html:118
-#: .\questions\templates\questions\home.html:87
+#: .\questions\get_dashboards.py:181 .\questions\get_dashboards.py:1122
+#: .\questions\templates\questions\chapters.html:52
+#: .\questions\templates\questions\chapters.html:86
+#: .\questions\templates\questions\chapters.html:120
+#: .\questions\templates\questions\home.html:94
 #: .\questions\templates\questions\outcomes.html:46
 #: .\questions\templates\questions\outcomes.html:55
 #: .\questions\templates\questions\past_problems.html:16
@@ -167,11 +175,11 @@ msgstr ""
 msgid "Failed"
 msgstr ""
 
-#: .\questions\get_dashboards.py:148 .\questions\get_dashboards.py:1090
-#: .\questions\templates\questions\chapters.html:54
-#: .\questions\templates\questions\chapters.html:88
-#: .\questions\templates\questions\chapters.html:122
-#: .\questions\templates\questions\home.html:91
+#: .\questions\get_dashboards.py:181 .\questions\get_dashboards.py:1122
+#: .\questions\templates\questions\chapters.html:56
+#: .\questions\templates\questions\chapters.html:90
+#: .\questions\templates\questions\chapters.html:124
+#: .\questions\templates\questions\home.html:98
 #: .\questions\templates\questions\outcomes.html:47
 #: .\questions\templates\questions\outcomes.html:57
 #: .\questions\templates\questions\past_problems.html:22
@@ -187,21 +195,21 @@ msgstr ""
 msgid "Skipped"
 msgstr ""
 
-#: .\questions\get_dashboards.py:148 .\questions\get_dashboards.py:1090
+#: .\questions\get_dashboards.py:181 .\questions\get_dashboards.py:1122
 msgid "No attempt"
 msgstr ""
 
-#: .\questions\get_dashboards.py:191
+#: .\questions\get_dashboards.py:224
 #: .\questions\templates\questions\student_dashboard.html:30
 msgid "You"
 msgstr ""
 
-#: .\questions\get_dashboards.py:192
+#: .\questions\get_dashboards.py:225
 #: .\questions\templates\questions\student_dashboard.html:40
 msgid "Your class"
 msgstr ""
 
-#: .\questions\get_dashboards.py:194
+#: .\questions\get_dashboards.py:227
 #: .\questions\templates\questions\class_dashboard.html:32
 #: .\questions\templates\questions\class_dashboard.html:135
 #: .\questions\templates\questions\class_dashboard.html:185
@@ -211,47 +219,47 @@ msgstr ""
 msgid "Student"
 msgstr ""
 
-#: .\questions\get_dashboards.py:385 .\questions\get_dashboards.py:402
-#: .\questions\templates\questions\home.html:52
+#: .\questions\get_dashboards.py:417 .\questions\get_dashboards.py:434
+#: .\questions\templates\questions\home.html:30
 msgid "error(s)"
 msgstr ""
 
-#: .\questions\get_dashboards.py:443
-#: .\questions\templates\questions\home.html:49
+#: .\questions\get_dashboards.py:475
+#: .\questions\templates\questions\home.html:27
 #: .\questions\templates\questions\student_dashboard.html:50
 msgid "Errors"
 msgstr ""
 
-#: .\questions\get_dashboards.py:477 .\questions\get_dashboards.py:495
+#: .\questions\get_dashboards.py:509 .\questions\get_dashboards.py:527
 #: .\questions\templates\questions\student_dashboard.html:91
 msgid "day(s)"
 msgstr ""
 
-#: .\questions\get_dashboards.py:536
+#: .\questions\get_dashboards.py:568
 msgid "Time (days)"
 msgstr ""
 
-#: .\questions\get_dashboards.py:550
-#: .\questions\templates\questions\base.html:45 .\questions\views.py:444
+#: .\questions\get_dashboards.py:582
+#: .\questions\templates\questions\base.html:46 .\questions\views.py:446
 msgid "Outcomes"
 msgstr "Resultados"
 
-#: .\questions\get_dashboards.py:811 .\questions\get_dashboards.py:839
-#: .\questions\get_dashboards.py:861 .\questions\get_dashboards.py:893
-#: .\questions\get_dashboards.py:1294 .\questions\get_dashboards.py:1322
-#: .\questions\get_dashboards.py:1483
+#: .\questions\get_dashboards.py:843 .\questions\get_dashboards.py:871
+#: .\questions\get_dashboards.py:893 .\questions\get_dashboards.py:925
+#: .\questions\get_dashboards.py:1326 .\questions\get_dashboards.py:1354
+#: .\questions\get_dashboards.py:1515
 #: .\questions\templates\questions\past_problems.html:36
 msgid "Attempts"
 msgstr ""
 
-#: .\questions\get_dashboards.py:812 .\questions\get_dashboards.py:861
-#: .\questions\get_dashboards.py:1295 .\questions\get_dashboards.py:1485
-#: .\questions\get_dashboards.py:1503
+#: .\questions\get_dashboards.py:844 .\questions\get_dashboards.py:893
+#: .\questions\get_dashboards.py:1327 .\questions\get_dashboards.py:1517
+#: .\questions\get_dashboards.py:1535
 msgid "avg"
 msgstr ""
 
-#: .\questions\get_dashboards.py:812 .\questions\get_dashboards.py:861
-#: .\questions\get_dashboards.py:1295 .\questions\get_dashboards.py:1501
+#: .\questions\get_dashboards.py:844 .\questions\get_dashboards.py:893
+#: .\questions\get_dashboards.py:1327 .\questions\get_dashboards.py:1533
 #: .\questions\templates\questions\class_dashboard.html:114
 #: .\questions\templates\questions\manager_dashboard.html:64
 #: .\questions\templates\questions\student_dashboard.html:80
@@ -259,18 +267,18 @@ msgstr ""
 msgid "Time"
 msgstr ""
 
-#: .\questions\get_dashboards.py:840 .\questions\get_dashboards.py:1323
+#: .\questions\get_dashboards.py:872 .\questions\get_dashboards.py:1355
 msgid "Time (minutes)"
 msgstr ""
 
-#: .\questions\get_dashboards.py:860 .\questions\get_dashboards.py:894
+#: .\questions\get_dashboards.py:892 .\questions\get_dashboards.py:926
 #: .\questions\templates\questions\class_dashboard.html:33
 #: .\questions\templates\questions\class_dashboard.html:136
 #: .\questions\templates\questions\manager_dashboard.html:86
 msgid "Solved problems"
 msgstr ""
 
-#: .\questions\get_dashboards.py:1540
+#: .\questions\get_dashboards.py:1572
 #: .\questions\templates\questions\class_dashboard.html:36
 #: .\questions\templates\questions\class_dashboard.html:70
 #: .\questions\templates\questions\class_dashboard.html:139
@@ -279,7 +287,7 @@ msgstr ""
 msgid "Attempts per problem"
 msgstr ""
 
-#: .\questions\get_dashboards.py:1542
+#: .\questions\get_dashboards.py:1574
 msgid "Time per problem (minutes)"
 msgstr ""
 
@@ -289,8 +297,8 @@ msgstr ""
 msgid "Problem"
 msgstr "Problemas Passados"
 
-#: .\questions\models.py:33 .\questions\templates\questions\base.html:41
-#: .\questions\templates\questions\base.html:63
+#: .\questions\models.py:33 .\questions\templates\questions\base.html:42
+#: .\questions\templates\questions\base.html:64
 #: .\questions\templates\questions\class_dashboard.html:63
 #: .\questions\templates\questions\class_dashboard.html:106
 #: .\questions\templates\questions\classes.html:17
@@ -299,7 +307,7 @@ msgstr "Problemas Passados"
 #: .\questions\templates\questions\manager_dashboard.html:57
 #: .\questions\templates\questions\show_class.html:8
 #: .\questions\templates\questions\student_dashboard.html:74
-#: .\questions\views.py:266
+#: .\questions\views.py:268
 msgid "Chapters"
 msgstr "Aulas"
 
@@ -329,10 +337,12 @@ msgstr ""
 msgid "OnlineClasses"
 msgstr ""
 
-#: .\questions\models.py:118 .\questions\templates\questions\chapters.html:17
-#: .\questions\templates\questions\home.html:66
+#: .\questions\models.py:118 .\questions\templates\questions\chapters.html:18
+#: .\questions\templates\questions\chapters.html:19
+#: .\questions\templates\questions\home.html:73
 #: .\questions\templates\questions\show_chapter.html:74
 #: .\questions\templates\questions\show_class.html:12
+#: .\questions\templates\questions\show_class.html:37
 msgid "Deadline"
 msgstr ""
 
@@ -344,75 +354,75 @@ msgstr ""
 msgid "Professors"
 msgstr ""
 
-#: .\questions\models.py:172
+#: .\questions\models.py:174
 msgid "User profile"
 msgstr ""
 
-#: .\questions\models.py:173
+#: .\questions\models.py:175
 msgid "User profiles"
 msgstr ""
 
-#: .\questions\models.py:207
+#: .\questions\models.py:209
 #: .\questions\templates\questions\new_problem.html:62
 #: .\questions\templates\questions\past_solutions.html:62
 #: .\questions\templates\questions\student_logs.html:37
-#: .\questions\views.py:464
+#: .\questions\views.py:466
 msgid "Solution"
 msgstr ""
 
-#: .\questions\models.py:208
+#: .\questions\models.py:210
 #: .\questions\templates\questions\past_problems.html:38
-#: .\questions\templates\questions\show_class.html:72
+#: .\questions\templates\questions\show_class.html:75
 #: .\questions\templates\questions\student_solutions.html:13
 msgid "Solutions"
 msgstr ""
 
-#: .\questions\models.py:217
+#: .\questions\models.py:219
 msgid "Test Case"
 msgstr ""
 
-#: .\questions\models.py:218
+#: .\questions\models.py:220
 msgid "Test Cases"
 msgstr ""
 
-#: .\questions\models.py:246
+#: .\questions\models.py:248
 msgid "User log"
 msgstr ""
 
-#: .\questions\models.py:247
+#: .\questions\models.py:249
 msgid "User logs"
 msgstr ""
 
-#: .\questions\models.py:290
+#: .\questions\models.py:294
 msgid "Page access"
 msgstr ""
 
-#: .\questions\models.py:291
+#: .\questions\models.py:295
 msgid "Page accesses"
 msgstr ""
 
-#: .\questions\models.py:300
+#: .\questions\models.py:304
 msgid "Interactive"
 msgstr ""
 
-#: .\questions\models.py:308
+#: .\questions\models.py:312
 msgid "Recommendations"
 msgstr ""
 
-#: .\questions\models.py:317
+#: .\questions\models.py:321
 msgid "Comment"
 msgstr ""
 
-#: .\questions\models.py:326
+#: .\questions\models.py:330
 msgid "Drop out model"
 msgstr ""
 
-#: .\questions\models.py:327
+#: .\questions\models.py:331
 msgid "Drop out models"
 msgstr ""
 
 #: .\questions\templates\503.html:8 .\questions\templates\index.html:7
-#: .\questions\templates\questions\base.html:38
+#: .\questions\templates\questions\base.html:39
 msgid "Home"
 msgstr ""
 
@@ -422,33 +432,33 @@ msgstr ""
 
 #: .\questions\templates\503.html:35 .\questions\templates\503.html:49
 #: .\questions\templates\index.html:85 .\questions\templates\index.html:99
-#: .\questions\templates\questions\base.html:131
-#: .\questions\templates\registration\base.html:62
+#: .\questions\templates\questions\base.html:132
+#: .\questions\templates\registration\base.html:73
 msgid "About this research"
 msgstr ""
 
 #: .\questions\templates\503.html:40 .\questions\templates\index.html:90
-#: .\questions\templates\questions\base.html:122
-#: .\questions\templates\registration\base.html:53
+#: .\questions\templates\questions\base.html:123
+#: .\questions\templates\registration\base.html:64
 msgid "Check the "
 msgstr ""
 
 #: .\questions\templates\503.html:44 .\questions\templates\index.html:94
-#: .\questions\templates\questions\base.html:126
-#: .\questions\templates\registration\base.html:57
+#: .\questions\templates\questions\base.html:127
+#: .\questions\templates\registration\base.html:68
 msgid "and the "
 msgstr ""
 
 #: .\questions\templates\503.html:51
-#: .\questions\templates\registration\base.html:64
+#: .\questions\templates\registration\base.html:75
 msgid ""
 "© 2020 Copyright: <a href=\"http://machineteaching.tech\">machineteaching."
 "tech"
 msgstr ""
 
 #: .\questions\templates\index.html:34
-#: .\questions\templates\questions\base.html:200
-#: .\questions\templates\registration\base.html:24
+#: .\questions\templates\questions\base.html:218
+#: .\questions\templates\registration\base.html:35
 msgid "Close"
 msgstr ""
 
@@ -459,7 +469,7 @@ msgstr ""
 #: .\questions\templates\index.html:56
 #: .\questions\templates\registration\login.html:34
 #: .\questions\templates\registration\signup.html:7
-#: .\questions\templates\registration\signup.html:131 .\questions\views.py:101
+#: .\questions\templates\registration\signup.html:151 .\questions\views.py:103
 msgid "Create account"
 msgstr ""
 
@@ -492,90 +502,103 @@ msgid "Stimulate students to learn the Python language "
 msgstr ""
 
 #: .\questions\templates\index.html:101
-#: .\questions\templates\questions\base.html:136
+#: .\questions\templates\questions\base.html:137
 msgid "GPL-3.0 License"
 msgstr ""
 
-#: .\questions\templates\questions\base.html:39
+#: .\questions\templates\questions\base.html:40
 #, fuzzy
 #| msgid "Current Problem"
 msgid "Current problem"
 msgstr "Problema Atual"
 
-#: .\questions\templates\questions\base.html:40 .\questions\views.py:210
+#: .\questions\templates\questions\base.html:41 .\questions\views.py:212
 #, fuzzy
 #| msgid "Past Problems"
 msgid "Past problems"
 msgstr "Problemas Passados"
 
-#: .\questions\templates\questions\base.html:43
+#: .\questions\templates\questions\base.html:44
 #: .\questions\templates\questions\manager_dashboard.html:82
 #: .\questions\templates\questions\manager_dashboard.html:118
-#: .\questions\views.py:682
+#: .\questions\views.py:695
 msgid "Classes"
 msgstr ""
 
-#: .\questions\templates\questions\base.html:47
+#: .\questions\templates\questions\base.html:48
 msgid "Satisfaction Form"
 msgstr ""
 
-#: .\questions\templates\questions\base.html:52
+#: .\questions\templates\questions\base.html:53
 msgid "Strategy"
 msgstr "Estratégia"
 
-#: .\questions\templates\questions\base.html:57
+#: .\questions\templates\questions\base.html:58
 #: .\questions\templates\questions\finished.html:9
 #: .\questions\templates\questions\finished.html:14
 msgid "Sequential"
 msgstr "Sequencial"
 
-#: .\questions\templates\questions\base.html:59
+#: .\questions\templates\questions\base.html:60
 #: .\questions\templates\questions\finished.html:12
 #: .\questions\templates\questions\finished.html:14
 msgid "Random"
 msgstr "Aleatório"
 
-#: .\questions\templates\questions\base.html:88
+#: .\questions\templates\questions\base.html:89
 msgid "Hello"
 msgstr "Olá"
 
-#: .\questions\templates\questions\base.html:92
+#: .\questions\templates\questions\base.html:93
 msgid "Administration"
 msgstr ""
 
-#: .\questions\templates\questions\base.html:94
+#: .\questions\templates\questions\base.html:95
 #: .\questions\templates\questions\edit_profile.html:8
 msgid "Change class"
 msgstr ""
 
-#: .\questions\templates\questions\base.html:97
+#: .\questions\templates\questions\base.html:98
 msgid "Logout"
 msgstr "Sair"
 
-#: .\questions\templates\questions\base.html:105
+#: .\questions\templates\questions\base.html:106
 msgid "Answer the satisfaction form!"
 msgstr ""
 
-#: .\questions\templates\questions\base.html:134
+#: .\questions\templates\questions\base.html:135
 msgid "Tutorials"
 msgstr ""
 
-#: .\questions\templates\questions\base.html:144
+#: .\questions\templates\questions\base.html:145
 msgid "Register your course"
 msgstr ""
 
-#: .\questions\templates\questions\base.html:146
-#: .\questions\templates\registration\signup.html:56
+#: .\questions\templates\questions\base.html:147
+#: .\questions\templates\registration\signup.html:76
 msgid "Your course"
 msgstr ""
 
-#: .\questions\templates\questions\base.html:173
-#: .\questions\templates\registration\signup.html:86
+#: .\questions\templates\questions\base.html:174
+#: .\questions\templates\registration\signup.html:106
 msgid "Other course"
 msgstr ""
 
-#: .\questions\templates\questions\base.html:174
+#: .\questions\templates\questions\base.html:175
+#: .\questions\templates\questions\base.html:192
 msgid "Register"
+msgstr ""
+
+#: .\questions\templates\questions\base.html:183
+msgid "Update your informations"
+msgstr ""
+
+#: .\questions\templates\questions\base.html:185
+msgid "Add you university"
+msgstr ""
+
+#: .\questions\templates\questions\base.html:189
+msgid "Add your university registration"
 msgstr ""
 
 #: .\questions\templates\questions\chapters.html:10
@@ -586,16 +609,18 @@ msgid "Add chapter"
 msgstr "Aulas"
 
 #: .\questions\templates\questions\chapters.html:14
+#: .\questions\templates\questions\chapters.html:15
+#: .\questions\templates\questions\show_class.html:30
 #: .\questions\templates\questions\student_dashboard.html:78
 msgid "Name"
 msgstr ""
 
-#: .\questions\templates\questions\chapters.html:20
-#: .\questions\templates\questions\show_class.html:49
+#: .\questions\templates\questions\chapters.html:22
+#: .\questions\templates\questions\show_class.html:52
 msgid "Add"
 msgstr ""
 
-#: .\questions\templates\questions\chapters.html:26
+#: .\questions\templates\questions\chapters.html:28
 #: .\questions\templates\questions\outcomes.html:10
 #: .\questions\templates\questions\outcomes.html:22
 #: .\questions\templates\questions\past_problems.html:129
@@ -623,7 +648,7 @@ msgstr ""
 #: .\questions\templates\questions\class_dashboard.html:132
 #: .\questions\templates\questions\class_dashboard.html:168
 #: .\questions\templates\questions\classes.html:17
-#: .\questions\templates\questions\show_class.html:65
+#: .\questions\templates\questions\show_class.html:68
 msgid "Students"
 msgstr ""
 
@@ -653,6 +678,7 @@ msgstr ""
 #: .\questions\templates\questions\class_dashboard.html:53
 #: .\questions\templates\questions\class_dashboard.html:85
 #: .\questions\templates\questions\class_dashboard.html:156
+#: .\questions\templates\questions\home.html:52
 #: .\questions\templates\questions\manager_dashboard.html:47
 #: .\questions\templates\questions\manager_dashboard.html:106
 msgid "days"
@@ -696,6 +722,7 @@ msgid "average attempts and time to complete a problem"
 msgstr ""
 
 #: .\questions\templates\questions\class_dashboard.html:115
+#: .\questions\templates\questions\home.html:48
 #: .\questions\templates\questions\manager_dashboard.html:65
 msgid "to end a chapter"
 msgstr ""
@@ -824,56 +851,62 @@ msgstr "Problema Atual"
 msgid "All problems have been finalized"
 msgstr ""
 
-#: .\questions\templates\questions\home.html:27
-#: .\questions\templates\questions\show_chapter.html:85
-msgid "Main errors"
-msgstr ""
-
-#: .\questions\templates\questions\home.html:34
-msgid "No errors to show"
-msgstr ""
-
-#: .\questions\templates\questions\home.html:40
-#: .\questions\templates\questions\student_dashboard.html:20
-msgid "Average time"
-msgstr ""
-
-#: .\questions\templates\questions\home.html:41
-#: .\questions\templates\questions\student_dashboard.html:21
-msgid "to perform a problem"
-msgstr ""
-
-#: .\questions\templates\questions\home.html:45
-#: .\questions\templates\questions\home.html:54
-msgid "No problems completed"
-msgstr ""
-
-#: .\questions\templates\questions\home.html:50
+#: .\questions\templates\questions\home.html:28
 #: .\questions\templates\questions\student_dashboard.html:51
 msgid "before you get right a problem"
 msgstr ""
 
+#: .\questions\templates\questions\home.html:32
+msgid "No errors made"
+msgstr ""
+
+#: .\questions\templates\questions\home.html:38
+#: .\questions\templates\questions\student_dashboard.html:20
+msgid "Average time"
+msgstr ""
+
+#: .\questions\templates\questions\home.html:40
+#: .\questions\templates\questions\student_dashboard.html:21
+msgid "to perform a problem"
+msgstr ""
+
+#: .\questions\templates\questions\home.html:44
+msgid "No problems completed"
+msgstr ""
+
+#: .\questions\templates\questions\home.html:50
+msgid "Less than 1 day"
+msgstr ""
+
+#: .\questions\templates\questions\home.html:54
+msgid "No chapters completed"
+msgstr ""
+
 #: .\questions\templates\questions\home.html:61
+msgid "See more infos"
+msgstr ""
+
+#: .\questions\templates\questions\home.html:68
 #, fuzzy
 #| msgid "Chapters"
 msgid "Current chapter"
 msgstr "Aulas"
 
-#: .\questions\templates\questions\home.html:69
+#: .\questions\templates\questions\home.html:76
 msgid "Estimated time to finish this chapter"
 msgstr ""
 
-#: .\questions\templates\questions\home.html:69
+#: .\questions\templates\questions\home.html:76
 msgid "minutes"
 msgstr ""
 
-#: .\questions\templates\questions\home.html:69
+#: .\questions\templates\questions\home.html:76
 #, fuzzy
 #| msgid "Chapters"
 msgid "Finished chapter"
 msgstr "Aulas"
 
-#: .\questions\templates\questions\home.html:102
+#: .\questions\templates\questions\home.html:109
 msgid "There are still no chapters or all deadlines have expired"
 msgstr ""
 
@@ -1029,15 +1062,19 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: .\questions\templates\questions\show_class.html:40
+#: .\questions\templates\questions\show_chapter.html:85
+msgid "Main errors"
+msgstr ""
+
+#: .\questions\templates\questions\show_class.html:43
 msgid "Date (yyyy-mm-dd)"
 msgstr ""
 
-#: .\questions\templates\questions\show_class.html:46
+#: .\questions\templates\questions\show_class.html:49
 msgid "Time (H:M)"
 msgstr ""
 
-#: .\questions\templates\questions\show_class.html:74
+#: .\questions\templates\questions\show_class.html:77
 #: .\questions\templates\questions\student_solutions.html:15
 msgid "Dashboard"
 msgstr ""
@@ -1136,12 +1173,12 @@ msgstr "Aulas"
 #: .\questions\templates\registration\password_reset_complete.html:18
 #: .\questions\templates\registration\password_reset_confirm.html:34
 #: .\questions\templates\registration\password_reset_done.html:21
-#: .\questions\templates\registration\signup.html:137
+#: .\questions\templates\registration\signup.html:157
 msgid "Login"
 msgstr "Entrar"
 
 #: .\questions\templates\registration\login.html:21
-#: .\questions\templates\registration\signup.html:99
+#: .\questions\templates\registration\signup.html:119
 msgid "Password"
 msgstr ""
 
@@ -1204,11 +1241,11 @@ msgstr ""
 msgid "Last name"
 msgstr ""
 
-#: .\questions\templates\registration\signup.html:102
+#: .\questions\templates\registration\signup.html:122
 msgid "Password confirmation"
 msgstr ""
 
-#: .\questions\templates\registration\signup.html:104
+#: .\questions\templates\registration\signup.html:124
 msgid ""
 "\n"
 "                        \t    1) Your password can't be too similar to your "
@@ -1221,29 +1258,29 @@ msgid ""
 "                                "
 msgstr ""
 
-#: .\questions\views.py:141
+#: .\questions\views.py:143
 msgid "Finished"
 msgstr ""
 
-#: .\questions\views.py:498
+#: .\questions\views.py:500
 msgid "Problem solutions"
 msgstr ""
 
-#: .\questions\views.py:529
+#: .\questions\views.py:531
 msgid "Student solutions"
 msgstr ""
 
-#: .\questions\views.py:616
+#: .\questions\views.py:618
 #, fuzzy
 #| msgid "Current Problem"
 msgid "New problem"
 msgstr "Problema Atual"
 
-#: .\questions\views.py:655
+#: .\questions\views.py:668
 msgid "Edit profile"
 msgstr ""
 
-#: .\questions\views.py:839
+#: .\questions\views.py:863
 msgid "home"
 msgstr ""
 
