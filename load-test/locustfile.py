@@ -69,6 +69,11 @@ class StudentUser(HttpUser):
         response = self.client.get(f"dashboard", cookies=self.student_cookies)
         print("Student dashboard status code:", response.status_code)
 
+    @task
+    def test_past_problems(self):
+        response = self.client.get(f"past_problems", cookies=self.student_cookies)
+        print("past_problems status code:", response.status_code)
+
     @task   
     def test_class_dashboard(self):
         headers = {
