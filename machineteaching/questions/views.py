@@ -815,7 +815,7 @@ def start(request):
             chapter_times.append(get_time_to_finish_chapter_in_days(request.user, chapter_problems, onlineclass))
         
     time_to_finish_chapter = None
-    if len(chapter_times):
+    if len(chapter_times) and None not in chapter_times:
         chapter_times.sort()  
         time_to_finish_chapter = round(mean(chapter_times))
 

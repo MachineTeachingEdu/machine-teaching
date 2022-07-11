@@ -813,8 +813,8 @@ function showTutorials(language) {
     else {
       var title = "Tutoriais"
       var content = `<div class="tutorials">
-      <div style='height: 400px; margin-bottom: 60px;'><h3>Dicas</h3>
-      <iframe src="${pdf}" type="application/pdf" style="height: -webkit-fill-available; width: -webkit-fill-available"></iframe>
+      <div style='width: 560px; height: 315px; margin-bottom: 60px;'><h3>Dicas</h3>
+      <iframe src="${pdf}" type="application/pdf" style='height: 100%; height: -moz-available; height: -webkit-fill-available; height: fill-available; width: 100%; width: -moz-available; width: -webkit-fill-available; width: fill-available;'></iframe>
       </div><div><h3>Como se cadastrar?</h3>
       <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/5GSyIPOux4I" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div><div><h3>Como responder um exercício?</h3>
