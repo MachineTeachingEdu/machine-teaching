@@ -133,3 +133,5 @@ machineteaching/similarity\.pkl
 *.bkp
 machineteaching/questions/.DS_Store
 machineteaching/machineteaching/maintenance_mode_state.txt
+
+!machineteaching/questions/static/pdf/dicas_MT.pdf

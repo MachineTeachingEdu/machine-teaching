@@ -93,7 +93,7 @@ def signup(request):
             user.userprofile.university = form.cleaned_data.get('university')
             user.userprofile.registration = form.cleaned_data.get('registration')
             user.userprofile.save()
-            username = form.cleaned_data.get('email')
+            username = form.cleaned_data.get('email').lower()
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
@@ -814,9 +814,9 @@ def start(request):
         if solved_problems == chapter_problems.count():      
             chapter_times.append(get_time_to_finish_chapter_in_days(request.user, chapter_problems, onlineclass))
         
-    chapter_times.sort()
     time_to_finish_chapter = None
     if len(chapter_times):
+        chapter_times.sort()  
         time_to_finish_chapter = round(mean(chapter_times))
 
     u_errors = []
