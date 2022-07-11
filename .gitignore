@@ -115,6 +115,7 @@ class_analysis/*/*
 
 settings.py
 db_*.json
+admin_*.json
 db_*.sql
 db_*.dump
 edm2020/
@@ -124,10 +125,11 @@ edm2020/
 machineteaching/\.Rhistory
 
 machineteaching/dump_db_basic/
+machineteaching/questions/class_analysis
 
 machineteaching/machineteaching/dev_settings\.py
 
-machineteaching/db\.sqlite3
+machineteaching/db\.sqlite3*
 
 machineteaching/similarity\.pkl
 *.bkp
