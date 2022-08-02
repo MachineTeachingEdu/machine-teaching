@@ -813,7 +813,7 @@ def start(request):
                                                         final_outcome='P').count()
         if solved_problems == chapter_problems.count():      
             time_to_finish_single_chapter = get_time_to_finish_chapter_in_days(request.user, chapter_problems, onlineclass)
-            if time_to_finish_single_chapter:
+            if time_to_finish_single_chapter is not None:           
                 chapter_times.append(time_to_finish_single_chapter)
         
     time_to_finish_chapter = None
