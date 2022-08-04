@@ -20,6 +20,6 @@ else
     export DJANGO_SETTINGS_MODULE=machineteaching.settings
     opentelemetry-bootstrap --action=install
     echo "Starting server on port $PORT"
-    OTEL_RESOURCE_ATTRIBUTES=service.name=machine_teaching OTEL_EXPORTER_OTLP_ENDPOINT="http://35.226.60.104:4318" opentelemetry-instrument --traces_exporter otlp_proto_http python manage.py runserver 0.0.0.0:$PORT
+    python manage.py runserver 0.0.0.0:$PORT
 fi
 

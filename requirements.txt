@@ -23,5 +23,5 @@ Werkzeug==2.0.0
 locust
 opentelemetry-distro
 opentelemetry-exporter-otlp-proto-http
+django-maintenance-mode
 # apache-skywalking[http]
->>>>>>> configuration for open telemtry and signoz apm

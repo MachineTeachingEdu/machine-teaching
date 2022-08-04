@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 from dotenv import load_dotenv
 load_dotenv()  # loads the configs from .env
+from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -27,38 +28,39 @@ SECRET_KEY = os.getenv("APP_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "0.0.0.0", "machine-teaching-ufrj.herokuapp.com"]
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(",")
 
+CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS").split(",")
 
 # Application definition
 
 INSTALLED_APPS = [
-'questions.apps.QuestionsConfig',
-'evaluation.apps.EvaluationConfig',
-'django.contrib.admin',
-'django.contrib.auth',
-'django.contrib.contenttypes',
-'django.contrib.sessions',
-'django.contrib.messages',
-'django.contrib.staticfiles',
-'django_extensions',
-'django_filters',
-'simple_history',
-'import_export',
-'rest_framework',
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'maintenance_mode',
+    'questions',
+    'evaluation',
+    'django_extensions',
+    'simple_history',
+    'import_export',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'simple_history.middleware.HistoryRequestMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'maintenance_mode.middleware.MaintenanceModeMiddleware',
 ]
 
 ROOT_URLCONF = 'machineteaching.urls'
@@ -74,7 +76,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'questions.context_processors.context'
+                'questions.context_processors.context',
             ],
         },
     },
@@ -104,7 +106,6 @@ DATABASES = {
 }
 
 
-
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
@@ -126,7 +127,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
-
 LANGUAGE_CODE = 'pt-br'
 
 TIME_ZONE = 'America/Sao_Paulo'
@@ -137,9 +137,10 @@ USE_L10N = True
 
 USE_TZ = True
 
-LOCALE_PATHS = [
-    os.path.join(BASE_DIR, 'locale')
-]
+# LOCALE_PATHS = (
+#     'locale',
+# )
+LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
 
 # LOGIN
 LOGIN_REDIRECT_URL = '/'
@@ -155,17 +156,11 @@ DEFAULT_FROM_EMAIL= os.getenv("DEFAULT_FROM_EMAIL", "machineteaching@ufrj.br")
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
-
-# Extra places for collectstatic to find static files.
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # Disable revert option from admin
 SIMPLE_HISTORY_REVERT_DISABLED=True
+IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 # Document Topic shape
 DOC_TOPIC_SHAPE = (55, 5)
@@ -184,6 +179,14 @@ NOTEBOOK_ARGUMENTS = [
     '--ip', '0.0.0.0',
     '--no-browser'
 ]
+
+# Maintenance mode
+MAINTENANCE_MODE = False
+# if True admin site will not be affected by the maintenance-mode page
+MAINTENANCE_MODE_IGNORE_ADMIN_SITE = True
+# if True the superuser will not see the maintenance-mode page
+MAINTENANCE_MODE_IGNORE_SUPERUSER = True
+SHOW_SATISFACTION_FORM = False
 
 # LOGGING
 LOGGING = {
