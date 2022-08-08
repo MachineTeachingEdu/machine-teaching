@@ -1,7 +1,7 @@
 from questions.models import (Professor, Problem, Deadline, User, UserLogView, OnlineClass)
 import csv
 from datetime import datetime
-
+from cmath import nan
 import pandas as pd
 
 from questions.get_dashboards import predict_drop_out
@@ -58,14 +58,14 @@ for id in classes:
 
     i=1
     for student in students:
-        try:
-            predict = predict_drop_out(student.id, onlineclass, date)
-            on_time_exercises = count_on_time_exercises(student, [17,19], onlineclass)
+        predict = predict_drop_out(student.id, onlineclass, date)
+        on_time_exercises = count_on_time_exercises(student, [17,19], onlineclass)
 
-            results = []
-            for clf in [(6.5,4),(7.2,7),(8.9,7)]:
-                C = clf[0]
-                K = clf[1]
+        results = []
+        for clf in [(6.5,4),(7.2,7),(8.9,7)]:
+            C = clf[0]
+            K = clf[1]
+            try:
                 if predict < C:
                     if on_time_exercises < K:
                         result = "VP"
@@ -76,7 +76,9 @@ for id in classes:
                         result = "FN"
                     else:
                         result = "VN"
-                results.append(result)
+            except:
+                result = nan
+            results.append(result)
 
             writer.writerow([student.id,
                              onlineclass.name,
@@ -93,9 +95,9 @@ for id in classes:
 f.close()
 
 # Lista de classificadores com métricas
-f = open("questions/class_analysis/"+semester+"/classifiers_"+semester+".csv","w+")
-writer = csv.writer(f)
-writer.writerow(["clf","VP","VN","FP","FN","TFP","TVP","TVN","F1_P","F1_N"])
+f2 = open("questions/class_analysis/"+semester+"/classifiers_"+semester+".csv","w+")
+writer2 = csv.writer(f2)
+writer2.writerow(["clf","VP","VN","FP","FN","TFP","TVP","TVN","F1_P","F1_N"])
 
 df = pd.read_csv("questions/class_analysis/"+semester+"/summary_"+semester+".csv")
 
@@ -121,4 +123,4 @@ for i in 1,2,3:
         VPN = nan
         F1_N = nan
 
-    writer.writerow([i, VP, VN, FP, FN, TFP, TVP, TVN, F1_P, F1_N])
+    writer2.writerow([i, VP, VN, FP, FN, TFP, TVP, TVN, F1_P, F1_N])
