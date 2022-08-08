@@ -42,10 +42,16 @@ class SignUpForm(UserCreationForm):
         fields = ('email', 'first_name', 'last_name', 'password1', 'password2')
 
     def clean_email(self):
-        email = self.cleaned_data.get('email')
+        email = self.cleaned_data.get('email').lower()
         if email.lower() and User.objects.filter(email=email).exists():
             raise forms.ValidationError(_(u'Email addresses must be unique.'))
         return email
+
+    def clean_username(self):
+        username = self.cleaned_data.get('email').lower()
+        if username.lower() and User.objects.filter(username=username).exists():
+            raise forms.ValidationError(_(u'Usernames must be unique.'))
+        return username
 
     def clean_class_code(self):
         class_code = self.cleaned_data.get('class_code')

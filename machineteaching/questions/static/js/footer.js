@@ -640,6 +640,18 @@ Laura O. Moraes, Carlos Eduardo Pedreira (2021). Clustering Introductory Compute
 <a class="highlight" href="https://www.google.com/url?q=https%3A%2F%2Fgithub.com%2Fpersai-lab%2FUMAP2021-GRATE&sa=D&sntz=1&usg=AFQjCNHm7skxJkNzOdzo6FFgXpXQ5ggClQ">Code</a> 
 <a class="highlight" href="https://www.google.com/url?q=https%3A%2F%2Fdl.acm.org%2Fdoi%2F10.1145%2F3450613.3456831%23video_stream_uuid%253A1c4475cc-85df-4fc4-9cca-9078d591fa23&sa=D&sntz=1&usg=AFQjCNHOeH5o4o7CF3uHAlu2FZV_sSuitw">Video</a>
 <br><br>
+5. Laura O. Moraes, Carlos Eduardo Pedreira, Carla Delgado, João Pedro Freire (2021). Supporting Decisions Using Educational Data Analysis. Anais Estendidos do XXVII Simpósio Brasileiro de Sistemas Multimídia e Web (WebMedia 2021), pp. 99-102, Novembro 2021, Virtual. 
+<br>
+<a class="highlight" href="https://www.google.com/url?q=https%3A%2F%2Fsol.sbc.org.br%2Findex.php%2Fwebmedia_estendido%2Farticle%2Fview%2F17622%2F17457&sa=D&sntz=1&usg=AOvVaw2d1rvQwPiESOiA0uhUtmjV">PDF</a> 
+<a class="highlight" href="https://www.google.com/url?q=https%3A%2F%2Fgithub.com%2Flaura-moraes%2Fmachine-teaching%2F&sa=D&sntz=1&usg=AOvVaw0GeZPrsIE3CrGWh0top2vy">Code</a> 
+<a class="highlight" href="https://docs.google.com/presentation/d/1EyqgsWQoRFeo0SNCPTeYPKCNrLDMaTTekWXVL7zRZ24/edit?usp=sharing">Slides</a>
+<br><br>
+6. Laura O. Moraes, Carlos Eduardo Pedreira, Carla Delgado, João Pedro Freire (2021). Machine Teaching: uma ferramenta didática e de análise de dados para suporte a cursos introdutórios de programação. Anais do II Simpósio Brasileiro de Educação em Computação, pp. 213-223, 24 a 29 de Abril, 2022, Virtual. 
+<br>
+<a class="highlight" href="https://www.google.com/url?q=https%3A%2F%2Fsol.sbc.org.br%2Findex.php%2Feducomp%2Farticle%2Fview%2F19216%2F19045&sa=D&sntz=1&usg=AOvVaw2pCi1dkO30GfXGtqQSkfAC">PDF</a> 
+<a class="highlight" href="https://www.google.com/url?q=https%3A%2F%2Fgithub.com%2Flaura-moraes%2Fmachine-teaching%2F&sa=D&sntz=1&usg=AOvVaw0GeZPrsIE3CrGWh0top2vy">Code</a> 
+<a class="highlight" href="https://drive.google.com/file/d/1VImpvmRu7eMEgi9SZrcqcfrl4fij0J0d/view?usp=sharing">Video</a>
+<br><br>
 
 
         <h3>Support</h3><br>
@@ -699,6 +711,18 @@ Laura O. Moraes, Carlos Eduardo Pedreira (2021). Clustering Introductory Compute
 <a class="highlight" href="https://www.google.com/url?q=https%3A%2F%2Fdl.acm.org%2Fdoi%2Fpdf%2F10.1145%2F3450613.3456831&sa=D&sntz=1&usg=AFQjCNExqFzRFk-jpsHO_kPb0s-H4EHFLw">PDF</a> 
 <a class="highlight" href="https://www.google.com/url?q=https%3A%2F%2Fgithub.com%2Fpersai-lab%2FUMAP2021-GRATE&sa=D&sntz=1&usg=AFQjCNHm7skxJkNzOdzo6FFgXpXQ5ggClQ">Code</a> 
 <a class="highlight" href="https://www.google.com/url?q=https%3A%2F%2Fdl.acm.org%2Fdoi%2F10.1145%2F3450613.3456831%23video_stream_uuid%253A1c4475cc-85df-4fc4-9cca-9078d591fa23&sa=D&sntz=1&usg=AFQjCNHOeH5o4o7CF3uHAlu2FZV_sSuitw">Video</a>
+<br><br>
+5. Laura O. Moraes, Carlos Eduardo Pedreira, Carla Delgado, João Pedro Freire (2021). Supporting Decisions Using Educational Data Analysis. Anais Estendidos do XXVII Simpósio Brasileiro de Sistemas Multimídia e Web (WebMedia 2021), pp. 99-102, Novembro 2021, Virtual. 
+<br>
+<a class="highlight" href="https://www.google.com/url?q=https%3A%2F%2Fsol.sbc.org.br%2Findex.php%2Fwebmedia_estendido%2Farticle%2Fview%2F17622%2F17457&sa=D&sntz=1&usg=AOvVaw2d1rvQwPiESOiA0uhUtmjV">PDF</a> 
+<a class="highlight" href="https://www.google.com/url?q=https%3A%2F%2Fgithub.com%2Flaura-moraes%2Fmachine-teaching%2F&sa=D&sntz=1&usg=AOvVaw0GeZPrsIE3CrGWh0top2vy">Code</a> 
+<a class="highlight" href="https://docs.google.com/presentation/d/1EyqgsWQoRFeo0SNCPTeYPKCNrLDMaTTekWXVL7zRZ24/edit?usp=sharing">Slides</a>
+<br><br>
+6. Laura O. Moraes, Carlos Eduardo Pedreira, Carla Delgado, João Pedro Freire (2021). Machine Teaching: uma ferramenta didática e de análise de dados para suporte a cursos introdutórios de programação. Anais do II Simpósio Brasileiro de Educação em Computação, pp. 213-223, 24 a 29 de Abril, 2022, Virtual. 
+<br>
+<a class="highlight" href="https://www.google.com/url?q=https%3A%2F%2Fsol.sbc.org.br%2Findex.php%2Feducomp%2Farticle%2Fview%2F19216%2F19045&sa=D&sntz=1&usg=AOvVaw2pCi1dkO30GfXGtqQSkfAC">PDF</a> 
+<a class="highlight" href="https://www.google.com/url?q=https%3A%2F%2Fgithub.com%2Flaura-moraes%2Fmachine-teaching%2F&sa=D&sntz=1&usg=AOvVaw0GeZPrsIE3CrGWh0top2vy">Code</a> 
+<a class="highlight" href="https://drive.google.com/file/d/1VImpvmRu7eMEgi9SZrcqcfrl4fij0J0d/view?usp=sharing">Video</a>
 <br><br>
 
 <h3>Equipe</h3>
@@ -776,6 +800,7 @@ function showTutorials(language) {
   if (language == "en") {
       var title = "Tutorials"
       var content = `<div class="tutorials">
+      <div style='height: 400px; margin-bottom: 60px;'><h3>Tips</h3><iframe src="${pdf}" type="application/pdf" style="height: -webkit-fill-available; width: -webkit-fill-available"></iframe></div> 
       <div><h3>How to register?</h3>
       <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/5GSyIPOux4I" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div><div>
@@ -788,10 +813,11 @@ function showTutorials(language) {
     else {
       var title = "Tutoriais"
       var content = `<div class="tutorials">
-      <div><h3>Como se cadastrar?</h3>
+      <div style='width: 560px; height: 315px; margin-bottom: 60px;'><h3>Dicas</h3>
+      <iframe src="${pdf}" type="application/pdf" style='height: 100%; height: -moz-available; height: -webkit-fill-available; height: fill-available; width: 100%; width: -moz-available; width: -webkit-fill-available; width: fill-available;'></iframe>
+      </div><div><h3>Como se cadastrar?</h3>
       <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/5GSyIPOux4I" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div><div>
-      <h3>Como responder um exercício?</h3>
+      </div><div><h3>Como responder um exercício?</h3>
       <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/T5VY5eJvAlc" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
       </div><div><h3>Truques para estudar</h3>
       <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/zbt71gP0EDk" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>

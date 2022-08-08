@@ -47,19 +47,12 @@
               {% if SHOW_SATISFACTION_FORM %}
               <a class="menu-item" href="{% url 'satisfaction_form' %}" target="_blank">{% blocktrans %}Satisfaction Form{% endblocktrans %}</a>
               {% endif %}
+              {% if not perms.questions.view_userlogview %}
+              <a class="menu-item" onclick="showTutorials('{{language}}')">{% blocktrans %}Tutorials{% endblocktrans %}</a>
+              {% endif %}
         
             </ul>
-            <li class="menu-separator"></li>
-            <div class="menu-title">{% blocktrans %}Strategy{% endblocktrans %}</div>
-            <ul class="menu">
-
-              <!-- strategy -->
-              <input type="radio" id="1" value="1" name="sequential" style="display: none;"{% if user.userprofile.sequential %} checked {% endif %}></input>
-              <label for="1" class="menu-item">{% blocktrans %}Sequential{% endblocktrans %}</label>
-              <input type="radio" id="0" value="0" name="sequential" style="display: none;"{% if not user.userprofile.sequential %} checked {% endif %}></input>
-              <label for="0" class="menu-item">{% blocktrans %}Random{% endblocktrans %}</label>
-
-            </ul>
+      
             <li class="menu-separator"></li>
             <div class="menu-title">{% blocktrans %}Chapters{% endblocktrans %}</div>
             <ul class="menu">
@@ -215,6 +208,8 @@
               const gabriel = '{% static "img/equipe/gabriel.png" %}'
               const arthur = '{% static "img/equipe/arthur.png" %}'
 
+              const pdf = '{% static "pdf/dicas_MT.pdf" %}'
+              
               const close = '{% blocktrans %}Close{% endblocktrans %}';
       </script>
 <!--       <script src="https://cdn.jsdelivr.net/pyodide/v0.17.0/full/pyodide.js"></script> -->
