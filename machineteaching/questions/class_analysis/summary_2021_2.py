@@ -80,15 +80,15 @@ for id in classes:
                 result = np.nan
             results.append(result)
 
-            writer.writerow([student.id,
-                             onlineclass.name,
-                             student.first_name+" "+student.last_name,
-                             predict,
-                             on_time_exercises,
-                             results[0],
-                             results[1],
-                             results[2]])
-            i+=1
+        writer.writerow([student.id,
+                         onlineclass.name,
+                         student.first_name+" "+student.last_name,
+                         predict,
+                         on_time_exercises,
+                         results[0],
+                         results[1],
+                         results[2]])
+        i+=1
             
 f.close()
 
