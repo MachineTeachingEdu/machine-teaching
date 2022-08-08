@@ -77,7 +77,7 @@ for id in classes:
                     else:
                         result = "VN"
             except:
-                result = NA
+                result = np.nan
             results.append(result)
 
             writer.writerow([student.id,
