@@ -40,8 +40,8 @@ def count_exercises(user, chapters, onlineclass):
     return sum(on_time_list)
 
 
-# classes = [102,103,97,99,100,101,104,109,110,98,112,113,115,117]
-classes = [1]
+classes = [102,103,97,99,100,101,104,109,110,98,112,113,115,117]
+# classes = [1]
 date = datetime(2022,2,1)
 semester = '2021_2'
 
