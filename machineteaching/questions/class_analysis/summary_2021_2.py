@@ -100,7 +100,7 @@ writer.writerow(["clf","VP","VN","FP","FN","TFP","TVP","TVN","F1_P","F1_N"])
 df = pd.read_csv("questions/class_analysis/"+semester+"/summary_"+semester+".csv")
 
 for i in 1,2,3:
-    col = f'clf_{i}'
+    col = "clf_"+str(i)
     VP = len(df[df[col] == 'VP'])
     VN = len(df[df[col] == 'VN'])
     FP = len(df[df[col] == 'FP'])
