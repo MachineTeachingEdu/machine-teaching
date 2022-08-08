@@ -85,9 +85,9 @@ for id in classes:
                              student.first_name+" "+student.last_name,
                              predict,
                              on_time_exercises,
-                             result[0],
-                             result[1],
-                             result[2]])
+                             results[0],
+                             results[1],
+                             results[2]])
             i+=1
             
 f.close()
