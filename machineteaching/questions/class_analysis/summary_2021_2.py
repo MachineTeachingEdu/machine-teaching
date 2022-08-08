@@ -89,8 +89,6 @@ for id in classes:
                              result[1],
                              result[2]])
             i+=1
-        except:
-            pass
             
 f.close()
 
