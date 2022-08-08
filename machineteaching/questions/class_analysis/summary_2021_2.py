@@ -65,19 +65,16 @@ for id in classes:
         for clf in [(6.5,4),(7.2,7),(8.9,7)]:
             C = clf[0]
             K = clf[1]
-            try:
-                if predict < C:
-                    if on_time_exercises < K:
-                        result = "VP"
-                    else:
-                        result = "FP"
+            if predict < C:
+                if on_time_exercises < K:
+                    result = "VP"
                 else:
-                    if on_time_exercises < K:
-                        result = "FN"
-                    else:
-                        result = "VN"
-            except:
-                result = np.nan
+                    result = "FP"
+            else:
+                if on_time_exercises < K:
+                    result = "FN"
+                else:
+                    result = "VN"
             results.append(result)
 
         writer.writerow([student.id,
