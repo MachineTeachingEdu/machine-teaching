@@ -172,7 +172,7 @@ def predict_drop_out(user, onlineclass, date):
         X = sm.add_constant(X, has_constant='add')
         y_pred = model.predict(X)[0]
 
-        return round(y_pred)
+        return y_pred
     except:
         return None
 
