@@ -1,7 +1,7 @@
 from questions.models import (Professor, Problem, Deadline, User, UserLogView, OnlineClass)
 import csv
 from datetime import datetime
-from cmath import nan
+import numpy as np
 import pandas as pd
 
 from questions.get_dashboards import predict_drop_out
@@ -77,7 +77,7 @@ for id in classes:
                     else:
                         result = "VN"
             except:
-                result = nan
+                result = NA
             results.append(result)
 
             writer.writerow([student.id,
@@ -112,13 +112,13 @@ for i in 1,2,3:
         VPP = VP/(VP+FP)
         F1_P = 2*VPP*TVP/(VPP+TVP)
     except:
-        VPP = nan
-        F1_P = nan
+        VPP = np.nan
+        F1_P = np.nan
     try:
         VPN = VN/(FN+VN)
         F1_N = 2*VPN*TVN/(VPN+TVN)
     except:
-        VPN = nan
-        F1_N = nan
+        VPN = np.nan
+        F1_N = np.nan
 
     writer2.writerow([i, VP, VN, FP, FN, TFP, TVP, TVN, F1_P, F1_N])
