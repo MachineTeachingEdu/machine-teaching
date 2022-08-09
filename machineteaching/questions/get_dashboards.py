@@ -164,7 +164,8 @@ def predict_drop_out(user, onlineclass, date):
     model = completed_chapter.drop_out_model
     chapters = model.completed_chapter.all()
     # Open model file
-    model=pd.read_pickle(model.model_file)
+    with open(model.model_file, "rb") as pklfile:
+        model = pickle.load(pklfile)
 
     X = get_on_time_exercises(user, chapters, onlineclass)
     X = sm.add_constant(X, has_constant='add')
