@@ -5,9 +5,11 @@ import pandas as pd
 # Visualization
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-from sklearn.manifold import TSNE
+from sklearn.manifold import TSNE, MDS
+from sklearn.decomposition import PCA, TruncatedSVD
 import matplotlib.cm as cm
 import matplotlib.colors as mpl_colors
+from sklearn.metrics.pairwise import cosine_distances
 
 class Plot2D(object):
     """ Reduce data to 2 dimensions to plot it."""
@@ -23,6 +25,7 @@ class Plot2D(object):
         self.xs = None
         self.ys = None
         self.X = None
+        self.solution_tsne = None
 
         self._set_clusters()
         # Generate seed
@@ -39,13 +42,41 @@ class Plot2D(object):
             color_hex = mpl_colors.rgb2hex(color[:3])
             self.cluster_colors[self.cluster_names[i]] = color_hex
 
-    def reduce(self, solution_sample):
+    def reduce_pca(self, solution_sample):
         # convert two components as we're plotting points in a two-dimensional plane
         # we will also specify `random_state` so the plot is reproducible.
-        solution_tsne = TSNE(n_components=2, metric='cosine',
-                             #random_state=self.seed)
-                             random_state=1)
-        pos = solution_tsne.fit_transform(solution_sample)  # shape (n_components, n_samples)
+        self.solution_reduced = PCA(n_components=2, random_state=self.seed)
+
+        pos = self.solution_reduced.fit_transform(solution_sample)  # shape (n_components, n_samples)
+        self.X = pos
+        self.xs, self.ys = pos[:, 0], pos[:, 1]
+
+    def reduce_svd(self, solution_sample):
+        # convert two components as we're plotting points in a two-dimensional plane
+        # we will also specify `random_state` so the plot is reproducible.
+        self.solution_reduced = TruncatedSVD(n_components=2, random_state=self.seed)
+
+        pos = self.solution_reduced.fit_transform(solution_sample)  # shape (n_components, n_samples)
+        self.X = pos
+        self.xs, self.ys = pos[:, 0], pos[:, 1]
+
+    def reduce_tsne(self, solution_sample):
+        # convert two components as we're plotting points in a two-dimensional plane
+        # we will also specify `random_state` so the plot is reproducible.
+        self.solution_reduced = TSNE(n_components=2, metric='cosine',
+                                     random_state=self.seed)
+
+        pos = self.solution_reduced.fit_transform(solution_sample)  # shape (n_components, n_samples)
+        self.X = pos
+        self.xs, self.ys = pos[:, 0], pos[:, 1]
+
+    def reduce_mds(self, solution_sample):
+        # convert two components as we're plotting points in a two-dimensional plane
+        # we will also specify `random_state` so the plot is reproducible.
+        self.solution_reduced = MDS(n_components=2, dissimilarity='precomputed',
+                                    random_state=self.seed)
+        dissimilarity = cosine_distances(solution_sample)
+        pos = self.solution_reduced.fit_transform(dissimilarity)  # shape (n_components, n_samples)
         self.X = pos
         self.xs, self.ys = pos[:, 0], pos[:, 1]
 
@@ -79,7 +110,7 @@ class Plot2D(object):
     def plot(self, show_clusters=True, highlight=None, show=True,
              savefig=False, make_ellipses=False):
         # set up plot
-        fig, ax = plt.subplots(figsize=(9, 13)) # set size
+        fig, ax = plt.subplots(figsize=(13,9)) # set size
         ax.margins(0.05) # Optional, just adds 5% padding to the autoscaling
 
         # Show pre-labeled (not by the student!!) samples with the respective color
@@ -103,7 +134,7 @@ class Plot2D(object):
                 # Plot other categories
                 ax.plot(group.x, group.y, marker='o', linestyle='', ms=12,
                         label=name, color=self.cluster_colors[name],
-                        mec='none', alpha=0.5)
+                        mec='none')
                 ax.set_aspect('auto')
                 ax.tick_params(\
                     axis= 'x',          # changes apply to the x-axis
@@ -121,18 +152,32 @@ class Plot2D(object):
             ax.legend(numpoints=1)  #show legend with only 1 point
 
         # Plot all docs
-        plt.scatter(self.xs, self.ys, alpha=0.5)
+        plt.scatter(self.xs, self.ys, alpha=0)
+        plt.title("Documents projected using PCA - First 2 components", fontsize=20)
+        plt.xlabel("PC1", fontsize=14)
+        plt.ylabel("PC2", fontsize=14)
 
         # If highlight is set, show observation with different color
         if highlight is not None:
+
+            colors = []
+            if isinstance(highlight, list):
+                for i in range(len(highlight)):
+                    color = cm.tab10(i / len(highlight))
+                    color_hex = mpl_colors.rgb2hex(color[:3])
+                    colors.append(color_hex)
+            else:
+                colors = ['r']
+
             plt.scatter(self.xs[highlight], self.ys[highlight],
-                        color='r', marker=r'$\star$', s=400)
+                        color=colors, marker=r'$\star$', s=400)
         if make_ellipses:
             make_ellipses["ax"] = ax
             self.make_ellipses(**make_ellipses)
 
         if savefig:
-            plt.savefig('images/' + savefig)
+            plt.savefig('images/' + savefig + '.eps', format='eps')
+            plt.savefig('images/' + savefig + '.png', format='png')
 
         if show:
             plt.show() #show the plot
