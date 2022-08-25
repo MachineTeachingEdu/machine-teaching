@@ -6,9 +6,9 @@ from os import getenv
 @dataclass
 class Config:
     id_da_disciplina  = "132" # Comp1_2022_1_Ep(Carla)  sWb-qsF-SDg
-    student_login = getenv("STUDENT_EMAIL", "laura.moraes%40coppe.ufrj.br")
+    student_login = getenv("STUDENT_EMAIL")
     student_password = getenv("STUDENT_PASSWORD")
-    professor_login = getenv("PROFESSOR_EMAIL", "kauahn.fonseca6%40poli.ufrj.br")
+    professor_login = getenv("PROFESSOR_EMAIL")
     professor_password = getenv("PROFESSOR_PASSWORD")
 
 class StudentUser(HttpUser):
