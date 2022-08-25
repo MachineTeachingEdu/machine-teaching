@@ -719,7 +719,12 @@ def manage_class(request, onlineclass):
             pk__in=professors).order_by(Lower('first_name').asc(), Lower('last_name').asc())
         students_list = []
         for student in students:
-            students_list.append({'student':student, 'predict':predict_drop_out(student.id, onlineclass, datetime.now())})
+            # Temporary hack. TODO: use most updated dropout model
+            try:
+                dropout = predict_drop_out(student.id, onlineclass, datetime.now())
+                students_list.append({'student':student, 'predict': dropout})
+            except AttributeError:
+                students_list.append({'student':student})
         deadlines = Deadline.objects.filter(onlineclass=onlineclass)
         chapters = []
         for deadline in deadlines:

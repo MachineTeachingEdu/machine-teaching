@@ -1,0 +1,37 @@
+version: "3.7"
+services:
+  machine_teaching_db:
+    image: postgres:9.6
+    environment:
+      - POSTGRES_USER=dev_user
+      - POSTGRES_PASSWORD=secure_password
+      - POSTGRES_DB=machine_teaching_db
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+  web:
+    build: .
+    volumes:
+      - ./machineteaching:/app/machineteaching
+    ports:
+      - "8020:8020"
+    environment:
+      - DB_NAME=machine_teaching_db
+      - DB_USER=dev_user
+      - DB_PASSWORD=secure_password
+      - DB_HOST=machine_teaching_db
+      - DB_PORT=5432
+      - ENVIRONMENT=DEV
+      - PORT=8020
+      - WAIT_HOSTS=machine_teaching_db:5432
+      - ALLOWED_HOSTS=localhost,127.0.0.1,0.0.0.0,machine-teaching-ufrj.herokuapp.com,machine-teaching-app-r22grtpmzq-uc.a.run.app
+      - CSRF_TRUSTED_ORIGINS=https://machine-teaching-app-r22grtpmzq-uc.a.run.app
+      - APP_SECRET_KEY=SUPER_SECRET_KEY_1234
+    depends_on:
+      - machine_teaching_db
+
+volumes:
+  db-data:
+    driver:
+      local
