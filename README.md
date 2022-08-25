@@ -1,9 +1,20 @@
-## Preparando ambiente de desenvolvimento
+## Levantando ambiente de desenvolvimento (com Docker)
+
+```sh
+# O comando abaixo executa as seguintes tarefas:
+# - levanta o banco de dados Postgresql de desenvolvimento + Django Server:
+# - executa as migrations da aplicação machine teaching
+# - inicia a aplicação em modo de desenvolvimento
+
+docker-compose up
+```
+
+## Levantando ambiente de desenvolvimento (sem Docker)
 
 Passo 1: Levantar o banco de dados Postgresql de desenvolvimento:
 
 ```sh
-docker-compose up
+docker-compose up machine_teaching_db
 ```
 
 Passo 2: Rodar as migrations da aplicação machine teaching
