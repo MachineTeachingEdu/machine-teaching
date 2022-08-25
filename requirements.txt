@@ -3,7 +3,7 @@ beautifulsoup4
 requests
 gunicorn
 django-extensions
-django==3.2.13
+django==3.2.15
 psycopg2==2.8.6
 django-picklefield
 numpy
