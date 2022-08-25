@@ -1,4 +1,6 @@
-FROM python:3.9.0-slim
+FROM python:3.9.0-slim as base
+
+RUN echo "Creating base Image"
 
 WORKDIR /app
 
@@ -9,8 +11,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     unixodbc-dev \
     gcc \
-    nginx \
-    vim \
     gnupg && \
     echo 'deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main' >> /etc/apt/sources.list.d/pgdg.list && \
     curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
@@ -40,5 +40,3 @@ EXPOSE 4317
 EXPOSE 4318
 
 ENTRYPOINT ["/app/init.sh" ]
-
-CMD gunicorn machineteaching.wsgi --bind 0.0.0.0:$PORT --workers 3
