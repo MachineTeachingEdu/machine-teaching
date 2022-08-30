@@ -93,7 +93,7 @@ def signup(request):
             user.userprofile.university = form.cleaned_data.get('university')
             user.userprofile.registration = form.cleaned_data.get('registration')
             user.userprofile.save()
-            username = form.cleaned_data.get('email')
+            username = form.cleaned_data.get('email').lower()
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
@@ -719,7 +719,12 @@ def manage_class(request, onlineclass):
             pk__in=professors).order_by(Lower('first_name').asc(), Lower('last_name').asc())
         students_list = []
         for student in students:
-            students_list.append({'student':student, 'predict':predict_drop_out(student.id, onlineclass, datetime.now())})
+            # Temporary hack. TODO: use most updated dropout model
+            try:
+                dropout = predict_drop_out(student.id, onlineclass, datetime.now())
+                students_list.append({'student':student, 'predict': dropout})
+            except AttributeError:
+                students_list.append({'student':student})
         deadlines = Deadline.objects.filter(onlineclass=onlineclass)
         chapters = []
         for deadline in deadlines:
@@ -812,9 +817,10 @@ def start(request):
                                                         problem__in=chapter_problems,
                                                         final_outcome='P').count()
         if solved_problems == chapter_problems.count():      
-            chapter_times.append(get_time_to_finish_chapter_in_days(request.user, chapter_problems, onlineclass))
+            time_to_finish_single_chapter = get_time_to_finish_chapter_in_days(request.user, chapter_problems, onlineclass)
+            if time_to_finish_single_chapter is not None:           
+                chapter_times.append(time_to_finish_single_chapter)
         
-    chapter_times.sort()
     time_to_finish_chapter = None
     if len(chapter_times):
         time_to_finish_chapter = round(mean(chapter_times))

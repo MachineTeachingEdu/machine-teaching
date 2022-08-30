@@ -1,5 +1,8 @@
 import dash
-from dash import html
+try:
+    from dash import html
+except ImportError:
+    import dash_html_components as html
 import plotly.graph_objects as go
 import plotly.offline as opy
 from plotly.subplots import make_subplots
@@ -126,21 +129,22 @@ def time_to_finish_exercise(user, problems, onlineclass):
     return UserLogView.objects.filter(user=user,
                                    problem__in=problems,
                                    final_outcome='P',
-                                   timestamp__gte=onlineclass.start_date).values_list('seconds_in_page', flat=True)
+                                   user_class=onlineclass).values_list('seconds_in_page', flat=True)
 
 def get_time_to_finish_chapter_in_days(user, chapter_problems, onlineclass):
-    logs = UserLogView.objects.filter(user=user,
-                                      problem__in=chapter_problems,
-                                      timestamp__gte=onlineclass.start_date).order_by('timestamp')
+    logs = UserLogView.objects.filter(user__in=[user],
+                                        problem__in=chapter_problems,
+                                        user_class=onlineclass).order_by('timestamp')
+
 
     if logs.count():
         first_log = logs.first().timestamp
     times = []
     for problem in chapter_problems:
-        passed = UserLogView.objects.filter(user=user,
+        passed = UserLogView.objects.filter(user__in=[user],
                                         problem=problem,
-                                        outcome="P",
-                                        timestamp__gte=onlineclass.start_date).order_by('timestamp')
+                                        final_outcome = 'P',
+                                        user_class=onlineclass).order_by('timestamp')
         if passed.count():
             first_passed = passed.first()
             times.append(first_passed.timestamp)
@@ -157,23 +161,20 @@ def get_time_to_finish_chapter_in_days(user, chapter_problems, onlineclass):
 
 
 def predict_drop_out(user, onlineclass, date):
-    try:
-        # Get last completed chapter and model
-        completed_chapter = Deadline.objects.filter(onlineclass=onlineclass,
-                                                deadline__lte=date).order_by('deadline').last().chapter
-        model = completed_chapter.drop_out_model
-        chapters = model.completed_chapter.all()
-        # Open model file
-        with open(model.model_file, "rb") as pklfile:
-            model = pickle.load(pklfile)
+    # Get last completed chapter and model
+    completed_chapter = Deadline.objects.filter(onlineclass=onlineclass,
+                                            deadline__lte=date).order_by('deadline').last().chapter
+    model = completed_chapter.drop_out_model
+    chapters = model.completed_chapter.all()
+    # Open model file
+    with open(model.model_file, "rb") as pklfile:
+        model = pickle.load(pklfile)
 
-        X = get_on_time_exercises(user, chapters, onlineclass)
-        X = sm.add_constant(X, has_constant='add')
-        y_pred = model.predict(X)[0]
+    X = get_on_time_exercises(user, chapters, onlineclass)
+    X = sm.add_constant(X, has_constant='add')
+    y_pred = model.predict(X)[0]
 
-        return round(y_pred)
-    except:
-        return None
+    return y_pred
 
 # Funções de plot
 
@@ -733,7 +734,7 @@ def class_dashboard(onlineclass):
 
     names = []
     for student in students:
-        names.append(student.first_name+' '+student.last_name)
+        names.append((student.first_name+' '+student.last_name)[:25] + '...')
     labels = []
 
     n = 1

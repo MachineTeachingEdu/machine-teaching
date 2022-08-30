@@ -3,10 +3,9 @@ import numpy as np
 import pandas as pd
 
 # Learning
-from sklearn.decomposition import LatentDirichletAllocation, NMF
+from sklearn.decomposition import LatentDirichletAllocation
 from scipy.cluster import hierarchy
 from sklearn.mixture import GaussianMixture
-from sklearn.cluster import SpectralClustering
 
 # Plots
 import matplotlib.pyplot as plt
@@ -42,28 +41,16 @@ class Clustering(object):
     def _sort_distribution(self, df, columns, min_score=0.3):
         """ Sort topic assignment distribution """
         ids = []
+
         for col in columns:
-            ids_col = np.where(df.idxmax(axis=1) == col)
-            ids_col = df.loc[ids_col].sort_values([col], ascending=False).index.tolist()
-            ids += ids_col
+            ids = ids + df[df[col] > min_score].sort_values([col], ascending=False).index.tolist()
 
-        df_sorted = df.loc[ids]
+        for col in columns:
+            ids = ids + df.sort_values([col], ascending=False).index.tolist()
+
+        index = df.loc[ids].index.drop_duplicates()
+        df_sorted = df.loc[index]
         return df_sorted
-
-    def nmf(self):
-        """ Use NMF clustering method """
-        
-        model = NMF(n_components=self.k, random_state=self.seed, init='random')
-        document_topic = model.fit_transform(self.X)
-        word_topic = model.components_.T
-
-        # Save result variables
-        self.model = model
-        self.document_topic = document_topic
-        self.word_topic = word_topic
-
-#        return model, document_topic, clusters
-        return model, document_topic, word_topic
 
     def lda(self):
         """ Use LDA clustering method """
@@ -71,7 +58,7 @@ class Clustering(object):
                                           learning_method='batch',
                                           random_state=self.seed)
         document_topic = model.fit_transform(self.X)
-        word_topic = model.components_.T
+        word_topic = model.components_
 
     #     docs_names = docs_id
 #        topics = [d for d in range(1, document_topic.shape[1]+1)]
@@ -93,20 +80,18 @@ class Clustering(object):
     def hierarchical(self):
         """ Use hierarchical clustering method """
         # Create linkage matrix for original data
-        model = hierarchy.linkage(self.X, 'ward', metric=self.kwargs['metric'])
-        clusters = hierarchy.fcluster(model, self.k, criterion='maxclust')
-        document_topic = np.zeros((self.X.shape[0], self.k))
-        for row in range(len(clusters)):
-            document_topic[row, clusters[row]-1] = 1
-
-        word_topic = None
+        model = hierarchy.linkage(self.X, 'ward')
+        document_topic = hierarchy.fcluster(model, self.k, criterion='maxclust')
+#        clusters = {}
+#        for key in set(document_topic):
+#            clusters[key] = np.where(document_topic == key)[0]
 
         # Save result variables
         self.model = model
         self.document_topic = document_topic
-        self.word_topic = word_topic
 
-        return model, document_topic, word_topic
+#        return model, document_topic, clusters
+        return model, document_topic
 
     def gaussian_mixture(self):
         """ Use gaussian mixture clustering method """
@@ -126,29 +111,8 @@ class Clustering(object):
 #        return model, document_topic, clusters
         return model, document_topic, word_topic
 
-    def spectral_clustering(self):
-        """ Use spectral clustering method """
-        model = SpectralClustering(n_clusters=self.k,
-                                   random_state=self.seed,
-                                   assign_labels="discretize").fit(self.X)
-        clusters = model.fit_predict(self.X)
-        document_topic = np.zeros((self.X.shape[0], self.k))
-        for row in range(len(clusters)):
-            document_topic[row, clusters[row]] = 1
-
-        word_topic = None
-
-        # Save result variables
-        self.model = model
-        self.document_topic = document_topic
-        self.word_topic = word_topic
-
-#        return model, document_topic, clusters
-        return model, document_topic, word_topic
-
-    def _plot_distribution(self, topic_distribution, xlabel,
-                           topics=None, min_score=0.3, cmap=sns.cm.rocket,
-                           ylabel=None, title=None, savefig=None):
+    def _plot_distribution(self, topic_distribution, x_label,
+                           topics=None, min_score=0.3):
         # If topic names are not set, set general topic name
         if not topics:
             topics = ["Topic %d" %d for d in range(1, self.k+1)]
@@ -161,48 +125,33 @@ class Clustering(object):
         topic_distribution_norm = self._normalize_per_row(topic_distribution)
 
         topic_distribution_df = pd.DataFrame(topic_distribution_norm,
-                                             index=xlabel,
-                                             columns=topics)
+                                         index=x_label,
+                                         columns=topics)
 
         # Sort docs according to topic assignment
         topic_distribution_df = self._sort_distribution(topic_distribution_df,
-                                                        topics,
-                                                        min_score=min_score)
+                                                    topics,
+                                                    min_score=min_score)
 
         # Create a figure instance, and the two subplots
-        fig = plt.figure(figsize=(8,10))
-        ax = fig.add_subplot(111)
+        fig = plt.figure(figsize=(12,12))
+        ax1 = fig.add_subplot(211)
+#        ax2 = fig.add_subplot(212)
+        # fig, (ax1, ax2) = plt.subplots(2, 1, sharex='col', figsize=(12,12))
 
-        sns.heatmap(topic_distribution_df, ax=ax, cmap=cmap, cbar_kws={'label': 'Topic weight'})
-        # use matplotlib.colorbar.Colorbar object
-        cbar = ax.collections[0].colorbar
-        # here set the labelsize by 20
-        cbar.ax.tick_params(labelsize=14)
-        cbar.ax.set_ylabel("Topic weight", fontsize=14)
-        ax.tick_params(labelsize=12)
-        ax.xaxis.tick_top()
-        ax.tick_params('x', labelrotation=45)
 
-        if ylabel:
-            ax.set_ylabel(ylabel, fontsize=14)
-
-        if title:
-            ax.set_title(title, fontsize=18, y=1.04)
-        if savefig:
-            plt.savefig('images/' + savefig + '.eps', format='eps')
-            plt.savefig('images/' + savefig + '.png', format='png')
-
-        plt.tight_layout()
+        sns.heatmap(topic_distribution_df, ax=ax1)
+        ax1.xaxis.tick_top()
         plt.show()
         return topic_distribution_df
 
 
-    def plot_topic_distribution(self, **kwargs):
-        self._plot_distribution(self.document_topic, range(0, self.X.shape[0]),
-                                **kwargs)
+    def plot_topic_distribution(self, topics=None, min_score=0.3):
+        self._plot_distribution(self.document_topic, range(0, self.X.shape[0]))
 
 
-    def plot_word_distribution(self, words, **kwargs):
-        kwargs["xlabel"] = ["Topic %d" %d for d in range(1,self.k+1)]
-        df = self._plot_distribution(self.word_topic, **kwargs)
+    def plot_word_distribution(self, words, topics=None, min_score=0.3):
+        df = self._plot_distribution(self.word_topic,
+                                x_label=["Topic %d" %d for d in range(1,self.k+1)],
+                                topics=words)
         return df
