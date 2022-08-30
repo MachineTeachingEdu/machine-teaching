@@ -40,4 +40,3 @@ EXPOSE 4317
 EXPOSE 4318
 
 ENTRYPOINT ["/app/init.sh" ]
-
