@@ -9,6 +9,12 @@ VERSION=$(shell (git rev-parse HEAD))
 up:
 	docker-compose up
 
+run:
+	@echo "Version ID: $(VERSION)";
+	docker build --tag $(IMAGE_DESTINATION):$(VERSION) .
+	docker run  --env-file .env -p 8080:8080 $(IMAGE_DESTINATION):$(VERSION)
+	@echo "Image submitted to destination repository :)"
+		
 deploy:
 	/home/gxara/Downloads/heroku/bin/heroku container:push web --app machine-teaching-ufrj
 	/home/gxara/Downloads/heroku/bin/heroku container:release web --app machine-teaching-ufrj
