@@ -18,7 +18,12 @@ else
     # cd /app/machineteaching
     echo "Will collect static"
     python manage.py collectstatic --noinput
-    python manage.py createsuperuser --noinput
+    if [[ -z "${SUPERUSER}" ]]; then
+        echo "Superuser not set - skipping"
+    else
+        echo "Will create superuser"
+        python manage.py createsuperuser --noinput
+    fi
     export DJANGO_SETTINGS_MODULE=machineteaching.settings
     echo "will start"
     opentelemetry-bootstrap --action=install
