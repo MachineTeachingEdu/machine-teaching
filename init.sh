@@ -15,10 +15,12 @@ if [ "$ENVIRONMENT" = "development" ]; then
 
 else
     echo "Preparing image for production"
+    echo "IP Address:"
+    curl curlmyip.org
     # cd /app/machineteaching
     echo "Will collect static"
     python manage.py collectstatic --noinput
-    if [[ -z "${SUPERUSER}" ]]; then
+    if [ -z "${SUPERUSER}" ]; then
         echo "Superuser not set - skipping"
     else
         echo "Will create superuser"
