@@ -161,20 +161,23 @@ def get_time_to_finish_chapter_in_days(user, chapter_problems, onlineclass):
 
 
 def predict_drop_out(user, onlineclass, date):
-    # Get last completed chapter and model
-    completed_chapter = Deadline.objects.filter(onlineclass=onlineclass,
-                                            deadline__lte=date).order_by('deadline').last().chapter
-    model = completed_chapter.drop_out_model
-    chapters = model.completed_chapter.all()
-    # Open model file
-    with open(model.model_file, "rb") as pklfile:
-        model = pickle.load(pklfile)
+    try:
+        # Get last completed chapter and model
+        completed_chapter = Deadline.objects.filter(onlineclass=onlineclass,
+                                                deadline__lte=date).order_by('deadline').last().chapter
+        model = completed_chapter.drop_out_model
+        chapters = model.completed_chapter.all()
+        # Open model file
+        with open(model.model_file, "rb") as pklfile:
+            model = pickle.load(pklfile)
 
-    X = get_on_time_exercises(user, chapters, onlineclass)
-    X = sm.add_constant(X, has_constant='add')
-    y_pred = model.predict(X)[0]
+        X = get_on_time_exercises(user, chapters, onlineclass)
+        X = sm.add_constant(X, has_constant='add')
+        y_pred = model.predict(X)[0]
 
-    return y_pred
+        return y_pred
+    except:
+        return None
 
 # Funções de plot
 
