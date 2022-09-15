@@ -11,6 +11,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunSQL("ALTER TABLE questions_userprofile ADD COLUMN course CHAR(200)"),
-        migrations.RunSQL("ALTER TABLE questions_historicaluserprofile ADD COLUMN course CHAR(200)")
+        migrations.RunSQL("ALTER TABLE questions_userprofile ADD COLUMN course CHAR(200)")
+        # migrations.RunSQL("ALTER TABLE questions_historicaluserprofile ADD COLUMN course CHAR(200)")
     ]
