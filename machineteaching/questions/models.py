@@ -250,7 +250,7 @@ class UserLog(models.Model):
 
 
 class UserLogView(models.Model):
-    user = models.ForeignKey(User, on_delete=models.PROTECT, primary_key=True)
+    user = models.OneToOneField(User, on_delete=models.PROTECT, primary_key=True)
     problem = models.ForeignKey(Problem, on_delete=models.PROTECT)
     final_outcome = models.CharField(max_length=2)
     timestamp = models.DateTimeField()
