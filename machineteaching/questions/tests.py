@@ -3,6 +3,8 @@ from playwright.sync_api import sync_playwright
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.test.utils import override_settings
+from django.test import TestCase, Client
+from .models import OnlineClass, Problem, Chapter
 
 @override_settings(DEBUG=True)
 class DjkSampleTestCase(StaticLiveServerTestCase):
@@ -237,3 +239,54 @@ class InterfaceTests(DjkSampleTestCase):
         self.past_solutions(page)
  
         page.close()
+
+
+class BackendTests(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.credentials = {
+            'username': settings.TEST_SUPERUSER_EMAIL,
+            'password': settings.TEST_SUPERUSER_PASSWORD,
+            'email': settings.TEST_SUPERUSER_EMAIL,
+
+        }
+        User.objects.create_superuser(**self.credentials)
+
+
+    def test_register(self):
+        new_user_data = {'username': "teste", 'password': "teste123", 'email': "teste@gmail.com"}
+        User.objects.create_user(**new_user_data)
+
+        find_user = User.objects.get(username="teste")
+        self.assertEqual(find_user.username, "teste")
+
+    def test_create_class(self):
+        new_class_data = {'name': "teste", 'class_code': "teste123", 'start_date': "2020-01-01"}
+        OnlineClass.objects.create(**new_class_data)
+
+        find_class = OnlineClass.objects.get(name="teste")
+        self.assertEqual(find_class.name, "teste")
+
+    def test_create_chapter(self):
+        chapter = Chapter.objects.create(
+            id=1,
+            label="Teste"
+        )   
+        self.assertEqual(chapter.label, "Teste")
+
+        # test_finding_chapter
+        find_chapter = Chapter.objects.get(id=1)
+        self.assertEqual(find_chapter.label, "Teste")
+    
+    def test_create_problem(self):
+        problem = Problem.objects.create(
+            id=1,
+            title="Teste"
+        )
+        self.assertEqual(problem.title, "Teste")
+
+        # test_finding_problem
+        find_problem = Problem.objects.get(id=1)
+        self.assertEqual(find_problem.title, 'Teste')
+        
+
