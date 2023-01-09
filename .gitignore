@@ -113,12 +113,13 @@ data/
 models/
 class_analysis/*/*
 
-settings.py
 db_*.json
 admin_*.json
 db_*.sql
 db_*.dump
 edm2020/
+.DS_Store
+.env
 
 *.swp
 
@@ -133,7 +134,7 @@ machineteaching/db\.sqlite3*
 
 machineteaching/similarity\.pkl
 *.bkp
-machineteaching/questions/.DS_Store
 machineteaching/machineteaching/maintenance_mode_state.txt
 
 !machineteaching/questions/static/pdf/dicas_MT.pdf
+staticfiles
