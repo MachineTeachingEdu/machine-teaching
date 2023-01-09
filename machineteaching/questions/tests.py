@@ -5,6 +5,9 @@ from django.contrib.auth.models import User
 from django.test.utils import override_settings
 from django.test import TestCase, Client
 from .models import OnlineClass, Problem, Chapter
+from questions.models import (Problem, Solution, UserLog, UserProfile,
+                              Professor, OnlineClass, UserLogView, Chapter,
+                              Deadline, ExerciseSet, Recommendations, Comment)
 
 @override_settings(DEBUG=True)
 class DjkSampleTestCase(StaticLiveServerTestCase):
@@ -15,7 +18,7 @@ class InterfaceTests(DjkSampleTestCase):
     def setUpClass(cls): 
         super().setUpClass() 
         cls.playwright = sync_playwright().start() 
-        cls.browser = cls.playwright.chromium.launch(headless=False) 
+        cls.browser = cls.playwright.chromium.launch() 
         User.objects.create_superuser(username=settings.TEST_SUPERUSER_USER, email=settings.TEST_SUPERUSER_EMAIL, password=settings.TEST_SUPERUSER_PASSWORD)
  
     @classmethod 
@@ -274,19 +277,26 @@ class BackendTests(TestCase):
         )   
         self.assertEqual(chapter.label, "Teste")
 
-        # test_finding_chapter
+    # test_finding_chapter
         find_chapter = Chapter.objects.get(id=1)
         self.assertEqual(find_chapter.label, "Teste")
-    
-    def test_create_problem(self):
+  
         problem = Problem.objects.create(
             id=1,
             title="Teste"
         )
         self.assertEqual(problem.title, "Teste")
 
-        # test_finding_problem
+    # test_finding_problem(self):
         find_problem = Problem.objects.get(id=1)
         self.assertEqual(find_problem.title, 'Teste')
-        
 
+        ExerciseSet(chapter=find_chapter, problem=find_problem, order=1).save()
+
+    # test_chapter_problems
+        chapter = Chapter.objects.get(id=1)
+        problems = Problem.objects.filter(chapter=chapter)
+        self.assertEqual(problems.count(), 1)
+        self.assertEqual(problems[0].title, "Teste")
+        
+    ## I NEED TO FIND HOW TO USER ANSWER A PROBLEM
