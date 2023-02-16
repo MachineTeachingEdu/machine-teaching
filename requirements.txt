@@ -17,7 +17,7 @@ statsmodels
 django-filter
 whitenoise
 python-dotenv
-Werkzeug==2.0.0
+Werkzeug==2.2.3
 locust
 opentelemetry-distro
 opentelemetry-exporter-otlp-proto-http
