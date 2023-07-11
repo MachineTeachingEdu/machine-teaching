@@ -779,6 +779,23 @@ Laura O. Moraes, Carlos Eduardo Pedreira (2021). Clustering Introductory Compute
     <td style="padding: 30px">
     <strong>Arthur Sasse</strong> é aluno de Ciência da Computação da UFRJ. Começou no projeto adaptando questões de Cálculo Numérico para a plataforma. Atualmente faz TCC na área de IA, focado na análise da similaridade entre os códigos submetidos pelos estudantes no Machine Teaching.
     </td>
+</tr>
+<tr>
+    <td style="padding: 15px 10px 15px 30px; width: 260px; height: 260px;">
+    <img src="${beatriz}" style="width: 200px; height: 200px; overflow: hidden; border-radius: 100%" />
+    </td>
+    <td style="padding: 30px">
+    <strong>Beatriz Queiroz</strong> é aluna de Sistemas de Informação na UNIRIO. Começou a se aventurar recentemente na área de infraestrutura e viu no Machine Teaching uma boa oportunidade de desenvolver seu conhecimento ajudando no aprimoramento de um projeto que democratiza o aprendizado da computação. Atualmente é aluna voluntária de Iniciação Científica.
+    </td>
+</tr>
+<tr>
+    <td style="padding: 15px 10px 15px 30px; width: 260px; height: 260px;">
+    <img src="${renan}" style="width: 200px; height: 200px; overflow: hidden; border-radius: 100%" />
+    </td>
+    <td style="padding: 30px">
+    <strong>Renan Alves</strong> é aluno de Sistemas de Informação na UNIRIO. Visando unir seu interesse por desenvolvimento e por novas tecnologias com sua formação, notou no Machine Teaching uma forma de alavancar seus estudos na área além de poder promover uma ferramenta capaz de facilitar e impulsionar o relacionamento de cada vez mais pessoas com a programação. No momento, é aluno voluntário de Iniciação Científica.
+</td>
+</tr>
 </table>
 
 
