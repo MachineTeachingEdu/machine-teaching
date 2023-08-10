@@ -150,7 +150,10 @@ function runit(args, func, expected_results) {
        item = args[i];
        //console.log(item);
        //prog_args = prog + "\nprint(" + func + "(*" + JSON.stringify(item) + "))";
-       prog_args = prog.replaceAll('\t','    ') +
+       while(prog.includes('\t')){
+              prog = prog.replace('\t', '    ');
+       }
+       prog_args = prog +
        "\nif type(" + func + "(*" + item + ")) == str:\n    print(\"'\"+" + 
        func + "(*" + item + ")+\"'\")\nelse:\n    print(" + 
        func + "(*" + item + "))";
