@@ -2,18 +2,24 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from playwright.sync_api import sync_playwright
 from django.conf import settings
 from django.contrib.auth.models import User
+from questions.models import OnlineClass
 from django.test.utils import override_settings
+import time
+from django.db import connection
+
+global USER_CLASS
 
 @override_settings(DEBUG=True)
 class DjkSampleTestCase(StaticLiveServerTestCase):
     reset_sequences = True
 
 class InterfaceTests(DjkSampleTestCase):
+
     @classmethod
     def setUpClass(cls): 
         super().setUpClass() 
         cls.playwright = sync_playwright().start() 
-        cls.browser = cls.playwright.chromium.launch(headless=False) 
+        cls.browser = cls.playwright.chromium.launch(headless=True) 
         User.objects.create_superuser(username=settings.TEST_SUPERUSER_USER, email=settings.TEST_SUPERUSER_EMAIL, password=settings.TEST_SUPERUSER_PASSWORD)
  
     @classmethod 
@@ -58,6 +64,12 @@ class InterfaceTests(DjkSampleTestCase):
         return class_code
 
     def register(self, page, class_code, gname, sname, user, password):
+        cur = connection.cursor()
+        cur.execute("SELECT setval('public.auth_user_id_seq', 2);")
+        cur.execute("SELECT setval('public.questions_profile_id_seq', 2);")
+        cur.execute("SELECT setval('public.questions_historicaluserprofile_history_id_seq', 10);")
+        cur.execute("SELECT setval('public.questions_usermodel_id_seq', 2);")
+        connection.commit()
         page.goto(f"{self.live_server_url}/pt-br/signup")
         page.fill('form[action="/pt-br/signup"] input[name="first_name"]', gname)
         page.fill('form[action="/pt-br/signup"] input[name="last_name"]', sname)
@@ -71,6 +83,7 @@ class InterfaceTests(DjkSampleTestCase):
         page.locator('form[action="/pt-br/signup"] input[name="accepted"]').check()
         page.locator('form[action="/pt-br/signup"] input[name="read"]').check()
         page.click('form[action="/pt-br/signup"] button[type="submit"]')
+
         self.assertEqual("início", page.locator('.content .topbar-left .title').text_content())
 
     def login(self, page, user, password):
@@ -192,6 +205,11 @@ class InterfaceTests(DjkSampleTestCase):
 
         print("      - Testando termos de privacidade...")
         self.read_privacy(page)
+
+        
+        # print("      - Testando criação de usuário...")
+        # global USER_CLASS
+        # self.create_superuser(page, USER_CLASS.class_code, settings.TEST_GNAME, settings.TEST_SNAME, settings.TEST_SUPERUSER_EMAIL, settings.TEST_SUPERUSER_PASSWORD)
 
         print("      - Testando criação de turma...")
         class_code = self.create_class(page)
