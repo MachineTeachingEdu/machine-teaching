@@ -1,0 +1,67 @@
+{% extends "questions/base.html" %}
+{% block content %}
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h1 class="mt-5">Formulário para dump dos dados django</h1>
+          <p class="lead">
+          </p>
+        </div>
+    </div>
+<h3>
+    Para obter os dados do BD do projeto preencha o formuário abaixo:
+    <p></p>
+    <ol>
+        <li><b>Nome:</b>  
+            <form action="/name/" method="post">
+                {% csrf_token %}
+                {{ name_form }}
+                <input type="text" value="">
+            </form>
+        </li>
+        <br>
+        <li><b>E-mail:</b> 
+            <form action="/email/" method="post">
+                {% csrf_token %}
+                {{ email_form }}
+                <input type="text" value="">
+            </form>
+        </li>
+        <br>
+        <li><b>Instituição:</b>
+            <form action="/institution/" method="post">
+                {% csrf_token %}
+                {{ institution_form }}
+                <input type="text" value="">
+            </form>
+        </li>
+        <br>
+        <li><b>Qual o uso pretendido do BD?</b> 
+            <form action="/pretended_use/" method="post">
+                {% csrf_token %}
+                {{ pretended_use_form }}
+                <textarea type="text"></textarea>
+            </form>
+        </li>
+        <br>
+        <li><b>Eu entendo que não estou autorizado a utilizar 
+            esse banco de dados para fins comerciais:
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ agree_form.as_p }}
+            <input type="checkbox" value="Eu concordo">
+        </form>
+        </b>
+        </li>
+        <!--TODO submit button--> 
+        <li>
+            <form action="" method="post">
+                <input type="submit" value="Enviar" class="btn btn-primary btn-lg"/>
+            </form> 
+        </li>
+    </ol>
+    <br>
+    
+    
+</h3>
+
+{% endblock %}
