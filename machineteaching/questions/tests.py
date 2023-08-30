@@ -2,16 +2,15 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from playwright.sync_api import sync_playwright
 from django.conf import settings
 from django.contrib.auth.models import User
-from questions.models import OnlineClass
+from questions.models import Professor, OnlineClass
 from django.test.utils import override_settings
-import time
 from django.db import connection
 
 global USER_CLASS
 
 @override_settings(DEBUG=True)
 class DjkSampleTestCase(StaticLiveServerTestCase):
-    reset_sequences = True
+    reset_sequences = False
 
 class InterfaceTests(DjkSampleTestCase):
 
@@ -64,12 +63,6 @@ class InterfaceTests(DjkSampleTestCase):
         return class_code
 
     def register(self, page, class_code, gname, sname, user, password):
-        cur = connection.cursor()
-        cur.execute("SELECT setval('public.auth_user_id_seq', 2);")
-        cur.execute("SELECT setval('public.questions_profile_id_seq', 2);")
-        cur.execute("SELECT setval('public.questions_historicaluserprofile_history_id_seq', 10);")
-        cur.execute("SELECT setval('public.questions_usermodel_id_seq', 2);")
-        connection.commit()
         page.goto(f"{self.live_server_url}/pt-br/signup")
         page.fill('form[action="/pt-br/signup"] input[name="first_name"]', gname)
         page.fill('form[action="/pt-br/signup"] input[name="last_name"]', sname)
@@ -121,7 +114,7 @@ class InterfaceTests(DjkSampleTestCase):
     
     def specific_problem_2(self, page):
         page.goto(f"{self.live_server_url}/pt-br/chapters/1")
-        self.assertEqual("Data de entrega", page.locator('text=Data de entrega').text_content())
+        self.assertEqual("Entrega", page.locator('text=Entrega').text_content())
 
     def past_solutions(self, page):
         page.goto(f"{self.live_server_url}/pt-br/problem_solutions/1")
@@ -144,7 +137,7 @@ class InterfaceTests(DjkSampleTestCase):
         page.click('text=1 - Teste')
         page.click('text=Salvar')
 
-    def create_professor(self, page):
+    def create_professor(self, page, class_code):
         page.goto(f"{self.live_server_url}/pt-br/admin/")
         page.fill('#id_username', settings.TEST_SUPERUSER_EMAIL)
         page.fill('#id_password', settings.TEST_SUPERUSER_PASSWORD)
@@ -157,14 +150,21 @@ class InterfaceTests(DjkSampleTestCase):
         page.click('text=Início')
         page.click('text=Professores')
         page.click('text=Adicionar professor')
-        page.click('b[role="presentation"]')
-        page.click('text={}'.format(settings.TEST_MANAGER))
-        page.click('text=Escolher todos')
-        page.click('text=Salvar')
+        Professor.objects.create(user=User.objects.get(username=settings.TEST_MANAGER))
+        p = Professor.objects.get(user=User.objects.get(username=settings.TEST_MANAGER))
+        o = OnlineClass.objects.get(class_code=class_code)
+        p.prof_class.add(o)
+        p.save()
+
+        # page.click('b[role="presentation"]')
+        # page.click('text={}'.format(settings.TEST_MANAGER))
+        # page.click('text=Escolher todos')
+        # page.click('text=Salvar')
 
     def assign_exercise(self, page):
         self.login(page, settings.TEST_MANAGER, settings.TEST_PASSWORD)
         page.goto(f"{self.live_server_url}/pt-br/classes/manage/1")
+        print(page.locator("html").inner_html())
         page.fill('input[type="date"]', '2022-12-12')
         page.fill('input[name="time"]', '23:59')
         page.click('text=Adicionar')     
@@ -205,12 +205,7 @@ class InterfaceTests(DjkSampleTestCase):
 
         print("      - Testando termos de privacidade...")
         self.read_privacy(page)
-
         
-        # print("      - Testando criação de usuário...")
-        # global USER_CLASS
-        # self.create_superuser(page, USER_CLASS.class_code, settings.TEST_GNAME, settings.TEST_SNAME, settings.TEST_SUPERUSER_EMAIL, settings.TEST_SUPERUSER_PASSWORD)
-
         print("      - Testando criação de turma...")
         class_code = self.create_class(page)
 
@@ -219,7 +214,7 @@ class InterfaceTests(DjkSampleTestCase):
 
         print("      - Testando criação de professor e aula...")
         self.register(page, class_code, settings.TEST_GNAME, settings.TEST_SNAME, settings.TEST_MANAGER, settings.TEST_PASSWORD)
-        self.create_professor(page)
+        self.create_professor(page, class_code)
         self.assign_exercise(page)
 
         print("      - Testando criação de aluno...")

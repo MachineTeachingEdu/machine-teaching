@@ -246,3 +246,12 @@ LOGGING = {
         },
     },
 }
+
+TEST_SUPERUSER_USER="superuser@machineteaching.tech"
+TEST_SUPERUSER_EMAIL="superuser@machineteaching.tech"
+TEST_SUPERUSER_PASSWORD="superSenhaUser"
+TEST_GNAME="Usuário"
+TEST_SNAME="Teste"
+TEST_MANAGER="professor@machineteaching.tech"
+TEST_PASSWORD="senhaTeste"
+TEST_USER="usuario@machineteaching.tech"
