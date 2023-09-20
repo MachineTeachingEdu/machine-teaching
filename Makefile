@@ -24,4 +24,4 @@ deploy-gcp:
 		
 run-docker:
 	docker build --tag $(IMAGE_DESTINATION):$(VERSION) .
-	docker run -it --env PORT=8020 -p 8020:8020 $(IMAGE_DESTINATION):$(VERSION)
+	docker run -it --env-file .env -p 8020:8020 $(IMAGE_DESTINATION):$(VERSION)

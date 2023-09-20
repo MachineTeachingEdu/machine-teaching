@@ -18,6 +18,7 @@ else
     echo "IP Address:"
     curl curlmyip.org
     # cd /app/machineteaching
+    mkdir -p staticfiles
     echo "Will collect static"
     python manage.py collectstatic --noinput
     if [ -z "${SUPERUSER}" ]; then
