@@ -11,8 +11,7 @@ class DownloadDumpForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(DownloadDumpForm, self).__init__(*args, **kwargs)
         self.fields['email'].required = True
-        #self.fields['name'].required = True
-        #elf.fields['institution'].required = True
-        #self.fields['pretended_use'].required = True
-        #self.fields['agree_form'].required = True
-#TODO - see why isn't translating form 
+        self.fields['name'].required = True
+        self.fields['institution'].required = True
+        self.fields['pretended_use'].required = True
+        self.fields['agree_form'].required = True
