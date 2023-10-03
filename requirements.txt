@@ -4,7 +4,7 @@ requests
 gunicorn
 django-extensions
 django==3.2.20
-psycopg2==2.8.6
+#psycopg2==2.8.6
 django-picklefield
 numpy
 matplotlib
