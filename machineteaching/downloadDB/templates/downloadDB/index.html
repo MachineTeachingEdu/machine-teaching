@@ -13,7 +13,7 @@
 
       <div class="card" style="margin-top: 2em; height: auto; width: 45%;">
           <h3> {% blocktrans %} In order to get the data, please fill out the form bellow: {% endblocktrans %}</h3>
-          <form action="/form/" method="post" class="form">
+          <form action="{% url 'downloadDB_index' %}" method="post" class="form">
               {% csrf_token %}
               {{ form.as_p }}
               <input type="submit" value="Submit" class="btn btn-primary btn-lg">
