@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from .forms import DownloadDumpForm
 from django.core.mail import send_mail
+from django.conf import settings
  
 # Create your views here. 
 def index(request):
@@ -12,7 +13,7 @@ def index(request):
         # check whether it's valid:
         if form.is_valid():
             name = form.cleaned_data.get('name')
-            #TODO:
+            mt_mail = settings.DEFAULT_FROM_EMAIL
             email = form.cleaned_data.get('email').lower()
             institution = form.cleaned_data.get('institution')
             pretended_use = form.cleaned_data.get('pretended_use')
@@ -26,7 +27,7 @@ def index(request):
               <p style='color: #292929; margin-left: 20px; font-weight: 300; grid-column: 4;'> <strong>Uso pretendido:</strong> {}</p>
             </div>""".format(name, institution, pretended_use)
             
-            send_mail(message_subject, message_content, None, [email], fail_silently=False, html_message=message_html)
+            send_mail(message_subject, message_content, None, [email, mt_mail], fail_silently=False, html_message=message_html)
 
 
 

@@ -149,10 +149,10 @@ LOGOUT_REDIRECT_URL = '/'
 AUTHENTICATION_BACKENDS = ['questions.backends.EmailBackend']
 EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", 'apikey'),
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", 'apikey')
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL= os.getenv("DEFAULT_FROM_EMAIL", "machineteaching@ufrj.br")
+DEFAULT_FROM_EMAIL= os.getenv("DEFAULT_FROM_EMAIL", "equipe@machineteaching.tech")
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
