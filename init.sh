@@ -20,7 +20,9 @@ else
     # cd /app/machineteaching
     echo "Will collect static"
     python manage.py collectstatic --noinput
-    if [ -z "${SUPERUSER}" ]; then
+    python manage.py migrate
+    python manage.py compilemessages
+    if [ -z "${DJANGO_SUPERUSER_USERNAME}" ]; then
         echo "Superuser not set - skipping"
     else
         echo "Will create superuser"
