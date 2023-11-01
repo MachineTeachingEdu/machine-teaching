@@ -1,6 +1,6 @@
 services:
   machine_teaching_db:
-    image: postgres:15.10
+    image: postgres:9.6
     env_file: ./machine-teaching-db/.env
     volumes:
       - db-data:/var/lib/postgresql/data
