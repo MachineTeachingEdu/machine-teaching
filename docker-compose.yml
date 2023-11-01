@@ -1,21 +1,23 @@
 services:
   machine_teaching_db:
-    image: postgres:13.14
+    image: postgres:15.10
     env_file: ./machine-teaching-db/.env
     volumes:
-      #- db-data:/var/lib/postgresql/data
+      - db-data:/var/lib/postgresql/data
       - ./machine-teaching-db/data/dump.sql:/docker-entrypoint-initdb.d/create_tables.sql
     ports:
       - 5432:5432
+    restart: always
   web:
     build: .
     volumes:
       - ./machineteaching:/app/machineteaching
     ports:
-      - 8020:8020
+      - 80:8020
     env_file: ./machineteaching/.env
     depends_on:
       - machine_teaching_db
+    restart: on-failure
   worker_node:
     build:
       context: ./worker-node/worker_node
@@ -24,3 +26,7 @@ services:
     depends_on:
       - web
       - machine_teaching_db
+volumes:
+  db-data:
+    driver:
+      local
