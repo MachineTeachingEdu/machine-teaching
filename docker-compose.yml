@@ -3,27 +3,44 @@ services:
   machine_teaching_db:
     image: postgres:9.6
     env_file: ./machine-teaching-db/.env
+    #environment:
+    #  - POSTGRES_USER=machineteaching
+    #  - POSTGRES_PASSWORD=multiplyplanet72turn63
+    #  - POSTGRES_DB=machineteaching
     volumes:
-      - ./machine-teaching-db/data/dump.sql:/docker-entrypoint-initdb.d/create_tables.sql
+      - db-data:/var/lib/postgresql/data
     ports:
       - 5432:5432
+    restart: always
   web:
     build: .
     volumes:
       - ./machineteaching:/app/machineteaching
     ports:
-      - "8020:8020"
+      - "80:8020"
     environment:
+      - ENVIRONMENT=prod
+      - APP_SECRET_KEY=picture7133099starofferresultspider97
+      - ALLOWED_HOSTS=localhost,127.0.0.1,machineteaching.uniriotec.br,200.156.26.150
+      - CSRF_TRUSTED_ORIGINS="localhost, 127.0.0.1"
       - DB_NAME=machineteaching
       - DB_USER=machineteaching
-      - DB_PASSWORD=123
-      - DB_HOST=machine_teaching_db
+      - DB_PASSWORD=multiplyplanet72turn63
       - DB_PORT=5432
-      - ENVIRONMENT=DEV
+      - DB_HOST=machine_teaching_db
+      - EMAIL_HOST_USER=apikey
+      - EMAIL_HOST_PASSWORD=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
+      - DEFAULT_FROM_EMAIL=equipe@machineteaching.tech
+      - DJANGO_ALLOW_ASYNC_UNSAFE=true
+      - DEBUG=True
       - PORT=8020
-      - WAIT_HOSTS=machine_teaching_db:5432
-      - ALLOWED_HOSTS=localhost,127.0.0.1,0.0.0.0,machine-teaching-ufrj.herokuapp.com,machine-teaching-app-r22grtpmzq-uc.a.run.app
-      - CSRF_TRUSTED_ORIGINS=https://machine-teaching-app-r22grtpmzq-uc.a.run.app
-      - APP_SECRET_KEY=SUPER_SECRET_KEY_1234
+      - DJANGO_SUPERUSER_USERNAME=equipe@machineteaching.tech
+      - DJANGO_SUPERUSER_PASSWORD=quietstep63at36
+      - DJANGO_SUPERUSER_EMAIL=equipe@machineteaching.tech
     depends_on:
       - machine_teaching_db
+    restart: on-failure
+volumes:
+  db-data:
+    driver:
+      local
