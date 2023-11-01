@@ -4,15 +4,21 @@ services:
     image: postgres:9.6
     env_file: ./machine-teaching-db/.env
     volumes:
-      - ./machine-teaching-db/data/dump.sql:/docker-entrypoint-initdb.d/create_tables.sql
+      - db-data:/var/lib/postgresql/data
     ports:
       - 5432:5432
+    restart: always
   web:
     build: .
     volumes:
       - ./machineteaching:/app/machineteaching
     ports:
-      - "8020:8020"
+      - "80:8020"
     env_file: ./machineteaching/.env
     depends_on:
       - machine_teaching_db
+    restart: on-failure
+volumes:
+  db-data:
+    driver:
+      local
