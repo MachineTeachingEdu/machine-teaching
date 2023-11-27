@@ -827,7 +827,7 @@ def start(request):
         solved_problems = UserLogView.objects.filter(user=request.user, 
                                                         problem__in=chapter_problems,
                                                         final_outcome='P').count()
-        if solved_problems == chapter_problems.count():      
+        if chapter_problems.count() > 0 and solved_problems == chapter_problems.count():      
             time_to_finish_single_chapter = get_time_to_finish_chapter_in_days(request.user, chapter_problems, onlineclass)
             if time_to_finish_single_chapter is not None:           
                 chapter_times.append(time_to_finish_single_chapter)

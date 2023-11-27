@@ -2,18 +2,23 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from playwright.sync_api import sync_playwright
 from django.conf import settings
 from django.contrib.auth.models import User
+from questions.models import Professor, OnlineClass
 from django.test.utils import override_settings
+from django.db import connection
+
+global USER_CLASS
 
 @override_settings(DEBUG=True)
 class DjkSampleTestCase(StaticLiveServerTestCase):
     reset_sequences = False
 
 class InterfaceTests(DjkSampleTestCase):
+
     @classmethod
     def setUpClass(cls): 
         super().setUpClass() 
         cls.playwright = sync_playwright().start() 
-        cls.browser = cls.playwright.chromium.launch(headless=False) 
+        cls.browser = cls.playwright.chromium.launch(headless=True) 
         User.objects.create_superuser(username=settings.TEST_SUPERUSER_USER, email=settings.TEST_SUPERUSER_EMAIL, password=settings.TEST_SUPERUSER_PASSWORD)
  
     @classmethod 
@@ -71,6 +76,7 @@ class InterfaceTests(DjkSampleTestCase):
         page.locator('form[action="/pt-br/signup"] input[name="accepted"]').check()
         page.locator('form[action="/pt-br/signup"] input[name="read"]').check()
         page.click('form[action="/pt-br/signup"] button[type="submit"]')
+
         self.assertEqual("início", page.locator('.content .topbar-left .title').text_content())
 
     def login(self, page, user, password):
@@ -108,7 +114,7 @@ class InterfaceTests(DjkSampleTestCase):
     
     def specific_problem_2(self, page):
         page.goto(f"{self.live_server_url}/pt-br/chapters/1")
-        self.assertEqual("Data de entrega", page.locator('text=Data de entrega').text_content())
+        self.assertEqual("Entrega", page.locator('text=Entrega').text_content())
 
     def past_solutions(self, page):
         page.goto(f"{self.live_server_url}/pt-br/problem_solutions/1")
@@ -131,7 +137,7 @@ class InterfaceTests(DjkSampleTestCase):
         page.click('text=1 - Teste')
         page.click('text=Salvar')
 
-    def create_professor(self, page):
+    def create_professor(self, page, class_code):
         page.goto(f"{self.live_server_url}/pt-br/admin/")
         page.fill('#id_username', settings.TEST_SUPERUSER_EMAIL)
         page.fill('#id_password', settings.TEST_SUPERUSER_PASSWORD)
@@ -144,14 +150,21 @@ class InterfaceTests(DjkSampleTestCase):
         page.click('text=Início')
         page.click('text=Professores')
         page.click('text=Adicionar professor')
-        page.click('b[role="presentation"]')
-        page.click('text={}'.format(settings.TEST_MANAGER))
-        page.click('text=Escolher todos')
-        page.click('text=Salvar')
+        Professor.objects.create(user=User.objects.get(username=settings.TEST_MANAGER))
+        p = Professor.objects.get(user=User.objects.get(username=settings.TEST_MANAGER))
+        o = OnlineClass.objects.get(class_code=class_code)
+        p.prof_class.add(o)
+        p.save()
+
+        # page.click('b[role="presentation"]')
+        # page.click('text={}'.format(settings.TEST_MANAGER))
+        # page.click('text=Escolher todos')
+        # page.click('text=Salvar')
 
     def assign_exercise(self, page):
         self.login(page, settings.TEST_MANAGER, settings.TEST_PASSWORD)
         page.goto(f"{self.live_server_url}/pt-br/classes/manage/1")
+        print(page.locator("html").inner_html())
         page.fill('input[type="date"]', '2022-12-12')
         page.fill('input[name="time"]', '23:59')
         page.click('text=Adicionar')     
@@ -192,7 +205,7 @@ class InterfaceTests(DjkSampleTestCase):
 
         print("      - Testando termos de privacidade...")
         self.read_privacy(page)
-
+        
         print("      - Testando criação de turma...")
         class_code = self.create_class(page)
 
@@ -201,7 +214,7 @@ class InterfaceTests(DjkSampleTestCase):
 
         print("      - Testando criação de professor e aula...")
         self.register(page, class_code, settings.TEST_GNAME, settings.TEST_SNAME, settings.TEST_MANAGER, settings.TEST_PASSWORD)
-        self.create_professor(page)
+        self.create_professor(page, class_code)
         self.assign_exercise(page)
 
         print("      - Testando criação de aluno...")

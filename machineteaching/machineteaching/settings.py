@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from dotenv import load_dotenv
+load_dotenv()  # loads the configs from .env
+from django.utils.translation import gettext_lazy as _
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,42 +23,44 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '8*=zg)50v5jzw=z3t!u*f1^1^8c!*5^d+*xt+4+pq6re-d!uz&'
+SECRET_KEY = os.getenv("APP_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(os.getenv("DEBUG"))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(",")
 
+CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS").split(",")
 
 # Application definition
 
 INSTALLED_APPS = [
-'questions.apps.QuestionsConfig',
-'evaluation.apps.EvaluationConfig',
-'django.contrib.admin',
-'django.contrib.auth',
-'django.contrib.contenttypes',
-'django.contrib.sessions',
-'django.contrib.messages',
-'django.contrib.staticfiles',
-'django_extensions',
-'django_filters',
-'simple_history',
-'import_export',
-'rest_framework',
+    'questions',
+    'evaluation',
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'maintenance_mode',
+    'django_extensions',
+    'simple_history',
+    'import_export',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'simple_history.middleware.HistoryRequestMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
+    'maintenance_mode.middleware.MaintenanceModeMiddleware',
 ]
 
 ROOT_URLCONF = 'machineteaching.urls'
@@ -71,7 +76,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'questions.context_processors.context'
+                'questions.context_processors.context',
             ],
         },
     },
@@ -83,19 +88,20 @@ WSGI_APPLICATION = 'machineteaching.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 DATABASES = {
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    # }
-
-       'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'machineteaching',
-        'USER': 'machineteaching',
-        'PASSWORD': 'vw_$Z^vBgn?7H{z4',
-        'HOST': 'localhost',
-        'PORT': '5432',
+    'default': {
+        'ENGINE': os.getenv("DB_ENGINE", 'django.db.backends.postgresql_psycopg2'),
+        'NAME': os.getenv("DB_NAME"),
+        'USER': os.getenv("DB_USER"),
+        'PASSWORD': os.getenv("DB_PASSWORD"),
+        'HOST': os.getenv("DB_HOST"),
+        'PORT': os.getenv("DB_PORT"),
     }
 }
 
@@ -121,7 +127,6 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
-
 LANGUAGE_CODE = 'pt-br'
 
 TIME_ZONE = 'America/Sao_Paulo'
@@ -132,9 +137,10 @@ USE_L10N = True
 
 USE_TZ = True
 
-LOCALE_PATHS = [
-    os.path.join(BASE_DIR, 'locale')
-]
+# LOCALE_PATHS = (
+#     'locale',
+# )
+LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
 
 # LOGIN
 LOGIN_REDIRECT_URL = '/'
@@ -142,18 +148,25 @@ LOGOUT_REDIRECT_URL = '/'
 AUTHENTICATION_BACKENDS = ['questions.backends.EmailBackend']
 EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'apikey'
-EMAIL_HOST_PASSWORD = 'COLOCA SUA API KEY DO SENDGRID'
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", 'apikey')
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL="COLOCA SEU EMAIL"
+DEFAULT_FROM_EMAIL= os.getenv("DEFAULT_FROM_EMAIL", "equipe@machineteaching.tech")
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
+STATIC_ROOT = '/'
 STATIC_URL = '/static/'
+
+
+STATICFILES_DIRS = ( os.path.join('staticfiles'), )
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # Disable revert option from admin
 SIMPLE_HISTORY_REVERT_DISABLED=True
+IMPORT_EXPORT_USE_TRANSACTIONS = True
 
 # Document Topic shape
 DOC_TOPIC_SHAPE = (55, 5)
@@ -173,6 +186,14 @@ NOTEBOOK_ARGUMENTS = [
     '--no-browser'
 ]
 
+# Maintenance mode
+MAINTENANCE_MODE = False
+# if True admin site will not be affected by the maintenance-mode page
+MAINTENANCE_MODE_IGNORE_ADMIN_SITE = True
+# if True the superuser will not see the maintenance-mode page
+MAINTENANCE_MODE_IGNORE_SUPERUSER = True
+SHOW_SATISFACTION_FORM = False
+
 # LOGGING
 LOGGING = {
     'version': 1,
@@ -187,10 +208,10 @@ LOGGING = {
             'include_html': True,
         },
         # Log to a text file that can be rotated by logrotate
-        'logfile': {
-            'class': 'logging.handlers.WatchedFileHandler',
-            'filename': os.path.join(BASE_DIR, "mt_dev.log")
-        },
+        # 'logfile': {
+        #     'class': 'logging.handlers.WatchedFileHandler',
+        #     'filename': os.path.join(BASE_DIR, "mt_dev.log")
+        # },
     },
     'loggers': {
         # Again, default Django configuration to email unhandled exceptions
@@ -201,39 +222,36 @@ LOGGING = {
         },
         # Might as well log any errors anywhere else in Django
         'django': {
-            'handlers': ['logfile'],
+            'handlers': [],
             'level': 'ERROR',
             'propagate': False,
         },
         # Your own app - this assumes all your logger names start with "myapp."
         'machineteaching': {
-            'handlers': ['logfile'],
+            'handlers': [],
             'level': 'DEBUG', # Or maybe INFO or DEBUG
             'propagate': False
         },
         # Your own app - this assumes all your logger names start with "myapp."
         'questions': {
-            'handlers': ['logfile'],
+            'handlers': [],
             'level': 'DEBUG', # Or maybe INFO or DEBUG
             'propagate': False
         },
         # Your own app - this assumes all your logger names start with "myapp."
         'evaluation': {
-            'handlers': ['logfile'],
+            'handlers': [],
             'level': 'DEBUG', # Or maybe INFO or DEBUG
             'propagate': False
         },
     },
 }
 
-TEST_SUPERUSER_USER = 'hugofolloni'
-TEST_SUPERUSER_EMAIL = 'hugofollogua07@gmail.com'
-TEST_SUPERUSER_PASSWORD = 'abc124%@$!'
-TEST_MANAGER = "hugofg@gmail.com"
-TEST_PASSWORD= 'bc124%@$!'
-TEST_GNAME = "hugo"
-TEST_SNAME = "folloni"
-TEST_USER = "hugofg@dcc.ufrj.br"
-TEST_PASSWORD= 'bc124%@$!'
-
-os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
+TEST_SUPERUSER_USER="superuser@machineteaching.tech"
+TEST_SUPERUSER_EMAIL="superuser@machineteaching.tech"
+TEST_SUPERUSER_PASSWORD="superSenhaUser"
+TEST_GNAME="Usuário"
+TEST_SNAME="Teste"
+TEST_MANAGER="professor@machineteaching.tech"
+TEST_PASSWORD="senhaTeste"
+TEST_USER="usuario@machineteaching.tech"

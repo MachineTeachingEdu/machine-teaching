@@ -17,9 +17,10 @@ statsmodels
 django-filter
 whitenoise
 python-dotenv
-Werkzeug==2.2.3
+Werkzeug==3.0.1
 locust
 opentelemetry-distro
 opentelemetry-exporter-otlp-proto-http
 django-maintenance-mode
+pytest-playwright
 # apache-skywalking[http]
