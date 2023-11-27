@@ -132,19 +132,14 @@ def time_to_finish_exercise(user, problems, onlineclass):
                                    user_class=onlineclass).values_list('seconds_in_page', flat=True)
 
 def get_time_to_finish_chapter_in_days(user, chapter_problems, onlineclass):
-    logs = UserLogView.objects.filter(user__in=[user],
-                                        problem__in=chapter_problems,
-                                        user_class=onlineclass).order_by('timestamp')
+    logs = UserLogView.objects.filter(user__in=[user], problem__in=chapter_problems, user_class=onlineclass).order_by('timestamp')
 
 
     if logs.count():
         first_log = logs.first().timestamp
     times = []
     for problem in chapter_problems:
-        passed = UserLogView.objects.filter(user__in=[user],
-                                        problem=problem,
-                                        final_outcome = 'P',
-                                        user_class=onlineclass).order_by('timestamp')
+        passed = UserLogView.objects.filter(user__in=[user],   problem=problem, final_outcome = 'P', user_class=onlineclass).order_by('timestamp')
         if passed.count():
             first_passed = passed.first()
             times.append(first_passed.timestamp)
@@ -236,8 +231,7 @@ def student_dashboard(user, professor=False):
     onlineclass = user.userprofile.user_class
     students = User.objects.filter(userprofile__user_class=onlineclass)
 
-    chapters = Deadline.objects.filter(onlineclass=onlineclass).order_by(
-        'deadline').values_list('chapter', flat=True)
+    chapters = Deadline.objects.filter(onlineclass=onlineclass).order_by('deadline').values_list('chapter', flat=True)
     problems = Problem.objects.filter(chapter__in=chapters)
 
     # Progress plot
@@ -343,11 +337,7 @@ def student_dashboard(user, professor=False):
             else:
                 timestamp = datetime.now()
 
-            errors = UserLog.objects.filter(user__in=students,
-                                            problem=problem,
-                                            outcome='F',
-                                            timestamp__gte=onlineclass.start_date,
-                                            timestamp__lte=timestamp).count()
+            errors = UserLog.objects.filter(user__in=students, problem=problem,   outcome='F', timestamp__gte=onlineclass.start_date, timestamp__lte=timestamp).count()
 
             c_errors.append(errors)
 
