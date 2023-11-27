@@ -6,7 +6,7 @@ from django.test.utils import override_settings
 
 @override_settings(DEBUG=True)
 class DjkSampleTestCase(StaticLiveServerTestCase):
-    reset_sequences = True
+    reset_sequences = False
 
 class InterfaceTests(DjkSampleTestCase):
     @classmethod

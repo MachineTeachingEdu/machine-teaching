@@ -58,6 +58,8 @@ urlpatterns = [
     path('about', TemplateView.as_view(
         template_name='questions/about.html'),
         name='about'),
+    path('dashboard1', views.get_dashboard1, name='dashboard1'),  
+    path('student_dashboard1/<int:id>', views.get_student_dashboard1, name='student_dashboard1'),
 
     # path('attempts/', views.AttemptsList.as_view(), name='attempts'),
     # path('recommendations/', views.Recommendations.as_view(), name='recommendations'),
