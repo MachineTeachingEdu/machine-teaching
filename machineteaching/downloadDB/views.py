@@ -39,7 +39,7 @@ def index(request):
 
             # ...
             # redirect to a new URL:
-            return HttpResponseRedirect("/thanks/") #TODO maybe return to start idk
+            return redirect("thanks") 
 
     # if a GET (or any other method) we'll create a blank form
     else:
