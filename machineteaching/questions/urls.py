@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from django.views.generic import TemplateView
 
 from . import views, context_processors
@@ -59,12 +59,13 @@ urlpatterns = [
         template_name='questions/about.html'),
         name='about'),
 
-    # path('attempts/', views.AttemptsList.as_view(), name='attempts'),
-    # path('recommendations/', views.Recommendations.as_view(), name='recommendations'),
 
     # DEBUG PURPOSES
     path('<int:problem_id>/', views.show_problem, name='show_problem'),
 
     # View to redirect to embed form
     path('satisfaction_form', views.satisfaction_form, name='satisfaction_form'),
+
+    #api url
+    path('api/v1/', include('api.urls'))
 ]
