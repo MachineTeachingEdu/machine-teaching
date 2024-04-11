@@ -1,7 +1,7 @@
 GCP_PROJECT_ID = machine-teaching-347613
 GCP_APPLICATION_NAME = machine-teaching-webapp
 
-VERSION=$(shell (git rev-parse HEAD)) 
+VERSION=$(shell (git rev-parse HEAD))
 
 IMAGE_DESTINATION = us-central1-docker.pkg.dev/$(GCP_PROJECT_ID)$(GCP_APPLICATION_NAME)/$(VERSION)
 
