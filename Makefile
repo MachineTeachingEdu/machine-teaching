@@ -1,10 +1,9 @@
 GCP_PROJECT_ID = machine-teaching-347613
-GCP_APPLICATION_NAME = machine-teaching-app
+GCP_APPLICATION_NAME = machine-teaching-webapp
 
-IMAGE_DESTINATION = gcr.io/$(GCP_PROJECT_ID)/$(GCP_APPLICATION_NAME)
+VERSION=$(shell (git rev-parse HEAD)) 
 
-# GIT COMMIT ID
-VERSION=$(shell (git rev-parse HEAD))
+IMAGE_DESTINATION = us-central1-docker.pkg.dev/$(GCP_PROJECT_ID)$(GCP_APPLICATION_NAME)/$(VERSION)
 
 up:
 	mkdir -p ./machine-teaching-db/data
