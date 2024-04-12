@@ -8,7 +8,7 @@ psycopg2==2.8.6
 django-picklefield
 numpy
 matplotlib
-pandas
+pandas<2.0.0
 django-simple-history
 django-import-export
 dash
