@@ -114,7 +114,7 @@ class InterfaceTests(DjkSampleTestCase):
     
     def specific_problem_2(self, page):
         page.goto(f"{self.live_server_url}/pt-br/chapters/1")
-        self.assertEqual("Entrega", page.locator('text=Entrega').text_content())
+        self.assertEqual("Data de entrega", page.locator('text=Entrega').text_content())
 
     def past_solutions(self, page):
         page.goto(f"{self.live_server_url}/pt-br/problem_solutions/1")
@@ -164,7 +164,6 @@ class InterfaceTests(DjkSampleTestCase):
     def assign_exercise(self, page):
         self.login(page, settings.TEST_MANAGER, settings.TEST_PASSWORD)
         page.goto(f"{self.live_server_url}/pt-br/classes/manage/1")
-        print(page.locator("html").inner_html())
         page.fill('input[type="date"]', '2022-12-12')
         page.fill('input[name="time"]', '23:59')
         page.click('text=Adicionar')     
