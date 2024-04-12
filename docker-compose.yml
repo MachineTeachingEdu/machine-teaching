@@ -2,9 +2,9 @@ version: "3.7"
 services:
   machine_teaching_db:
     image: postgres:9.6
-    env_file: .env
+    env_file: ./machine-teaching-db/.env
     volumes:
-      - machine-teaching-db/data/dump.sql:/docker-entrypoint-initdb.d/create_tables.sql
+      - ./machine-teaching-db/data/dump.sql:/docker-entrypoint-initdb.d/create_tables.sql
     ports:
       - 5432:5432
   web:
@@ -14,9 +14,9 @@ services:
     ports:
       - "8020:8020"
     environment:
-      - DB_NAME=machine_teaching_db
-      - DB_USER=dev_user
-      - DB_PASSWORD=secure_password
+      - DB_NAME=machineteaching
+      - DB_USER=machineteaching
+      - DB_PASSWORD=123
       - DB_HOST=machine_teaching_db
       - DB_PORT=5432
       - ENVIRONMENT=DEV
