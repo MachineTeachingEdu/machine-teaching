@@ -18,6 +18,9 @@ else
     echo "IP Address:"
     curl curlmyip.org
     # cd /app/machineteaching
+    mkdir -p staticfiles
+    echo "Will compile messages"
+    python manage.py compilemessages
     echo "Will collect static"
     python manage.py collectstatic --noinput
     python manage.py migrate

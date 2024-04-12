@@ -1,4 +1,18 @@
-## Levantando ambiente de desenvolvimento (com Docker)
+<!-- Table of contents -->
+<details>
+<summary>Table of Contents</summary>
+
+- [Machine Teaching](#machine-teaching)
+  - [Levantando ambiente de desenvolvimento](#levantando-ambiente-de-desenvolvimento)
+    - [Levantando ambiente de desenvolvimento (com Docker)](#levantando-ambiente-de-desenvolvimento-com-docker)
+    - [Levantando ambiente de desenvolvimento (sem Docker)](#levantando-ambiente-de-desenvolvimento-sem-docker)
+  - [Deploy](#deploy)
+
+
+
+## Levantando ambiente de desenvolvimento
+
+### Levantando ambiente de desenvolvimento (com Docker)
 
 ```sh
 # O comando abaixo executa as seguintes tarefas:
@@ -9,7 +23,7 @@
 docker-compose up
 ```
 
-## Levantando ambiente de desenvolvimento (sem Docker)
+### Levantando ambiente de desenvolvimento (sem Docker)
 
 Passo 1: Levantar o banco de dados Postgresql de desenvolvimento:
 
@@ -29,14 +43,17 @@ Passo 3: Iniciar a aplicação em modo de desenvolvimento
 python manage.py runserver
 ```
 
-## Enviando para produção
+## Deploy
 
+
+O processo de deploy envolve:
+1. Criar uma imagem docker da aplicação
+2. Enviar a imagem docker da aplicação para o google artifacts registry
+3. Atualizar a instância de Google Cloud Run com a nova imagem
+
+As etapas 1 e 2 estão automatizadas no arquivo Makefile. 
+Basta executar o comando a seguir:
 ```sh
-heroku login
-heroku container:push web --app machine-teaching-ufrj
-heroku container:release web --app machine-teaching-ufrj
+make deploy
 ```
-
-## TODO
-
-1. Criar arquivo seed.sql, para popular o banco de dados de desenvolvimento com dados fake
+IMPORTANTE: Para que o Docker consiga enviar a imagem para o Google Artifacts Registry, é necessário estar logado no Google Cloud. Para isso, execute o comando `gcloud auth login` e siga as instruções do link a seguir: https://cloud.google.com/artifact-registry/docs/docker/authentication

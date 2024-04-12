@@ -2,10 +2,11 @@ version: "3.7"
 services:
   machine_teaching_db:
     image: postgres:9.6
-    environment:
-      - POSTGRES_USER=machineteaching
-      - POSTGRES_PASSWORD=multiplyplanet72turn63
-      - POSTGRES_DB=machineteaching
+    env_file: ./machine-teaching-db/.env
+    #environment:
+    #  - POSTGRES_USER=machineteaching
+    #  - POSTGRES_PASSWORD=multiplyplanet72turn63
+    #  - POSTGRES_DB=machineteaching
     volumes:
       - db-data:/var/lib/postgresql/data
     ports:

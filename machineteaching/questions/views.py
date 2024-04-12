@@ -31,6 +31,7 @@ from questions.get_problem import get_problem
 from questions.get_dashboards import student_dashboard, class_dashboard, manager_dashboard, predict_drop_out, time_to_finish_exercise, get_time_to_finish_chapter_in_days
 from questions.get_dashboards import *
 from questions.strategies import STRATEGIES_FUNC
+from questions.get_dashboards1 import get_dashboards
 import csv
 from django.conf import settings
 from django.core.mail import send_mail
@@ -768,6 +769,16 @@ def class_active(request):
 def get_dashboard(request):
     context = student_dashboard(request.user)
     return render(request, 'questions/student_dashboard.html', context)
+
+@login_required
+def get_dashboard1(request):
+    context = get_dashboards(request.user.id)
+    return render(request, 'questions/student_dashboard1.html', context)
+
+@login_required
+def get_student_dashboard1(request, id):
+    context = get_dashboards(id, professor=True)
+    return render(request, 'questions/student_dashboard1.html', context)
 
 @permission_required('questions.view_userlogview', raise_exception=True)
 def get_student_dashboard(request, id):

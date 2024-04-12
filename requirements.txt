@@ -3,12 +3,13 @@ beautifulsoup4
 requests
 gunicorn
 django-extensions
-django==3.2.20
+<<<<<<< HEAD
+django==3.2.25
 psycopg2-binary
 django-picklefield
 numpy
 matplotlib
-pandas
+pandas<2.0.0
 django-simple-history
 django-import-export
 dash
@@ -17,7 +18,7 @@ statsmodels
 django-filter
 whitenoise
 python-dotenv
-Werkzeug==2.0.3
+Werkzeug==3.0.1
 locust
 opentelemetry-distro
 opentelemetry-exporter-otlp-proto-http

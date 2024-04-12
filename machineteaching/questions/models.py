@@ -21,6 +21,7 @@ class Chapter(models.Model):
     drop_out_model = models.ForeignKey('DropOutModel', on_delete=models.SET_NULL,
                                 null=True, blank=True)
     history = HistoricalRecords()
+    active = models.BooleanField(default=True)
 
     def __unicode__(self):
         return self.label
