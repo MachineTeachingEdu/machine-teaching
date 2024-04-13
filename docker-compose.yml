@@ -13,17 +13,6 @@ services:
       - ./machineteaching:/app/machineteaching
     ports:
       - "8020:8020"
-    environment:
-      - DB_NAME=machineteaching
-      - DB_USER=machineteaching
-      - DB_PASSWORD=123
-      - DB_HOST=machine_teaching_db
-      - DB_PORT=5432
-      - ENVIRONMENT=DEV
-      - PORT=8020
-      - WAIT_HOSTS=machine_teaching_db:5432
-      - ALLOWED_HOSTS=localhost,127.0.0.1,0.0.0.0,machine-teaching-ufrj.herokuapp.com,machine-teaching-app-r22grtpmzq-uc.a.run.app
-      - CSRF_TRUSTED_ORIGINS=https://machine-teaching-app-r22grtpmzq-uc.a.run.app
-      - APP_SECRET_KEY=SUPER_SECRET_KEY_1234
+    env_file: ./machineteaching/.env
     depends_on:
       - machine_teaching_db
