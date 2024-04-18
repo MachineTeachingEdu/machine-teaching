@@ -36,6 +36,8 @@ import csv
 from django.conf import settings
 from django.core.mail import send_mail
 from functools import wraps
+from .models import Collaborator
+from django.views.decorators.clickjacking import xframe_options_exempt
 
 
 LOGGER = logging.getLogger(__name__)
@@ -940,3 +942,11 @@ def send_comment_email(student, comment, link):
             </div>
         </div>""".format(student.first_name, student.last_name, comment.userlog.problem.title, comment.user, comment.content, solution_link)
     send_mail(message_subject, message_content, None, [student_email], fail_silently=False, html_message=message_html)
+
+@xframe_options_exempt
+def about(request):
+    Team = Collaborator.objects.all()
+    context = {
+        'Team': Team,
+    }
+    return render(request, 'questions/about.html', context)  

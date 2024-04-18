@@ -55,9 +55,7 @@ urlpatterns = [
     path('privacy', TemplateView.as_view(
         template_name='questions/privacy.html'),
         name='privacy'),
-    path('about', TemplateView.as_view(
-        template_name='questions/about.html'),
-        name='about'),
+    path('about', views.about, name='about'),
     path('dashboard1', views.get_dashboard1, name='dashboard1'),  
     path('student_dashboard1/<int:id>', views.get_student_dashboard1, name='student_dashboard1'),
 
