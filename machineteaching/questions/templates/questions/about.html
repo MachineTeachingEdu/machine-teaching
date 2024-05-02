@@ -15,48 +15,94 @@
         <script src="{% static 'js/script.js' %}"></script>
 
         <style>
+
+            @media only screen and (max-width: 900px) {
+            .about_header_box{
+                  padding: 40px 0;
+            }
+
+            .about_header{
+                  flex-wrap: wrap;
+                  justify-content: center;
+            }
+      
+            }
+
+            .about_header_box{ 
+                  padding: 40px 8% 40px;
+                  text-align: center;
+                  background-position: top;
+                  background-size: 200px;
+                  background: linear-gradient(40deg, rgba(16,102,162,1) 0%, rgba(31,140,227,1) 100%);
+            }
+
+            .about_header{
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+            }
+
+            .mt{
+                  color: #ffffff;
+                  text-transform: uppercase;
+                  font-weight: 600;
+                  font-size: 1.6rem;
+            }
+
+            .change-language {
+            text-decoration: none;
+            text-transform: uppercase;
+            font-weight: 400;
+            font-size: 1.1rem;
+            color: #ffffff;
+            color: #ffffff;
+            transition: all 0.4s;
+            opacity: 0.8;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+}
+
             
-            body {
+            .about_content {
                   padding: 1rem;
-                  overflow-y: auto;
                   height: 95%;
                   width: 100%;
-                  overflow-x: hidden;
                   align-items: flex-start;
                   height: calc(100% - 8rem);
-                  margin: 1.5rem;
-                  width: 80%;
-                  border-radius: 0;
-                  padding: 1rem 1rem;
+                  width: 100%;
+                  padding: 4rem 7rem;
                   }
             .highlight {
                   text-decoration: underline;
             }
 
-            header{
-        flex-wrap: wrap;
-        justify-content: center;
-        display: flex;
-        justify-content: space-between;
-            align-items: center;
-      
-    }
 
         </style>
 
       </head>
       
-      <body class>
+      <body>
 
-            <div class="header" style="background-color:#2196F3;">
-                  <div class="mt">Machine Teaching</div>
+            
+            <div class="about_header_box">
+
+                  <div class="about_header">
+
+                  <div class="mt"><a class="mt" href="{% url 'index' %}">Machine Teaching</a></div>
                   <span class="change-language" onclick="changeLanguage('{{language}}')">
-                      {% if language == 'en' %}Português
-                      {% else %}English{% endif %}
-                      <img src="{% static 'img/earth.png' %}"></span>
-                </div>
+                  {% if language == 'en' %}Português
+                  {% else %}English{% endif %}
+                  <img src="{% static 'img/earth.png' %}"></span>
+                  </div>
 
+            </div>
+            
+
+            <div class="about_content">
+            
             <h3>About this research</h3>
+
 
             <p class="research">It is important to understand why students succeed or fail when taking a
                   course so we can <span class="highlight">improve teaching methods</span> by identifying students\' needs
@@ -147,6 +193,7 @@
                   <a class="highlight" href="https://www.google.com/url?q=https%3A%2F%2Fgithub.com%2Flaura-moraes%2Fmachine-teaching%2F&sa=D&sntz=1&usg=AOvVaw0GeZPrsIE3CrGWh0top2vy">Code</a> 
                   <a class="highlight" href="https://drive.google.com/file/d/1VImpvmRu7eMEgi9SZrcqcfrl4fij0J0d/view?usp=sharing">Video</a>
                   <br><br>
+
         
 
 <h3>Equipe</h3>
@@ -222,6 +269,8 @@
                   <img src="{% static 'img/logo/unialcalá.png' %}"></a>
                   </div>
             </div>
+
+      </div>
 
             <div class="footer" style="border-bottom: none;">
                   <div class="footer-left">Machine Teaching</div>
