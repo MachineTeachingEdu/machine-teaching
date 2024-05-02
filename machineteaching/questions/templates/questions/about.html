@@ -1,0 +1,246 @@
+{% load static %}
+{% load i18n %}
+{% get_current_language as language %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+      <head>
+        <title>{% blocktrans %}Sobre a pesquisa{% endblocktrans %} | Machine Teaching</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}" />
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="{% static 'js/script.js' %}"></script>
+
+        <style>
+            
+            body {
+                  padding: 1rem;
+                  overflow-y: auto;
+                  height: 95%;
+                  width: 100%;
+                  overflow-x: hidden;
+                  align-items: flex-start;
+                  height: calc(100% - 8rem);
+                  margin: 1.5rem;
+                  width: 80%;
+                  border-radius: 0;
+                  padding: 1rem 1rem;
+                  }
+            .highlight {
+                  text-decoration: underline;
+            }
+
+            header{
+        flex-wrap: wrap;
+        justify-content: center;
+        display: flex;
+        justify-content: space-between;
+            align-items: center;
+      
+    }
+
+        </style>
+
+      </head>
+      
+      <body class>
+
+            <div class="header" style="background-color:#2196F3;">
+                  <div class="mt">Machine Teaching</div>
+                  <span class="change-language" onclick="changeLanguage('{{language}}')">
+                      {% if language == 'en' %}Português
+                      {% else %}English{% endif %}
+                      <img src="{% static 'img/earth.png' %}"></span>
+                </div>
+
+            <h3>About this research</h3>
+
+            <p class="research">It is important to understand why students succeed or fail when taking a
+                  course so we can <span class="highlight">improve teaching methods</span> by identifying students\' needs
+                  and to <span class="highlight">provide personalized education</span>. Smart learning content is defined as
+                  visualizations, simulations and web-based environments that provide outputs
+                  for students based on the students\' input [1]. The adoption of smart
+                  learning content in classrooms and in self-learning environments <span class="highlight">motivates
+                  students [2]–[5], improves student learning, decreases student dropout or
+                  failure [2], [6]–[8] while increasing their self-confidence, especially in
+                  female students [6].</span>
+            </p>
+            <p class="research">Also, Python is a general-purpose language, which means it can be used in a
+                  large variety of projects. This can be great to stimulate students, since they
+                  can work in projects they actually relate to. Python is also user-friendly and
+                  for the past seven years, it has been the fastest-growing major programming
+                  language [9], <span class="highlight">being correlated with trending careers, such as DevOps and Data
+                        Scientist [10]</span>. According to the 2015 review [8], only 11&#37; of the Educational
+                  Data Mining and Learning Analytics papers about programming courses reported
+                  using Python as the course language. However, this is changing. A 2017 review
+                  on the Introductory Programming courses in Australasia universities [11]
+                  reported a shift from Java to Python in the past years and the 2018 review on
+                  Introductory Programming literature [12] already presents a higher number of
+                  papers using Python as the course language. Nonetheless, even though we already
+                  have different tools to support online learning, it is still hard to find open
+                  datasets containing student submissions for Python problems and related
+                  information that can be important to get a better insight on students\'
+                  knowledge.
+            </p>
+            <p class="research">These factors motivate our objective: the creation, deployment and use of
+                  online intelligent systems in Introduction to Programming classes using the
+                  Python language as a way to <span class="highlight">uncover students’ difficulties, to understand their
+                  knowledge and to provide timely feedback to keep students engaged.</span>
+            </p>
+
+            <strong>References</strong>
+        
+            <p>
+                  [1]    P. Brusilovsky et al., “Increasing Adoption of Smart Learning Content for Computer Science Education,” 2014, doi: 10.1145/2713609.2713611.<br>
+                  [2]    L. Benotti, M. J. Gomez, F. Aloi, and F. Bulgarelli, “The effect of a web-based coding tool with automatic feedback on students’ performance and perceptions,” SIGCSE 2018 - Proceedings of the 49th ACM Technical Symposium on Computer Science Education. 2018.<br>
+                  [3]    I. Jivet, M. Scheffel, M. Specht, and H. Drachsler, “License to evaluate: Preparing learning analytics dashboards for educational practice,” ACM International Conference Proceeding Series. 2018.<br>
+                  [4]    A. Latham, K. Crockett, D. McLean, and B. Edmonds, “A conversational intelligent tutoring system to automatically predict learning styles,” Computers and Education, vol. 59, no. 1, pp. 95–109, 2012, doi: 10.1016/j.compedu.2011.11.001.<br>
+                  [5]    R. Lobb and J. Harlow, “Coderunner: A tool for assessing computer programming skills,” ACM Inroads, 2016, doi: 10.1145/2810041.<br>
+                  [6]    A. N. Kumar, “The effect of using problem-solving software tutors on the self-confidence of female students,” ACM SIGCSE Bulletin, 2008, doi: 10.1145/1352322.1352309.<br>
+                  [7]    E. Johns, O. M. Aodha, and G. J. Brostow, “Becoming the expert - Interactive multi-class machine teaching,” in Proceedings of the IEEE Computer Society Conference on Computer Vision and Pattern Recognition, 2015, vol. 07-12-June, pp. 2616–2624, doi: 10.1109/CVPR.2015.7298877.<br>
+                  [8]    P. Ihantola et al., “Educational Data Mining and Learning Analytics in Programming : Literature Review and Case Studies,” ITiCSE WGR’16, 2015, doi: 10.1145/2858796.2858798.<br>
+                  [9]    “The Incredible Growth of Python | Stack Overflow,” Stack Overflow Blog, Sep. 06, 2017. https://stackoverflow.blog/2017/09/06/incredible-growth-python/ (accessed Aug. 28, 2020).<br>
+                  [10]    “Stack Overflow Developer Survey 2018,” Stack Overflow. https://insights.stackoverflow.com/survey/2018/?utm_source=so-owned&utm_medium=social&utm_campaign=dev-survey-2018&utm_content=social-share (accessed Aug. 28, 2020).<br>
+                  [11]    R. Mason and Simon, “Introductory Programming Courses in Australasia in 2016,” in Proceedings of the Nineteenth Australasian Computing Education Conference, Geelong, VIC, Australia, Jan. 2017, pp. 81–89, doi: 10.1145/3013499.3013512.<br>
+                  [12]    A. Luxton-Reilly et al., “Introductory programming: a systematic literature review,” in Proceedings Companion of the 23rd Annual ACM Conference on Innovation and Technology in Computer Science Education, Larnaca, Cyprus, Jul. 2018, pp. 55–106, doi: 10.1145/3293881.3295779.<br>
+            </p>
+
+            <h3>Interested? Take a look at </h3>
+
+                  1. Our <a class="highlight" href="https://github.com/laura-moraes/machine-teaching">
+                  Github</a><br><br>
+                  
+                  2.  <a class="highlight" href="https://www.lauramoraes.com/festival-do-conhecimento">
+                  Festival do Conhecimento da UFRJ 2021</a>
+                  <br><br>
+                  1.  <a class="highlight" href="https://drive.google.com/file/d/1SqqBEAIjiOaGY3Ajdp9tPmsw7Dc-N8Ly/view">
+                  Laura O. Moraes, Carlos Eduardo Pedreira (2020). Designing an Intelligent Tutoring System Across Multiple Classes. 4th Educational Data Mining in Computer Science Education (CSEDM), 2020, Virtual Workshop.</a>
+                  <br><br>
+                  2.  <a class="highlight" href="https://arxiv.org/pdf/2104.10748.pdf">
+                  Laura O. Moraes, Carlos Eduardo Pedreira (2021). Clustering Introductory Computer Science Exercises Using Topic Modeling Methods. IEEE Transactions on Learning Technologies, vol. 14, no. 1, pp. 42-54, Feb. 2021.
+                  </a>
+                  <br><br>
+                  3. Laura O. Moraes, Carlos Eduardo Pedreira (2021). Unsupervised Concept Extraction in an Introduction to Programming Course. PhD Thesis in Systems Engineering and Computer Science - COPPE, Universidade Federal do Rio de Janeiro (UFRJ), Rio de Janeiro.
+                  <br>
+                  <a class="highlight" href="https://www.google.com/url?q=https%3A%2F%2Fwww.cos.ufrj.br%2Fuploadfile%2Fpublicacao%2F2985.pdf&sa=D&sntz=1&usg=AFQjCNFRKRM3sEvvm5WmBejYmIgb-WOEHQ">PDF</a>
+                  <a class="highlight" href="https://www.youtube.com/watch?v=vRHcWa9_Z6c">Video</a> 
+                  <a class="highlight" href="https://docs.google.com/presentation/d/1m-uBlYE2_x0S9TJIU2Aqp-ewiED4Y1ng0DvPmWEGEno/edit?usp=sharing">Slides</a>
+                  <br><br>
+                  4. Chunpai Wang, Shaghayegh Sahebi, Siqian Zhao, Peter Brusilovsky, Laura O. Moraes (2021). Knowledge Tracing for Complex Problem Solving: Granular Rank-Based Tensor Factorization. Proceedings of the 29th ACM Conference on User Modeling, Adaptation and Personalization (UMAP 21).
+                  <br>
+                  <a class="highlight" href="https://www.google.com/url?q=https%3A%2F%2Fdl.acm.org%2Fdoi%2Fpdf%2F10.1145%2F3450613.3456831&sa=D&sntz=1&usg=AFQjCNExqFzRFk-jpsHO_kPb0s-H4EHFLw">PDF</a> 
+                  <a class="highlight" href="https://www.google.com/url?q=https%3A%2F%2Fgithub.com%2Fpersai-lab%2FUMAP2021-GRATE&sa=D&sntz=1&usg=AFQjCNHm7skxJkNzOdzo6FFgXpXQ5ggClQ">Code</a> 
+                  <a class="highlight" href="https://www.google.com/url?q=https%3A%2F%2Fdl.acm.org%2Fdoi%2F10.1145%2F3450613.3456831%23video_stream_uuid%253A1c4475cc-85df-4fc4-9cca-9078d591fa23&sa=D&sntz=1&usg=AFQjCNHOeH5o4o7CF3uHAlu2FZV_sSuitw">Video</a>
+                  <br><br>
+                  5. Laura O. Moraes, Carlos Eduardo Pedreira, Carla Delgado, João Pedro Freire (2021). Supporting Decisions Using Educational Data Analysis. Anais Estendidos do XXVII Simpósio Brasileiro de Sistemas Multimídia e Web (WebMedia 2021), pp. 99-102, Novembro 2021, Virtual. 
+                  <br>
+                  <a class="highlight" href="https://www.google.com/url?q=https%3A%2F%2Fsol.sbc.org.br%2Findex.php%2Fwebmedia_estendido%2Farticle%2Fview%2F17622%2F17457&sa=D&sntz=1&usg=AOvVaw2d1rvQwPiESOiA0uhUtmjV">PDF</a> 
+                  <a class="highlight" href="https://www.google.com/url?q=https%3A%2F%2Fgithub.com%2Flaura-moraes%2Fmachine-teaching%2F&sa=D&sntz=1&usg=AOvVaw0GeZPrsIE3CrGWh0top2vy">Code</a> 
+                  <a class="highlight" href="https://docs.google.com/presentation/d/1EyqgsWQoRFeo0SNCPTeYPKCNrLDMaTTekWXVL7zRZ24/edit?usp=sharing">Slides</a>
+                  <br><br>
+                  6. Laura O. Moraes, Carlos Eduardo Pedreira, Carla Delgado, João Pedro Freire (2021). Machine Teaching: uma ferramenta didática e de análise de dados para suporte a cursos introdutórios de programação. Anais do II Simpósio Brasileiro de Educação em Computação, pp. 213-223, 24 a 29 de Abril, 2022, Virtual. 
+                  <br>
+                  <a class="highlight" href="https://www.google.com/url?q=https%3A%2F%2Fsol.sbc.org.br%2Findex.php%2Feducomp%2Farticle%2Fview%2F19216%2F19045&sa=D&sntz=1&usg=AOvVaw2pCi1dkO30GfXGtqQSkfAC">PDF</a> 
+                  <a class="highlight" href="https://www.google.com/url?q=https%3A%2F%2Fgithub.com%2Flaura-moraes%2Fmachine-teaching%2F&sa=D&sntz=1&usg=AOvVaw0GeZPrsIE3CrGWh0top2vy">Code</a> 
+                  <a class="highlight" href="https://drive.google.com/file/d/1VImpvmRu7eMEgi9SZrcqcfrl4fij0J0d/view?usp=sharing">Video</a>
+                  <br><br>
+        
+
+<h3>Equipe</h3>
+
+<table>
+            {% for x in Team %}
+            {% if x.active == True %}
+                  <tr>
+                        <td style="padding: 15px 10px 15px 30px; width: 260px; height: 260px;">
+                        <img src="{{ x.image.url }}" style="width: 200px; height: 200px; overflow: hidden; border-radius: 100%">
+                        </td>
+                        <td style="padding: 30px">
+                        <!--<strong> {{ x.name }} </strong> {% blocktrans %} {{ x.description }} {% endblocktrans %}-->
+                        <strong> {{ x.name }} </strong> {% trans x.description %} 
+                        </td>
+                  </tr>
+            {% endif %} 
+            {% endfor %}
+
+</table>
+
+<table>
+
+      <h3>Colaboradores Passados</h3>
+            {% for x in Team %}
+            {% if x.active == False %}
+                  <tr>
+                        <td style="padding: 15px 10px 15px 30px; width: 260px; height: 260px;">
+                        <img src="{{ x.image.url }}" style="width: 200px; height: 200px; overflow: hidden; border-radius: 100%">
+                        </td>
+                        <td style="padding: 30px">
+                        <strong> {{ x.name }} </strong> {{ x.description }}
+                        </td>
+                  </tr>
+            {% endif %} 
+            {% endfor %}
+
+      
+
+</table>
+
+<h3>Support</h3><br>
+      <div class="logos" style="display: flex; align-items: center; flex-direction: column;">
+            <div class="logos-row">
+            <a href="http://ufrj.br/">
+            <img src="{% static 'img/logo/ufrj.png' %}"></a>
+            <a href="http://cnpq.br/">
+            <img src="{% static 'img/logo/cnpq.svg' %}"></a>
+            </div>
+            <div class="logos-row">
+            <a href="http://faperj.br/">
+            <img src="{% static 'img/logo/faperj.jpg' %}"></a>
+            <a href="http://dcc.ufrj.br/">
+            <img src="{% static 'img/logo/dcc.png' %}"></a>
+            <a href="http://coppe.ufrj.br/">
+            <img src="{% static 'img/logo/coppe.jpg' %}"></a>
+            </div>
+            <div class="logos-row">
+            <a href="http://cos.ufrj.br/">
+            <img src="{% static 'img/logo/pesc.png' %}"></a>
+            <a href="https://www.reditus.org.br">
+            <img src="{% static 'img/logo/reditus.png' %}"></a>
+            </div>
+      <br><br>
+      </div>`
+        
+        <h3>Universities using this research</h3><br>
+            <div class="logos" style="display: flex; align-items: center; flex-direction: column;">
+                  <div class="logos-row">
+                  <a href="http://ufrj.br/">
+                  <img src="{% static 'img/logo/ufrj.png' %}"></a>
+                  <a href="https://www.uah.es/es/">
+                  <img src="{% static 'img/logo/unialcalá.png' %}"></a>
+                  </div>
+            </div>
+
+            <div class="footer" style="border-bottom: none;">
+                  <div class="footer-left">Machine Teaching</div>
+                  <div class="footer-right">
+                    {% blocktrans %}Check the {% endblocktrans %}
+                    <span onclick="showConditions('{{language}}')">
+                    {% blocktrans %}Terms and Conditions{% endblocktrans %}
+                    </span>
+                    {% blocktrans %}and the {% endblocktrans %}
+                    <span onclick="showPrivacy('{{language}}')">
+                    {% blocktrans %}Privacy Policy{% endblocktrans %}
+                    </span> | 
+                    <span onclick="showAbout('{{language}}')">
+                    {% blocktrans %}About this research{% endblocktrans %}
+                    </span> | 
+                    © 2021 {% blocktrans %}GPL-3.0 License{% endblocktrans %}: <a href="http://machineteaching.tech">machineteaching.tech</a>
+                  </div>
+                </div>
+              </div>
+
+      </body>
+</html>  

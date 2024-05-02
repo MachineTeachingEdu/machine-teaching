@@ -338,6 +338,17 @@ class DropOutModel(models.Model):
         return "%s" % self.model_file
 
 
+class Collaborator(models.Model):
+  name = models.CharField(max_length=255)
+  description = models.CharField(max_length=1000)
+  active = models.BooleanField(default=True)
+  image = models.ImageField(upload_to='static/img/equipe/')
+
+  class Meta:
+        verbose_name = _('Collaborator')
+        verbose_name_plural = _('Collaborators')
+
+
 @receiver(post_save, sender=User)
 @disable_for_loaddata
 def create_user_model(sender, instance, created, **kwargs):
@@ -443,3 +454,6 @@ def create_userlog_error(sender, instance, created, **kwargs):
             log_error.userlog = instance
             log_error.error = error
             log_error.save()
+
+
+

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-14 18:40-0300\n"
+"POT-Creation-Date: 2024-04-18 11:10-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,1064 +18,1102 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: .\questions\forms.py:19
+#: questions/forms.py:19
 msgid "No"
 msgstr "Não"
 
-#: .\questions\forms.py:20
+#: questions/forms.py:20
 msgid "Yes"
 msgstr "Sim"
 
-#: .\questions\forms.py:26 .\questions\forms.py:147
-#: .\questions\templates\questions\edit_profile.html:15
-#: .\questions\templates\registration\signup.html:45
+#: questions/forms.py:26 questions/forms.py:153
+#: questions/templates/questions/edit_profile.html:15
+#: questions/templates/registration/signup.html:45
 msgid "Class code"
 msgstr "Código da turma"
 
-#: .\questions\forms.py:27
+#: questions/forms.py:27
 msgid "Course"
 msgstr "Curso"
 
-#: .\questions\forms.py:28 .\questions\templates\registration\signup.html:64
+#: questions/forms.py:28 questions/templates/registration/signup.html:64
 msgid "Registration"
 msgstr "Matrícula"
 
-#: .\questions\forms.py:29 .\questions\templates\registration\signup.html:60
+#: questions/forms.py:29 questions/templates/registration/signup.html:60
 msgid "University"
 msgstr "Universidade"
 
-#: .\questions\forms.py:30 .\questions\templates\registration\signup.html:132
+#: questions/forms.py:30 questions/templates/registration/signup.html:132
 msgid "Did you have any programming experience before this course?"
 msgstr "Você teve alguma experiência com programação antes desse curso?"
 
-#: .\questions\forms.py:31 .\questions\templates\registration\signup.html:141
+#: questions/forms.py:31 questions/templates/registration/signup.html:141
 msgid "I accept the "
 msgstr "Eu aceito os "
 
-#: .\questions\forms.py:31 .\questions\templates\503.html:42
-#: .\questions\templates\index.html:92
-#: .\questions\templates\questions\base.html:125
-#: .\questions\templates\registration\base.html:66
-#: .\questions\templates\registration\signup.html:142
+#: questions/forms.py:31 questions/templates/503.html:42
+#: questions/templates/index.html:97
+#: questions/templates/questions/about.html:230
+#: questions/templates/questions/base.html:118
+#: questions/templates/registration/base.html:66
+#: questions/templates/registration/signup.html:142
 msgid "Terms and Conditions"
 msgstr "Termos e Condições"
 
-#: .\questions\forms.py:32 .\questions\templates\registration\signup.html:146
+#: questions/forms.py:32 questions/templates/registration/signup.html:146
 msgid "I've read the "
 msgstr "Eu li a "
 
-#: .\questions\forms.py:32 .\questions\templates\503.html:46
-#: .\questions\templates\index.html:96
-#: .\questions\templates\questions\base.html:129
-#: .\questions\templates\registration\base.html:70
-#: .\questions\templates\registration\signup.html:147
+#: questions/forms.py:32 questions/templates/503.html:46
+#: questions/templates/index.html:101
+#: questions/templates/questions/about.html:234
+#: questions/templates/questions/base.html:122
+#: questions/templates/registration/base.html:70
+#: questions/templates/registration/signup.html:147
 msgid "Privacy Policy"
 msgstr "Política de Privacidade"
 
-#: .\questions\forms.py:47
+#: questions/forms.py:47
 msgid "Email addresses must be unique."
 msgstr "O endereço de email deve ser único."
 
-#: .\questions\forms.py:53 .\questions\forms.py:156
+#: questions/forms.py:53
+#, fuzzy
+#| msgid "Email addresses must be unique."
+msgid "Usernames must be unique."
+msgstr "O endereço de email deve ser único."
+
+#: questions/forms.py:59 questions/forms.py:162
 msgid "Invalid Class Code."
 msgstr "Código da turma inválido"
 
-#: .\questions\forms.py:58 .\questions\get_dashboards.py:228
-#: .\questions\templates\questions\manager_dashboard.html:85
-#: .\questions\templates\questions\outcomes.html:13
-#: .\questions\templates\questions\solutions.html:13
-#: .\questions\templates\questions\student_dashboard.html:38
+#: questions/forms.py:64 questions/get_dashboards.py:228
+#: questions/get_dashboards1.py:195
+#: questions/templates/questions/manager_dashboard.html:85
+#: questions/templates/questions/outcomes.html:13
+#: questions/templates/questions/solutions.html:13
+#: questions/templates/questions/student_dashboard.html:38
+#: questions/templates/questions/student_dashboard1.html:37
 msgid "Class"
 msgstr "Turma"
 
-#: .\questions\forms.py:59 .\questions\forms.py:165
-#: .\questions\get_dashboards.py:416 .\questions\get_dashboards.py:433
-#: .\questions\get_dashboards.py:468 .\questions\get_dashboards.py:508
-#: .\questions\get_dashboards.py:526 .\questions\get_dashboards.py:561
-#: .\questions\get_dashboards.py:1517 .\questions\get_dashboards.py:1534
-#: .\questions\models.py:32
-#: .\questions\templates\questions\class_dashboard.html:66
-#: .\questions\templates\questions\manager_dashboard.html:28
-#: .\questions\templates\questions\new_problem.html:44
-#: .\questions\templates\questions\outcomes.html:17
-#: .\questions\templates\questions\past_problems.html:33
-#: .\questions\templates\questions\show_class.html:11
-#: .\questions\templates\questions\student_solutions.html:20
+#: questions/forms.py:65 questions/forms.py:171 questions/get_dashboards.py:411
+#: questions/get_dashboards.py:428 questions/get_dashboards.py:463
+#: questions/get_dashboards.py:503 questions/get_dashboards.py:521
+#: questions/get_dashboards.py:556 questions/get_dashboards.py:1512
+#: questions/get_dashboards.py:1529 questions/models.py:32
+#: questions/templates/questions/class_dashboard.html:66
+#: questions/templates/questions/manager_dashboard.html:28
+#: questions/templates/questions/new_problem.html:44
+#: questions/templates/questions/outcomes.html:17
+#: questions/templates/questions/past_problems.html:33
+#: questions/templates/questions/show_class.html:11
+#: questions/templates/questions/student_solutions.html:20
 msgid "Chapter"
 msgstr "Aula"
 
-#: .\questions\forms.py:68
+#: questions/forms.py:74
 msgid "You don't have authorization to view this class."
 msgstr "Você não tem autorização para ver essa aula."
 
-#: .\questions\forms.py:110 .\questions\templates\questions\new_problem.html:22
+#: questions/forms.py:116 questions/templates/questions/new_problem.html:22
 msgid "Code"
 msgstr "Código"
 
-#: .\questions\forms.py:111
+#: questions/forms.py:117
 msgid "Multiple Choice"
 msgstr "Múltipla escolha"
 
-#: .\questions\forms.py:112 .\questions\templates\questions\new_problem.html:24
+#: questions/forms.py:118 questions/templates/questions/new_problem.html:24
 msgid "Text"
 msgstr "Texto"
 
-#: .\questions\forms.py:180
+#: questions/forms.py:186
 msgid "The date must be in the format \"yyyy-mm-dd\" and must be valid."
 msgstr "A data deve estar no formato \"yyyy-mm-dd\" e deve ser válida."
 
-#: .\questions\forms.py:188
+#: questions/forms.py:194
 msgid "The time must be in the format \"HH:MM\" and must be valid."
 msgstr "O horário deve estar no formato \"HH:MM\" e deve ser válido."
 
-#: .\questions\get_dashboards.py:181 .\questions\get_dashboards.py:1122
-#: .\questions\templates\questions\chapters.html:48
-#: .\questions\templates\questions\chapters.html:82
-#: .\questions\templates\questions\chapters.html:116
-#: .\questions\templates\questions\home.html:90
-#: .\questions\templates\questions\outcomes.html:45
-#: .\questions\templates\questions\past_problems.html:10
-#: .\questions\templates\questions\past_problems.html:13
-#: .\questions\templates\questions\past_problems.html:48
-#: .\questions\templates\questions\past_solutions.html:15
-#: .\questions\templates\questions\past_solutions.html:188
-#: .\questions\templates\questions\problem_solutions.html:15
-#: .\questions\templates\questions\show_chapter.html:25
-#: .\questions\templates\questions\show_problem.html:122
-#: .\questions\templates\questions\solutions.html:46
-#: .\questions\templates\questions\student_logs.html:9
-#: .\questions\templates\questions\student_logs.html:12
-#: .\questions\templates\questions\student_logs.html:55
-#: .\questions\templates\questions\student_solutions.html:52
+#: questions/get_dashboards.py:181 questions/get_dashboards.py:1117
+#: questions/get_dashboards1.py:230
+#: questions/templates/questions/chapters.html:48
+#: questions/templates/questions/chapters.html:82
+#: questions/templates/questions/chapters.html:116
+#: questions/templates/questions/home.html:90
+#: questions/templates/questions/outcomes.html:45
+#: questions/templates/questions/past_problems.html:10
+#: questions/templates/questions/past_problems.html:13
+#: questions/templates/questions/past_problems.html:48
+#: questions/templates/questions/past_solutions.html:15
+#: questions/templates/questions/past_solutions.html:188
+#: questions/templates/questions/problem_solutions.html:15
+#: questions/templates/questions/show_chapter.html:25
+#: questions/templates/questions/show_problem.html:122
+#: questions/templates/questions/solutions.html:46
+#: questions/templates/questions/student_logs.html:9
+#: questions/templates/questions/student_logs.html:12
+#: questions/templates/questions/student_logs.html:55
+#: questions/templates/questions/student_solutions.html:52
 msgid "Passed"
 msgstr "Passou"
 
-#: .\questions\get_dashboards.py:181 .\questions\get_dashboards.py:1122
-#: .\questions\templates\questions\chapters.html:52
-#: .\questions\templates\questions\chapters.html:86
-#: .\questions\templates\questions\chapters.html:120
-#: .\questions\templates\questions\home.html:94
-#: .\questions\templates\questions\outcomes.html:46
-#: .\questions\templates\questions\outcomes.html:55
-#: .\questions\templates\questions\past_problems.html:16
-#: .\questions\templates\questions\past_problems.html:19
-#: .\questions\templates\questions\past_problems.html:54
-#: .\questions\templates\questions\past_solutions.html:19
-#: .\questions\templates\questions\past_solutions.html:189
-#: .\questions\templates\questions\problem_solutions.html:17
-#: .\questions\templates\questions\show_chapter.html:29
-#: .\questions\templates\questions\show_problem.html:123
-#: .\questions\templates\questions\solutions.html:48
-#: .\questions\templates\questions\student_logs.html:15
-#: .\questions\templates\questions\student_logs.html:18
-#: .\questions\templates\questions\student_logs.html:62
-#: .\questions\templates\questions\student_solutions.html:54
+#: questions/get_dashboards.py:181 questions/get_dashboards.py:1117
+#: questions/get_dashboards1.py:230
+#: questions/templates/questions/chapters.html:52
+#: questions/templates/questions/chapters.html:86
+#: questions/templates/questions/chapters.html:120
+#: questions/templates/questions/home.html:94
+#: questions/templates/questions/outcomes.html:46
+#: questions/templates/questions/outcomes.html:55
+#: questions/templates/questions/past_problems.html:16
+#: questions/templates/questions/past_problems.html:19
+#: questions/templates/questions/past_problems.html:54
+#: questions/templates/questions/past_solutions.html:19
+#: questions/templates/questions/past_solutions.html:189
+#: questions/templates/questions/problem_solutions.html:17
+#: questions/templates/questions/show_chapter.html:29
+#: questions/templates/questions/show_problem.html:123
+#: questions/templates/questions/solutions.html:48
+#: questions/templates/questions/student_logs.html:15
+#: questions/templates/questions/student_logs.html:18
+#: questions/templates/questions/student_logs.html:62
+#: questions/templates/questions/student_solutions.html:54
 msgid "Failed"
 msgstr "Falhou"
 
-#: .\questions\get_dashboards.py:181 .\questions\get_dashboards.py:1122
-#: .\questions\templates\questions\chapters.html:56
-#: .\questions\templates\questions\chapters.html:90
-#: .\questions\templates\questions\chapters.html:124
-#: .\questions\templates\questions\home.html:98
-#: .\questions\templates\questions\outcomes.html:47
-#: .\questions\templates\questions\outcomes.html:57
-#: .\questions\templates\questions\past_problems.html:22
-#: .\questions\templates\questions\past_problems.html:25
-#: .\questions\templates\questions\past_problems.html:60
-#: .\questions\templates\questions\problem_solutions.html:19
-#: .\questions\templates\questions\show_chapter.html:33
-#: .\questions\templates\questions\solutions.html:50
-#: .\questions\templates\questions\student_logs.html:21
-#: .\questions\templates\questions\student_logs.html:24
-#: .\questions\templates\questions\student_logs.html:69
-#: .\questions\templates\questions\student_solutions.html:56
+#: questions/get_dashboards.py:181 questions/get_dashboards.py:1117
+#: questions/get_dashboards1.py:230
+#: questions/templates/questions/chapters.html:56
+#: questions/templates/questions/chapters.html:90
+#: questions/templates/questions/chapters.html:124
+#: questions/templates/questions/home.html:98
+#: questions/templates/questions/outcomes.html:47
+#: questions/templates/questions/outcomes.html:57
+#: questions/templates/questions/past_problems.html:22
+#: questions/templates/questions/past_problems.html:25
+#: questions/templates/questions/past_problems.html:60
+#: questions/templates/questions/problem_solutions.html:19
+#: questions/templates/questions/show_chapter.html:33
+#: questions/templates/questions/solutions.html:50
+#: questions/templates/questions/student_logs.html:21
+#: questions/templates/questions/student_logs.html:24
+#: questions/templates/questions/student_logs.html:69
+#: questions/templates/questions/student_solutions.html:56
 msgid "Skipped"
 msgstr "Pulou"
 
-#: .\questions\get_dashboards.py:181 .\questions\get_dashboards.py:1122
+#: questions/get_dashboards.py:181 questions/get_dashboards.py:1117
+#: questions/get_dashboards1.py:230
 msgid "No attempt"
 msgstr "Sem tentativa"
 
-#: .\questions\get_dashboards.py:224
-#: .\questions\templates\questions\student_dashboard.html:30
+#: questions/get_dashboards.py:224 questions/get_dashboards1.py:191
+#: questions/templates/questions/student_dashboard.html:30
+#: questions/templates/questions/student_dashboard1.html:29
 msgid "You"
 msgstr "Você"
 
-#: .\questions\get_dashboards.py:225
-#: .\questions\templates\questions\student_dashboard.html:40
+#: questions/get_dashboards.py:225 questions/get_dashboards1.py:192
+#: questions/templates/questions/student_dashboard.html:40
+#: questions/templates/questions/student_dashboard1.html:39
 msgid "Your class"
 msgstr "Sua turma"
 
-#: .\questions\get_dashboards.py:227
-#: .\questions\templates\questions\class_dashboard.html:32
-#: .\questions\templates\questions\class_dashboard.html:135
-#: .\questions\templates\questions\class_dashboard.html:185
-#: .\questions\templates\questions\outcomes.html:32
-#: .\questions\templates\questions\student_dashboard.html:28
-#: .\questions\templates\questions\student_solutions.html:8
+#: questions/get_dashboards.py:227 questions/get_dashboards1.py:194
+#: questions/templates/questions/class_dashboard.html:32
+#: questions/templates/questions/class_dashboard.html:135
+#: questions/templates/questions/class_dashboard.html:185
+#: questions/templates/questions/outcomes.html:32
+#: questions/templates/questions/student_dashboard.html:28
+#: questions/templates/questions/student_dashboard1.html:27
+#: questions/templates/questions/student_solutions.html:8
 msgid "Student"
 msgstr "Aluno"
 
-#: .\questions\get_dashboards.py:417 .\questions\get_dashboards.py:434
-#: .\questions\templates\questions\home.html:30
+#: questions/get_dashboards.py:412 questions/get_dashboards.py:429
+#: questions/templates/questions/home.html:30
 msgid "error(s)"
 msgstr "erro(s)"
 
-#: .\questions\get_dashboards.py:475
-#: .\questions\templates\questions\home.html:27
-#: .\questions\templates\questions\student_dashboard.html:50
+#: questions/get_dashboards.py:470 questions/templates/questions/home.html:27
+#: questions/templates/questions/student_dashboard.html:50
+#: questions/templates/questions/student_dashboard1.html:49
 msgid "Errors"
 msgstr "Erros"
 
-#: .\questions\get_dashboards.py:509 .\questions\get_dashboards.py:527
-#: .\questions\templates\questions\student_dashboard.html:91
+#: questions/get_dashboards.py:504 questions/get_dashboards.py:522
+#: questions/templates/questions/student_dashboard.html:91
+#: questions/templates/questions/student_dashboard1.html:90
 msgid "day(s)"
 msgstr "dia(s)"
 
-#: .\questions\get_dashboards.py:568
+#: questions/get_dashboards.py:563
 msgid "Time (days)"
 msgstr "Tempo (dias)"
 
-#: .\questions\get_dashboards.py:582
-#: .\questions\templates\questions\base.html:46 .\questions\views.py:446
+#: questions/get_dashboards.py:577 questions/templates/questions/base.html:46
+#: questions/views.py:449
 msgid "Outcomes"
 msgstr "Resultados"
 
-#: .\questions\get_dashboards.py:843 .\questions\get_dashboards.py:871
-#: .\questions\get_dashboards.py:893 .\questions\get_dashboards.py:925
-#: .\questions\get_dashboards.py:1326 .\questions\get_dashboards.py:1354
-#: .\questions\get_dashboards.py:1515
-#: .\questions\templates\questions\past_problems.html:36
+#: questions/get_dashboards.py:838 questions/get_dashboards.py:866
+#: questions/get_dashboards.py:888 questions/get_dashboards.py:920
+#: questions/get_dashboards.py:1321 questions/get_dashboards.py:1349
+#: questions/get_dashboards.py:1510
+#: questions/templates/questions/past_problems.html:36
 msgid "Attempts"
 msgstr "Tentativas"
 
-#: .\questions\get_dashboards.py:844 .\questions\get_dashboards.py:893
-#: .\questions\get_dashboards.py:1327 .\questions\get_dashboards.py:1517
-#: .\questions\get_dashboards.py:1535
+#: questions/get_dashboards.py:839 questions/get_dashboards.py:888
+#: questions/get_dashboards.py:1322 questions/get_dashboards.py:1512
+#: questions/get_dashboards.py:1530
 msgid "avg"
 msgstr "média"
 
-#: .\questions\get_dashboards.py:844 .\questions\get_dashboards.py:893
-#: .\questions\get_dashboards.py:1327 .\questions\get_dashboards.py:1533
-#: .\questions\templates\questions\class_dashboard.html:114
-#: .\questions\templates\questions\manager_dashboard.html:64
-#: .\questions\templates\questions\student_dashboard.html:80
-#: .\questions\templates\questions\student_dashboard.html:102
+#: questions/get_dashboards.py:839 questions/get_dashboards.py:888
+#: questions/get_dashboards.py:1322 questions/get_dashboards.py:1528
+#: questions/templates/questions/class_dashboard.html:114
+#: questions/templates/questions/manager_dashboard.html:64
+#: questions/templates/questions/student_dashboard.html:80
+#: questions/templates/questions/student_dashboard.html:102
+#: questions/templates/questions/student_dashboard1.html:79
+#: questions/templates/questions/student_dashboard1.html:100
 msgid "Time"
 msgstr "Tempo"
 
-#: .\questions\get_dashboards.py:872 .\questions\get_dashboards.py:1355
+#: questions/get_dashboards.py:867 questions/get_dashboards.py:1350
 msgid "Time (minutes)"
 msgstr "Tempo (minutos)"
 
-#: .\questions\get_dashboards.py:892 .\questions\get_dashboards.py:926
-#: .\questions\templates\questions\class_dashboard.html:33
-#: .\questions\templates\questions\class_dashboard.html:136
-#: .\questions\templates\questions\manager_dashboard.html:86
+#: questions/get_dashboards.py:887 questions/get_dashboards.py:921
+#: questions/templates/questions/class_dashboard.html:33
+#: questions/templates/questions/class_dashboard.html:136
+#: questions/templates/questions/manager_dashboard.html:86
 msgid "Solved problems"
 msgstr "Problemas resolvidos"
 
-#: .\questions\get_dashboards.py:1572
-#: .\questions\templates\questions\class_dashboard.html:36
-#: .\questions\templates\questions\class_dashboard.html:70
-#: .\questions\templates\questions\class_dashboard.html:139
-#: .\questions\templates\questions\manager_dashboard.html:32
-#: .\questions\templates\questions\manager_dashboard.html:89
+#: questions/get_dashboards.py:1567
+#: questions/templates/questions/class_dashboard.html:36
+#: questions/templates/questions/class_dashboard.html:70
+#: questions/templates/questions/class_dashboard.html:139
+#: questions/templates/questions/manager_dashboard.html:32
+#: questions/templates/questions/manager_dashboard.html:89
 msgid "Attempts per problem"
 msgstr "Tentativas por problema"
 
-#: .\questions\get_dashboards.py:1574
+#: questions/get_dashboards.py:1569
 msgid "Time per problem (minutes)"
 msgstr "Tempo por problema (minutos)"
 
-#: .\questions\get_problem.py:52 .\questions\models.py:70
+#: questions/get_problem.py:52 questions/models.py:70
 msgid "Problem"
 msgstr "Problema"
 
-#: .\questions\models.py:33 .\questions\templates\questions\base.html:42
-#: .\questions\templates\questions\base.html:64
-#: .\questions\templates\questions\class_dashboard.html:63
-#: .\questions\templates\questions\class_dashboard.html:106
-#: .\questions\templates\questions\classes.html:17
-#: .\questions\templates\questions\finished.html:11
-#: .\questions\templates\questions\manager_dashboard.html:25
-#: .\questions\templates\questions\manager_dashboard.html:57
-#: .\questions\templates\questions\show_class.html:8
-#: .\questions\templates\questions\student_dashboard.html:74
-#: .\questions\views.py:268
+#: questions/models.py:33 questions/templates/questions/base.html:42
+#: questions/templates/questions/base.html:57
+#: questions/templates/questions/class_dashboard.html:63
+#: questions/templates/questions/class_dashboard.html:106
+#: questions/templates/questions/classes.html:17
+#: questions/templates/questions/finished.html:11
+#: questions/templates/questions/manager_dashboard.html:25
+#: questions/templates/questions/manager_dashboard.html:57
+#: questions/templates/questions/show_class.html:8
+#: questions/templates/questions/student_dashboard.html:74
+#: questions/templates/questions/student_dashboard1.html:73
+#: questions/views.py:271
 msgid "Chapters"
 msgstr "Aulas"
 
-#: .\questions\models.py:71
-#: .\questions\templates\questions\class_dashboard.html:17
-#: .\questions\templates\questions\manager_dashboard.html:16
-#: .\questions\templates\questions\show_chapter.html:7
-#: .\questions\templates\questions\student_dashboard.html:11
+#: questions/models.py:71 questions/templates/questions/class_dashboard.html:17
+#: questions/templates/questions/manager_dashboard.html:16
+#: questions/templates/questions/show_chapter.html:7
+#: questions/templates/questions/student_dashboard.html:11
+#: questions/templates/questions/student_dashboard1.html:10
 msgid "Problems"
 msgstr "Problemas"
 
-#: .\questions\models.py:87
+#: questions/models.py:87
 msgid "Exercise Set"
 msgstr ""
 
-#: .\questions\models.py:88
+#: questions/models.py:88
 msgid "Exercises Sets"
 msgstr ""
 
-#: .\questions\models.py:100
+#: questions/models.py:100
 msgid "OnlineClass"
 msgstr "Turma"
 
-#: .\questions\models.py:101
+#: questions/models.py:101
 msgid "OnlineClasses"
 msgstr "Turmas"
 
-#: .\questions\models.py:118 .\questions\templates\questions\chapters.html:18
-#: .\questions\templates\questions\chapters.html:19
-#: .\questions\templates\questions\home.html:73
-#: .\questions\templates\questions\show_chapter.html:74
-#: .\questions\templates\questions\show_class.html:12
-#: .\questions\templates\questions\show_class.html:37
+#: questions/models.py:118 questions/templates/questions/chapters.html:18
+#: questions/templates/questions/chapters.html:19
+#: questions/templates/questions/home.html:73
+#: questions/templates/questions/show_chapter.html:74
+#: questions/templates/questions/show_class.html:12
+#: questions/templates/questions/show_class.html:37
 msgid "Deadline"
 msgstr "Data de entrega"
 
-#: .\questions\models.py:119
+#: questions/models.py:119
 msgid "Deadlines"
 msgstr "Prazos"
 
-#: .\questions\models.py:142
+#: questions/models.py:142
 msgid "Professors"
 msgstr "Professores"
 
-#: .\questions\models.py:174
+#: questions/models.py:174
 msgid "User profile"
 msgstr "Perfil do usuário"
 
-#: .\questions\models.py:175
+#: questions/models.py:175
 msgid "User profiles"
 msgstr "Perfis dos usuários"
 
-#: .\questions\models.py:209
-#: .\questions\templates\questions\new_problem.html:62
-#: .\questions\templates\questions\past_solutions.html:62
-#: .\questions\templates\questions\student_logs.html:37
-#: .\questions\views.py:466
+#: questions/models.py:209 questions/templates/questions/new_problem.html:62
+#: questions/templates/questions/past_solutions.html:62
+#: questions/templates/questions/student_logs.html:37 questions/views.py:469
 msgid "Solution"
 msgstr "Solução"
 
-#: .\questions\models.py:210
-#: .\questions\templates\questions\past_problems.html:38
-#: .\questions\templates\questions\show_class.html:75
-#: .\questions\templates\questions\student_solutions.html:13
+#: questions/models.py:210 questions/templates/questions/past_problems.html:38
+#: questions/templates/questions/show_class.html:75
+#: questions/templates/questions/student_solutions.html:13
 msgid "Solutions"
 msgstr "Soluções"
 
-#: .\questions\models.py:219
+#: questions/models.py:219
 msgid "Test Case"
 msgstr "Caso de Teste"
 
-#: .\questions\models.py:220
+#: questions/models.py:220
 msgid "Test Cases"
 msgstr "Casos de Teste"
 
-#: .\questions\models.py:248
+#: questions/models.py:248
 msgid "User log"
 msgstr "Log do usuário"
 
-#: .\questions\models.py:249
+#: questions/models.py:249
 msgid "User logs"
 msgstr "Logs dos usuários"
 
-#: .\questions\models.py:294
+#: questions/models.py:294
 msgid "Page access"
 msgstr "Acesso"
 
-#: .\questions\models.py:295
+#: questions/models.py:295
 msgid "Page accesses"
 msgstr "Acessos"
 
-#: .\questions\models.py:304
+#: questions/models.py:304
 msgid "Interactive"
 msgstr ""
 
-#: .\questions\models.py:312
+#: questions/models.py:312
 msgid "Recommendations"
 msgstr "Recomendações"
 
-#: .\questions\models.py:321
+#: questions/models.py:321
 msgid "Comment"
 msgstr "Comentário"
 
-#: .\questions\models.py:330
+#: questions/models.py:330
 msgid "Drop out model"
 msgstr "Risco de abandono"
 
-#: .\questions\models.py:331
+#: questions/models.py:331
 msgid "Drop out models"
 msgstr "Risco de abandono"
 
-#: .\questions\templates\503.html:8 .\questions\templates\index.html:7
-#: .\questions\templates\questions\base.html:39
+#: questions/models.py:347
+msgid "Collaborator"
+msgstr "Coaborador"
+
+#: questions/models.py:348
+msgid "Collaborators"
+msgstr "Colaboradores"
+
+#: questions/templates/503.html:8 questions/templates/index.html:7
+#: questions/templates/questions/base.html:39
 msgid "Home"
 msgstr "Início"
 
-#: .\questions\templates\503.html:28 .\questions\templates\index.html:48
+#: questions/templates/503.html:28 questions/templates/index.html:52
 msgid "Welcome to "
 msgstr "Bem-vindo ao"
 
-#: .\questions\templates\503.html:35 .\questions\templates\503.html:49
-#: .\questions\templates\index.html:85 .\questions\templates\index.html:99
-#: .\questions\templates\questions\base.html:132
-#: .\questions\templates\registration\base.html:73
+#: questions/templates/503.html:35 questions/templates/503.html:49
+#: questions/templates/index.html:89 questions/templates/index.html:104
+#: questions/templates/questions/about.html:237
+#: questions/templates/questions/base.html:125
+#: questions/templates/registration/base.html:73
 msgid "About this research"
 msgstr "Sobre a pesquisa"
 
-#: .\questions\templates\503.html:40 .\questions\templates\index.html:90
-#: .\questions\templates\questions\base.html:123
-#: .\questions\templates\registration\base.html:64
+#: questions/templates/503.html:40 questions/templates/index.html:95
+#: questions/templates/questions/about.html:228
+#: questions/templates/questions/base.html:116
+#: questions/templates/registration/base.html:64
 msgid "Check the "
 msgstr "Veja os "
 
-#: .\questions\templates\503.html:44 .\questions\templates\index.html:94
-#: .\questions\templates\questions\base.html:127
-#: .\questions\templates\registration\base.html:68
+#: questions/templates/503.html:44 questions/templates/index.html:99
+#: questions/templates/questions/about.html:232
+#: questions/templates/questions/base.html:120
+#: questions/templates/registration/base.html:68
 msgid "and the "
 msgstr " e a "
 
-#: .\questions\templates\503.html:51
-#: .\questions\templates\registration\base.html:75
+#: questions/templates/503.html:51
+#: questions/templates/registration/base.html:75
 msgid ""
 "© 2020 Copyright: <a href=\"http://machineteaching.tech\">machineteaching."
 "tech"
 msgstr ""
 
-#: .\questions\templates\index.html:34
-#: .\questions\templates\questions\base.html:218
-#: .\questions\templates\registration\base.html:35
+#: questions/templates/index.html:38
+#: questions/templates/questions/base.html:213
+#: questions/templates/registration/base.html:35
 msgid "Close"
 msgstr "Fechar"
 
-#: .\questions\templates\index.html:51
+#: questions/templates/index.html:55
 msgid "Start"
 msgstr "Começar"
 
-#: .\questions\templates\index.html:56
-#: .\questions\templates\registration\login.html:34
-#: .\questions\templates\registration\signup.html:7
-#: .\questions\templates\registration\signup.html:151 .\questions\views.py:103
+#: questions/templates/index.html:60
+#: questions/templates/registration/login.html:34
+#: questions/templates/registration/signup.html:7
+#: questions/templates/registration/signup.html:151 questions/views.py:106
 msgid "Create account"
 msgstr "Criar conta"
 
-#: .\questions\templates\index.html:60
+#: questions/templates/index.html:64
 msgid "Watch "
 msgstr "Assista aos "
 
-#: .\questions\templates\index.html:60
+#: questions/templates/index.html:64
 msgid "tutorials"
 msgstr "tutoriais"
 
-#: .\questions\templates\index.html:60
+#: questions/templates/index.html:64
 msgid " on how to use Machine Teaching"
 msgstr " sobre como usar o Machine Teaching"
 
-#: .\questions\templates\index.html:61
+#: questions/templates/index.html:65
 msgid "Our goals"
 msgstr "Nossos objetivos"
 
-#: .\questions\templates\index.html:66
+#: questions/templates/index.html:70
 msgid "Understand students' learning processes "
 msgstr "Entender os processos de aprendizado dos alunos"
 
-#: .\questions\templates\index.html:72
+#: questions/templates/index.html:76
 msgid "Improve teaching methodologies"
 msgstr "Melhorar metodologias de aprendizado"
 
-#: .\questions\templates\index.html:78
+#: questions/templates/index.html:82
 msgid "Stimulate students to learn the Python language "
 msgstr "Estimular o aprendizado da linguagem Python"
 
-#: .\questions\templates\index.html:101
-#: .\questions\templates\questions\base.html:137
+#: questions/templates/index.html:106
+#: questions/templates/questions/about.html:239
+#: questions/templates/questions/base.html:130
 msgid "GPL-3.0 License"
 msgstr "Licença GPL-3.0"
 
-#: .\questions\templates\questions\base.html:40
+#: questions/templates/questions/about.html:8
+msgid "Sobre a pesquisa"
+msgstr ""
+
+#: questions/templates/questions/about.html:162
+#, python-format
+msgid " %(x.description)s "
+msgstr ""
+
+#: questions/templates/questions/base.html:40
 msgid "Current problem"
 msgstr "Problema atual"
 
-#: .\questions\templates\questions\base.html:41 .\questions\views.py:212
+#: questions/templates/questions/base.html:41 questions/views.py:215
 msgid "Past problems"
 msgstr "Problemas passados"
 
-#: .\questions\templates\questions\base.html:44
-#: .\questions\templates\questions\manager_dashboard.html:82
-#: .\questions\templates\questions\manager_dashboard.html:118
-#: .\questions\views.py:695
+#: questions/templates/questions/base.html:44
+#: questions/templates/questions/manager_dashboard.html:82
+#: questions/templates/questions/manager_dashboard.html:118
+#: questions/views.py:698
 msgid "Classes"
 msgstr "Turmas"
 
-#: .\questions\templates\questions\base.html:48
+#: questions/templates/questions/base.html:48
 msgid "Satisfaction Form"
 msgstr "Formulário de Satisfação"
 
-#: .\questions\templates\questions\base.html:53
-msgid "Strategy"
-msgstr "Estratégia"
-
-#: .\questions\templates\questions\base.html:58
-#: .\questions\templates\questions\finished.html:9
-#: .\questions\templates\questions\finished.html:14
-msgid "Sequential"
-msgstr "Sequencial"
-
-#: .\questions\templates\questions\base.html:60
-#: .\questions\templates\questions\finished.html:12
-#: .\questions\templates\questions\finished.html:14
-msgid "Random"
-msgstr "Aleatório"
-
-#: .\questions\templates\questions\base.html:89
-msgid "Hello"
-msgstr "Olá"
-
-#: .\questions\templates\questions\base.html:93
-msgid "Administration"
-msgstr "Administração"
-
-#: .\questions\templates\questions\base.html:95
-#: .\questions\templates\questions\edit_profile.html:8
-msgid "Change class"
-msgstr "Trocar de turma"
-
-#: .\questions\templates\questions\base.html:98
-msgid "Logout"
-msgstr "Sair"
-
-#: .\questions\templates\questions\base.html:106
-msgid "Answer the satisfaction form!"
-msgstr "Responda ao formulário de satisfação!"
-
-#: .\questions\templates\questions\base.html:135
+#: questions/templates/questions/base.html:51
+#: questions/templates/questions/base.html:128
 msgid "Tutorials"
 msgstr "Tutoriais"
 
-#: .\questions\templates\questions\base.html:145
+#: questions/templates/questions/base.html:82
+msgid "Hello"
+msgstr "Olá"
+
+#: questions/templates/questions/base.html:86
+msgid "Administration"
+msgstr "Administração"
+
+#: questions/templates/questions/base.html:88
+#: questions/templates/questions/edit_profile.html:8
+msgid "Change class"
+msgstr "Trocar de turma"
+
+#: questions/templates/questions/base.html:91
+msgid "Logout"
+msgstr "Sair"
+
+#: questions/templates/questions/base.html:99
+msgid "Answer the satisfaction form!"
+msgstr "Responda ao formulário de satisfação!"
+
+#: questions/templates/questions/base.html:138
 msgid "Register your course"
 msgstr "Cadastre seu curso"
 
-#: .\questions\templates\questions\base.html:147
-#: .\questions\templates\registration\signup.html:76
+#: questions/templates/questions/base.html:140
+#: questions/templates/registration/signup.html:76
 msgid "Your course"
 msgstr "Seu curso"
 
-#: .\questions\templates\questions\base.html:174
-#: .\questions\templates\registration\signup.html:106
+#: questions/templates/questions/base.html:167
+#: questions/templates/registration/signup.html:106
 msgid "Other course"
 msgstr "Outro curso"
 
-#: .\questions\templates\questions\base.html:175
-#: .\questions\templates\questions\base.html:192
+#: questions/templates/questions/base.html:168
+#: questions/templates/questions/base.html:185
 msgid "Register"
 msgstr "Cadastrar"
 
-#: .\questions\templates\questions\base.html:183
+#: questions/templates/questions/base.html:176
 msgid "Update your informations"
 msgstr "Atualize suas informações"
 
-#: .\questions\templates\questions\base.html:185
+#: questions/templates/questions/base.html:178
 msgid "Add you university"
 msgstr "Adicione sua instituição"
 
-#: .\questions\templates\questions\base.html:189
+#: questions/templates/questions/base.html:182
 msgid "Add your university registration"
 msgstr "Adicione sua matrícula"
 
-#: .\questions\templates\questions\chapters.html:10
-#: .\questions\templates\questions\show_class.html:24
+#: questions/templates/questions/chapters.html:10
+#: questions/templates/questions/show_class.html:24
 msgid "Add chapter"
 msgstr "Adicionar aula"
 
-#: .\questions\templates\questions\chapters.html:14
-#: .\questions\templates\questions\chapters.html:15
-#: .\questions\templates\questions\show_class.html:30
-#: .\questions\templates\questions\student_dashboard.html:78
+#: questions/templates/questions/chapters.html:14
+#: questions/templates/questions/chapters.html:15
+#: questions/templates/questions/show_class.html:30
+#: questions/templates/questions/student_dashboard.html:78
+#: questions/templates/questions/student_dashboard1.html:77
 msgid "Name"
 msgstr "Nome"
 
-#: .\questions\templates\questions\chapters.html:22
-#: .\questions\templates\questions\show_class.html:52
+#: questions/templates/questions/chapters.html:22
+#: questions/templates/questions/show_class.html:52
 msgid "Add"
 msgstr "Adicionar"
 
-#: .\questions\templates\questions\chapters.html:28
-#: .\questions\templates\questions\outcomes.html:10
-#: .\questions\templates\questions\outcomes.html:22
-#: .\questions\templates\questions\past_problems.html:129
-#: .\questions\templates\questions\student_logs.html:134
+#: questions/templates/questions/chapters.html:28
+#: questions/templates/questions/outcomes.html:10
+#: questions/templates/questions/outcomes.html:22
+#: questions/templates/questions/past_problems.html:129
+#: questions/templates/questions/student_logs.html:134
 msgid "Search"
 msgstr "Pesquisar"
 
-#: .\questions\templates\questions\class_dashboard.html:10
+#: questions/templates/questions/class_dashboard.html:10
 msgid "Class progress"
 msgstr "Progresso da turma"
 
-#: .\questions\templates\questions\class_dashboard.html:11
-#: .\questions\templates\questions\manager_dashboard.html:10
+#: questions/templates/questions/class_dashboard.html:11
+#: questions/templates/questions/manager_dashboard.html:10
 msgid "on all problems"
 msgstr "em todos os problemas"
 
-#: .\questions\templates\questions\class_dashboard.html:18
+#: questions/templates/questions/class_dashboard.html:18
 msgid "class performance by problem"
 msgstr "desempenho da turma por problema"
 
-#: .\questions\templates\questions\class_dashboard.html:29
-#: .\questions\templates\questions\class_dashboard.html:96
-#: .\questions\templates\questions\class_dashboard.html:132
-#: .\questions\templates\questions\class_dashboard.html:168
-#: .\questions\templates\questions\classes.html:17
-#: .\questions\templates\questions\show_class.html:68
+#: questions/templates/questions/class_dashboard.html:29
+#: questions/templates/questions/class_dashboard.html:96
+#: questions/templates/questions/class_dashboard.html:132
+#: questions/templates/questions/class_dashboard.html:168
+#: questions/templates/questions/classes.html:17
+#: questions/templates/questions/show_class.html:68
 msgid "Students"
 msgstr "Alunos"
 
-#: .\questions\templates\questions\class_dashboard.html:34
-#: .\questions\templates\questions\class_dashboard.html:137
-#: .\questions\templates\questions\manager_dashboard.html:87
+#: questions/templates/questions/class_dashboard.html:34
+#: questions/templates/questions/class_dashboard.html:137
+#: questions/templates/questions/manager_dashboard.html:87
 msgid "Time per chapter (avg)"
 msgstr "Tempo por aula (média)"
 
-#: .\questions\templates\questions\class_dashboard.html:35
-#: .\questions\templates\questions\class_dashboard.html:138
-#: .\questions\templates\questions\manager_dashboard.html:88
+#: questions/templates/questions/class_dashboard.html:35
+#: questions/templates/questions/class_dashboard.html:138
+#: questions/templates/questions/manager_dashboard.html:88
 msgid "Delays"
 msgstr "Atrasos"
 
-#: .\questions\templates\questions\class_dashboard.html:37
-#: .\questions\templates\questions\class_dashboard.html:71
-#: .\questions\templates\questions\class_dashboard.html:102
-#: .\questions\templates\questions\class_dashboard.html:140
-#: .\questions\templates\questions\class_dashboard.html:174
-#: .\questions\templates\questions\manager_dashboard.html:33
-#: .\questions\templates\questions\manager_dashboard.html:90
-#: .\questions\templates\questions\manager_dashboard.html:124
+#: questions/templates/questions/class_dashboard.html:37
+#: questions/templates/questions/class_dashboard.html:71
+#: questions/templates/questions/class_dashboard.html:102
+#: questions/templates/questions/class_dashboard.html:140
+#: questions/templates/questions/class_dashboard.html:174
+#: questions/templates/questions/manager_dashboard.html:33
+#: questions/templates/questions/manager_dashboard.html:90
+#: questions/templates/questions/manager_dashboard.html:124
 msgid "Time per problem (avg)"
 msgstr "Tempo por problema (média)"
 
-#: .\questions\templates\questions\class_dashboard.html:53
-#: .\questions\templates\questions\class_dashboard.html:85
-#: .\questions\templates\questions\class_dashboard.html:156
-#: .\questions\templates\questions\home.html:52
-#: .\questions\templates\questions\manager_dashboard.html:47
-#: .\questions\templates\questions\manager_dashboard.html:106
+#: questions/templates/questions/class_dashboard.html:53
+#: questions/templates/questions/class_dashboard.html:85
+#: questions/templates/questions/class_dashboard.html:156
+#: questions/templates/questions/home.html:52
+#: questions/templates/questions/manager_dashboard.html:47
+#: questions/templates/questions/manager_dashboard.html:106
 msgid "days"
 msgstr "dias"
 
-#: .\questions\templates\questions\class_dashboard.html:56
-#: .\questions\templates\questions\class_dashboard.html:88
-#: .\questions\templates\questions\class_dashboard.html:159
-#: .\questions\templates\questions\manager_dashboard.html:50
-#: .\questions\templates\questions\manager_dashboard.html:109
+#: questions/templates/questions/class_dashboard.html:56
+#: questions/templates/questions/class_dashboard.html:88
+#: questions/templates/questions/class_dashboard.html:159
+#: questions/templates/questions/manager_dashboard.html:50
+#: questions/templates/questions/manager_dashboard.html:109
 msgid "min"
 msgstr "min"
 
-#: .\questions\templates\questions\class_dashboard.html:67
-#: .\questions\templates\questions\manager_dashboard.html:9
-#: .\questions\templates\questions\manager_dashboard.html:29
-#: .\questions\templates\questions\show_chapter.html:65
-#: .\questions\templates\questions\student_dashboard.html:79
+#: questions/templates/questions/class_dashboard.html:67
+#: questions/templates/questions/manager_dashboard.html:9
+#: questions/templates/questions/manager_dashboard.html:29
+#: questions/templates/questions/show_chapter.html:65
+#: questions/templates/questions/student_dashboard.html:79
+#: questions/templates/questions/student_dashboard1.html:78
 msgid "Progress"
 msgstr "Progresso"
 
-#: .\questions\templates\questions\class_dashboard.html:68
-#: .\questions\templates\questions\manager_dashboard.html:30
+#: questions/templates/questions/class_dashboard.html:68
+#: questions/templates/questions/manager_dashboard.html:30
 msgid "Time to finish (avg)"
 msgstr "Tempo (média)"
 
-#: .\questions\templates\questions\class_dashboard.html:69
-#: .\questions\templates\questions\manager_dashboard.html:31
+#: questions/templates/questions/class_dashboard.html:69
+#: questions/templates/questions/manager_dashboard.html:31
 msgid "Delays (students)"
 msgstr "Atrasos (alunos)"
 
-#: .\questions\templates\questions\class_dashboard.html:97
-#: .\questions\templates\questions\class_dashboard.html:169
-#: .\questions\templates\questions\manager_dashboard.html:119
+#: questions/templates/questions/class_dashboard.html:97
+#: questions/templates/questions/class_dashboard.html:169
+#: questions/templates/questions/manager_dashboard.html:119
 msgid "solving problems performance"
 msgstr "desempenho resolvendo problemas"
 
-#: .\questions\templates\questions\class_dashboard.html:107
-#: .\questions\templates\questions\manager_dashboard.html:58
+#: questions/templates/questions/class_dashboard.html:107
+#: questions/templates/questions/manager_dashboard.html:58
 msgid "average attempts and time to complete a problem"
 msgstr "média de tentativas e tempo para acertar um problema"
 
-#: .\questions\templates\questions\class_dashboard.html:115
-#: .\questions\templates\questions\home.html:48
-#: .\questions\templates\questions\manager_dashboard.html:65
+#: questions/templates/questions/class_dashboard.html:115
+#: questions/templates/questions/home.html:48
+#: questions/templates/questions/manager_dashboard.html:65
 msgid "to end a chapter"
 msgstr "para finalizar uma aula"
 
-#: .\questions\templates\questions\class_dashboard.html:119
-#: .\questions\templates\questions\manager_dashboard.html:69
+#: questions/templates/questions/class_dashboard.html:119
+#: questions/templates/questions/manager_dashboard.html:69
 msgid "Not finished"
 msgstr "Não entregue"
 
-#: .\questions\templates\questions\class_dashboard.html:120
-#: .\questions\templates\questions\manager_dashboard.html:70
+#: questions/templates/questions/class_dashboard.html:120
+#: questions/templates/questions/manager_dashboard.html:70
 msgid "Finished late"
 msgstr "Atraso"
 
-#: .\questions\templates\questions\class_dashboard.html:124
-#: .\questions\templates\questions\manager_dashboard.html:74
+#: questions/templates/questions/class_dashboard.html:124
+#: questions/templates/questions/manager_dashboard.html:74
 msgid "max. time"
 msgstr "tempo máx."
 
-#: .\questions\templates\questions\class_dashboard.html:182
-#: .\questions\templates\questions\class_dashboard.html:187
+#: questions/templates/questions/class_dashboard.html:182
+#: questions/templates/questions/class_dashboard.html:187
 msgid "Drop out risk"
 msgstr "Risco de abandono"
 
-#: .\questions\templates\questions\class_dashboard.html:186
-#: .\questions\templates\registration\login.html:17
-#: .\questions\templates\registration\signup.html:42
+#: questions/templates/questions/class_dashboard.html:186
+#: questions/templates/registration/login.html:17
+#: questions/templates/registration/signup.html:42
 msgid "E-mail"
 msgstr ""
 
-#: .\questions\templates\questions\classes.html:9
+#: questions/templates/questions/classes.html:9
 msgid "Professor"
 msgstr "Professor"
 
-#: .\questions\templates\questions\classes.html:10
+#: questions/templates/questions/classes.html:10
 msgid "Show inactive classes"
 msgstr "Mostrar turmas inativas"
 
-#: .\questions\templates\questions\classes.html:11
+#: questions/templates/questions/classes.html:11
 msgid "Hide inactive classes"
 msgstr "Esconder turmas inativas"
 
-#: .\questions\templates\questions\classes.html:17
+#: questions/templates/questions/classes.html:17
 msgid "Start date"
 msgstr "Data de início"
 
-#: .\questions\templates\questions\classes.html:19
+#: questions/templates/questions/classes.html:19
 msgid "Manage class"
 msgstr "Gerenciar turma"
 
-#: .\questions\templates\questions\classes.html:23
-#: .\questions\templates\questions\classes.html:84
+#: questions/templates/questions/classes.html:23
+#: questions/templates/questions/classes.html:84
 msgid "Active"
 msgstr "Ativo"
 
-#: .\questions\templates\questions\classes.html:25
-#: .\questions\templates\questions\classes.html:80
+#: questions/templates/questions/classes.html:25
+#: questions/templates/questions/classes.html:80
 msgid "Inactive"
 msgstr "Inativo"
 
-#: .\questions\templates\questions\classes.html:36
+#: questions/templates/questions/classes.html:36
 msgid "New class"
 msgstr "Nova turma"
 
-#: .\questions\templates\questions\classes.html:42
+#: questions/templates/questions/classes.html:42
 msgid "Class name"
 msgstr "Nome da turma"
 
-#: .\questions\templates\questions\classes.html:43
+#: questions/templates/questions/classes.html:43
 msgid "Create"
 msgstr "Criar"
 
-#: .\questions\templates\questions\edit_profile.html:16
-#: .\questions\templates\registration\password_reset_confirm.html:14
+#: questions/templates/questions/edit_profile.html:16
+#: questions/templates/registration/password_reset_confirm.html:14
 msgid "Change"
 msgstr "Trocar"
 
-#: .\questions\templates\questions\finished.html:8
+#: questions/templates/questions/finished.html:8
 msgid "You finished all available problems in"
 msgstr "Você terminou todos os problemas disponíveis no modo"
 
-#: .\questions\templates\questions\finished.html:9
+#: questions/templates/questions/finished.html:9
+#: questions/templates/questions/finished.html:14
+msgid "Sequential"
+msgstr "Sequencial"
+
+#: questions/templates/questions/finished.html:9
 msgid " mode. You can:"
 msgstr " Você pode:"
 
-#: .\questions\templates\questions\finished.html:11
-#: .\questions\templates\questions\finished.html:12
+#: questions/templates/questions/finished.html:11
+#: questions/templates/questions/finished.html:12
 msgid "Go to"
 msgstr "Ir para o modo"
 
-#: .\questions\templates\questions\finished.html:11
+#: questions/templates/questions/finished.html:11
 msgid "and come back to skipped problems."
 msgstr "e voltar aos problemas pulados."
 
-#: .\questions\templates\questions\finished.html:12
+#: questions/templates/questions/finished.html:12
+#: questions/templates/questions/finished.html:14
+msgid "Random"
+msgstr "Aleatório"
+
+#: questions/templates/questions/finished.html:12
 msgid "mode and try other problems."
 msgstr " e tentar outros problemas."
 
-#: .\questions\templates\questions\finished.html:14
+#: questions/templates/questions/finished.html:14
 msgid "mode. You can go to "
 msgstr ". Você pode ir para o modo "
 
-#: .\questions\templates\questions\finished.html:14
+#: questions/templates/questions/finished.html:14
 msgid "mode and do new problems."
 msgstr " e fazer novos problemas."
 
-#: .\questions\templates\questions\home.html:8
+#: questions/templates/questions/home.html:8
 msgid "Total progress"
 msgstr "Progresso do aluno"
 
-#: .\questions\templates\questions\home.html:9
+#: questions/templates/questions/home.html:9
 msgid "in all problems"
 msgstr "em todos os problemas"
 
-#: .\questions\templates\questions\home.html:20
+#: questions/templates/questions/home.html:20
 msgid "Next problem"
 msgstr "Próximo problema"
 
-#: .\questions\templates\questions\home.html:22
+#: questions/templates/questions/home.html:22
 msgid "All problems have been finalized"
 msgstr "Todos os problemas foram finalizados"
 
-#: .\questions\templates\questions\home.html:28
-#: .\questions\templates\questions\student_dashboard.html:51
+#: questions/templates/questions/home.html:28
+#: questions/templates/questions/student_dashboard.html:51
+#: questions/templates/questions/student_dashboard1.html:50
 msgid "before you get right a problem"
 msgstr "antes de acertar um problema"
 
-#: .\questions\templates\questions\home.html:32
+#: questions/templates/questions/home.html:32
 msgid "No errors made"
 msgstr "Nenhum erro cometido"
 
-#: .\questions\templates\questions\home.html:38
-#: .\questions\templates\questions\student_dashboard.html:20
+#: questions/templates/questions/home.html:38
+#: questions/templates/questions/student_dashboard.html:20
+#: questions/templates/questions/student_dashboard1.html:19
 msgid "Average time"
 msgstr "Tempo médio"
 
-#: .\questions\templates\questions\home.html:40
-#: .\questions\templates\questions\student_dashboard.html:21
+#: questions/templates/questions/home.html:40
+#: questions/templates/questions/student_dashboard.html:21
+#: questions/templates/questions/student_dashboard1.html:20
 msgid "to perform a problem"
 msgstr "para acertar um problema"
 
-#: .\questions\templates\questions\home.html:44
+#: questions/templates/questions/home.html:44
 msgid "No problems completed"
 msgstr "Nenhum problema resolvido"
 
-#: .\questions\templates\questions\home.html:50
+#: questions/templates/questions/home.html:50
 msgid "Less than 1 day"
 msgstr "Menos de 1 dia"
 
-#: .\questions\templates\questions\home.html:54
+#: questions/templates/questions/home.html:54
 msgid "No chapters completed"
 msgstr "Nenhuma aula finalizada"
 
-#: .\questions\templates\questions\home.html:61
+#: questions/templates/questions/home.html:61
 msgid "See more infos"
 msgstr "Veja mais"
 
-#: .\questions\templates\questions\home.html:68
+#: questions/templates/questions/home.html:68
 msgid "Current chapter"
 msgstr "Aula atual"
 
-#: .\questions\templates\questions\home.html:76
+#: questions/templates/questions/home.html:76
 msgid "Estimated time to finish this chapter"
 msgstr "Tempo estimado para finalizar esta aula"
 
-#: .\questions\templates\questions\home.html:76
+#: questions/templates/questions/home.html:76
 msgid "minutes"
 msgstr "minutos"
 
-#: .\questions\templates\questions\home.html:76
+#: questions/templates/questions/home.html:76
 msgid "Finished chapter"
 msgstr "Aula finalizada"
 
-#: .\questions\templates\questions\home.html:109
+#: questions/templates/questions/home.html:109
 msgid "There are still no chapters or all deadlines have expired"
 msgstr "Não há aula para mostrar ou todos os prazos expiraram"
 
-#: .\questions\templates\questions\manager_dashboard.html:17
+#: questions/templates/questions/manager_dashboard.html:17
 msgid "performance per problem"
 msgstr "desempenho da turma por problema"
 
-#: .\questions\templates\questions\new_problem.html:18
-#: .\questions\templates\questions\past_problems.html:32
-#: .\questions\templates\questions\student_logs.html:31
+#: questions/templates/questions/new_problem.html:18
+#: questions/templates/questions/past_problems.html:32
+#: questions/templates/questions/student_logs.html:31
 msgid "Title"
 msgstr "Título"
 
-#: .\questions\templates\questions\new_problem.html:23
+#: questions/templates/questions/new_problem.html:23
 msgid "Multiple choice"
 msgstr "Múltipla escolha"
 
-#: .\questions\templates\questions\new_problem.html:49
+#: questions/templates/questions/new_problem.html:49
 msgid "Position"
 msgstr "Posição"
 
-#: .\questions\templates\questions\new_problem.html:52
-#: .\questions\templates\questions\show_chapter.html:56
+#: questions/templates/questions/new_problem.html:52
+#: questions/templates/questions/show_chapter.html:56
 msgid "Add problem"
 msgstr "Adicionar problema"
 
-#: .\questions\templates\questions\new_problem.html:76
+#: questions/templates/questions/new_problem.html:76
 msgid "Header"
 msgstr "Header"
 
-#: .\questions\templates\questions\new_problem.html:77
+#: questions/templates/questions/new_problem.html:77
 msgid "Tip"
 msgstr "Dica"
 
-#: .\questions\templates\questions\new_problem.html:79
+#: questions/templates/questions/new_problem.html:79
 msgid "Cluster"
 msgstr "Cluster"
 
-#: .\questions\templates\questions\new_problem.html:89
+#: questions/templates/questions/new_problem.html:89
 msgid "Test case generator"
 msgstr "Gerador de casos de teste"
 
-#: .\questions\templates\questions\new_problem.html:106
+#: questions/templates/questions/new_problem.html:106
 msgid "Options"
 msgstr "Opções"
 
-#: .\questions\templates\questions\new_problem.html:115
+#: questions/templates/questions/new_problem.html:115
 msgid "Add Option"
 msgstr "Adicionar opção"
 
-#: .\questions\templates\questions\new_problem.html:121
+#: questions/templates/questions/new_problem.html:121
 msgid "Correct answer"
 msgstr "Resposta"
 
-#: .\questions\templates\questions\new_problem.html:186
-#: .\questions\templates\questions\show_class.html:18
+#: questions/templates/questions/new_problem.html:186
+#: questions/templates/questions/show_class.html:18
 msgid "Delete"
 msgstr "Excluir"
 
-#: .\questions\templates\questions\outcomes.html:23
+#: questions/templates/questions/outcomes.html:23
 msgid "Export CSV"
 msgstr "Exportar CSV"
 
-#: .\questions\templates\questions\outcomes.html:33
+#: questions/templates/questions/outcomes.html:33
 msgid "Total"
 msgstr "Total"
 
-#: .\questions\templates\questions\outcomes.html:52
+#: questions/templates/questions/outcomes.html:52
 msgid "Passed at"
 msgstr "Passou em"
 
-#: .\questions\templates\questions\past_problems.html:9
-#: .\questions\templates\questions\student_logs.html:8
+#: questions/templates/questions/past_problems.html:9
+#: questions/templates/questions/student_logs.html:8
 msgid "Filter"
 msgstr "Filtrar"
 
-#: .\questions\templates\questions\past_problems.html:34
+#: questions/templates/questions/past_problems.html:34
 msgid "Status "
 msgstr "Status "
 
-#: .\questions\templates\questions\past_problems.html:35
-#: .\questions\templates\questions\past_solutions.html:103
-#: .\questions\templates\questions\past_solutions.html:115
-#: .\questions\templates\questions\problem_solutions.html:33
+#: questions/templates/questions/past_problems.html:35
+#: questions/templates/questions/past_solutions.html:103
+#: questions/templates/questions/past_solutions.html:115
+#: questions/templates/questions/problem_solutions.html:33
 msgid "Comments"
 msgstr "Comentários"
 
-#: .\questions\templates\questions\past_problems.html:37
+#: questions/templates/questions/past_problems.html:37
 msgid "Last submission"
 msgstr "Última tentativa"
 
-#: .\questions\templates\questions\past_problems.html:68
+#: questions/templates/questions/past_problems.html:68
 msgid "See submitted solutions"
 msgstr "Ver soluções enviadas"
 
-#: .\questions\templates\questions\past_solutions.html:30
-#: .\questions\templates\questions\problem_solutions.html:22
-#: .\questions\templates\questions\show_problem.html:19
-#: .\questions\templates\questions\solutions.html:38
-#: .\questions\templates\questions\student_solutions.html:44
+#: questions/templates/questions/past_solutions.html:30
+#: questions/templates/questions/problem_solutions.html:22
+#: questions/templates/questions/show_problem.html:19
+#: questions/templates/questions/solutions.html:38
+#: questions/templates/questions/student_solutions.html:44
 msgid "Test cases"
 msgstr "Casos de teste"
 
-#: .\questions\templates\questions\past_solutions.html:45
+#: questions/templates/questions/past_solutions.html:45
 #, fuzzy
 #| msgid "Test cases"
 msgid "Hidden test cases"
 msgstr "Casos de teste ocultos"
 
-#: .\questions\templates\questions\past_solutions.html:94
+#: questions/templates/questions/past_solutions.html:94
 msgid "Your answer"
 msgstr "Sua resposta"
 
-#: .\questions\templates\questions\past_solutions.html:122
-#: .\questions\templates\questions\past_solutions.html:127
+#: questions/templates/questions/past_solutions.html:122
+#: questions/templates/questions/past_solutions.html:127
 msgid "Add comment"
 msgstr "Adicionar comentário"
 
-#: .\questions\templates\questions\past_solutions.html:184
-#: .\questions\templates\questions\show_problem.html:69
-#: .\questions\templates\questions\show_problem.html:84
-#: .\questions\templates\questions\show_problem.html:118
+#: questions/templates/questions/past_solutions.html:184
+#: questions/templates/questions/show_problem.html:69
+#: questions/templates/questions/show_problem.html:84
+#: questions/templates/questions/show_problem.html:118
 msgid "Next"
 msgstr "Próximo"
 
-#: .\questions\templates\questions\past_solutions.html:185
-#: .\questions\templates\questions\show_problem.html:119
+#: questions/templates/questions/past_solutions.html:185
+#: questions/templates/questions/show_problem.html:119
 msgid "Input:"
 msgstr "Entrada:"
 
-#: .\questions\templates\questions\past_solutions.html:186
-#: .\questions\templates\questions\show_problem.html:120
+#: questions/templates/questions/past_solutions.html:186
+#: questions/templates/questions/show_problem.html:120
 msgid "Expected output:"
 msgstr "Retorno esperado:"
 
-#: .\questions\templates\questions\past_solutions.html:187
-#: .\questions\templates\questions\show_problem.html:121
+#: questions/templates/questions/past_solutions.html:187
+#: questions/templates/questions/show_problem.html:121
 msgid "Your output:"
 msgstr "Seu retorno:"
 
-#: .\questions\templates\questions\satisfaction_form.html:20
-#: .\questions\templates\questions\satisfaction_form.html:22
+#: questions/templates/questions/satisfaction_form.html:20
+#: questions/templates/questions/satisfaction_form.html:22
 msgid "Loading..."
 msgstr "Carregando..."
 
-#: .\questions\templates\questions\show_chapter.html:10
+#: questions/templates/questions/show_chapter.html:10
 msgid "Edit"
 msgstr "Editar"
 
-#: .\questions\templates\questions\show_chapter.html:11
+#: questions/templates/questions/show_chapter.html:11
 msgid "Cancel"
 msgstr "Cancelar"
 
-#: .\questions\templates\questions\show_chapter.html:12
+#: questions/templates/questions/show_chapter.html:12
 msgid "Save"
 msgstr "Salvar"
 
-#: .\questions\templates\questions\show_chapter.html:85
+#: questions/templates/questions/show_chapter.html:85
 msgid "Main errors"
 msgstr "Erros mais comuns"
 
-#: .\questions\templates\questions\show_class.html:43
+#: questions/templates/questions/show_class.html:43
 msgid "Date (yyyy-mm-dd)"
 msgstr "Data (yyyy-mm-dd)"
 
-#: .\questions\templates\questions\show_class.html:49
+#: questions/templates/questions/show_class.html:49
 msgid "Time (H:M)"
 msgstr "Hora (H:M)"
 
-#: .\questions\templates\questions\show_class.html:77
-#: .\questions\templates\questions\student_solutions.html:15
+#: questions/templates/questions/show_class.html:77
+#: questions/templates/questions/student_solutions.html:15
 msgid "Dashboard"
 msgstr ""
 
-#: .\questions\templates\questions\show_problem.html:13
+#: questions/templates/questions/show_problem.html:13
 msgid "Skip"
 msgstr "Pular"
 
-#: .\questions\templates\questions\show_problem.html:37
+#: questions/templates/questions/show_problem.html:37
 msgid "Run"
 msgstr "Executar"
 
-#: .\questions\templates\questions\show_problem.html:66
-#: .\questions\templates\questions\show_problem.html:77
-#: .\questions\templates\questions\show_problem.html:81
+#: questions/templates/questions/show_problem.html:66
+#: questions/templates/questions/show_problem.html:77
+#: questions/templates/questions/show_problem.html:81
 msgid "Answer"
 msgstr "Responder"
 
-#: .\questions\templates\questions\show_problem.html:125
+#: questions/templates/questions/show_problem.html:125
 msgid "Error"
 msgstr "Erro"
 
-#: .\questions\templates\questions\show_problem.html:126
+#: questions/templates/questions/show_problem.html:126
 msgid ""
 "The solution uses <strong>print</strong> command, breaking the rule that the "
 "entire result of the function must be returned exclusively through its "
@@ -1085,116 +1123,121 @@ msgstr ""
 "que todo o resultado da função deve ser devolvido exclusivamente através de "
 "valores de retorno da mesma."
 
-#: .\questions\templates\questions\solutions.html:18
+#: questions/templates/questions/solutions.html:18
 msgid "See class"
 msgstr "Ver turma"
 
-#: .\questions\templates\questions\solutions.html:35
-#: .\questions\templates\questions\student_solutions.html:41
+#: questions/templates/questions/solutions.html:35
+#: questions/templates/questions/student_solutions.html:41
 msgid "See solution"
 msgstr "Ver solução"
 
-#: .\questions\templates\questions\solutions.html:61
-#: .\questions\templates\questions\student_solutions.html:67
+#: questions/templates/questions/solutions.html:61
+#: questions/templates/questions/student_solutions.html:67
 msgid "No submission"
 msgstr "Sem submissões"
 
-#: .\questions\templates\questions\student_dashboard.html:54
+#: questions/templates/questions/student_dashboard.html:54
+#: questions/templates/questions/student_dashboard1.html:53
 msgid "error"
 msgstr "erro"
 
-#: .\questions\templates\questions\student_dashboard.html:55
+#: questions/templates/questions/student_dashboard.html:55
+#: questions/templates/questions/student_dashboard1.html:54
 msgid "on average"
 msgstr "em média"
 
-#: .\questions\templates\questions\student_dashboard.html:65
+#: questions/templates/questions/student_dashboard.html:65
+#: questions/templates/questions/student_dashboard1.html:64
 msgid "Average errors"
 msgstr "Média de erros"
 
-#: .\questions\templates\questions\student_dashboard.html:66
-#: .\questions\templates\questions\student_dashboard.html:103
+#: questions/templates/questions/student_dashboard.html:66
+#: questions/templates/questions/student_dashboard.html:103
+#: questions/templates/questions/student_dashboard1.html:65
+#: questions/templates/questions/student_dashboard1.html:101
 msgid "per chapter"
 msgstr "por aula"
 
-#: .\questions\templates\questions\student_logs.html:32
+#: questions/templates/questions/student_logs.html:32
 msgid "Day"
 msgstr "Dia"
 
-#: .\questions\templates\questions\student_logs.html:33
+#: questions/templates/questions/student_logs.html:33
 msgid "Time "
 msgstr "Hora"
 
-#: .\questions\templates\questions\student_logs.html:34
+#: questions/templates/questions/student_logs.html:34
 msgid "Test cases "
 msgstr "Casos de teste "
 
-#: .\questions\templates\questions\student_logs.html:35
+#: questions/templates/questions/student_logs.html:35
 msgid "Status"
 msgstr "Status"
 
-#: .\questions\templates\questions\student_logs.html:36
+#: questions/templates/questions/student_logs.html:36
 msgid "Error (Python)"
 msgstr "Erro (Python)"
 
-#: .\questions\templates\questions\student_logs.html:58
-#: .\questions\templates\questions\student_logs.html:65
+#: questions/templates/questions/student_logs.html:58
+#: questions/templates/questions/student_logs.html:65
 msgid "See submitted solution"
 msgstr "Ver solução enviada"
 
-#: .\questions\templates\questions\student_solutions.html:25
+#: questions/templates/questions/student_solutions.html:25
 msgid "See chapter"
 msgstr "Ver aula"
 
-#: .\questions\templates\registration\login.html:7
-#: .\questions\templates\registration\login.html:24
-#: .\questions\templates\registration\password_reset_complete.html:18
-#: .\questions\templates\registration\password_reset_confirm.html:34
-#: .\questions\templates\registration\password_reset_done.html:21
-#: .\questions\templates\registration\signup.html:157
+#: questions/templates/registration/login.html:7
+#: questions/templates/registration/login.html:24
+#: questions/templates/registration/password_reset_complete.html:18
+#: questions/templates/registration/password_reset_confirm.html:34
+#: questions/templates/registration/password_reset_done.html:21
+#: questions/templates/registration/signup.html:157
 msgid "Login"
 msgstr "Entrar"
 
-#: .\questions\templates\registration\login.html:21
-#: .\questions\templates\registration\signup.html:119
+#: questions/templates/registration/login.html:21
+#: questions/templates/registration/signup.html:119
 msgid "Password"
 msgstr "Senha"
 
-#: .\questions\templates\registration\login.html:23
+#: questions/templates/registration/login.html:23
 msgid "Forgot password?"
 msgstr "Esqueceu a senha?"
 
-#: .\questions\templates\registration\password_reset_complete.html:7
-#: .\questions\templates\registration\password_reset_confirm.html:8
-#: .\questions\templates\registration\password_reset_confirm.html:22
-#: .\questions\templates\registration\password_reset_done.html:7
-#: .\questions\templates\registration\password_reset_form.html:7
+#: questions/templates/registration/password_reset_complete.html:7
+#: questions/templates/registration/password_reset_confirm.html:8
+#: questions/templates/registration/password_reset_confirm.html:22
+#: questions/templates/registration/password_reset_done.html:7
+#: questions/templates/registration/password_reset_form.html:7
 msgid "Password reset"
 msgstr "Recuperar senha"
 
-#: .\questions\templates\registration\password_reset_complete.html:10
+#: questions/templates/registration/password_reset_complete.html:10
 msgid "Your password has been set. You may go ahead and "
 msgstr "Sua senha foi redefinida. Você pode ir em frente e "
 
-#: .\questions\templates\registration\password_reset_complete.html:10
+#: questions/templates/registration/password_reset_complete.html:10
 msgid "sign in"
 msgstr "fazer login"
 
-#: .\questions\templates\registration\password_reset_complete.html:10
+#: questions/templates/registration/password_reset_complete.html:10
 msgid " now."
 msgstr " agora."
 
-#: .\questions\templates\registration\password_reset_confirm.html:10
+#: questions/templates/registration/password_reset_confirm.html:10
 msgid "Change password"
 msgstr "Redefinir senha"
 
-#: .\questions\templates\registration\password_reset_confirm.html:25
+#: questions/templates/registration/password_reset_confirm.html:25
 msgid ""
 "The password reset link was invalid, possibly because it has already been "
 "used.\n"
 "      Please request a new password reset."
 msgstr ""
 
-#: .\questions\templates\registration\password_reset_done.html:10
+#: questions/templates/registration/password_reset_done.html:10
 msgid ""
 "We've emailed you instructions for setting your password, if an account "
 "exists with the email you entered. You should receive them shortly."
@@ -1202,7 +1245,7 @@ msgstr ""
 "Enviamos por e-mail instruções para redefinir sua senha, se existir uma "
 "conta com o e-mail que você digitou. Você deve recebê-las em breve."
 
-#: .\questions\templates\registration\password_reset_done.html:13
+#: questions/templates/registration/password_reset_done.html:13
 msgid ""
 "If you don't receive an email, please make sure you've entered the address "
 "you registered with, and check your spam folder."
@@ -1210,23 +1253,23 @@ msgstr ""
 "Se você não recebeu um e-mail, certifique-se de inserir o endereço com o "
 "qual se cadastrou e verifique sua caixa de spam."
 
-#: .\questions\templates\registration\password_reset_form.html:13
+#: questions/templates/registration/password_reset_form.html:13
 msgid "Submit"
 msgstr "Enviar"
 
-#: .\questions\templates\registration\signup.html:26
+#: questions/templates/registration/signup.html:26
 msgid "First name"
 msgstr "Nome"
 
-#: .\questions\templates\registration\signup.html:29
+#: questions/templates/registration/signup.html:29
 msgid "Last name"
 msgstr "Sobrenome"
 
-#: .\questions\templates\registration\signup.html:122
+#: questions/templates/registration/signup.html:122
 msgid "Password confirmation"
 msgstr "Confirmação de senha"
 
-#: .\questions\templates\registration\signup.html:124
+#: questions/templates/registration/signup.html:124
 msgid ""
 "\n"
 "                        \t    1) Your password can't be too similar to your "
@@ -1249,29 +1292,32 @@ msgstr ""
 "númerica.\n"
 "                                "
 
-#: .\questions\views.py:143
+#: questions/views.py:146
 msgid "Finished"
 msgstr "Finalizado"
 
-#: .\questions\views.py:500
+#: questions/views.py:503
 msgid "Problem solutions"
 msgstr "Solução"
 
-#: .\questions\views.py:531
+#: questions/views.py:534
 msgid "Student solutions"
 msgstr "Solução"
 
-#: .\questions\views.py:618
+#: questions/views.py:621
 msgid "New problem"
 msgstr "Novo problema"
 
-#: .\questions\views.py:668
+#: questions/views.py:671
 msgid "Edit profile"
 msgstr "Perfil do usuário"
 
-#: .\questions\views.py:863
+#: questions/views.py:882
 msgid "home"
 msgstr "início"
+
+#~ msgid "Strategy"
+#~ msgstr "Estratégia"
 
 #~ msgid "High"
 #~ msgstr "Alto"
@@ -1345,16 +1391,16 @@ msgstr "início"
 #~ "female students [6].</span>"
 #~ msgstr ""
 #~ "É importante entender os motivos por que alguns alunos são mais bem-"
-#~ "sucedidos do que outros ao fazer um curso, para que possamos <span class="
-#~ "\"highlight\">aprimorar os métodos de ensino</span> ao identificar as "
-#~ "necessidades dos alunos e <span class=\"highlight\">oferecer uma educação "
-#~ "personalizada</span>. Um ambiente de aprendizagem inteligente é aquele "
-#~ "que provê visualizações, simulações e inferências aos alunos e educadores "
-#~ "a partir de dados coletados dinamicamente [1]. Sabe-se que a adoção de um "
-#~ "ambiente de aprendizagem inteligente em salas de aula e em ambientes de "
-#~ "auto-aprendizagem ajuda a <span class=\"highlight\">motivar os alunos [2]-"
-#~ "[5], melhorar a aprendizagem, diminuir os casos de abandono e a "
-#~ "reprovação [2], [6]-[8], enquanto aumenta a autoconfiança dos alunos, "
+#~ "sucedidos do que outros ao fazer um curso, para que possamos <span "
+#~ "class=\"highlight\">aprimorar os métodos de ensino</span> ao identificar "
+#~ "as necessidades dos alunos e <span class=\"highlight\">oferecer uma "
+#~ "educação personalizada</span>. Um ambiente de aprendizagem inteligente é "
+#~ "aquele que provê visualizações, simulações e inferências aos alunos e "
+#~ "educadores a partir de dados coletados dinamicamente [1]. Sabe-se que a "
+#~ "adoção de um ambiente de aprendizagem inteligente em salas de aula e em "
+#~ "ambientes de auto-aprendizagem ajuda a <span class=\"highlight\">motivar "
+#~ "os alunos [2]-[5], melhorar a aprendizagem, diminuir os casos de abandono "
+#~ "e a reprovação [2], [6]-[8], enquanto aumenta a autoconfiança dos alunos, "
 #~ "especialmente em estudantes do sexo feminino [6].</span>"
 
 #~ msgid ""
@@ -1582,3 +1628,6 @@ msgstr "início"
 #~ msgstr ""
 #~ "As informações que coletamos não são compartilhadas ou vendidas a outras "
 #~ "organizações para fins comerciais."
+
+msgid "Laura Moraes was the one who initiated the project. She developed the platform during her doctorate degree in Computer Engineering and Systems (COPPE/PESC) in the Artificial Intelligence research line. Currently, she is a professor at Colégio Pedro II and dedicates herself to research activities in the field of technology for education, particularly in computer education. In 2018, she was a fellow in the Data Science for Social Good program, where she created models for predicting individuals at risk of long-term unemployment organized by the University of Chicago with Nova SBE. In 2019, she was a finalist at the 2nd PFL Engineering PhD Summit in Switzerland, where she presented the preliminary results of the project."
+msgstr "aaaaa" 

@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import (Problem, Solution, TestCase, UserLog, Cluster, UserModel,
                      UserProfile, Professor, OnlineClass, Chapter, Deadline,
-                     ExerciseSet, UserLogError, PageAccess, Interactive, Comment, DropOutModel)
+                     ExerciseSet, UserLogError, PageAccess, Interactive, Comment, DropOutModel, Collaborator)
 from simple_history.admin import SimpleHistoryAdmin
 from import_export.admin import ExportActionMixin
 
@@ -163,6 +163,11 @@ class CommentAdmin(ExportActionMixin, admin.ModelAdmin):
 class DropOutModelAdmin(ExportActionMixin, admin.ModelAdmin):
     list_display = (['model_file'])
     search_fields = ['completed_chapter', 'model_file']
+
+@admin.register(Collaborator)
+class CollaboratorAdmin(ExportActionMixin, admin.ModelAdmin):
+    list_display = ('name', 'active')
+    search_fields = ['name', 'active']
 
 
 admin.site.register(Cluster)
