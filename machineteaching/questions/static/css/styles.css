@@ -1758,7 +1758,7 @@ input:checked + .slider:before {
     .bg {
         height: auto;
     }
-    .header {
+    .header{
         flex-wrap: wrap;
         justify-content: center;
     }

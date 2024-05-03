@@ -51,7 +51,7 @@ coverage.xml
 
 # Django stuff:
 *.log
-local_settings.py
+*_settings.py
 
 # Flask stuff:
 instance/
@@ -127,8 +127,6 @@ machineteaching/\.Rhistory
 
 machineteaching/dump_db_basic/
 machineteaching/questions/class_analysis
-
-machineteaching/machineteaching/dev_settings\.py
 
 machineteaching/db\.sqlite3*
 

@@ -1,0 +1,238 @@
+{% extends "questions/base.html" %}
+{% load static %}
+{% load i18n %}
+{% block content %}
+<div class="col col-6">
+	<div style="display: flex;">
+
+		<div class="col-7">
+	        <div class="card" style="height: 25rem">
+	        	<h3>{% blocktrans %}Problems{% endblocktrans %}</h3>
+		        {{ progress_plot|safe }}
+	        </div>
+	    </div>
+
+	    <div class="col-5" style="padding-left: 2rem;">
+
+	    	<div class="card times" style="border-left: 4px solid {% if problems_time.student < problems_time.class %}var(--green){% elif problems_time.student == problems_time.class %}var(--yellow){% else %}var(--red){% endif %}">
+	    		<div>
+	    			<h3>{% blocktrans %}Average time{% endblocktrans %}</h3>
+	    		    <span>{% blocktrans %}to perform a problem{% endblocktrans %}</span>
+	    		</div>
+	    		<div style="display: flex; justify-content: space-around; align-items: center;">
+	    			<div class="student">
+	    		        <h1>{{ problems_time.student }} min</h1>
+                        <h2>
+                        {% if perms.questions.view_userlogview %}
+                        {% blocktrans %}Student{% endblocktrans %}
+                        {% else %}
+                        {% blocktrans %}You{% endblocktrans %}
+                        {% endif %}
+                        </h2>
+	    		    </div>
+	    		    <div class="class">
+	    		        <h1>{{ problems_time.class }} min</h1>
+	    		        <h2>
+                        {% if perms.questions.view_userlogview %}
+                        {% blocktrans %}Class{% endblocktrans %}
+                        {% else %}
+                        {% blocktrans %}Your class{% endblocktrans %}
+                        {% endif %}
+                        </h2>
+	    		    </div>
+	    		</div>
+	    		<div></div>
+	    	</div>
+
+	    	<div class="card errors">
+	    		<div>
+	    			<h3>{% blocktrans %}Errors{% endblocktrans %}</h3>
+	    		    <span>{% blocktrans %}before you get right a problem{% endblocktrans %}</span>
+	    		</div>
+	    		<div>
+	    		    <h1>{{ errors }} {% blocktrans %}error{% endblocktrans %}{% if errors > 1 %}s{% endif %}</h1>
+	    		    <h2>{% blocktrans %}on average{% endblocktrans %}</h2>
+	    		</div>
+	    		<div></div>
+	    	</div>
+
+	    </div>
+    </div>
+
+    <!-- errors plot -->
+	<div class="card chapters">
+	   	<h3>{% blocktrans %}Average errors{% endblocktrans %}</h3>
+	    <span>{% blocktrans %}per chapter{% endblocktrans %}</span>
+        <canvas id="errorLine"></canvas>
+	</div>
+
+</div>
+<div class="col col-6">
+	<div class="card chapters">
+		<div>
+            <h3 style="margin-bottom: 1rem">{% blocktrans %}Chapters{% endblocktrans %}</h3>
+            <div style="overflow-y: auto; height: 330px">
+            <table>
+                <tr>
+                    <td>{% blocktrans %}Name{% endblocktrans %}</td>
+                    <td>{% blocktrans %}Progress{% endblocktrans %}</td>
+                    <td style="text-align: center;">{% blocktrans %}Time{% endblocktrans %}</td>
+                </tr>
+            	{% for chapter in chapters %}
+            	<tr class="row" onclick="window.location='{% url 'show_chapter' chapter=chapter.id %}';" style="cursor: pointer !important;">
+            	    <td class="col-6">{{ chapter.label }}</td>
+                    <td class="col-4" style="text-align: right;">
+                    <div class="task-progress" style="width: 100%">
+                    	<div style="width: {{ chapter.progress }}%; background: {% if chapter.progress == 100 %}limegreen{% else %}var(--primary){% endif %}"></div>
+                    </div>
+                    <span>{{ chapter.progress }}%</span>
+                    <td class="col-2" style="text-align: center;">
+                    {% if chapter.chapter_time != "-" %} {{ chapter.chapter_time }} {% blocktrans %}day(s){% endblocktrans %} {% else %}-{% endif %}</td>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+            </div>
+        </div>
+	</div>
+
+    <div class="card chapters">
+	   	<h3>{% blocktrans %}Time{% endblocktrans %}</h3>
+	    <span>{% blocktrans %}per chapter{% endblocktrans %}</span>
+        <canvas id="timeLine"></canvas>
+    </div>
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+problems_time = JSON.parse('{{ problems_time|escapejs }}'.replace(/'/g, '"'))
+pfs = JSON.parse('{{ pfs|escapejs }}'.replace(/'/g, '"'))
+error_per_chapter = JSON.parse('{{ error_per_chapter|escapejs }}'.replace(/'/g, '"'))
+time_per_chapter = JSON.parse('{{ time_per_chapter|escapejs }}'.replace(/'/g, '"'))
+
+const pfsStudent = document.getElementById('pfsStudent');
+const pfsClass = document.getElementById("pfsClass")
+const errorLine= document.getElementById("errorLine")
+const timeLine = document.getElementById("timeLine")
+
+const info = {'pfs': pfs, 'problems_time': problems_time, 'time_per_chapter': time_per_chapter, 'error_per_chapter': error_per_chapter}
+var chapter_names = []
+var coordinates_error_chart_student = []
+var coordinates_error_chart_class = []
+var coordinates_time_chart_student = []
+var coordinates_time_chart_class = []
+
+function compare( a, b ) {
+    if ( a[3] < b[3] ){
+    return -1;
+    }
+    if ( a[3] > b[3] ){
+    return 1;
+    }
+    return 0;
+}
+
+const getInfo = () => {
+
+    for(let j = 0; j < info.error_per_chapter[0].length; j++){
+    var order = parseInt(info.error_per_chapter[0][j][2].split('-')[0].replace("(PLE)", ""))
+    info.error_per_chapter[0][j].push(order)
+    info.error_per_chapter[1][j].push(order)
+    }
+    info.error_per_chapter[0].sort(compare)
+    info.error_per_chapter[1].sort(compare)
+    
+    for(let i = 0; i < info.error_per_chapter[0].length; i++){
+        chapter_names.push(info.error_per_chapter[0][i][2])
+        coordinates_error_chart_student.push({x: i + 1, y: parseFloat(info.error_per_chapter[0][i][1])})
+        coordinates_error_chart_class.push({x: i + 1, y: parseFloat(info.error_per_chapter[1][i][1])})
+        coordinates_time_chart_student.push({x: i + 1, y: parseFloat(info.time_per_chapter[i][1])})
+        coordinates_time_chart_class.push({x: i + 1, y: parseFloat(info.time_per_chapter[i][2])})
+    }       
+
+}
+
+getInfo()
+
+new Chart(errorLine, {
+    type: 'line',
+    data : {
+    labels: chapter_names,
+        datasets: [{
+            label: 'Seus erros',
+            data: coordinates_error_chart_student,
+            fill: false,
+            borderColor: 'rgb(75, 192, 192)',
+            pointBackgroundColor: 'limegreen',
+            pointBorderWidth: 0,
+            pointRadius: 5,
+            tension: 0
+        },
+        {
+            label: 'Média de erros da turma',
+            data: coordinates_error_chart_class,
+            fill: false,
+            borderColor: 'black',
+            pointBorderWidth: '0',
+            borderDash: [7],
+            tension: 0  
+        }]
+    }, options: {
+        scales: {
+    x: {
+        grid: {
+        display: false
+        }
+    },
+    y: {
+        grid: {
+        display: false
+        }
+    }
+    }
+}
+});
+
+new Chart(timeLine, {
+    type: 'line',
+    data : {
+    labels: chapter_names,
+        datasets: [{
+            label: 'Seu tempo',
+            data: coordinates_time_chart_student,
+            fill: false,
+            borderColor: 'rgb(75, 192, 192)',
+            pointBackgroundColor: 'limegreen',
+            pointBorderWidth: 0,
+            pointRadius: 5,
+            tension: 0
+        },
+        {
+            label: 'Média de tempo da turma',
+            data: coordinates_time_chart_class,
+            fill: false,
+            borderColor: 'black',
+            pointBorderWidth: '0',
+            borderDash: [7],
+            tension: 0  
+        }]
+        }, options: {
+        scales: {
+    x: {
+        grid: {
+        display: false
+        }
+    },
+    y: {
+        grid: {
+        display: false
+        }
+    }
+    }
+}
+})
+</script>
+
+{% endblock %}

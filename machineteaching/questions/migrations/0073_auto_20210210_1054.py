@@ -11,21 +11,21 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RunSQL("""drop view questions_userlogview"""),
-        migrations.AddField(
-            model_name='historicaluserprofile',
-            name='course',
-            field=models.CharField(max_length=200, null=True),
-        ),
-        migrations.AddField(
-            model_name='userlog',
-            name='test_case_hits',
-            field=models.IntegerField(blank=True, null=True),
-        ),
-        migrations.AddField(
-            model_name='userprofile',
-            name='course',
-            field=models.CharField(max_length=200, null=True),
-        ),
+        # migrations.AddField(
+        #     model_name='historicaluserprofile',
+        #     name='course',
+        #     field=models.CharField(max_length=200, null=True),
+        # ),
+        # migrations.AddField(
+        #     model_name='userlog',
+        #     name='test_case_hits',
+        #     field=models.IntegerField(blank=True, null=True),
+        # ),
+        # migrations.AddField(
+        #     model_name='userprofile',
+        #     name='course',
+        #     field=models.CharField(max_length=200, null=True),
+        # ),
         migrations.RunSQL("""
 CREATE VIEW questions_userlogview as
 select

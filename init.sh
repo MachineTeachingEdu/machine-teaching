@@ -1,16 +1,7 @@
 #!/bin/sh
 
 echo $ENVIRONMENT
-if [ "$ENVIRONMENT" = "PROD" ]; then
-    echo "Preparing image for production"
-    # cd /app/machineteaching
-    python manage.py collectstatic --noinput
-    python manage.py createsuperuser --noinput
-    export DJANGO_SETTINGS_MODULE=machineteaching.settings
-    opentelemetry-bootstrap --action=install
-    OTEL_RESOURCE_ATTRIBUTES=service.name=machine_teaching OTEL_EXPORTER_OTLP_ENDPOINT="http://35.226.60.104:4318" opentelemetry-instrument --traces_exporter otlp_proto_http gunicorn machineteaching.wsgi --bind 0.0.0.0:$PORT --workers 3
-
-else
+if [ "$ENVIRONMENT" = "development" ]; then
     echo "Preparing image for development"
     /wait 
     cd /app/machineteaching
@@ -21,5 +12,26 @@ else
     opentelemetry-bootstrap --action=install
     echo "Starting server on port $PORT"
     python manage.py runserver 0.0.0.0:$PORT
+
+else
+    echo "Preparing image for production"
+    echo "IP Address:"
+    curl curlmyip.org
+    # cd /app/machineteaching
+    mkdir -p staticfiles
+    echo "Will compile messages"
+    python manage.py compilemessages
+    echo "Will collect static"
+    python manage.py collectstatic --noinput
+    if [ -z "${SUPERUSER}" ]; then
+        echo "Superuser not set - skipping"
+    else
+        echo "Will create superuser"
+        python manage.py createsuperuser --noinput
+    fi
+    export DJANGO_SETTINGS_MODULE=machineteaching.settings
+    echo "will start"
+    opentelemetry-bootstrap --action=install
+    gunicorn machineteaching.wsgi --bind 0.0.0.0:$PORT --workers 3
 fi
 

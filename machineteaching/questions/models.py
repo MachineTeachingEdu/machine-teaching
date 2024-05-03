@@ -21,6 +21,7 @@ class Chapter(models.Model):
     drop_out_model = models.ForeignKey('DropOutModel', on_delete=models.SET_NULL,
                                 null=True, blank=True)
     history = HistoricalRecords()
+    active = models.BooleanField(default=True)
 
     def __unicode__(self):
         return self.label
@@ -126,7 +127,7 @@ class Deadline(models.Model):
 
 
 class Professor(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, unique=True)
     prof_class = models.ManyToManyField(OnlineClass, related_name='professor')
     assistant = models.BooleanField(default=False)
     active = models.BooleanField(default=True)
@@ -250,7 +251,7 @@ class UserLog(models.Model):
 
 
 class UserLogView(models.Model):
-    user = models.ForeignKey(User, on_delete=models.PROTECT, primary_key=True)
+    user = models.OneToOneField(User, on_delete=models.PROTECT, primary_key=True)
     problem = models.ForeignKey(Problem, on_delete=models.PROTECT)
     final_outcome = models.CharField(max_length=2)
     timestamp = models.DateTimeField()
@@ -335,6 +336,17 @@ class DropOutModel(models.Model):
 
     def __str__(self):
         return "%s" % self.model_file
+
+
+class Collaborator(models.Model):
+  name = models.CharField(max_length=255)
+  description = models.CharField(max_length=1000)
+  active = models.BooleanField(default=True)
+  image = models.ImageField(upload_to='static/img/equipe/')
+
+  class Meta:
+        verbose_name = _('Collaborator')
+        verbose_name_plural = _('Collaborators')
 
 
 @receiver(post_save, sender=User)
@@ -442,3 +454,6 @@ def create_userlog_error(sender, instance, created, **kwargs):
             log_error.userlog = instance
             log_error.error = error
             log_error.save()
+
+
+

@@ -26,7 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.getenv("APP_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(os.getenv("DEBUG"))
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(",")
 
@@ -35,6 +35,8 @@ CSRF_TRUSTED_ORIGINS = os.getenv("CSRF_TRUSTED_ORIGINS").split(",")
 # Application definition
 
 INSTALLED_APPS = [
+    'questions',
+    'evaluation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,8 +44,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'maintenance_mode',
-    'questions',
-    'evaluation',
     'django_extensions',
     'simple_history',
     'import_export',
@@ -88,12 +88,6 @@ WSGI_APPLICATION = 'machineteaching.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
 DATABASES = {
     'default': {
         'ENGINE': os.getenv("DB_ENGINE", 'django.db.backends.postgresql_psycopg2'),
@@ -148,15 +142,21 @@ LOGOUT_REDIRECT_URL = '/'
 AUTHENTICATION_BACKENDS = ['questions.backends.EmailBackend']
 EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", 'apikey'),
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", 'apikey')
 EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL= os.getenv("DEFAULT_FROM_EMAIL", "machineteaching@ufrj.br")
+DEFAULT_FROM_EMAIL= os.getenv("DEFAULT_FROM_EMAIL", "equipe@machineteaching.tech")
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
+STATIC_ROOT = '/'
 STATIC_URL = '/static/'
+
+
+STATICFILES_DIRS = ( os.path.join('staticfiles'), )
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # Disable revert option from admin
 SIMPLE_HISTORY_REVERT_DISABLED=True
@@ -240,3 +240,12 @@ LOGGING = {
         },
     },
 }
+
+TEST_SUPERUSER_USER="superuser@machineteaching.tech"
+TEST_SUPERUSER_EMAIL="superuser@machineteaching.tech"
+TEST_SUPERUSER_PASSWORD="superSenhaUser"
+TEST_GNAME="Usuário"
+TEST_SNAME="Teste"
+TEST_MANAGER="professor@machineteaching.tech"
+TEST_PASSWORD="senhaTeste"
+TEST_USER="usuario@machineteaching.tech"

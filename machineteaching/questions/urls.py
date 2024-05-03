@@ -2,8 +2,16 @@ from django.urls import path
 from django.views.generic import TemplateView
 
 from . import views, context_processors
+from django.conf.urls import url
+from django.views.static import serve
+# from django.conf.urls.static import static
+from django.conf import settings
+
+
 
 urlpatterns = [
+    url(r'^media/(?P<path>.*)$', serve,{'document_root': settings.MEDIA_ROOT}),
+    url(r'^static/(?P<path>.*)$', serve,{'document_root': settings.STATIC_ROOT}),
     path('', views.index, name='index'),
     path('saveaccess', views.save_access, name='saveaccess'),
     path('saveinteractive', views.save_interactive, name='saveinteractive'),
@@ -47,9 +55,9 @@ urlpatterns = [
     path('privacy', TemplateView.as_view(
         template_name='questions/privacy.html'),
         name='privacy'),
-    path('about', TemplateView.as_view(
-        template_name='questions/about.html'),
-        name='about'),
+    path('about', views.about, name='about'),
+    path('dashboard1', views.get_dashboard1, name='dashboard1'),  
+    path('student_dashboard1/<int:id>', views.get_student_dashboard1, name='student_dashboard1'),
 
     # path('attempts/', views.AttemptsList.as_view(), name='attempts'),
     # path('recommendations/', views.Recommendations.as_view(), name='recommendations'),

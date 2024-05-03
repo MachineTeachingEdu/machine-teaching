@@ -31,10 +31,13 @@ from questions.get_problem import get_problem
 from questions.get_dashboards import student_dashboard, class_dashboard, manager_dashboard, predict_drop_out, time_to_finish_exercise, get_time_to_finish_chapter_in_days
 from questions.get_dashboards import *
 from questions.strategies import STRATEGIES_FUNC
+from questions.get_dashboards1 import get_dashboards
 import csv
 from django.conf import settings
 from django.core.mail import send_mail
 from functools import wraps
+from .models import Collaborator
+from django.views.decorators.clickjacking import xframe_options_exempt
 
 
 LOGGER = logging.getLogger(__name__)
@@ -769,6 +772,16 @@ def get_dashboard(request):
     context = student_dashboard(request.user)
     return render(request, 'questions/student_dashboard.html', context)
 
+@login_required
+def get_dashboard1(request):
+    context = get_dashboards(request.user.id)
+    return render(request, 'questions/student_dashboard1.html', context)
+
+@login_required
+def get_student_dashboard1(request, id):
+    context = get_dashboards(id, professor=True)
+    return render(request, 'questions/student_dashboard1.html', context)
+
 @permission_required('questions.view_userlogview', raise_exception=True)
 def get_student_dashboard(request, id):
     student = User.objects.get(id=id)
@@ -816,7 +829,7 @@ def start(request):
         solved_problems = UserLogView.objects.filter(user=request.user, 
                                                         problem__in=chapter_problems,
                                                         final_outcome='P').count()
-        if solved_problems == chapter_problems.count():      
+        if chapter_problems.count() > 0 and solved_problems == chapter_problems.count():      
             time_to_finish_single_chapter = get_time_to_finish_chapter_in_days(request.user, chapter_problems, onlineclass)
             if time_to_finish_single_chapter is not None:           
                 chapter_times.append(time_to_finish_single_chapter)
@@ -929,3 +942,11 @@ def send_comment_email(student, comment, link):
             </div>
         </div>""".format(student.first_name, student.last_name, comment.userlog.problem.title, comment.user, comment.content, solution_link)
     send_mail(message_subject, message_content, None, [student_email], fail_silently=False, html_message=message_html)
+
+@xframe_options_exempt
+def about(request):
+    Team = Collaborator.objects.all()
+    context = {
+        'Team': Team,
+    }
+    return render(request, 'questions/about.html', context)  

@@ -30,6 +30,8 @@
               const hugo = '{% static "img/equipe/hugo.png" %}'
               const gabriel = '{% static "img/equipe/gabriel.png" %}'
               const arthur = '{% static "img/equipe/arthur.png" %}'
+              const beatriz = '{% static "img/equipe/beatriz.jpg"%}'
+              const renan = '{% static "img/equipe/renan.jpg" %}'
 
               const pdf = '{% static "pdf/dicas_MT.pdf" %}'
 
@@ -84,7 +86,7 @@
       </div>
       <div class="container">
         <div style="padding-top: 14rem">
-            <button class="btn" onclick="showAbout('{{language}}')">{% blocktrans %}About this research{% endblocktrans %}</button>
+            <button class="btn"><a href="{%url 'about'%}">{% blocktrans %}About this research{% endblocktrans %}</a></button>
         </div>
       <div class="footer" style="border-bottom: none;">
           <div class="footer-left">Machine Teaching</div>
@@ -97,8 +99,8 @@
             <span onclick="showPrivacy('{{language}}')">
             {% blocktrans %}Privacy Policy{% endblocktrans %}
             </span> | 
-            <span onclick="showAbout('{{language}}')">
-            {% blocktrans %}About this research{% endblocktrans %}
+            <span>
+              <a href="{%url 'about'%}">{% blocktrans %}About this research{% endblocktrans %}</a>
             </span> | 
             © 2021 {% blocktrans %}GPL-3.0 License{% endblocktrans %}: <a href="http://machineteaching.tech">machineteaching.tech</a>
           </div>
