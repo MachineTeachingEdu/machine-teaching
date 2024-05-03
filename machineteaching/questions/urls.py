@@ -46,6 +46,7 @@ urlpatterns = [
     path('classes', views.classes, name='classes'),
     path('classes/manage/<int:onlineclass>', views.manage_class, name='manage_class'),
     path('classes/dashboard/<int:onlineclass>', views.get_class_dashboard, name='class_dashboard'),
+    path('classes/new_dashboard/<int:onlineclass>', views.get_class_dashboard1, name='class_dashboard1'),
     path('class_active', views.class_active, name='class_active'),
     path('manager_dashboard', views.get_manager_dashboard, name='manager_dashboard'),
     path('delete_deadline/<int:onlineclass>/<int:deadline>', views.delete_deadline, name='delete_deadline'),
