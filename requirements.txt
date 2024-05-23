@@ -25,3 +25,23 @@ requests==2.31.0
 statsmodels==0.14.1
 Werkzeug==2.0.3
 whitenoise==6.6.0
+django-picklefield
+numpy
+matplotlib
+pandas
+django-simple-history
+django-import-export
+dash
+django-rest-framework
+statsmodels
+django-filter
+whitenoise
+python-dotenv
+Werkzeug==3.0.1
+locust
+opentelemetry-distro
+opentelemetry-exporter-otlp-proto-http
+django-maintenance-mode
+pytest-playwright
+colour
+# apache-skywalking[http]

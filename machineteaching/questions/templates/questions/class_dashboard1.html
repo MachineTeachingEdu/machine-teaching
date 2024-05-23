@@ -1,0 +1,280 @@
+
+{% extends "questions/base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+<div class="col-12" style="display: flex; padding: 1rem; height: 25rem">
+    <div class="col-5" style="margin-right: 1rem; height: 100%">
+        <div class="card" style=" height: 100%">
+            <h3 style="margin-bottom: 0">{% blocktrans %}Class progress{% endblocktrans %}</h3>
+            <span style="display: inline-block;">{% blocktrans %}on all problems{% endblocktrans %}</span>
+            {{progress_plot|safe}}
+        </div>
+    </div>
+
+
+    <!-- PROBLEM PLOT -->
+    <div class="col-7" style="margin-left: 1rem; height: 100%">
+        <div class="card" style=" height: 100%">
+            <h3 style="margin-bottom: 0">{% blocktrans %}Problems{% endblocktrans %}</h3>
+            <span style="margin-bottom: 1rem; display: inline-block;">{% blocktrans %}class performance by problem{% endblocktrans %}</span>
+            <canvas height="85" id="problem_plot"></canvas>
+        </div>
+    </div>
+</div>
+
+
+<div class="col-12" style="display: flex; padding: 1rem; height: 57rem">
+    <div class="col-7" style="margin-right: 1rem; height: 100%">
+        <div class="card" style="height: calc(50% - 1rem);">
+            <h3 style="margin-bottom: 0.5rem">{% blocktrans %}Students{% endblocktrans %}</h3>
+                <table style="margin-right: 1rem; display: block;">
+                <tr class="row" style="border: none; font-size: 13px; font-weight: 300; background: #EBECEF">
+                    <td style="width: 22%; padding: 0.3rem 0 0.3rem 1rem">{% blocktrans %}Student{% endblocktrans %}</td>
+                    <td style="width: 18%; padding: 0.3rem 0">{% blocktrans %}Solved problems{% endblocktrans %}</td>
+                    <td style="width: 18%; padding: 0.3rem 0; text-align: center;">{% blocktrans %}Time per chapter (avg){% endblocktrans %}</td>
+                    <td style="width: 8%; padding: 0.3rem 0; text-align: center;">{% blocktrans %}Delays{% endblocktrans %}</td>
+                    <td style="width: 16%; padding: 0.3rem 0; text-align: center;">{% blocktrans %}Attempts per problem{% endblocktrans %}</td>
+                    <td style="width: 18%; padding: 0.3rem 0; text-align: center;">{% blocktrans %}Time per problem (avg){% endblocktrans %}</td>
+                </tr>
+            </table>
+            <div style="max-height: 15rem; overflow: auto;">
+                <table>
+                {% for student in infos_per_user %}
+                <tr class="row" onclick="window.location='{% url 'student_dashboard1' id=student.user %}';" style="cursor: pointer;">
+                    <td style="width: 22%">{{student.user_name}}</td>
+                    <td style="width: 18%; padding-left: 0">
+                    <div class="task-progress" style="width: 100%; display: flex;">
+                        <div style="width: {{ student.pfs.0 }}%; background: var(--green); opacity: 1"></div>
+                        <div style="width: {{ student.pfs.1 }}%; background: var(--yellow); opacity: 1"></div>
+                        <div style="width: {{ student.pfs.2 }}%; background: var(--red); opacity: 1"></div>
+                    </div>
+                    <span>{{ student.pfs.0 }}%</span>
+                    </td>
+                    <td style="width: 18%; text-align: center;">{% if student.chapter_time != None %}{{student.chapter_time}} {% blocktrans %}days{% endblocktrans %}{% endif %}</td>
+                    <td style="width: 8%; text-align: center;">{{student.delays}}</td>
+                    <td style="width: 16%; text-align: center;">{% if student.tries != None %}{{student.tries}}{% endif %}</td>
+                    <td style="width: 18%; text-align: center;">{% if student.time != None %}{{student.time}} {% blocktrans %}min{% endblocktrans %}{% endif %}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+        <div class="card" style="height: calc(50% - 1rem); position: relative;">
+            <h3 style="margin-bottom: 0">{% blocktrans %}Students{% endblocktrans %}</h3>
+            <div style="position: absolute; top: 0; left: 60%; width: 30%; height: 90px; display: flex; flex-direction: row; align-items: center; justify-content: space-around;">
+                <span style="margin-right: 7%">Tempo:</span>
+                <div style="border-radius: 50%; width: 12px; height: 12px; background-color: rgb(75, 192, 192);"></div>
+                <div style="border-radius: 50%; width: 18px; height: 18px; background-color: rgb(75, 192, 192);"></div>
+                <div style="border-radius: 50%; width: 24px; height: 24px; background-color: rgb(75, 192, 192);"></div>
+                <div style="border-radius: 50%; width: 30px; height: 30px; background-color: rgb(75, 192, 192);"></div>
+            </div>
+            <span style="margin-bottom: 1rem; display: inline-block;">{% blocktrans %}solving problems performance{% endblocktrans %}</span>
+            <canvas height="85"  id="user_plot"></canvas>
+    </div>
+</div>
+
+
+    <!-- DA TEU JEITO -->
+    <div class="col-5" style="margin-left: 1rem; height: 100%">
+        <div class="card" style=" height: 100%; position: relative; overflow-y: auto;" class="heatmap">
+            <h3 style="margin-bottom: 0">{% blocktrans %}Time{% endblocktrans %}</h3>
+            <span style="margin-bottom: 1rem; display: inline-block;">{% blocktrans %}to end a chapter{% endblocktrans %}</span>
+            <!-- <div style="position: absolute; top: 6.5rem; left: calc(50% - 235px); width: 470px;">{{heatmap_plot|safe}}</div>
+            <div style="position: absolute; top: 6.5rem; left: calc(50% - 235px); width: 470px;">{{heatmap2_plot|safe}}</div> -->
+            <div style="position: absolute; display: flex; flex-wrap: wrap; top: 4.5rem; right: 2rem; align-items: center;">
+                <div style="display: flex; align-items: center;"><div style="width: 0.9rem; height: 0.9rem; background: var(--red); margin-right: 0.5rem"></div><span style="font-size: 0.9rem; margin-right: 1rem;">{% blocktrans %}Not finished{% endblocktrans %}</span></div>
+                <div style="display: flex; align-items: center;"><div style="width: 0.9rem; height: 0.9rem; background: #FEC809; margin-right: 0.5rem"></div><span style="font-size: 0.9rem; margin-right: 1rem;">{% blocktrans %}Finished late{% endblocktrans %}</span></div>
+                <div style="display: flex; align-items: center;"><span style="font-size: 0.9rem; margin-right: 0.3rem;">0</span><div style="width: 2.5rem; height: 0.9rem; margin-right: 0.3rem;
+                    background: rgb(33,150,243);
+                    background: linear-gradient(90deg, rgba(33,150,243,0.2) 0%, rgba(33,150,243,1) 100%); 
+                "></div><span style="font-size: 0.9rem">{% blocktrans %}max. time{% endblocktrans %}</span></div>
+            </div>
+            <div style="height: 85%; display: flex; flex-direction: column; position: relative; margin-top: 10%; justify-content: center;">
+                {% for student in heatmap_colors %}
+                <div style="padding:0; margin:0; height: 20px; width: 100%; display: flex; flex-direction: row; align-items: center;">
+                    <span style="width: 50%; font-size: 15px; overflow: hidden; text-wrap: nowrap; display: flex; justify-content: flex-end; margin-right: 10px;">{{student.name}}</span>
+                    
+                    {% for color in student.colors %}
+                    <div style="width: calc(50% / {{ student.colors|length }}); height: 25px; background-color: {{color}}"></div>
+                    {% endfor %}    
+                    
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div> 
+
+
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</style>
+<script>
+
+infos_per_problem = JSON.parse('{{ infos_per_problem|escapejs }}'.replace(/'/g, '"'))
+infos_per_user = JSON.parse('{{ user_plot|escapejs }}'.replace(/'/g, '"'))
+
+var problems_data = []
+var problems_label = []
+
+var users_data = []
+var users_label = []
+
+const getInfo = () => {
+for(let i = 0; i < infos_per_problem.length; i++){
+    problems_data.push({x: infos_per_problem[i][1], y:infos_per_problem[i][2]})
+    problems_label.push(infos_per_problem[i][0])
+}
+console.log(problems_data)
+for(let i = 0; i < infos_per_user.length; i++){
+    users_data.push({x: infos_per_user[i][3], y: infos_per_user[i][1], r: infos_per_user[i][2] * 2.5})
+    users_label.push(infos_per_user[i][0])
+}
+}
+
+getInfo()
+
+
+
+new Chart(problem_plot, {
+    type: 'scatter',
+    data : {
+        labels: problems_label,
+            datasets: [{
+                data: problems_data,
+                pointBackgroundColor: 'rgb(75, 192, 192)',
+                radius: 5,
+                hoverRadius: 5,
+                hitRadius: -3
+            }]
+    },
+    
+    
+    options: {
+        plugins: {
+            legend: {
+                display: false
+            },
+            tooltip: {
+                label: {
+                    displayColors: false
+                },
+                callbacks: {
+                    label: function(context){
+                        return ''
+                    },
+                    afterLabel: function(context){
+                        label = 'Tentativas: ' + context.parsed.y.toFixed(2) + ' (média)\nTempo: ' + context.parsed.x.toFixed(2) + ' min (média)'
+                        return label
+                    }
+
+                }
+            }
+        },
+        scales: {
+            x: {
+                grid: {
+                    display: false
+                },
+                title:{
+                    text: "Tentativas",
+                    display: true
+                }
+         },
+            y: {
+                grid: {
+                    display: false
+                },
+                title:{
+                    text: "Tempo",
+                    display: true
+                }
+            }
+        },
+}
+});
+
+new Chart(user_plot, {
+    type: 'bubble',
+    data : {
+        labels: users_label,
+            datasets: [{
+                data: users_data,
+                pointBackgroundColor: 'rgb(75, 192, 192)'
+            }]
+    },
+    
+    
+    options: {
+        plugins: {
+            legend: {
+                display: false
+            },
+            tooltip: {
+                label: {
+                    displayColors: false
+                },
+                callbacks: {
+                    label: function(context){
+                        return ''
+                    },
+                    afterLabel: function(context){
+                        label = 'Problemas resolvidos: ' + context.parsed.x + '%\nTentativas: ' + context.parsed.y.toFixed(2) + ' min (média)\nTempo: ' + context.parsed._custom.toFixed(2) + ' (média)' 
+                        return label
+                    }
+
+                }
+            }
+        },
+        scales: {
+            x: {
+                grid: {
+                    display: false
+                },
+                title:{
+                    text: "Porcentagem concluída",
+                    display: true
+                }
+         },
+            y: {
+                grid: {
+                    display: false
+                },
+                title:{
+                    text: "Tentativas",
+                    display: true
+                }
+            }
+        },
+}
+});
+</script>
+
+{% endblock %}
+{% block javascript %}
+<script type="text/javascript">
+
+
+    // Save page access
+    $(document).ready(function() {
+        $.ajax({
+            type: "POST",
+            url: '{% url "saveaccess" %}',
+            data: {
+                'page': 'Class Dashboard',
+                'name': '{{onlineclass.name}}',
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            dataType: 'json',
+            success: function(data){
+            console.log('status: ' + data['status']);
+            },
+            error: function (request, status, error) {
+            console.log(request.status);
+            }
+        });
+    });
+    
+</script>
+{% endblock %}
