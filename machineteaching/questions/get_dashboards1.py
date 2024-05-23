@@ -288,16 +288,22 @@ select
 from 
         auth_user
 	full outer join
-	(select a.user_id as user, passed, fails, skips, (SELECT count("questions_problem"."id") FROM "questions_problem" INNER JOIN "questions_exerciseset" ON ("questions_problem"."id" = "questions_exerciseset"."problem_id") WHERE "questions_exerciseset"."chapter_id" in (SELECT "questions_deadline"."chapter_id" FROM "questions_deadline" INNER JOIN "questions_deadline_onlineclass" ON ("questions_deadline"."id" = "questions_deadline_onlineclass"."deadline_id") WHERE "questions_deadline_onlineclass"."onlineclass_id" = {userclass})) as total from 
+	(select 
+        case
+        when a.user_id IS NOT NULL then a.user_id
+        when b.user_id IS NOT NULL then b.user_id
+        when c.user_id IS NOT NULL then c.user_id
+        end as user, passed, fails, skips, 
+        (SELECT count("questions_problem"."id") FROM "questions_problem" INNER JOIN "questions_exerciseset" ON ("questions_problem"."id" = "questions_exerciseset"."problem_id") WHERE "questions_exerciseset"."chapter_id" in (SELECT "questions_deadline"."chapter_id" FROM "questions_deadline" INNER JOIN "questions_deadline_onlineclass" ON ("questions_deadline"."id" = "questions_deadline_onlineclass"."deadline_id") WHERE "questions_deadline_onlineclass"."onlineclass_id"  = {userclass})) as total
+        from 
 			(select user_id, count(problem_id) as passed from questions_userlogview where user_class_id  = {userclass} and final_outcome = 'P' and problem_id in  (SELECT "questions_problem"."id" FROM "questions_problem" INNER JOIN "questions_exerciseset" ON ("questions_problem"."id" = "questions_exerciseset"."problem_id") WHERE "questions_exerciseset"."chapter_id" in (SELECT "questions_deadline"."chapter_id" FROM "questions_deadline" INNER JOIN "questions_deadline_onlineclass" ON ("questions_deadline"."id" = "questions_deadline_onlineclass"."deadline_id") WHERE "questions_deadline_onlineclass"."onlineclass_id" = {userclass}))  group by user_id) a
 				full outer join 
 			(select user_id, count(problem_id) as fails from questions_userlogview where user_class_id  = {userclass} and final_outcome = 'F' and problem_id in  (SELECT "questions_problem"."id" FROM "questions_problem" INNER JOIN "questions_exerciseset" ON ("questions_problem"."id" = "questions_exerciseset"."problem_id") WHERE "questions_exerciseset"."chapter_id" in (SELECT "questions_deadline"."chapter_id" FROM "questions_deadline" INNER JOIN "questions_deadline_onlineclass" ON ("questions_deadline"."id" = "questions_deadline_onlineclass"."deadline_id") WHERE "questions_deadline_onlineclass"."onlineclass_id" = {userclass}))  group by user_id) b
 				on a.user_id = b.user_id
 				full outer join 
 			(select user_id, count(problem_id) as skips from questions_userlogview where user_class_id  = {userclass} and final_outcome = 'S' and problem_id in  (SELECT "questions_problem"."id" FROM "questions_problem" INNER JOIN "questions_exerciseset" ON ("questions_problem"."id" = "questions_exerciseset"."problem_id") WHERE "questions_exerciseset"."chapter_id" in (SELECT "questions_deadline"."chapter_id" FROM "questions_deadline" INNER JOIN "questions_deadline_onlineclass" ON ("questions_deadline"."id" = "questions_deadline_onlineclass"."deadline_id") WHERE "questions_deadline_onlineclass"."onlineclass_id" = {userclass}))  group by user_id) c
-	 			on a.user_id = c.user_id
-			 where a.user_id is not null
- 		) b
+	 			on b.user_id = c.user_id
+    ) b
  	on auth_user.id = b.user
  	full outer join 
  		(select a.user_id, count(distinct a.problem_id) as done, sum(seconds + seconds_in_page) as seconds, sum(erros_tries + 1) as tries from 
@@ -510,7 +516,10 @@ def get_class_dashboards(onlineclass):
     number_of_problems = len(infos_per_user) * len(infos_per_problem)
     not_done = (number_of_problems - (pfs[0] + pfs[1] + pfs[2])) 
     pfs.append(not_done)
-    text = [str(round(((number_of_problems - not_done) * 100 / number_of_problems))) + "%"]
+    if number_of_problems == 0:
+        text = "Não há dados para essa turma"
+    else:
+        text = [str(round(((number_of_problems - not_done) * 100 / number_of_problems))) + "%"]
     size = [50]
     hole = [0.9]
     progress_plot = create_progress_plot(1, [[pfs[0], pfs[3], pfs[2], pfs[1]]], size, text, hole)

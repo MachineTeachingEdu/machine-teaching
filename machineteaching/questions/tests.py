@@ -80,7 +80,7 @@ class InterfaceTests(DjkSampleTestCase):
     ### não está sendo usada
     def next(self, page):
         page.goto(f"{self.live_server_url}/pt-br/next")
-        self.assertEqual("Finalizado", page.locator('.content .topbar-left .title').text_content())
+        self.assertEqual("Problema", page.locator('.content .topbar-left .title').text_content())
     
     def outcomes(self, page):
         page.goto(f"{self.live_server_url}/pt-br/dashboard")
@@ -143,6 +143,7 @@ class InterfaceTests(DjkSampleTestCase):
         page.keyboard.press("Enter")
         page.keyboard.type("    return 'oi'")
         page.click('text=Executar')
+        time.sleep(5)
 
     def write_terminal(self, page):
         page.locator("div:nth-child(3) > .CodeMirror > .CodeMirror-scroll > .CodeMirror-sizer > div > .CodeMirror-lines > div > .CodeMirror-code").click()
@@ -224,8 +225,6 @@ class InterfaceTests(DjkSampleTestCase):
         self.login(page, settings.TEST_MANAGER, settings.TEST_PASSWORD)
         class_code = self.create_class(page)
         self.create_chapter(page)
-
-        self.class_dashboard(page)
         self.logout(page)
 
 
@@ -262,6 +261,9 @@ class InterfaceTests(DjkSampleTestCase):
  
         print("      - Testando troca de senha...")
         self.password_reset(page)
+
+        self.login(page, settings.TEST_MANAGER, settings.TEST_PASSWORD)
+        self.class_dashboard(page)
 
         page.close()
 
