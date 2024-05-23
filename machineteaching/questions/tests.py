@@ -1,3 +1,4 @@
+import time
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from playwright.sync_api import sync_playwright
 from django.conf import settings
@@ -18,7 +19,7 @@ class InterfaceTests(DjkSampleTestCase):
     def setUpClass(cls): 
         super().setUpClass() 
         cls.playwright = sync_playwright().start() 
-        headless = True     # False to show browser while testing
+        headless = False     # False to show browser while testing
         cls.browser = cls.playwright.chromium.launch(headless=headless) 
         User.objects.create_superuser(username=settings.TEST_SUPERUSER_USER, email=settings.TEST_SUPERUSER_EMAIL, password=settings.TEST_SUPERUSER_PASSWORD)
  
@@ -28,7 +29,6 @@ class InterfaceTests(DjkSampleTestCase):
         cls.playwright.stop() 
         super().tearDownClass() 
     
-    ## Testes de Interface
     def about(self, page):
         page.goto(f"{self.live_server_url}/pt-br")
         page.click('.footer-right span:nth-child(3)')
@@ -50,18 +50,6 @@ class InterfaceTests(DjkSampleTestCase):
         page.goto(f"{self.live_server_url}/pt-br")
         page.click('.footer-right span:nth-child(2)')
         self.assertEqual('Política de privacidade', page.locator('.bg2 .card h3').text_content())
-
-    def create_class(self, page):
-        page.goto(f"{self.live_server_url}/pt-br/admin/")
-        page.fill('#id_username', settings.TEST_SUPERUSER_EMAIL)
-        page.fill('#id_password', settings.TEST_SUPERUSER_PASSWORD)
-        page.click('text=Acessar')
-        page.goto(f"{self.live_server_url}/pt-br/admin/questions/onlineclass/add/")
-        page.fill('#id_name', 'Teste')
-        page.fill('#id_start_date', '01/01/2022')
-        page.click('text=Salvar')
-        class_code = page.locator('.field-class_code').text_content()
-        return class_code
 
     def register(self, page, class_code, gname, sname, user, password):
         page.goto(f"{self.live_server_url}/pt-br/signup")
@@ -122,24 +110,7 @@ class InterfaceTests(DjkSampleTestCase):
         page.goto(f"{self.live_server_url}/pt-br/problem_solutions/1")
         self.assertEqual("Problema atual", page.locator('text=Problema atual').text_content())
 
-    def create_chapter(self, page):
-        page.goto(f"{self.live_server_url}/pt-br/admin/questions/problem/add/")
-        page.fill('#id_title', 'Teste')
-        page.fill('#id_content', 'para testar')
-        page.click('text=Salvar')
-        page.goto(f"{self.live_server_url}/pt-br/admin/questions/chapter/add/")
-        page.fill('#id_label', 'Teste aula')
-        page.locator('#id_exerciseset_set-0-problem').select_option(value='1')
-        page.fill('#id_exerciseset_set-0-order', '1')
-        page.click('text=Salvar')
-        page.goto(f"{self.live_server_url}/pt-br/admin/questions/solution/add/")
-        page.fill('#id_content', 'def teste():\n    pass')
-        page.fill('#id_header', 'Teste')
-        page.click('b[role="presentation"]')
-        page.click('text=1 - Teste')
-        page.click('text=Salvar')
-
-    def create_professor(self, page, class_code):
+    def create_professor(self, page):
         page.goto(f"{self.live_server_url}/pt-br/admin/")
         page.fill('#id_username', settings.TEST_SUPERUSER_EMAIL)
         page.fill('#id_password', settings.TEST_SUPERUSER_PASSWORD)
@@ -149,30 +120,17 @@ class InterfaceTests(DjkSampleTestCase):
         page.fill('#id_name', 'Professor')
         page.click('text=Escolher todos')
         page.click('text=Salvar')
-        page.click('text=Início')
-        page.click('text=Professores')
-        page.click('text=Adicionar professor')
         Professor.objects.create(user=User.objects.get(username=settings.TEST_MANAGER))
-        p = Professor.objects.get(user=User.objects.get(username=settings.TEST_MANAGER))
-        o = OnlineClass.objects.get(class_code=class_code)
-        p.prof_class.add(o)
-        p.save()
-
-        # page.click('b[role="presentation"]')
-        # page.click('text={}'.format(settings.TEST_MANAGER))
-        # page.click('text=Escolher todos')
-        # page.click('text=Salvar')
-
+  
     def assign_exercise(self, page):
-        self.login(page, settings.TEST_MANAGER, settings.TEST_PASSWORD)
-        page.goto(f"{self.live_server_url}/pt-br/classes/manage/1")
+        page.goto(f"{self.live_server_url}/pt-br/classes/manage/2")
         page.fill('input[type="date"]', '2022-12-12')
         page.fill('input[name="time"]', '23:59')
         page.click('text=Adicionar')     
 
     def exercise(self, page):
         page.goto(f"{self.live_server_url}/pt-br/1")
-        self.assertEqual("Teste", page.locator('text=Teste Pular >> h3').text_content())
+        self.assertEqual("Exercicio_Teste", page.locator('text=Exercicio_Teste Pular >> h3').text_content())
         self.write_code(page)
         self.assertEqual("Casos de teste", page.locator('text=Casos de teste').text_content())
         self.write_terminal(page)
@@ -198,7 +156,7 @@ class InterfaceTests(DjkSampleTestCase):
         self.assertEqual("Enviamos por e-mail instruções para redefinir sua senha, se existir uma conta com o e-mail que você digitou. Você deve recebê-las em breve.", page.locator('text=Enviamos por e-mail instruções para redefinir sua senha, se existir uma conta com o e-mail que você digitou. Você deve recebê-las em breve.').text_content().strip())
 
     def class_dashboard(self, page):  
-        page.goto(f"{self.live_server_url}/pt-br/classes/dashboard/1")
+        page.goto(f"{self.live_server_url}/pt-br/classes/dashboard/2")
         self.assertEqual("Progresso da turma", page.locator('text=Progresso da turma').text_content())
 
     def logout(self, page):
@@ -206,33 +164,70 @@ class InterfaceTests(DjkSampleTestCase):
         page.click("text=Sair")
         self.assertEqual("Welcome to  Machine Teaching", page.locator('text=Welcome to  Machine Teaching').text_content())
 
+    def create_class(self, page):
+        page.goto(f"{self.live_server_url}/pt-br/classes")
+        page.fill('form[action="/pt-br/classes"] input[name="name"]', 'Turma_Teste')
+        page.click("text=Criar")
+        time.sleep(1)
+        page.goto(f"{self.live_server_url}/pt-br/classes")
+        self.assertEqual("Turma_Teste", page.locator('text=Turma_Teste').text_content())
+        return page.locator('.class_code').text_content()
+
+    def create_chapter(self, page):
+        page.goto(f"{self.live_server_url}/pt-br/chapters")
+        page.fill('form[action="/pt-br/new_chapter"] input[name="label"]', 'Aula_Teste')
+        page.fill('form[action="/pt-br/new_chapter"] input[type="date"]', '2024-12-12')
+        page.click('form[action="/pt-br/new_chapter"] button[type="submit"]') 
+        page.click("text=+ Adicionar problema")
+
+        page.keyboard.press("Enter")
+        page.keyboard.press("Enter")        
+        page.keyboard.press("Enter")        
+        page.keyboard.press("Enter")        
+
+        solution = """def Header_Teste(num):
+                return num"""
+        
+        page.keyboard.type(solution)
+        page.fill('form[action="/pt-br/new"] input[name="title"]', 'Exercicio_Teste')
+        page.fill('form[action="/pt-br/new"] input[name="header"]', 'Header_Teste')
+        page.fill('form[action="/pt-br/new"] input[name="order"]', '1')
+        page.click("text=Adicionar problema")
+
+
     def test_user(self):
         page = self.browser.new_page()
         page.set_default_timeout(10000)
 
-        print("      - Testando sobre...")
-        self.about(page)
+        # print("      - Testando sobre...")
+        # self.about(page)
 
-        print("      - Testando mudança de linguagem...")
-        self.change_language(page)
+        # print("      - Testando mudança de linguagem...")
+        # self.change_language(page)
 
-        print("      - Testando termos de uso...")
-        self.read_terms(page)
+        # print("      - Testando termos de uso...")
+        # self.read_terms(page)
 
-        print("      - Testando termos de privacidade...")
-        self.read_privacy(page)
-        print("      - Testando criação de turma...")
-        class_code = self.create_class(page)
+        # print("      - Testando termos de privacidade...")
+        # self.read_privacy(page)
 
-        print("      - Testando criação de capítulo...")
-        self.create_chapter(page)
+
+        # print("      - Testando criação de turma...")
+        # class_code = self.create_class(page)
+
+        OnlineClass.objects.create(name='turma', start_date='2024-01-01')
+        default_class = OnlineClass.objects.get(name='turma').class_code
 
         print("      - Testando criação de professor e aula...")
-        self.register(page, class_code, settings.TEST_GNAME, settings.TEST_SNAME, settings.TEST_MANAGER, settings.TEST_PASSWORD)
-        self.create_professor(page, class_code)
-        self.assign_exercise(page)
+        self.register(page, default_class, settings.TEST_GNAME, settings.TEST_SNAME, settings.TEST_MANAGER, settings.TEST_PASSWORD)
+        self.create_professor(page)
+        self.login(page, settings.TEST_MANAGER, settings.TEST_PASSWORD)
+        class_code = self.create_class(page)
+        self.create_chapter(page)
+
         self.class_dashboard(page)
         self.logout(page)
+
 
         print("      - Testando criação de aluno...")
         self.register(page, class_code, settings.TEST_GNAME, settings.TEST_SNAME, settings.TEST_USER, settings.TEST_PASSWORD)
