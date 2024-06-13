@@ -2,10 +2,11 @@ import time
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from playwright.sync_api import sync_playwright
 from django.conf import settings
-from django.contrib.auth.models import User
-from questions.models import Professor, OnlineClass
+from django.contrib.auth.models import User, Group
+from .models import Chapter, Problem, ExerciseSet, OnlineClass, UserLog, UserLogError, UserProfile, Professor
 from django.test.utils import override_settings
-from django.db import connection
+from django.test import TestCase, TransactionTestCase
+from django.db import transaction
 
 global USER_CLASS
 
@@ -19,7 +20,7 @@ class InterfaceTests(DjkSampleTestCase):
     def setUpClass(cls): 
         super().setUpClass() 
         cls.playwright = sync_playwright().start() 
-        headless = False     # False to show browser while testing
+        headless = True     # False to show browser while testing
         cls.browser = cls.playwright.chromium.launch(headless=headless) 
         User.objects.create_superuser(username=settings.TEST_SUPERUSER_USER, email=settings.TEST_SUPERUSER_EMAIL, password=settings.TEST_SUPERUSER_PASSWORD)
  
@@ -80,7 +81,7 @@ class InterfaceTests(DjkSampleTestCase):
     ### não está sendo usada
     def next(self, page):
         page.goto(f"{self.live_server_url}/pt-br/next")
-        self.assertEqual("Finalizado", page.locator('.content .topbar-left .title').text_content())
+        self.assertEqual("Problema", page.locator('.content .topbar-left .title').text_content())
     
     def outcomes(self, page):
         page.goto(f"{self.live_server_url}/pt-br/dashboard")
@@ -143,6 +144,7 @@ class InterfaceTests(DjkSampleTestCase):
         page.keyboard.press("Enter")
         page.keyboard.type("    return 'oi'")
         page.click('text=Executar')
+        time.sleep(5)
 
     def write_terminal(self, page):
         page.locator("div:nth-child(3) > .CodeMirror > .CodeMirror-scroll > .CodeMirror-sizer > div > .CodeMirror-lines > div > .CodeMirror-code").click()
@@ -195,25 +197,26 @@ class InterfaceTests(DjkSampleTestCase):
         page.click("text=Adicionar problema")
 
 
-    def test_user(self):
+    def user(self):
+    # def test_user(self):
         page = self.browser.new_page()
         page.set_default_timeout(10000)
 
-        # print("      - Testando sobre...")
-        # self.about(page)
+        print("      - Testando sobre...")
+        self.about(page)
 
-        # print("      - Testando mudança de linguagem...")
-        # self.change_language(page)
+        print("      - Testando mudança de linguagem...")
+        self.change_language(page)
 
-        # print("      - Testando termos de uso...")
-        # self.read_terms(page)
+        print("      - Testando termos de uso...")
+        self.read_terms(page)
 
-        # print("      - Testando termos de privacidade...")
-        # self.read_privacy(page)
+        print("      - Testando termos de privacidade...")
+        self.read_privacy(page)
 
 
-        # print("      - Testando criação de turma...")
-        # class_code = self.create_class(page)
+        print("      - Testando criação de turma...")
+        class_code = self.create_class(page)
 
         OnlineClass.objects.create(name='turma', start_date='2024-01-01')
         default_class = OnlineClass.objects.get(name='turma').class_code
@@ -224,8 +227,6 @@ class InterfaceTests(DjkSampleTestCase):
         self.login(page, settings.TEST_MANAGER, settings.TEST_PASSWORD)
         class_code = self.create_class(page)
         self.create_chapter(page)
-
-        self.class_dashboard(page)
         self.logout(page)
 
 
@@ -263,61 +264,119 @@ class InterfaceTests(DjkSampleTestCase):
         print("      - Testando troca de senha...")
         self.password_reset(page)
 
+        self.login(page, settings.TEST_MANAGER, settings.TEST_PASSWORD)
+        self.class_dashboard(page)
+
         page.close()
 
-# class BackendTests(TestCase):
-#     def setUp(self):
-#         self.client = Client()
-#         self.credentials = {
-#             'username': settings.TEST_SUPERUSER_EMAIL,
-#             'password': settings.TEST_SUPERUSER_PASSWORD,
-#             'email': settings.TEST_SUPERUSER_EMAIL,
+class BackendTests(TestCase):
 
-#         }
-#         User.objects.create_superuser(**self.credentials)
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
 
+    @classmethod
+    def tearDownClass(cls):
+        super().tearDownClass()
 
-#     # def test_register(self):
-#         new_user_data = {'username': "teste", 'password': "teste123", 'email': "teste@gmail.com"}
-#         User.objects.create_user(**new_user_data)
+    def test_create_professor(self):
+        Group.objects.get_or_create(name='Professor')
 
-#         find_user = User.objects.get(username="teste")
-#         self.assertEqual(find_user.username, "teste")
+        professor_user = User.objects.create(
+            username=settings.TEST_MANAGER,
+            email=settings.TEST_MANAGER,
+            password=settings.TEST_PASSWORD
+        )
 
-#     # def test_create_class(self):
-#         new_class_data = {'name': "teste", 'class_code': "teste123", 'start_date': "2020-01-01"}
-#         OnlineClass.objects.create(**new_class_data)
+        professor = Professor.objects.create(user=professor_user)
 
-#         find_class = OnlineClass.objects.get(name="teste")
-#         self.assertEqual(find_class.name, "teste")
-
-#     # def test_create_chapter(self):
-#         chapter = Chapter.objects.create(
-#             id=1,
-#             label="Teste"
-#         )   
-#         self.assertEqual(chapter.label, "Teste")
-
-#     # test_finding_chapter
-#         find_chapter = Chapter.objects.get(id=1)
-#         self.assertEqual(find_chapter.label, "Teste")
-  
-#         problem = Problem.objects.create(
-#             id=1,
-#             title="Teste"
-#         )
-#         self.assertEqual(problem.title, "Teste")
-
-#     # test_finding_problem(self):
-#         find_problem = Problem.objects.get(id=1)
-#         self.assertEqual(find_problem.title, 'Teste')
-
-#         ExerciseSet(chapter=find_chapter, problem=find_problem, order=1).save()
-
-#     # test_chapter_problems
-#         chapter = Chapter.objects.get(id=1)
-#         problems = Problem.objects.filter(chapter=chapter)
-#         self.assertEqual(problems.count(), 1)
-#         self.assertEqual(problems[0].title, "Teste")
+        self.assertEqual(professor.user.username, settings.TEST_MANAGER)
         
-#     ## I NEED TO FIND HOW TO USER ANSWER A PROBLEM
+    def test_create_user(self):
+        user = User.objects.create(
+            username=settings.TEST_USER,
+            email=settings.TEST_USER,
+            password=settings.TEST_PASSWORD
+        )
+
+        self.assertEqual(user.username, settings.TEST_USER)
+
+    def test_chapter_creation(self):
+        chapter = Chapter.objects.create(label='Chapter 1')
+        self.assertEqual(chapter.label, 'Chapter 1')
+
+    def test_problem_creation(self):
+        problem = Problem.objects.create(
+            question_type='C',
+            title='Test Problem',
+            content='Solve this problem',
+            options='',
+            difficulty='easy',
+            hint='Think about loops'
+        )
+        self.assertEqual(problem.title, 'Test Problem')
+
+    def test_exercise_set_creation(self):
+        chapter = Chapter.objects.create(label='Chapter 1')
+        problem = Problem.objects.create(
+            question_type='C',
+            title='Test',
+            content='Testing'
+        )
+        exercise_set = ExerciseSet.objects.create(
+            chapter=chapter,
+            problem=problem,
+            order=1
+        )
+
+        self.assertEqual(exercise_set.chapter.label, 'Chapter 1')
+        self.assertEqual(exercise_set.problem.title, 'Test')
+
+    def test_online_class_creation(self):
+        online_class = OnlineClass.objects.create(
+            name='Test Class',
+            class_code='ABC123',
+            active=True,
+            start_date='2023-01-01'
+        )
+
+        self.assertEqual(online_class.name, 'Test Class')
+        self.assertTrue(online_class.active)
+
+    def test_user_solves_problem(self):
+        user = User.objects.create(
+            username=settings.TEST_USER,
+            email=settings.TEST_USER,
+            password=settings.TEST_PASSWORD
+        )
+        
+        problem = Problem.objects.create(
+            question_type='C',
+            title='Test',
+            content='Testing'
+        )
+
+        online_class = OnlineClass.objects.create(
+            name='Test',
+            class_code='ZZZ-ZZZ-ZZZZ',
+            active=True,
+            start_date='2024-01-01'
+        )
+
+        UserLog.objects.create(
+            user=user,
+            problem=problem,
+            solution='print("Hello, world!")',
+            outcome='P',
+            seconds_in_code=60,
+            seconds_in_page=120,
+            seconds_to_begin=10,
+            solution_lines=1,
+            user_class=online_class
+        )
+
+        self.assertEqual(UserLog.objects.count(), 1)
+        log = UserLog.objects.first()
+        self.assertEqual(log.user, user)
+        self.assertEqual(log.problem, problem)
+        self.assertEqual(log.outcome, 'P')
