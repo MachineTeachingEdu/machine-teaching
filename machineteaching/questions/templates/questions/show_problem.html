@@ -36,6 +36,9 @@
             <button class="primary" id="run" onclick="runit({{test_case|safe|escape_doublequote}}, '{{header}}', {{expected_results|safe|escape_doublequote}})">
             {% blocktrans %}Run{% endblocktrans %}
             </button>
+            <button class="primary" id="python_tutor" onclick="python_tutor()">
+                {% blocktrans %}Python Tutor{% endblocktrans %}
+                </button>
             <div class="loader" style="display: none;">
                 <div></div>
             </div>
@@ -218,6 +221,30 @@
         }
     });
     }
+
+    //python tutor code embeed
+    function python_tutor(){
+
+            var codigo = editor.getValue();
+
+            $.ajax({
+                type: "POST",
+                url: '{% url 'python_tutor' %}',
+                data: {
+                            'codigo': codigo,
+                            'csrfmiddlewaretoken': '{{ csrf_token }}',
+                        },
+                        dataType: 'json',
+                        success: function(data){
+                        console.log(data['codigo_aluno']);
+                        window.open(data['link_fixo'] + data['codigo_aluno'], "_blank");
+                        },
+                        error: function (request, status, error) {
+                        console.log(request.status);
+                        }
+                        });
+
+                            }
 
     function answer() {
         {% if problem.question_type == 'M' %}

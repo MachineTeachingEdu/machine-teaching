@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-01 11:25-0300\n"
+"POT-Creation-Date: 2024-06-06 11:25-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -54,7 +54,7 @@ msgstr "Eu aceito os "
 
 #: questions/forms.py:31 questions/templates/503.html:42
 #: questions/templates/index.html:96
-#: questions/templates/questions/about.html:234
+#: questions/templates/questions/about.html:221
 #: questions/templates/questions/base.html:118
 #: questions/templates/registration/base.html:66
 #: questions/templates/registration/signup.html:142
@@ -67,7 +67,7 @@ msgstr "Eu li a "
 
 #: questions/forms.py:32 questions/templates/503.html:46
 #: questions/templates/index.html:100
-#: questions/templates/questions/about.html:238
+#: questions/templates/questions/about.html:225
 #: questions/templates/questions/base.html:122
 #: questions/templates/registration/base.html:70
 #: questions/templates/registration/signup.html:147
@@ -102,7 +102,7 @@ msgstr "Turma"
 #: questions/get_dashboards.py:428 questions/get_dashboards.py:463
 #: questions/get_dashboards.py:503 questions/get_dashboards.py:521
 #: questions/get_dashboards.py:556 questions/get_dashboards.py:1512
-#: questions/get_dashboards.py:1529 questions/models.py:32
+#: questions/get_dashboards.py:1529 questions/models.py:33
 #: questions/templates/questions/class_dashboard.html:66
 #: questions/templates/questions/manager_dashboard.html:28
 #: questions/templates/questions/new_problem.html:44
@@ -151,7 +151,7 @@ msgstr "O horário deve estar no formato \"HH:MM\" e deve ser válido."
 #: questions/templates/questions/past_solutions.html:188
 #: questions/templates/questions/problem_solutions.html:15
 #: questions/templates/questions/show_chapter.html:25
-#: questions/templates/questions/show_problem.html:122
+#: questions/templates/questions/show_problem.html:125
 #: questions/templates/questions/solutions.html:46
 #: questions/templates/questions/student_logs.html:9
 #: questions/templates/questions/student_logs.html:12
@@ -175,7 +175,7 @@ msgstr "Passou"
 #: questions/templates/questions/past_solutions.html:189
 #: questions/templates/questions/problem_solutions.html:17
 #: questions/templates/questions/show_chapter.html:29
-#: questions/templates/questions/show_problem.html:123
+#: questions/templates/questions/show_problem.html:126
 #: questions/templates/questions/solutions.html:48
 #: questions/templates/questions/student_logs.html:15
 #: questions/templates/questions/student_logs.html:18
@@ -255,7 +255,7 @@ msgid "Time (days)"
 msgstr "Tempo (dias)"
 
 #: questions/get_dashboards.py:577 questions/templates/questions/base.html:46
-#: questions/views.py:449
+#: questions/views.py:451
 msgid "Outcomes"
 msgstr "Resultados"
 
@@ -308,11 +308,11 @@ msgstr "Tentativas por problema"
 msgid "Time per problem (minutes)"
 msgstr "Tempo por problema (minutos)"
 
-#: questions/get_problem.py:52 questions/models.py:70
+#: questions/get_problem.py:52 questions/models.py:71
 msgid "Problem"
 msgstr "Problema"
 
-#: questions/models.py:33 questions/templates/questions/base.html:42
+#: questions/models.py:34 questions/templates/questions/base.html:42
 #: questions/templates/questions/base.html:57
 #: questions/templates/questions/class_dashboard.html:63
 #: questions/templates/questions/class_dashboard.html:106
@@ -323,11 +323,11 @@ msgstr "Problema"
 #: questions/templates/questions/show_class.html:8
 #: questions/templates/questions/student_dashboard.html:74
 #: questions/templates/questions/student_dashboard1.html:73
-#: questions/views.py:271
+#: questions/views.py:273
 msgid "Chapters"
 msgstr "Aulas"
 
-#: questions/models.py:71 questions/templates/questions/class_dashboard.html:17
+#: questions/models.py:72 questions/templates/questions/class_dashboard.html:17
 #: questions/templates/questions/manager_dashboard.html:16
 #: questions/templates/questions/show_chapter.html:7
 #: questions/templates/questions/student_dashboard.html:11
@@ -335,23 +335,23 @@ msgstr "Aulas"
 msgid "Problems"
 msgstr "Problemas"
 
-#: questions/models.py:87
+#: questions/models.py:88
 msgid "Exercise Set"
 msgstr ""
 
-#: questions/models.py:88
+#: questions/models.py:89
 msgid "Exercises Sets"
 msgstr ""
 
-#: questions/models.py:100
+#: questions/models.py:101
 msgid "OnlineClass"
 msgstr "Turma"
 
-#: questions/models.py:101
+#: questions/models.py:102
 msgid "OnlineClasses"
 msgstr "Turmas"
 
-#: questions/models.py:118 questions/templates/questions/chapters.html:18
+#: questions/models.py:119 questions/templates/questions/chapters.html:18
 #: questions/templates/questions/chapters.html:19
 #: questions/templates/questions/home.html:73
 #: questions/templates/questions/show_chapter.html:74
@@ -360,83 +360,83 @@ msgstr "Turmas"
 msgid "Deadline"
 msgstr "Data de entrega"
 
-#: questions/models.py:119
+#: questions/models.py:120
 msgid "Deadlines"
 msgstr "Prazos"
 
-#: questions/models.py:142
+#: questions/models.py:143
 msgid "Professors"
 msgstr "Professores"
 
-#: questions/models.py:174
+#: questions/models.py:175
 msgid "User profile"
 msgstr "Perfil do usuário"
 
-#: questions/models.py:175
+#: questions/models.py:176
 msgid "User profiles"
 msgstr "Perfis dos usuários"
 
-#: questions/models.py:209 questions/templates/questions/new_problem.html:62
+#: questions/models.py:210 questions/templates/questions/new_problem.html:62
 #: questions/templates/questions/past_solutions.html:62
-#: questions/templates/questions/student_logs.html:37 questions/views.py:469
+#: questions/templates/questions/student_logs.html:37 questions/views.py:471
 msgid "Solution"
 msgstr "Solução"
 
-#: questions/models.py:210 questions/templates/questions/past_problems.html:38
+#: questions/models.py:211 questions/templates/questions/past_problems.html:38
 #: questions/templates/questions/show_class.html:75
 #: questions/templates/questions/student_solutions.html:13
 msgid "Solutions"
 msgstr "Soluções"
 
-#: questions/models.py:219
+#: questions/models.py:220
 msgid "Test Case"
 msgstr "Caso de Teste"
 
-#: questions/models.py:220
+#: questions/models.py:221
 msgid "Test Cases"
 msgstr "Casos de Teste"
 
-#: questions/models.py:248
+#: questions/models.py:249
 msgid "User log"
 msgstr "Log do usuário"
 
-#: questions/models.py:249
+#: questions/models.py:250
 msgid "User logs"
 msgstr "Logs dos usuários"
 
-#: questions/models.py:294
+#: questions/models.py:295
 msgid "Page access"
 msgstr "Acesso"
 
-#: questions/models.py:295
+#: questions/models.py:296
 msgid "Page accesses"
 msgstr "Acessos"
 
-#: questions/models.py:304
+#: questions/models.py:305
 msgid "Interactive"
 msgstr ""
 
-#: questions/models.py:312
+#: questions/models.py:313
 msgid "Recommendations"
 msgstr "Recomendações"
 
-#: questions/models.py:321
+#: questions/models.py:322
 msgid "Comment"
 msgstr "Comentário"
 
-#: questions/models.py:330
+#: questions/models.py:331
 msgid "Drop out model"
 msgstr "Risco de abandono"
 
-#: questions/models.py:331
+#: questions/models.py:332
 msgid "Drop out models"
 msgstr "Risco de abandono"
 
-#: questions/models.py:347
+#: questions/models.py:348
 msgid "Collaborator"
 msgstr "Coaborador"
 
-#: questions/models.py:348
+#: questions/models.py:349
 msgid "Collaborators"
 msgstr "Colaboradores"
 
@@ -451,21 +451,22 @@ msgstr "Bem-vindo ao"
 
 #: questions/templates/503.html:35 questions/templates/503.html:49
 #: questions/templates/index.html:89 questions/templates/index.html:103
-#: questions/templates/questions/about.html:241
+#: questions/templates/questions/about.html:40
+#: questions/templates/questions/about.html:228
 #: questions/templates/questions/base.html:125
 #: questions/templates/registration/base.html:73
 msgid "About this research"
 msgstr "Sobre a pesquisa"
 
 #: questions/templates/503.html:40 questions/templates/index.html:94
-#: questions/templates/questions/about.html:232
+#: questions/templates/questions/about.html:219
 #: questions/templates/questions/base.html:116
 #: questions/templates/registration/base.html:64
 msgid "Check the "
 msgstr "Veja os "
 
 #: questions/templates/503.html:44 questions/templates/index.html:98
-#: questions/templates/questions/about.html:236
+#: questions/templates/questions/about.html:223
 #: questions/templates/questions/base.html:120
 #: questions/templates/registration/base.html:68
 msgid "and the "
@@ -491,7 +492,7 @@ msgstr "Começar"
 #: questions/templates/index.html:60
 #: questions/templates/registration/login.html:34
 #: questions/templates/registration/signup.html:7
-#: questions/templates/registration/signup.html:151 questions/views.py:106
+#: questions/templates/registration/signup.html:151 questions/views.py:108
 msgid "Create account"
 msgstr "Criar conta"
 
@@ -524,32 +525,74 @@ msgid "Stimulate students to learn the Python language "
 msgstr "Estimular o aprendizado da linguagem Python"
 
 #: questions/templates/index.html:105
-#: questions/templates/questions/about.html:243
+#: questions/templates/questions/about.html:230
 #: questions/templates/questions/base.html:130
 msgid "GPL-3.0 License"
 msgstr "Licença GPL-3.0"
 
-#: questions/templates/questions/about.html:8
+#: questions/templates/questions/about.html:9
 msgid "Sobre a pesquisa"
 msgstr ""
 
-#: questions/templates/questions/about.html:163
+#: questions/templates/questions/about.html:42
+msgid "It is important to understand why students succeed or fail when taking a course so we can improve teaching methods by identifying students needs and to provide personalized education. Smart learning content is defined as visualizations, simulations and web-based environments that provide outputs for students based on the students input [1]. The adoption of smart learning content in classrooms and in self-learning environments motivates students [2]–[5], improves student learning, decreases student dropout or failure [2], [6]–[8] while increasing their self-confidence, especially in female students [6]."
+msgstr "É importante entender os motivos por que alguns alunos são mais bem-sucedidos do que outros ao fazer um curso, para que possamos aprimorar os métodos de ensino ao identificar as necessidades dos alunos e oferecer uma educação personalizada. Um ambiente de aprendizagem inteligente é aquele que provê visualizações, simulações e inferências aos alunos e educadores a partir de dados coletados dinamicamente [1]. Sabe-se que a adoção de um ambiente de aprendizagem inteligente em salas de aula e em ambientes de auto-aprendizagem ajuda a motivar os alunos [2]-[5], melhorar a aprendizagem, diminuir os casos de abandono e a reprovação [2], [6]-[8], enquanto aumenta a autoconfiança dos alunos, especialmente em estudantes do sexo feminino [6]."
+
+#: questions/templates/questions/about.html:52
+msgid "Also, Python is a general-purpose language, which means it can be used in a large variety of projects. This can be great to stimulate students, since they can work in projects they actually relate to. Python is also user-friendly and for the past seven years, it has been the fastest-growing major programming language [9], being correlated with trending careers, such as DevOps and Data Scientist [10]. According to the 2015 review [8], only 11 of the Educational Data Mining and Learning Analytics papers about programming courses reported using Python as the course language. However, this is changing. A 2017 review on the Introductory Programming courses in Australasia universities [11] reported a shift from Java to Python in the past years and the 2018 review on Introductory Programming literature [12] already presents a higher number of papers using Python as the course language. Nonetheless, even though we already have different tools to support online learning, it is still hard to find open datasets containing student submissions for Python problems and related information that can be important to get a better insight on students knowledge."
+msgstr "Além disso, o Python é uma linguagem de propósito geral, o que significa que pode ser usada em uma grande variedade de projetos. Isso é ótimo para estimular os alunos, pois eles podem trabalhar em projetos com os quais realmente se identificam. Python também possui uma interface amigável e, nos últimos sete anos, tem sido a linguagem de programação com maior crescimento em termos de adoção [9], estando correlacionada com carreiras em alta, como DevOps e Cientista de Dados [10]. De acordo com a revisão de 2015 [8],apenas 11 dos artigos de Mineração de Dados Educacionais e Learning Analytics sobre cursos de programação relataram o uso de Python como a linguagem utilizada no curso. No entanto, isso está mudando. Uma revisão de 2017 sobre os cursos de Introdução à Programação nas universidades da Australásia [11] relatou uma mudança de Java para Python nos últimos anos enquanto a revisão de 2018 [12] já apresentou um número maior de artigos usando Python como a linguagem principal do curso. Ainda assim, embora já tenhamos diferentes ferramentas para apoiar a aprendizagem online, ainda é difícil encontrar bancos de dados abertos contendo respostas e submissões de alunos para problemas em Python e outras informações importantes para se obter uma melhor percepção do conhecimento dos alunos."
+
+#: questions/templates/questions/about.html:69
+msgid "These factors motivate our objective: the creation, deployment and use of online intelligent systems in Introduction to Programming classes using the Python language as a way to uncover students’ difficulties, to understand their knowledge and to provide timely feedback to keep students engaged."
+msgstr "As condições apresentadas motivam nossos principais objetivos: o desenvolvimento, a implantação e o uso de sistemas inteligentes online em aulas de Introdução à Programação usando a linguagem Python como uma forma de descobrir as dificuldades dos alunos, compreender seus conhecimentos e processos cognitivos de aprendizado e fornecer feedback para mantê-los envolvidos e engajados."
+
+#: questions/templates/questions/about.html:75
+msgid "References"
+msgstr "Referências"
+
+#: questions/templates/questions/about.html:92
+msgid "Interested? Take a look at "
+msgstr "Se interessou? Veja mais em"
+
+#: questions/templates/questions/about.html:94
+msgid " Our "
+msgstr "Nosso"
+
+#: questions/templates/questions/about.html:134
+msgid "Team"
+msgstr "Equipe"
+
+#: questions/templates/questions/about.html:144
 #, python-format
 msgid " %(x.description)s "
 msgstr ""
+
+#: questions/templates/questions/about.html:158
+#, fuzzy
+#| msgid "Collaborators"
+msgid "Past collaborators"
+msgstr "Colaboradores passados"
+
+#: questions/templates/questions/about.html:178
+msgid "Support"
+msgstr "Apoio"
+
+#: questions/templates/questions/about.html:203
+msgid "Universities using this research"
+msgstr "Universidades que utilizam o projeto"
 
 #: questions/templates/questions/base.html:40
 msgid "Current problem"
 msgstr "Problema atual"
 
-#: questions/templates/questions/base.html:41 questions/views.py:215
+#: questions/templates/questions/base.html:41 questions/views.py:217
 msgid "Past problems"
 msgstr "Problemas passados"
 
 #: questions/templates/questions/base.html:44
 #: questions/templates/questions/manager_dashboard.html:82
 #: questions/templates/questions/manager_dashboard.html:118
-#: questions/views.py:698
+#: questions/views.py:700
 msgid "Classes"
 msgstr "Turmas"
 
@@ -1040,24 +1083,24 @@ msgid "Add comment"
 msgstr "Adicionar comentário"
 
 #: questions/templates/questions/past_solutions.html:184
-#: questions/templates/questions/show_problem.html:69
-#: questions/templates/questions/show_problem.html:84
-#: questions/templates/questions/show_problem.html:118
+#: questions/templates/questions/show_problem.html:72
+#: questions/templates/questions/show_problem.html:87
+#: questions/templates/questions/show_problem.html:121
 msgid "Next"
 msgstr "Próximo"
 
 #: questions/templates/questions/past_solutions.html:185
-#: questions/templates/questions/show_problem.html:119
+#: questions/templates/questions/show_problem.html:122
 msgid "Input:"
 msgstr "Entrada:"
 
 #: questions/templates/questions/past_solutions.html:186
-#: questions/templates/questions/show_problem.html:120
+#: questions/templates/questions/show_problem.html:123
 msgid "Expected output:"
 msgstr "Retorno esperado:"
 
 #: questions/templates/questions/past_solutions.html:187
-#: questions/templates/questions/show_problem.html:121
+#: questions/templates/questions/show_problem.html:124
 msgid "Your output:"
 msgstr "Seu retorno:"
 
@@ -1103,17 +1146,21 @@ msgstr "Pular"
 msgid "Run"
 msgstr "Executar"
 
-#: questions/templates/questions/show_problem.html:66
-#: questions/templates/questions/show_problem.html:77
-#: questions/templates/questions/show_problem.html:81
+#: questions/templates/questions/show_problem.html:40
+msgid "Python Tutor"
+msgstr "Python Tutor"
+
+#: questions/templates/questions/show_problem.html:69
+#: questions/templates/questions/show_problem.html:80
+#: questions/templates/questions/show_problem.html:84
 msgid "Answer"
 msgstr "Responder"
 
-#: questions/templates/questions/show_problem.html:125
+#: questions/templates/questions/show_problem.html:128
 msgid "Error"
 msgstr "Erro"
 
-#: questions/templates/questions/show_problem.html:126
+#: questions/templates/questions/show_problem.html:129
 msgid ""
 "The solution uses <strong>print</strong> command, breaking the rule that the "
 "entire result of the function must be returned exclusively through its "
@@ -1292,27 +1339,27 @@ msgstr ""
 "númerica.\n"
 "                                "
 
-#: questions/views.py:146
+#: questions/views.py:148
 msgid "Finished"
 msgstr "Finalizado"
 
-#: questions/views.py:503
+#: questions/views.py:505
 msgid "Problem solutions"
 msgstr "Solução"
 
-#: questions/views.py:534
+#: questions/views.py:536
 msgid "Student solutions"
 msgstr "Solução"
 
-#: questions/views.py:621
+#: questions/views.py:623
 msgid "New problem"
 msgstr "Novo problema"
 
-#: questions/views.py:671
+#: questions/views.py:673
 msgid "Edit profile"
 msgstr "Perfil do usuário"
 
-#: questions/views.py:882
+#: questions/views.py:884
 msgid "home"
 msgstr "início"
 
@@ -1373,111 +1420,10 @@ msgstr "início"
 #~ msgid "ABOUT THIS RESEARCH"
 #~ msgstr "SOBRE A PESQUISA"
 
-#~ msgid ""
-#~ "It is important to understand why students succeed or fail when taking a\n"
-#~ "    course so we can <span class=\"highlight\">improve teaching methods</"
-#~ "span> by identifying students' needs\n"
-#~ "    and to <span class=\"highlight\">provide personalized education</"
-#~ "span>. Smart learning content is defined as\n"
-#~ "visualizations, simulations and web-based environments that provide "
-#~ "outputs\n"
-#~ "for students based on the students' input [1]. The adoption of smart\n"
-#~ "learning content in classrooms and in self-learning environments <span "
-#~ "class=\"highlight\">motivates\n"
-#~ "students [2]–[5], improves student learning, decreases student dropout "
-#~ "or\n"
-#~ "failure [2], [6]–[8] while increasing their self-confidence, especially "
-#~ "in\n"
-#~ "female students [6].</span>"
-#~ msgstr ""
-#~ "É importante entender os motivos por que alguns alunos são mais bem-"
-#~ "sucedidos do que outros ao fazer um curso, para que possamos <span "
-#~ "class=\"highlight\">aprimorar os métodos de ensino</span> ao identificar "
-#~ "as necessidades dos alunos e <span class=\"highlight\">oferecer uma "
-#~ "educação personalizada</span>. Um ambiente de aprendizagem inteligente é "
-#~ "aquele que provê visualizações, simulações e inferências aos alunos e "
-#~ "educadores a partir de dados coletados dinamicamente [1]. Sabe-se que a "
-#~ "adoção de um ambiente de aprendizagem inteligente em salas de aula e em "
-#~ "ambientes de auto-aprendizagem ajuda a <span class=\"highlight\">motivar "
-#~ "os alunos [2]-[5], melhorar a aprendizagem, diminuir os casos de abandono "
-#~ "e a reprovação [2], [6]-[8], enquanto aumenta a autoconfiança dos alunos, "
-#~ "especialmente em estudantes do sexo feminino [6].</span>"
 
-#~ msgid ""
-#~ "Also, Python is a general-purpose language, which means it can be used in "
-#~ "a\n"
-#~ "large variety of projects. This can be great to stimulate students, since "
-#~ "they\n"
-#~ "can work in projects they actually relate to. Python is also user-"
-#~ "friendly and\n"
-#~ "for the past seven years, it has been the fastest-growing major "
-#~ "programming\n"
-#~ "language [9], <span class=\"highlight\">being correlated with trending "
-#~ "careers, such as DevOps and Data\n"
-#~ "    Scientist [10]</span>. According to the 2015 review [8], only 11&#37; "
-#~ "of the Educational\n"
-#~ "Data Mining and Learning Analytics papers about programming courses "
-#~ "reported\n"
-#~ "using Python as the course language. However, this is changing. A 2017 "
-#~ "review\n"
-#~ "on the Introductory Programming courses in Australasia universities [11]\n"
-#~ "reported a shift from Java to Python in the past years and the 2018 "
-#~ "review on\n"
-#~ "Introductory Programming literature [12] already presents a higher number "
-#~ "of\n"
-#~ "papers using Python as the course language. Nonetheless, even though we "
-#~ "already\n"
-#~ "have different tools to support online learning, it is still hard to find "
-#~ "open\n"
-#~ "datasets containing student submissions for Python problems and related\n"
-#~ "information that can be important to get a better insight on students'\n"
-#~ "knowledge."
-#~ msgstr ""
-#~ "Além disso, o Python é uma linguagem de propósito geral, o que significa "
-#~ "que pode ser usada em uma grande variedade de projetos. Isso é ótimo para "
-#~ "estimular os alunos, pois eles podem trabalhar em projetos com os quais "
-#~ "realmente se identificam. Python também possui uma interface amigável e, "
-#~ "nos últimos sete anos, tem sido a linguagem de programação com maior "
-#~ "crescimento em termos de adoção [9],<span class=\"highlight\"> estando "
-#~ "correlacionada com carreiras em alta, como DevOps e Cientista de Dados "
-#~ "[10]</span>. De acordo com a revisão de 2015 [8],apenas 11&#37; dos "
-#~ "artigos de Mineração de Dados Educacionais e <i>Learning Analytics</i> "
-#~ "sobre cursos de programação relataram o uso de Python como a linguagem "
-#~ "utilizada no curso.  No entanto, isso está mudando. Uma revisão de 2017 "
-#~ "sobre os cursos de Introdução à Programação nas universidades da "
-#~ "Australásia [11] relatou uma mudança de Java para Python nos últimos anos "
-#~ "enquanto a revisão de 2018 [12] já apresentou um número maior de artigos "
-#~ "usando Python como a linguagem principal do curso. Ainda assim, embora já "
-#~ "tenhamos diferentes ferramentas para apoiar a aprendizagem online, ainda "
-#~ "é difícil encontrar bancos de dados abertos contendo respostas e "
-#~ "submissões de alunos para problemas em Python e outras informações "
-#~ "importantes para se obter uma melhor percepção do conhecimento dos alunos."
-
-#~ msgid ""
-#~ "These factors motivate our objective: the creation, deployment and use "
-#~ "of\n"
-#~ "online intelligent systems in Introduction to Programming classes using "
-#~ "the\n"
-#~ "Python language as a way to <span class=\"highlight\">uncover students’ "
-#~ "difficulties, to understand their\n"
-#~ "    knowledge and to provide timely feedback to keep students engaged.</"
-#~ "span>"
-#~ msgstr ""
-#~ "As condições apresentadas motivam nossos principais objetivos: o "
-#~ "desenvolvimento, a implantação e o uso de sistemas inteligentes online em "
-#~ "aulas de Introdução à Programação usando a linguagem Python como uma "
-#~ "forma de <span class=\"highlight\">descobrir as dificuldades dos alunos, "
-#~ "compreender seus conhecimentos e processos cognitivos de aprendizado e "
-#~ "fornecer feedback para mantê-los envolvidos e engajados.</span>"
-
-#~ msgid "Interested? Take a look at "
-#~ msgstr "Se interessou? Leia o"
 
 #~ msgid "our paper"
 #~ msgstr "nosso artigo"
-
-#~ msgid "References:"
-#~ msgstr "Referências:"
 
 #~ msgid "Signup"
 #~ msgstr "Cadastro"
@@ -1784,3 +1730,39 @@ msgstr "início"
 #~ "seletivo e trabalhando com as áreas de funcionalidades e infraestrutura "
 #~ "da plataforma. Atualmente, é aluno de Iniciação Científica do projeto com "
 #~ "bolsa privada."
+
+msgid "has bachelor degree (1975) and master 's degree in Electrical Engineering at Pontificia Catholic University of Rio de Janeiro. In 1987, he finished his doctorate degree at Imperial College of Science, Technology and Medicine, University of London. At the moment he’s a teacher from Federal University of Rio de Janeiro where he leads the Artificial Intelligence sector from the Systems and Computing department at COPPE (PESC/COPPE). He's been a visiting researcher at University of Salamanca, from Spain, since 2002. His main research interests are Pattern Classification and Machine Learning. He was the founder president of the Brazilian Society of Computational Intelligence and received the Science and Innovation Santander Bank Award in 2006. He was the Laura O. Moraes doctoral supervisor."
+msgstr "possui bacharelado (1975) e mestrado (1981) em Engenharia Elétrica pela Pontifícia Universidade Católica do Rio de Janeiro. Em 1987, ele terminou seu doutorado no Imperial College of Science, Technology and Medicine, University of London. Atualmente é Professor da Universidade Federal do Rio de Janeiro onde é chefe do setor de Inteligência Artificial do Departamento de Sistemas e Computação da COPPE (PESC/COPPE). É pesquisador visitante na Universidade de Salamanca, Espanha, desde 2002. Seus principais interesses de pesquisa são Classificação de Padrões e Aprendizado de Máquina. Ele foi o presidente fundador da Sociedade Brasileira de Inteligência Computacional e recebeu o Prêmio Banco Santander de Ciência e Inovação em 2006. Foi orientador de doutorado de Laura O. Moraes na criação deste projeto."
+
+msgid "is a professor at the UFRJ Computational Institute and has numerous publications in the educational technologies and computer science learning field. She has a great interest in the didactics of computing and information technology applied to education, by leading a group research group on these topics. She is co-responsible for the development and management of the methodology and educational didactic materials for programming courses offered by the Computing Institute to students from almost all graduating courses at UFRJ in the exact sciences field (including, for example, graduating courses in mathematics, meteorology, and all engineering disciplines)."
+msgstr "é professora do Instituto de Computação da UFRJ e possui diversas publicações na área de tecnologias para educação e ensino de computação. Tem grande interesse na área de didática da computação e informática aplicada à educação, estando à frente de um grupo de pesquisa sobre estes temas. É co-responsável pela construção e gestão da metodologia e material didático dos cursos de programação oferecidos pelo Instituto de Computação aos alunos de praticamente todos os cursos de graduação da UFRJ na área de exatas (incluindo, por exemplo, cursos de graduação de matemática, meteorologia e todas as engenharias)."
+
+msgid "was the one who initiated the project. She developed the platform during her doctorate degree in Computer Engineering and Systems (COPPE/PESC) in the Artificial Intelligence research line. Currently, she is a professor at Colégio Pedro II and dedicates herself to research activities in the field of technology for education, particularly in computer education. In 2018, she was a fellow in the Data Science for Social Good program, where she created models for predicting individuals at risk of long-term unemployment organized by the University of Chicago with Nova SBE. In 2019, she was a finalist at the 2nd PFL Engineering PhD Summit in Switzerland, where she presented the preliminary results of the project."
+msgstr "foi quem iniciou o projeto. Criou a plataforma durante seu doutorado em Engenharia de Sistemas e Computação (COPPE/PESC) na linha de pesquisa de Inteligência Artificial. Atualmente é professora do Colégio Pedro II e se dedica às atividades de pesquisa na área de tecnologia para educação, principalmente educação em computação. Em 2018, foi fellow no programa Data Science for Social Good, onde criou modelos para previsão de indivíduos em risco de desemprego longo organizado pela University of Chicago com a Nova SBE. Em 2019, foi finalista do 2nd PFL Engineering PhD Summit, na Suíça, onde apresentou os resultados preliminares do projeto."
+
+msgid "is a student in the Statistics program at UFRJ. He started in the project as a student, using the Machine Teaching system during the introduction to programming course. After completing the course, he volunteered to incorporate improvements and advance the system with new functionalities. Currently, he is a Scientific Initiation student with a scholarship from CNPq in this project."
+msgstr "é aluno do curso de Estatística da UFRJ. Começou no projeto como aluno, utilizando o sistema Machine Teaching durante o curso de introdução a programação. Após a finalização do curso, se voluntariou para incorporar melhorias e avançar o sistema com novas funcionalidades. Atualmente é aluno de Iniciação Científica com bolsa do CNPq neste projeto."
+
+msgid "is a student in the Computer Engineering program. He became involved in the project due to his interest in programming education. He is responsible for assisting in the infrastructure of Machine Teaching, as well as implementing actions to ensure integration and continuous delivery to the project developers."
+msgstr "é aluno do curso de Engenharia de Computação. Se aproximou do projeto por conta de seu interesse no ensino de programação. É responsável por auxiliar na parte de infraestrutura do Machine Teaching, e também por implementar ações que garantam integração e entrega contínua aos desenvolvedores do projeto."
+
+msgid "is a Computer Science student at UFRJ. He started to work on the project by adapting Numerical Calculus questions for the platform. Currently, he is working on his undergraduate thesis in the AI field, focusing on analyzing the similarity between the codes submitted by students in Machine Teaching."
+msgstr "é aluno de Ciência da Computação da UFRJ. Começou no projeto adaptando questões de Cálculo Numérico para a plataforma. Atualmente faz TCC na área de IA, focado na análise da similaridade entre os códigos submetidos pelos estudantes no Machine Teaching."
+
+msgid "is a student of Information Systems at UNIRIO. She recently started to venture into the infrastructure field and saw in Machine Teaching a good opportunity to develop her knowledge by helping to improve a project that democratizes computing learning. She is currently a volunteer student in Scientific Initiation."
+msgstr "é aluna de Sistemas de Informação na UNIRIO. Começou a se aventurar recentemente na área de infraestrutura e viu no Machine Teaching uma boa oportunidade de desenvolver seu conhecimento ajudando no aprimoramento de um projeto que democratiza o aprendizado da computação. Atualmente é aluna voluntária de Iniciação Científica."
+
+msgid "is a student of Information Systems at UNIRIO. Aiming to combine his interest in development and new technologies with his education, he noticed in Machine Teaching a way to leverage his studies in the field and to promote a tool capable of facilitating and boosting the relationship of more and more people with programming. Currently, he is a volunteer student in Scientific Initiation."
+msgstr "é aluno de Sistemas de Informação na UNIRIO. Visando unir seu interesse por desenvolvimento e por novas tecnologias com sua formação, notou no Machine Teaching uma forma de alavancar seus estudos na área além de poder promover uma ferramenta capaz de facilitar e impulsionar o relacionamento de cada vez mais pessoas com a programação. No momento, é aluno voluntário de Iniciação Científica."
+
+msgid "is a Computer Science student at UFRJ. He has a great interest in technology-focused education and saw the project as an opportunity to combine his interest with his education by participating in the selection process and working with the platform's functional and infrastructure areas. Currently, he is a Scientific Initiation student in the project with a private scholarship."
+msgstr "é aluno de Ciência da Computação da UFRJ. Tem grande interesse por educação voltada a tecnologia e enxergou no projeto uma chance de unir seu interesse à sua formação, participando do processo seletivo e trabalhando com as áreas de funcionalidades e infraestrutura da plataforma. Atualmente, é aluno de Iniciação Científica do projeto com bolsa privada."
+
+msgid "is an undergraduate student in Electronic and Computer Engineering at UFRJ, with an interest in data science and artificial intelligence. She is being advised by Laura Moraes on her final project, which studies whether LLM models (Large Language Models like GPT and LLAMA) are good study tools for beginners in Python programming logic."
+msgstr "graduanda em Engenharia Eletrônica e de Computação na UFRJ, com interesse na área de ciência de dados e inteligência artificial.  Orientanda da Laura Moraes no trabalho de final de curso que estuda se modelos de LLM (Large Language Models como GPT e LLAMA) são boas ferramentas de estudo para iniciantes em lógica de programação em Python."
+
+msgid "is a student of Information Systems at UNIRIO. With the goal of learning more about programming and its technologies, he found in Machine Teaching an opportunity to deepen his knowledge in the field and assist in developing a tool capable of enhancing the efficiency of programming learning. Currently, he is a Scientific Initiation scholarship holder from FAPERJ."
+msgstr "é um aluno de Sistemas de Informação na UNIRIO. Com o objetivo de conhecer mais sobre programação e suas tecnologias, encontrou no Machine Teaching uma oportunidade de aprofundar os seus conhecimentos na área e auxiliar no desenvolvimento de uma ferramenta que será capaz de elevar a eficiência do aprendizado em programação. No momento, é bolsista de Iniciação Científica pela FAPERJ."
+
+msgid "is an Information Systems student at UNIRIO. Seeking to deepen his knowledge and experiences in the field of programming, he saw in Machine Teaching the possibility to expand his studies in the area and collaborate in the development of a project that contributes to the learning and teaching of programming. Currently, he works on the project as a PRADIG (Programa de Acompanhamento de Discente de Graduação) scholarship holder."
+msgstr "é aluno de Sistemas de Informação na UNIRIO. Buscando aprofundar seus conhecimentos e experiências na área de programação, viu no Machine Teaching a possibilidade de expandir seus estudos na área e colaborar no desenvolvimento de um projeto que contribui para o aprendizado e ensino de programação. Atualmente, atua no projeto como aluno bolsista PRADIG (Programa de Acompanhamento de Discente de Graduação)."
