@@ -9,7 +9,7 @@ django-maintenance-mode==0.21.1
 django-picklefield==3.2
 django-rest-framework==0.1.0
 django-simple-history==3.5.0
-djangorestframework==3.15.1
+djangorestframework==3.15.2
 gunicorn==21.2.0
 locust==2.24.1
 numpy==1.26.4
