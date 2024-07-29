@@ -18,7 +18,8 @@ opentelemetry-exporter-otlp-proto-http==1.24.0
 pandas==1.5.3
 playwright==1.43.0
 plotly==5.20.0
-psycopg2==2.8.6
+#psycopg2==2.8.6
+psycopg2-binary
 pytest-playwright==0.4.4
 python-dotenv==1.0.1
 requests==2.31.0

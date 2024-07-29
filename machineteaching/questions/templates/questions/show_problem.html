@@ -29,6 +29,9 @@
 <div class="col col-7">
 
     {% if problem.question_type == 'C' %}
+    <div class="dropdown-teste", style="margin-bottom: 0.4rem;">
+        <select id="dropdown-lang", style="appearance: auto; padding: 0.2rem 0.2rem;"></select>
+    </div>
     <!-- code -->
     <div class="card">
         <textarea class="code" id="code" name="solution" autofocus="true" style="display: none;">{{tip}}</textarea>
@@ -93,6 +96,7 @@
 
 {% block javascript %}
 <script src="{% static 'js/repl.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script>
 
     // Save page access
@@ -124,6 +128,8 @@
 
     const error = '{% blocktrans %}Error{% endblocktrans %}';
     const print_error = '{% blocktrans %}The solution uses <strong>print</strong> command, breaking the rule that the entire result of the function must be returned exclusively through its return values.{% endblocktrans %}';
+
+    const professor_code = "{{solution|escapejs}}";
 
     {% if problem.question_type == 'C' %}
     var code = document.getElementById("code");
@@ -185,7 +191,8 @@
             solution = "{{option}}";
         }
         {% endfor %}{% endif %}
-
+        
+        console.log("Olha isso: " + '{% url 'savelog' %}');
         $.ajax({
             type: "POST",
             url: '{% url 'savelog' %}',
