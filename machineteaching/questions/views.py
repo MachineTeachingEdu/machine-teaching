@@ -960,7 +960,6 @@ def python_tutor(request):
     
     link_fixo = "https://pythontutor.com/render.html#code="
     codigo_aluno = "none"
-    print("oi")
 
     if request.method == 'POST':
         codigo = request.POST.get('codigo')
@@ -969,6 +968,6 @@ def python_tutor(request):
     context = {'link_fixo': link_fixo, 'codigo_aluno': codigo_aluno}
 
     return JsonResponse(context)
-
+@login_required
 def profile(request):
     return render(request, 'questions/profile.html')
