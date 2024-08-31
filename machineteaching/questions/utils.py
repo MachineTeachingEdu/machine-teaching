@@ -10,3 +10,5 @@ def stdoutIO(stdout=None):
     sys.stdout = stdout
     yield stdout
     sys.stdout = old
+
+supported_languages = ['Python', 'C', 'Julia']

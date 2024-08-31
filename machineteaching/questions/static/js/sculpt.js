@@ -1,35 +1,20 @@
-const optionsLanguages = [   //Opções de linguagens de programação para submeter o código
-    { value: 1, text: 'Python', editorTxt: "#Escreva sua função aqui. Pode apagar essa linha." },
-    { value: 2, text: 'Julia', editorTxt: "#Escreva sua função aqui. Pode apagar essa linha." },
-    { value: 3, text: 'C', editorTxt: "//Escreva sua função aqui. Pode apagar essa linha." },
-];
-var currentLanguageVal = 1;
-$(document).ready(function() {   //Somente para DEBUG
-    console.log("Solução em python: ", professor_code);
-    console.log("Solução em Julia: function num_bombons(m, p)\n\treturn div(m, p)\nend");
-    console.log("Solução em C: int num_bombons(float a, float b){\n\treturn a/b;\n}");
-    var $dropdown = $('#dropdown-lang');
-    $.each(optionsLanguages, function(index, option) {
-        $dropdown.append($('<option></option>').attr('value', option.value).text(option.text));
-    });
-});
+var currentLanguage = "Python";
 $('#dropdown-lang').on('change', function() {
-    var languageVal = $(this).val();
-    optionsLanguages[currentLanguageVal-1].editorTxt = editor.getValue();
-    editor.setValue(optionsLanguages[languageVal-1].editorTxt);
-    currentLanguageVal = languageVal;
-    if(languageVal == 1){
+    var language = $('#dropdown-lang option:selected').text();
+    dictSolutions[currentLanguage].text = editor.getValue();
+    editor.setValue(dictSolutions[language].text);
+    currentLanguage = language;
+    if(language == "Python"){
         editor.setOption('mode', {name: "python", version: 2, singleLineStringErrors: false});
         $("#interactive").parent().show();
     }
     else{
-        if(languageVal == 2)
+        if(language == "Julia")
             editor.setOption('mode', { name: "julia" });
-        else if(languageVal == 3)
+        else if(language == "C")
             editor.setOption('mode', { name: "text/x-csrc" });
         $("#interactive").parent().hide();    //Não teremos editor interativo se não for Python
     }
-    //console.log("editor de código: " , editor, "     Editor2: ", editor2, "     Texto editor 2: ", editor2.getValue());
 });
 
 // output functions are configurable. This one just appends some text to a pre element.
@@ -62,6 +47,7 @@ function evaluateResult(args, func, expected_result, final_result, isCorrect, in
     let divOutcome = $('<div>', { id: 'outcome-' + (index + 1) });
     $(newTestCase).append(divOutcome);
     let table = $('<table>');
+    let divOutput = document.getElementById("output");
     if(!errorAJAX){
         let row1 = $('<tr>');
         $(row1).append($('<td>', { class: 'col-4' }).text(input));
@@ -75,11 +61,17 @@ function evaluateResult(args, func, expected_result, final_result, isCorrect, in
         $(row3).append($('<td>', { class: 'col-4' }).text(your_output));
         $(row3).append($('<td>', { class: 'col-8' }).text(final_result));
         table.append(row3);
+        if (!final_result.endsWith('\n'))
+            final_result += '\n';
+        divOutput.innerHTML = divOutput.innerHTML + final_result;
     }
     else{    //Se der um erro na chamada ajax
+        let msgError = "Server communication error.";
         let row1 = $('<tr>');
-        $(row1).append($('<td>', { class: 'col-4' }).text("Erro na comunicação com o servidor"));
+        $(row1).append($('<td>', { class: 'col-4' }).text(msgError));
         table.append(row1);
+        msgError += "\n";
+        divOutput.innerHTML = divOutput.innerHTML + msgError;
     }
     newTestCase.append(table);
     $(newTestCase).css("display", "none");
@@ -99,8 +91,8 @@ function postEvaluate(status_code=null, message_error=null){  //Esta função se
     seconds_end_page = performance.now()
     seconds_in_page = Math.round((seconds_end_page - seconds_begin_page)/1000);
     seconds_end_code = performance.now();
-    //console.log("seconds in this snippet:" + Math.round((seconds_end_code - seconds_begin_code)/1000));
     seconds_in_code += Math.round((seconds_end_code - seconds_begin_code)/1000);
+    //console.log("seconds in this snippet:" + Math.round((seconds_end_code - seconds_begin_code)/1000));
     //console.log("seconds in code: " + seconds_in_code);
     //console.log("seconds in page:" + seconds_in_page);
     //console.log("seconds to begin:" + seconds_to_begin);
@@ -109,7 +101,6 @@ function postEvaluate(status_code=null, message_error=null){  //Esta função se
     if(message_error == null){
         let errors = $(eval_div).children('[passed=false]').length;
         let totalTestCases = $(eval_div).children('.test-case').length;
-        //console.log("Existem " + testCasesFailed + " casos de teste que falharam!!");
 
         // Display test case result
         var hits = Math.round(100-100*errors/totalTestCases);
@@ -124,21 +115,25 @@ function postEvaluate(status_code=null, message_error=null){  //Esta função se
             </div>`);
         $('#next').remove();
         $('.result').append(`<button type="button" onclick="gotoproblem()" class="primary disabled" id="next">${next}</button>`);
-        
-        /*   DESCOMENTAR ISSO AQUI DEPOIS!!!!
-        // If no errors are found, go to the next problem
-        if (errors == 0) {
-            passed()
-            save_log('P', seconds_in_code, seconds_to_begin, seconds_in_page, hits);
-        } else {
-            save_log('F', seconds_in_code, seconds_to_begin, seconds_in_page, hits);
-        };
-        */
+/*
+        if($("#dropdown-lang").length){
+            if (errors == 0) {
+                passed()
+                save_log('P', seconds_in_code, seconds_to_begin, seconds_in_page, hits);
+            } else {
+                save_log('F', seconds_in_code, seconds_to_begin, seconds_in_page, hits);
+            };
+        }
+*/
     }
-    else {   //Se o código submetido for inválido
-        //save_log('F', seconds_in_code, seconds_to_begin, seconds_in_page, 0);
-        if(status_code == 1)   //Se tiver print
+    else {   //Se o código submetido for inválido ou der erro no pré-processamento
+        if(status_code == 1)   //Erro de print
             message_error = print_error;
+        if(status_code == 4){   //Erro de sintaxe ou de compilação
+            divOutput = document.getElementById("output");
+            divOutput.innerHTML = divOutput.innerHTML + message_error;
+            //save_log('F', seconds_in_code, seconds_to_begin, seconds_in_page, 0);
+        }
         eval_div.innerHTML = `
         <div class="card" style="position: relative;" id="print_error">
             <div class="badge danger" style="position: absolute; top: 1rem; right: 1rem">${failed_txt}</div>
@@ -370,17 +365,20 @@ function runit(args, func, expected_results) {
 */
 
 
-function runit(args, func, expected_results) {
+function runit(args, func, lang="") {
     $('#run').hide();
     $('.loader').show();
     $('.loader div').animate({width: '100%'}, 5000);
+    var mypre = document.getElementById("output");
+    mypre.innerHTML = '';
 
     var prog = editor.getValue();  //Get code from text editor
-    var profCode = professor_code;
     let eval_div = document.getElementById("evaluation");
     eval_div.innerHTML = "";
     $('.result').css('display','none');
-    let id_language = $("#dropdown-lang").val();
+    let language = lang;
+    if($("#dropdown-lang").length)
+        language = $('#dropdown-lang option:selected').text();
 
     //Realizando o pré-processamento do código:
     let zip_pre_process = new JSZip();
@@ -388,8 +386,7 @@ function runit(args, func, expected_results) {
     zip_pre_process.generateAsync({ type: "blob" }).then((content) => {
         var formData = new FormData();
         formData.append("file", content, "extract-me.zip");
-        formData.append("id_language", id_language);
-        formData.append("funcName", func);
+        formData.append("prog_lang", language);
         $.ajax({
             url: "http://localhost:5000/pre-process",
             type: "POST",
@@ -397,39 +394,33 @@ function runit(args, func, expected_results) {
             processData: false,
             contentType: false,
             success: function(response_pre_process) {
-                console.log("Resultado do pré-processamento: ", response_pre_process);
+                //console.log("Resultado do pré-processamento: ", response_pre_process);
                 let pre_process_status = response_pre_process.code_status;
                 let pre_process_message = response_pre_process.message;
                 let final_code = response_pre_process.final_code;
+                let profCode = dictSolutions[language].solution;
 
                 if (pre_process_status != 0){
                     $('.loader div').stop();
                     postEvaluate(pre_process_status, pre_process_message);
-                    console.log("Erro no pré-processamento: ", response_pre_process);
+                    //console.log("Erro no pré-processamento: ", response_pre_process);
                 }
                 else {    //Código válido
-                    var mypre = document.getElementById("output");
-                    mypre.innerHTML = '';
                     let resultsNovo = {}
                     while(final_code.includes('\t')){
                         final_code = final_code.replace('\t', '    ');
                     }
-                    if(id_language == 1){   //Python
+                    if(language == "Python"){
                         Sk.configure({});
                         var skPromise = Sk.misceval.asyncToPromise(function() {
                             return Sk.importMainWithBody("<stdin>", false, final_code, true);
                         });
                     }
-                    else if(id_language == 2)
-                        profCode = "function num_bombons(m, p)\n\treturn div(m, p)\nend"   //Código em Julia
-                    else{
-                        profCode = "int num_bombons(float a, float b){\n\treturn a/b;\n}"   //Código em C
-                        func = "int num_bombons";
-                    }
                     while(profCode.includes('\t')){
                         profCode = profCode.replace('\t', '    ');
                     }
-            
+                    
+                    let returnType = dictSolutions[language].return_type == null ? "" : dictSolutions[language].return_type;
                     //Fazendo as requisições AJAX para cada caso de teste:
                     let zip = new JSZip();
                     zip.file("run_me", final_code);
@@ -443,13 +434,11 @@ function runit(args, func, expected_results) {
                                 var formData = new FormData();
                                 formData.append("file", content, "extract-me.zip");   //Adicionando um campo 'file' no formData para adicionar o arquivo como um .zip
                                 formData.append("args", JSON.stringify(argList));
-                                formData.append("id_language", id_language);
+                                formData.append("prog_lang", language);
                                 formData.append("funcName", func);
-                                //if(i == 90)   //Testando erros no ajax
-                                //    formData.append("funcName", func);
+                                formData.append("returnType", returnType);
                                 ajaxPromises.push($.ajax({
                                     url: "http://localhost:5000/",
-                                    //url: "http://127.0.0.1:57649",
                                     type: "POST",
                                     data: formData,
                                     processData: false, // Necessário para enviar o FormData sem que jQuery tente processá-lo
@@ -481,7 +470,7 @@ function runit(args, func, expected_results) {
                         }
                         Promise.allSettled(ajaxPromises)    //Aqui só vai rodar quando todas as chamadas ajax terminarem ou se alguma delas der erro
                             .then(function(results) {
-                                console.log("Resultados das chamadas Ajax: ", results);
+                                //console.log("Resultados das chamadas Ajax: ", results);
                                 let errorRequests = 0;
                                 for(let i=0; i<results.length; i++){
                                     if(results[i].status == "rejected")
@@ -496,68 +485,12 @@ function runit(args, func, expected_results) {
             },
             error: function(error) {
                 $('.loader div').stop();
-                postEvaluate(-1, "Erro no pré-processamento.");
+                postEvaluate(-1, "Server communication error.");
                 console.log("erro na chamada do ajax: ", error, "\nNão foi possível realizar o pré-processamento do código.");
             },
         });
     });
-
-        /*
-        //Fazendo apenas uma requisição Ajax
-        zip.file("run_me.py", prog);
-        var formData = new FormData();
-        zip.generateAsync({ type: "blob" }).then((content) => {
-            formData.append("file", content, "extract-me.zip");   //Adicionando um campo 'file' no formData para adicionar o arquivo como um .zip
-            formData.append("args", JSON.stringify(args));
-            formData.append("expected_results", JSON.stringify(expected_results));
-            formData.append("funcName", func);
-            $.ajax({   //Testando uma requisição para o worker_node
-                url: "http://localhost:5000/",
-                type: "POST",
-                data: formData,
-                processData: false, // Necessário para enviar o FormData sem que jQuery tente processá-lo
-                contentType: false, // Necessário para evitar que jQuery defina o Content-Type
-                success: function(response) {
-                    console.log('Success: ', response);
-                    $.each(response, function(i, responseItem) {
-                        let statusCode = responseItem[1]
-                        //let serverName = responseItem[0].hostName
-                        let output = responseItem[0].output
-                        let isCorrect = responseItem[0].isCorrect ? true : false;
-                        //console.log('statuscode: ', statusCode, '  servername: ', serverName, '  output: ', output);
-                        if(statusCode == 200){
-                            results.push('success');
-                            correct_results.push(output);
-                            resultsNovo[i] = output;
-                        }
-                        else{
-                            var resultTxt = output;
-                            if(statusCode == 400){   //Se for erro de código (aqui, por não ser um padrão do skulpt, pode não ser possível gerar um erro tão específico (não especifica a linha))
-                                var lines = output.toString().split('\n');
-                                var customError = lines[lines.length - 2];
-                                resultTxt = customError
-                            }
-                            results.push(resultTxt + '\n');
-                            resultsNovo[i] = resultTxt + '\n';
-                        }
-                        
-                        evaluateResult(args, func, expected_results[i], resultsNovo[i], isCorrect, i);
-                    });
-                    $('.loader div').stop();
-                    postEvaluate(false);
-                },
-                error: function(error) {   //Se der erro na chamada ajax, não será possível exibir os resultados, já que só temos uma chamadas
-                    console.error("erro na chamada ajax: ", error);
-                    $('.loader div').stop();
-                    $('#run').show();
-                    $('.loader').hide();
-                    $('.loader div').attr('style', 'width: 0;');
-                }
-            });
-        });
-    */
 };
-
 
 function skipit() {
    // Evaluate results

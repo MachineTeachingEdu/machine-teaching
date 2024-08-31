@@ -38,6 +38,7 @@ from django.core.mail import send_mail
 from functools import wraps
 from .models import Collaborator
 from django.views.decorators.clickjacking import xframe_options_exempt
+from .utils import supported_languages
 
 
 LOGGER = logging.getLogger(__name__)
@@ -128,7 +129,7 @@ def show_problem(request, problem_id):
 @login_required
 def get_random_problem(request):
     problem = Problem.objects.random()
-    solution = Solution.objects.filter(problem=problem)[0]
+    solution = Solution.objects.filter(problem=problem, language=Solution.PYTHON)[0]
     return render(request, 'questions/show_problem.html', {'problem': problem,
                                                            'solution': solution})
 
@@ -149,6 +150,8 @@ def get_next_problem(request):
 
 @login_required
 def save_user_log(request):
+    if request.POST['language'] not in supported_languages:
+        return JsonResponse({'status': 'failed', 'message': 'Language not supported'})
     form = UserLogForm(request.POST)
     LOGGER.debug("Log received for user %s with outcome %s: %s",
                  request.user,
@@ -519,7 +522,8 @@ def get_student_solutions(request, id, chapter):
                                                                      'outcome',
                                                                      'timestamp',
                                                                      'test_case_hits',
-                                                                     'id')
+                                                                     'id',
+                                                                     'language')
     problems = []
     if logs.count():
         current_problem = logs[0]["problem"]

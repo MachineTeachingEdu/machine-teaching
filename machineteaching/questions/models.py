@@ -127,7 +127,7 @@ class Deadline(models.Model):
 
 
 class Professor(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, unique=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)   #Mudei aqui porque estava dando problema na migration
     prof_class = models.ManyToManyField(OnlineClass, related_name='professor')
     assistant = models.BooleanField(default=False)
     active = models.BooleanField(default=True)
@@ -198,6 +198,31 @@ class Solution(models.Model):
                            default="#Start your python function here")
     cluster = models.ForeignKey(Cluster, on_delete=models.SET_NULL,
                                 null=True, blank=True)
+    #Linguagens de programação
+    PYTHON = 'Python'
+    JULIA = 'Julia'
+    C = 'C'
+    LANGUAGE_CHOICES = [
+        (PYTHON, 'Python'),
+        (JULIA, 'Julia'),
+        (C, 'C'),
+    ]
+    language = models.CharField(max_length=20, choices=LANGUAGE_CHOICES, default=PYTHON)
+    #Tipos de retorno
+    TYPE_CHOICES = [
+        ('int', 'int'),
+        ('float', 'float'),
+        ('double', 'double'),
+        ('char', 'char'),
+        ('long', 'long'),
+        ('long long', 'long long'),
+        ('short', 'short'),
+        ('unsigned int', 'unsigned int'),
+        ('unsigned long', 'unsigned long'),
+        ('const char*', 'const char*'),
+    ]
+    return_type = models.CharField(max_length=50, choices=TYPE_CHOICES, null=True, blank=True)
+    
     history = HistoricalRecords()
 
     def __unicode__(self):
@@ -244,6 +269,7 @@ class UserLog(models.Model):
                                   default="D")
     test_case_hits = models.IntegerField(blank=True, null=True)
     user_class = models.ForeignKey(OnlineClass, on_delete=models.PROTECT, null=True)
+    language = models.CharField(max_length=20, default=Solution.PYTHON)
 
     class Meta:
         verbose_name = _('User log')
@@ -443,11 +469,13 @@ def create_test_cases(sender, instance, created, **kwargs):
 @disable_for_loaddata
 def create_userlog_error(sender, instance, created, **kwargs):
     if instance.outcome == 'F' and instance.console != '':
-        user_errors = instance.console.split('\n')
-        # TODO: This is considering that Python errors have the word Error on
-        # them. More elaborate strategies to log this are welcome.
-        clean_errors = list(set([error.split(":")[0] for error in
-                            user_errors if "Error" in error.split(":")[0]]))
+        clean_errors = []
+        if instance.language == Solution.PYTHON:
+            user_errors = instance.console.split('\n')
+            # TODO: This is considering that Python errors have the word Error on
+            # them. More elaborate strategies to log this are welcome.
+            clean_errors = list(set([error.split(":")[0] for error in
+                                user_errors if "Error" in error.split(":")[0]]))
         # Add error to Log Error model
         for error in clean_errors:
             log_error = UserLogError()

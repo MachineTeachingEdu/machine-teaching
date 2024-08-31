@@ -36,7 +36,8 @@
     <div class="card">
         <textarea class="code" id="code" name="solution" autofocus="true" style="display: none;">{{tip}}</textarea>
         <div style="text-align: center;">
-            <button class="primary" id="run" onclick="runit({{test_case|safe|escape_doublequote}}, '{{header}}', {{expected_results|safe|escape_doublequote}})">
+            <!--<button class="primary" id="run" onclick="runit({{test_case|safe|escape_doublequote}}, '{{header}}', {{expected_results|safe|escape_doublequote}})">-->
+            <button class="primary" id="run" onclick="runit({{test_case|safe|escape_doublequote}}, '{{header}}')">
             {% blocktrans %}Run{% endblocktrans %}
             </button>
             <div class="loader" style="display: none;">
@@ -117,6 +118,20 @@
                 console.log(request.status);
             }
         });
+
+        let dropdown = $('#dropdown-lang');
+        console.log("solucoes: ", dictSolutions);
+        $.each(dictSolutions, function(key, content) {
+            let value = 0;
+            if(key == "Python")
+                value = 1
+            else if(key == "Julia")
+                value = 2
+            else if(key == "C")
+                value = 3
+            $(dropdown).append($('<option></option>').attr('value', value).text(key));
+        });
+        $(dropdown).val(1);   //Selecionando Python por padrão
     });
     
     const next = '{% blocktrans %}Next{% endblocktrans %}';
@@ -125,11 +140,10 @@
     const your_output = '{% blocktrans %}Your output:{% endblocktrans %}';
     const passed_txt = '{% blocktrans %}Passed{% endblocktrans %}';
     const failed_txt = '{% blocktrans %}Failed{% endblocktrans %}';
-
     const error = '{% blocktrans %}Error{% endblocktrans %}';
     const print_error = '{% blocktrans %}The solution uses <strong>print</strong> command, breaking the rule that the entire result of the function must be returned exclusively through its return values.{% endblocktrans %}';
 
-    const professor_code = "{{solution|escapejs}}";
+    var dictSolutions = {{ solutions|safe }};
 
     {% if problem.question_type == 'C' %}
     var code = document.getElementById("code");
@@ -191,8 +205,13 @@
             solution = "{{option}}";
         }
         {% endfor %}{% endif %}
+
+        language = "";
+        {% if problem.question_type == "C" %}
+        language = $('#dropdown-lang').find(":selected").text();
+        {% endif %}
         
-        console.log("Olha isso: " + '{% url 'savelog' %}');
+        console.log("Salvando user log na url: " + '{% url 'savelog' %}');
         $.ajax({
             type: "POST",
             url: '{% url 'savelog' %}',
@@ -203,6 +222,7 @@
                 'solution_lines': editor.lineCount(),
                 'console': document.getElementById("output").innerHTML,
                 'test_case_hits': hits,
+                'language': language,
                 {% elif problem.question_type == "M" %}
                 'solution': solution,
                 'solution_lines': 0,

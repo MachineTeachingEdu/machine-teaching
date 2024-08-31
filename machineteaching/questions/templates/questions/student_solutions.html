@@ -57,7 +57,7 @@
             {% endif %}
             </div>
             </div>
-            <textarea class="code">{{ log.solution }}</textarea>
+            <textarea class="code" lang="{{log.language}}">{{ log.solution }}</textarea>
         </div>
         {% endfor %}
         </div>
@@ -103,7 +103,12 @@
             tabMode: "spaces",
             matchBrackets: true
         });
-    editor.setSize(500,300);}
+        if(textareas[i].lang == "C")
+            editor.setOption('mode', { name: "text/x-csrc" });
+        else if(textareas[i].lang == "Julia")
+            editor.setOption('mode', { name: "julia" });
+        editor.setSize(500,300);
+    }
 
 </script>
 {% endblock %}
