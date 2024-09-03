@@ -16,6 +16,7 @@ numpy==1.26.4
 opentelemetry-distro==0.45b
 opentelemetry-exporter-otlp-proto-http==1.24.0
 pandas==1.5.3
+Pillow
 playwright==1.43.0
 plotly==5.20.0
 psycopg2==2.8.6
