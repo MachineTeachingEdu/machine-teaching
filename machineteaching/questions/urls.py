@@ -4,9 +4,9 @@ from django.views.generic import TemplateView
 from . import views, context_processors
 from django.conf.urls import url
 from django.views.static import serve
-# from django.conf.urls.static import static
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 
 

@@ -32,7 +32,8 @@ class InterfaceTests(DjkSampleTestCase):
     def about(self, page):
         page.goto(f"{self.live_server_url}/pt-br")
         page.click('.footer-right span:nth-child(3)')
-        self.assertEqual('About this research', page.locator('text=About this research').text_content())
+        #self.assertEqual('About this research', page.locator('text=About this research').text_content())
+        self.assertEqual('Sobre a pesquisa', page.locator('text=Sobre a pesquisa').text_content())
 
     def change_language(self, page):
         page.goto(f"{self.live_server_url}/pt-br")
@@ -200,21 +201,21 @@ class InterfaceTests(DjkSampleTestCase):
         page = self.browser.new_page()
         page.set_default_timeout(10000)
 
-        # print("      - Testando sobre...")
-        # self.about(page)
+        #print("      - Testando sobre...")
+        #self.about(page)
 
-        # print("      - Testando mudança de linguagem...")
-        # self.change_language(page)
+        print("      - Testando mudança de linguagem...")
+        self.change_language(page)
 
-        # print("      - Testando termos de uso...")
-        # self.read_terms(page)
+        print("      - Testando termos de uso...")
+        self.read_terms(page)
 
-        # print("      - Testando termos de privacidade...")
-        # self.read_privacy(page)
+        print("      - Testando termos de privacidade...")
+        self.read_privacy(page)
 
 
-        # print("      - Testando criação de turma...")
-        # class_code = self.create_class(page)
+      #  print("      - Testando criação de turma...")
+      #  class_code = self.create_class(page)
 
         OnlineClass.objects.create(name='turma', start_date='2024-01-01')
         default_class = OnlineClass.objects.get(name='turma').class_code
