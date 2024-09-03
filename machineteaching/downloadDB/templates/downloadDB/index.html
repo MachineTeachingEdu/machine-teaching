@@ -1,0 +1,26 @@
+{% extends "registration/base.html" %}
+{% load i18n %}
+{% block content %}
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h1 class="mt-5">{% blocktrans %} Data request form {% endblocktrans %} </h1>
+          <p class="lead">
+          </p>
+        </div>
+    </div>
+    <div class="login">
+  
+
+      <div class="card" style="margin-top: 2em; height: auto; width: 45%;">
+          <h3> {% blocktrans %} In order to get the data, please fill out the form bellow: {% endblocktrans %}</h3>
+          <form action="{% url 'downloadDB_index' %}" method="post" class="form">
+              {% csrf_token %}
+              {{ form.as_p }}
+              <input type="submit" value="Submit" class="btn btn-primary btn-lg">
+          </form>
+      </div>
+
+
+    </div>
+
+{% endblock %}

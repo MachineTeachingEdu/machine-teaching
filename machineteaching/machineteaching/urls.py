@@ -21,6 +21,7 @@ urlpatterns = i18n_patterns(
     path('accounts/', include('django.contrib.auth.urls')),
     path('questions/', include('questions.urls')),
     path('evaluation/', include('evaluation.urls')),
+    path('downloadDB/', include('downloadDB.urls')),
     path('', include('questions.urls')),
     path('admin/', admin.site.urls)
 )
