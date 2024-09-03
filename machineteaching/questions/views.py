@@ -31,7 +31,7 @@ from questions.get_problem import get_problem
 from questions.get_dashboards import student_dashboard, class_dashboard, manager_dashboard, predict_drop_out, time_to_finish_exercise, get_time_to_finish_chapter_in_days
 from questions.get_dashboards import *
 from questions.strategies import STRATEGIES_FUNC
-from questions.get_dashboards1 import get_dashboards
+from questions.get_dashboards1 import get_dashboards, get_class_dashboards
 import csv
 from django.conf import settings
 from django.core.mail import send_mail
@@ -749,6 +749,13 @@ def get_class_dashboard(request, onlineclass):
         return render(request, 'questions/class_dashboard.html', class_dashboard(onlineclass))
     else:
         raise PermissionDenied()
+    
+def get_class_dashboard1(request, onlineclass):
+    onlineclass = OnlineClass.objects.get(id=onlineclass)
+    if onlineclass in Professor.objects.get(user=request.user).prof_class.all():
+        return render(request, 'questions/class_dashboard1.html', get_class_dashboards(onlineclass))
+    else:
+        raise PermissionDenied()
 
 def get_manager_dashboard(request):
     return render(request, 'questions/manager_dashboard.html', manager_dashboard())
@@ -779,7 +786,7 @@ def get_dashboard1(request):
     context = get_dashboards(request.user.id)
     return render(request, 'questions/student_dashboard1.html', context)
 
-@login_required
+@permission_required('questions.view_userlogview', raise_exception=True)
 def get_student_dashboard1(request, id):
     context = get_dashboards(id, professor=True)
     return render(request, 'questions/student_dashboard1.html', context)
