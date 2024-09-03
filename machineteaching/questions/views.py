@@ -38,6 +38,8 @@ from django.core.mail import send_mail
 from functools import wraps
 from .models import Collaborator
 from django.views.decorators.clickjacking import xframe_options_exempt
+import urllib
+
 
 
 LOGGER = logging.getLogger(__name__)
@@ -945,8 +947,27 @@ def send_comment_email(student, comment, link):
 
 @xframe_options_exempt
 def about(request):
-    Team = Collaborator.objects.all()
+    Team = Collaborator.objects.all().order_by('name')
+    inactiveCount = Team.filter(active = False).count()
     context = {
         'Team': Team,
+        'inactiveCount' : inactiveCount,
     }
     return render(request, 'questions/about.html', context)  
+
+@login_required   
+def python_tutor(request):
+    
+    link_fixo = "https://pythontutor.com/render.html#code="
+    codigo_aluno = "none"
+
+    if request.method == 'POST':
+        codigo = request.POST.get('codigo')
+        codigo_aluno = urllib.parse.quote_plus(str(codigo))
+
+    context = {'link_fixo': link_fixo, 'codigo_aluno': codigo_aluno}
+
+    return JsonResponse(context)
+@login_required
+def profile(request):
+    return render(request, 'questions/profile.html')

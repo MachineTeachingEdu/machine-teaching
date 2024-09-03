@@ -5,29 +5,18 @@
 {% block content %}
 <div class="col col-12">
   <div class="card">
+
     <div class="filter">
-        {% blocktrans %}Filter{% endblocktrans %}
-        <input id="passed" type="checkbox" name="filter" value="{% blocktrans %}Passed{% endblocktrans %}">
-        <label for="passed">
-            <span class="badge success">
-            {% blocktrans %}Passed{% endblocktrans %}
-            </span>
-        </label>
-        <input id="failed" type="checkbox" name="filter" value="{% blocktrans %}Failed{% endblocktrans %}">
-        <label for="failed">
-            <span class="badge danger">
-            {% blocktrans %}Failed{% endblocktrans %}
-            </span>
-        </label>
-        <input id="skipped" type="checkbox" name="filter" value="{% blocktrans %}Skipped{% endblocktrans %}">
-        <label for="skipped">
-            <span class="badge warning">
-            {% blocktrans %}Skipped{% endblocktrans %}
-            </span>
-        </label>
-            <input type="text" name="search" id="search">
-    </div>
-    <table id="past-problems">
+        <select id="filter-dropdown" name="filter">
+            <option value="">{% blocktrans %}Status{% endblocktrans %}</option>
+            <option value="{% blocktrans %}Passed{% endblocktrans %}">{% blocktrans %}Passed{% endblocktrans %}</option>
+            <option value="{% blocktrans %}Failed{% endblocktrans %}">{% blocktrans %}Failed{% endblocktrans %}</option>
+            <option value="{% blocktrans %}Skipped{% endblocktrans %}">{% blocktrans %}Skipped{% endblocktrans %}</option>
+        </select>
+        <input type="text" name="search" id="search">
+    </div>  
+
+    <!-- <table id="past-problems">
     <thead>
         <th class="searchable">{% trans "Title" %}</th>
         <th>{% trans "Chapter" %}</th>
@@ -36,8 +25,21 @@
         <th>{% trans "Attempts" %}</th>
         <th>{% trans "Last submission" %}</th>
         <th>{% trans "Solutions" %}</th>
-    </thead>
-    <tbody>
+    </the vb >
+    <tbody> -->
+
+    <table id="past-problems" class="display">
+        <thead>
+            <th class="searchable">{% trans "Title" %}</th>
+            <th>{% trans "Chapter" %}</th>
+            <th>{% trans "Status " %}</th>
+            <th class="searchable">{% trans "Comments" %}</th>
+            <th>{% trans "Attempts" %}</th>
+            <th>{% trans "Last submission" %}</th>
+            <th>{% trans "Solutions" %}</th>
+        </thead>
+        <tbody>
+            
     {% for item in problems %}
     <tr>
         <td style="width: 23%"><a href="{% url 'show_problem' problem_id=item.problem.id %}" class="link">{{ item.problem.title }}</a></td>
@@ -63,8 +65,13 @@
         {% endif %}
         <td style="width: 8%">{{item.comments}}</td>
         <td style="width: 8%">{{item.attempts}}</td>
-        <td style="width: 12%">{% if language == 'pt-br' %}{{ item.last_submission|date:'d/m/Y'}} às {% else %}{{ item.last_submission|date:'m/d/Y'}} at {% endif %}{{ item.last_submission|date:'H:i'}}</td>
-        <td style="width: 18%"><a href="{% url 'problem_solutions' problem_id=item.problem.id %}" class="link">
+        <td style="width: 12%" data-order="{{ item.last_submission|date:'Y-m-d H:i:s' }}">
+            {% if language == 'pt-br' %}
+                {{ item.last_submission|date:'d/m/Y'}} às {{ item.last_submission|date:'H:i' }}
+            {% else %}
+                {{ item.last_submission|date:'m/d/Y'}} at {{ item.last_submission|date:'H:i' }}
+            {% endif %}
+        </td>        <td style="width: 18%"><a href="{% url 'problem_solutions' problem_id=item.problem.id %}" class="link">
             {% blocktrans %}See submitted solutions{% endblocktrans %}
         </a></td>
     </tr>
@@ -99,9 +106,42 @@
     
 
 //table settings
+// var table = $('#past-problems').DataTable({
+//     "bInfo": false,
+//     "ordering": false,
+//     {% get_current_language as language %}
+//     {% if language == 'pt-br' %}
+//     "language": {
+//             "sEmptyTable": "Nenhum registro encontrado",
+//             "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+//             "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+//             "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+//             "sInfoPostFix": "",
+//             "sInfoThousands": ".",
+//             "sLengthMenu": "mostrar_MENU_ por página",
+//             "sLoadingRecords": "Carregando...",
+//             "sProcessing": "Processando...",
+//             "sZeroRecords": "Nenhum registro encontrado",
+//             "sSearch": "Pesquisar",
+//             "oPaginate": {
+//                 "sNext": "Próximo",
+//                 "sPrevious": "Anterior",
+//                 "sFirst": "Primeiro",
+//                 "sLast": "Último"
+//             }
+//         }
+//     {% endif %}
+// });
+
+// Table settings
 var table = $('#past-problems').DataTable({
     "bInfo": false,
-    "ordering": false,
+    "columnDefs": [
+        {
+            "targets": 5,  // Index da coluna de data
+            "type": "datetime"
+        }
+    ],
     {% get_current_language as language %}
     {% if language == 'pt-br' %}
     "language": {
@@ -126,6 +166,7 @@ var table = $('#past-problems').DataTable({
     {% endif %}
 });
 
+
 $('#past-problems_filter input').attr('placeholder','{% blocktrans %}Search{% endblocktrans%}');
 
 $('input[type="checkbox"]').on('click', function() {
@@ -135,5 +176,10 @@ $('input[type="checkbox"]').on('click', function() {
     });
     table.search(filter.join('|'), true, false).draw();
 });
+
+$('#filter-dropdown').on('change', function() {
+        var filter = $(this).val();
+        table.search(filter).draw();
+    });
 </script>
 {% endblock %}

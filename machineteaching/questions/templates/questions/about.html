@@ -5,85 +5,21 @@
 <!DOCTYPE html>
 <html lang="pt-br">
       <head>
+
         <title>{% blocktrans %}Sobre a pesquisa{% endblocktrans %} | Machine Teaching</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}" />
+        <link rel="stylesheet" type="text/css" href="{% static 'css/about.css' %}" />
         <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script src="{% static 'js/script.js' %}"></script>
 
-        <style>
-
-            @media only screen and (max-width: 900px) {
-            .about_header_box{
-                  padding: 40px 0;
-            }
-
-            .about_header{
-                  flex-wrap: wrap;
-                  justify-content: center;
-            }
-      
-            }
-
-            .about_header_box{ 
-                  padding: 40px 8% 40px;
-                  text-align: center;
-                  background-position: top;
-                  background-size: 200px;
-                  background: linear-gradient(40deg, rgba(16,102,162,1) 0%, rgba(31,140,227,1) 100%);
-            }
-
-            .about_header{
-                  display: flex;
-                  justify-content: space-between;
-                  align-items: center;
-            }
-
-            .mt{
-                  color: #ffffff;
-                  text-transform: uppercase;
-                  font-weight: 600;
-                  font-size: 1.6rem;
-            }
-
-            .change-language {
-            text-decoration: none;
-            text-transform: uppercase;
-            font-weight: 400;
-            font-size: 1.1rem;
-            color: #ffffff;
-            color: #ffffff;
-            transition: all 0.4s;
-            opacity: 0.8;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-}
-
-            
-            .about_content {
-                  padding: 1rem;
-                  height: 95%;
-                  width: 100%;
-                  align-items: flex-start;
-                  height: calc(100% - 8rem);
-                  width: 100%;
-                  padding: 4rem 7rem;
-                  }
-            .highlight {
-                  text-decoration: underline;
-            }
-
-
-        </style>
-
       </head>
       
+      
       <body>
-
             
             <div class="about_header_box">
 
@@ -101,43 +37,15 @@
 
             <div class="about_content">
             
-            <h3>About this research</h3>
+            <h3>{% blocktrans %}About this research{% endblocktrans %}</h3>
 
+            <p>{% blocktrans %}It is important to understand why students succeed or fail when taking a course so we can improve teaching methods by identifying students needs and to provide personalized education. Smart learning content is defined as visualizations, simulations and web-based environments that provide outputs for students based on the students input [1]. The adoption of smart learning content in classrooms and in self-learning environments motivates students [2]–[5], improves student learning, decreases student dropout or failure [2], [6]–[8] while increasing their self-confidence, especially in female students [6].{% endblocktrans %}</p>
 
-            <p class="research">It is important to understand why students succeed or fail when taking a
-                  course so we can <span class="highlight">improve teaching methods</span> by identifying students\' needs
-                  and to <span class="highlight">provide personalized education</span>. Smart learning content is defined as
-                  visualizations, simulations and web-based environments that provide outputs
-                  for students based on the students\' input [1]. The adoption of smart
-                  learning content in classrooms and in self-learning environments <span class="highlight">motivates
-                  students [2]–[5], improves student learning, decreases student dropout or
-                  failure [2], [6]–[8] while increasing their self-confidence, especially in
-                  female students [6].</span>
-            </p>
-            <p class="research">Also, Python is a general-purpose language, which means it can be used in a
-                  large variety of projects. This can be great to stimulate students, since they
-                  can work in projects they actually relate to. Python is also user-friendly and
-                  for the past seven years, it has been the fastest-growing major programming
-                  language [9], <span class="highlight">being correlated with trending careers, such as DevOps and Data
-                        Scientist [10]</span>. According to the 2015 review [8], only 11&#37; of the Educational
-                  Data Mining and Learning Analytics papers about programming courses reported
-                  using Python as the course language. However, this is changing. A 2017 review
-                  on the Introductory Programming courses in Australasia universities [11]
-                  reported a shift from Java to Python in the past years and the 2018 review on
-                  Introductory Programming literature [12] already presents a higher number of
-                  papers using Python as the course language. Nonetheless, even though we already
-                  have different tools to support online learning, it is still hard to find open
-                  datasets containing student submissions for Python problems and related
-                  information that can be important to get a better insight on students\'
-                  knowledge.
-            </p>
-            <p class="research">These factors motivate our objective: the creation, deployment and use of
-                  online intelligent systems in Introduction to Programming classes using the
-                  Python language as a way to <span class="highlight">uncover students’ difficulties, to understand their
-                  knowledge and to provide timely feedback to keep students engaged.</span>
-            </p>
+            <p class="research">{% blocktrans %}Also, Python is a general-purpose language, which means it can be used in a large variety of projects. This can be great to stimulate students, since they can work in projects they actually relate to. Python is also user-friendly and for the past seven years, it has been the fastest-growing major programming language [9], being correlated with trending careers, such as DevOps and Data Scientist [10]. According to the 2015 review [8], only 11 of the Educational Data Mining and Learning Analytics papers about programming courses reported using Python as the course language. However, this is changing. A 2017 review on the Introductory Programming courses in Australasia universities [11] reported a shift from Java to Python in the past years and the 2018 review on Introductory Programming literature [12] already presents a higher number of papers using Python as the course language. Nonetheless, even though we already have different tools to support online learning, it is still hard to find open datasets containing student submissions for Python problems and related information that can be important to get a better insight on students knowledge.{% endblocktrans %}</p>
+            
+            <p class="research">{% blocktrans %}These factors motivate our objective: the creation, deployment and use of online intelligent systems in Introduction to Programming classes using the Python language as a way to uncover students’ difficulties, to understand their knowledge and to provide timely feedback to keep students engaged.{% endblocktrans %}</p>
 
-            <strong>References</strong>
+            <strong>{% blocktrans %}References{% endblocktrans %}</strong>
         
             <p>
                   [1]    P. Brusilovsky et al., “Increasing Adoption of Smart Learning Content for Computer Science Education,” 2014, doi: 10.1145/2713609.2713611.<br>
@@ -154,9 +62,9 @@
                   [12]    A. Luxton-Reilly et al., “Introductory programming: a systematic literature review,” in Proceedings Companion of the 23rd Annual ACM Conference on Innovation and Technology in Computer Science Education, Larnaca, Cyprus, Jul. 2018, pp. 55–106, doi: 10.1145/3293881.3295779.<br>
             </p>
 
-            <h3>Interested? Take a look at </h3>
+            <h3>{% blocktrans %}Interested? Take a look at {% endblocktrans %}</h3>
 
-                  1. Our <a class="highlight" href="https://github.com/laura-moraes/machine-teaching">
+                  1.{% blocktrans %} Our {% endblocktrans %}<a class="highlight" href="https://github.com/laura-moraes/machine-teaching">
                   Github</a><br><br>
                   
                   2.  <a class="highlight" href="https://www.lauramoraes.com/festival-do-conhecimento">
@@ -196,100 +104,106 @@
 
         
 
-<h3>Equipe</h3>
+            <h3>{% blocktrans %}Team{% endblocktrans %}</h3>
 
-<table>
-            {% for x in Team %}
-            {% if x.active == True %}
-                  <tr>
-                        <td style="padding: 15px 10px 15px 30px; width: 260px; height: 260px;">
-                        <img src="{{ x.image.url }}" style="width: 200px; height: 200px; overflow: hidden; border-radius: 100%">
-                        </td>
-                        <td style="padding: 30px">
-                        <!--<strong> {{ x.name }} </strong> {% blocktrans %} {{ x.description }} {% endblocktrans %}-->
-                        <strong> {{ x.name }} </strong> {% trans x.description %} 
-                        </td>
-                  </tr>
-            {% endif %} 
-            {% endfor %}
+            <table>
+                        {% for x in Team %}
+                        {% if x.active == True %}
+                              <tr>
+                                    <td style="padding: 15px 10px 15px 30px; width: 260px; height: 260px;">
+                                    <img src="{{ x.image.url }}" style="width: 200px; height: 200px; overflow: hidden; border-radius: 100%">
+                                    </td>
+                                    <td style="padding: 30px">
+                                    <!--<strong> {{ x.name }} </strong>  {% blocktrans %} {{ x.description }} {% endblocktrans %}-->
+                                    <strong> {{ x.name }} </strong> {% trans x.description %}
+                                    </td>
+                              </tr>
+                        {% endif %} 
+                        {% endfor %}
 
-</table>
+            </table>
 
-<table>
+            <table>
 
-      <h3>Colaboradores Passados</h3>
-            {% for x in Team %}
-            {% if x.active == False %}
-                  <tr>
-                        <td style="padding: 15px 10px 15px 30px; width: 260px; height: 260px;">
-                        <img src="{{ x.image.url }}" style="width: 200px; height: 200px; overflow: hidden; border-radius: 100%">
-                        </td>
-                        <td style="padding: 30px">
-                        <strong> {{ x.name }} </strong> {{ x.description }}
-                        </td>
-                  </tr>
-            {% endif %} 
-            {% endfor %}
 
-      
+                  {% if inactiveCount > 0 %}
 
-</table>
+                  <h3>{% blocktrans %}Past collaborators{% endblocktrans %}</h3>
 
-<h3>Support</h3><br>
-      <div class="logos" style="display: flex; align-items: center; flex-direction: column;">
-            <div class="logos-row">
-            <a href="http://ufrj.br/">
-            <img src="{% static 'img/logo/ufrj.png' %}"></a>
-            <a href="http://cnpq.br/">
-            <img src="{% static 'img/logo/cnpq.svg' %}"></a>
-            </div>
-            <div class="logos-row">
-            <a href="http://faperj.br/">
-            <img src="{% static 'img/logo/faperj.jpg' %}"></a>
-            <a href="http://dcc.ufrj.br/">
-            <img src="{% static 'img/logo/dcc.png' %}"></a>
-            <a href="http://coppe.ufrj.br/">
-            <img src="{% static 'img/logo/coppe.jpg' %}"></a>
-            </div>
-            <div class="logos-row">
-            <a href="http://cos.ufrj.br/">
-            <img src="{% static 'img/logo/pesc.png' %}"></a>
-            <a href="https://www.reditus.org.br">
-            <img src="{% static 'img/logo/reditus.png' %}"></a>
-            </div>
-      <br><br>
-      </div>`
-        
-        <h3>Universities using this research</h3><br>
-            <div class="logos" style="display: flex; align-items: center; flex-direction: column;">
-                  <div class="logos-row">
-                  <a href="http://ufrj.br/">
-                  <img src="{% static 'img/logo/ufrj.png' %}"></a>
-                  <a href="https://www.uah.es/es/">
-                  <img src="{% static 'img/logo/unialcalá.png' %}"></a>
+                        {% for x in Team %}
+                        {% if x.active == False %}
+                              <tr>
+                                    <td style="padding: 15px 10px 15px 30px; width: 260px; height: 260px;">
+                                    <img src="{{ x.image.url }}" style="width: 200px; height: 200px; overflow: hidden; border-radius: 100%">
+                                    </td>
+                                    <td style="padding: 30px">
+                                    <strong> {{ x.name }} </strong> {% trans x.description %}
+                                    </td>
+                              </tr>
+                        {% endif %} 
+                        {% endfor %}
+                  
+                  {% endif %} 
+
+                  
+            </table>
+
+            <h3>{% blocktrans %}Support{% endblocktrans %}</h3><br>
+                  <div class="logos" style="display: flex; align-items: center; flex-direction: column;">
+                        <div class="logos-row">
+                        <a href="http://ufrj.br/">
+                        <img src="{% static 'img/logo/ufrj.png' %}"></a>
+                        <a href="http://cnpq.br/">
+                        <img src="{% static 'img/logo/cnpq.svg' %}"></a>
+                        </div>
+                        <div class="logos-row">
+                        <a href="http://faperj.br/">
+                        <img src="{% static 'img/logo/faperj.jpg' %}"></a>
+                        <a href="http://dcc.ufrj.br/">
+                        <img src="{% static 'img/logo/dcc.png' %}"></a>
+                        <a href="http://coppe.ufrj.br/">
+                        <img src="{% static 'img/logo/coppe.jpg' %}"></a>
+                        </div>
+                        <div class="logos-row">
+                        <a href="http://cos.ufrj.br/">
+                        <img src="{% static 'img/logo/pesc.png' %}"></a>
+                        <a href="https://www.reditus.org.br">
+                        <img src="{% static 'img/logo/reditus.png' %}"></a>
+                        </div>
+                  <br><br>
+                  </div>`
+                  
+                  <h3>{% blocktrans %}Universities using this research{% endblocktrans %}</h3><br>
+                        <div class="logos" style="display: flex; align-items: center; flex-direction: column;">
+                              <div class="logos-row">
+                              <a href="http://ufrj.br/">
+                              <img src="{% static 'img/logo/ufrj.png' %}"></a>
+                              <a href="https://www.uah.es/es/">
+                              <img src="{% static 'img/logo/unialcalá.png' %}"></a>
+                              </div>
+                        </div>
+                  <br><br><br>
+
                   </div>
-            </div>
 
-      </div>
-
-            <div class="footer" style="border-bottom: none;">
-                  <div class="footer-left">Machine Teaching</div>
-                  <div class="footer-right">
-                    {% blocktrans %}Check the {% endblocktrans %}
-                    <span onclick="showConditions('{{language}}')">
-                    {% blocktrans %}Terms and Conditions{% endblocktrans %}
-                    </span>
-                    {% blocktrans %}and the {% endblocktrans %}
-                    <span onclick="showPrivacy('{{language}}')">
-                    {% blocktrans %}Privacy Policy{% endblocktrans %}
-                    </span> | 
-                    <span onclick="showAbout('{{language}}')">
-                    {% blocktrans %}About this research{% endblocktrans %}
-                    </span> | 
-                    © 2021 {% blocktrans %}GPL-3.0 License{% endblocktrans %}: <a href="http://machineteaching.tech">machineteaching.tech</a>
-                  </div>
-                </div>
-              </div>
+                        <div class="footer" style="border-bottom: none;">
+                              <div class="footer-left">Machine Teaching</div>
+                              <div class="footer-right">
+                              {% blocktrans %}Check the {% endblocktrans %}
+                              <span onclick="showConditions('{{language}}')">
+                              {% blocktrans %}Terms and Conditions{% endblocktrans %}
+                              </span>
+                              {% blocktrans %}and the {% endblocktrans %}
+                              <span onclick="showPrivacy('{{language}}')">
+                              {% blocktrans %}Privacy Policy{% endblocktrans %}
+                              </span> | 
+                              <span onclick="showAbout('{{language}}')">
+                              {% blocktrans %}About this research{% endblocktrans %}
+                              </span> | 
+                              © 2021 {% blocktrans %}GPL-3.0 License{% endblocktrans %}: <a href="http://machineteaching.tech">machineteaching.tech</a>
+                              </div>
+                        </div>
+                        </div>
 
       </body>
 </html>  
