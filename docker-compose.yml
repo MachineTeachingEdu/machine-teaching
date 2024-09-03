@@ -1,7 +1,6 @@
-version: "3.7"
 services:
   machine_teaching_db:
-    image: postgres:9.6
+    image: postgres
     env_file: ./machine-teaching-db/.env
     volumes:
       - ./machine-teaching-db/data/dump.sql:/docker-entrypoint-initdb.d/create_tables.sql
@@ -12,7 +11,7 @@ services:
     volumes:
       - ./machineteaching:/app/machineteaching
     ports:
-      - "8020:8020"
-    env_file: ./machineteaching/.env
+      - 8020:8020
+    env_file: ./.env
     depends_on:
       - machine_teaching_db
