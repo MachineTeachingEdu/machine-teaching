@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from django.views.generic import TemplateView
 
 from . import views, context_processors
@@ -63,9 +63,6 @@ urlpatterns = [
     path('student_dashboard1/<int:id>', views.get_student_dashboard1, name='student_dashboard1'),
     path('python_tutor', views.python_tutor, name='python_tutor'),
     path('profile', views.profile, name='profile'), 
-
-    # path('attempts/', views.AttemptsList.as_view(), name='attempts'),
-    # path('recommendations/', views.Recommendations.as_view(), name='recommendations'),
     path('submit_code/', views.submit_code, name='submit_code'),   #Endpoint responsável pela requisição feita para o worker-node
     #path('problem_details/<int:problem_id>/', ProblemDetailView.as_view(), name='problem-detail'),    #Endpoint para fornecer detalhes de problemas parar o worker-node (se a API não for usada, COMENTAR)
 
@@ -74,6 +71,8 @@ urlpatterns = [
 
     # View to redirect to embed form
     path('satisfaction_form', views.satisfaction_form, name='satisfaction_form'),
+    #api url
+    path('api/v1/', include('api.urls'))
 ] 
 
 if settings.DEBUG:
