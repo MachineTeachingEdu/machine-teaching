@@ -518,4 +518,4 @@ def create_userlog_error(sender, instance, created, **kwargs):
 class DropoutRisk(models.Model):
     timestamp = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    risk = models.DecimalField(max_digits=5, decimal_places=2)
+    risk = models.DecimalField(max_digits=20, decimal_places=20)
