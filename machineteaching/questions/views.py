@@ -13,7 +13,6 @@ from django.utils import timezone
 from django.utils.translation import gettext as _
 from django.core.exceptions import PermissionDenied
 from rest_framework import status
-from rest_framework.views import APIView
 from rest_framework.response import Response
 # import random
 import json
@@ -26,7 +25,6 @@ from questions.models import (Problem, Solution, UserLog, UserProfile,
 from questions.forms import (UserLogForm, SignUpForm, OutcomeForm, ChapterForm,
                              ProblemForm, SolutionForm, PageAccessForm, InteractiveForm,
                              EditProfileForm, NewClassForm, DeadlineForm, CommentForm)
-from questions.serializers import RecommendationSerializer
 from questions.get_problem import get_problem
 from questions.get_dashboards import student_dashboard, class_dashboard, manager_dashboard, predict_drop_out, time_to_finish_exercise, get_time_to_finish_chapter_in_days
 from questions.get_dashboards import *
@@ -920,36 +918,6 @@ def start(request):
 def satisfaction_form(request):
     return render(request, 'questions/satisfaction_form.html')
 
-class AttemptsList(APIView):
-    def get(self, request, format=None):
-        date = request.query_params.get('date')
-        logs = UserLog.objects.all()
-        if date:
-            date = timezone.make_aware(datetime.strptime(date,'%m-%d-%Y'))
-            logs = UserLog.objects.filter(timestamp__gte=date)
-        problems = Problem.objects.all().values_list('id')
-        users = User.objects.all().values_list('id')
-        content = []
-        for problem in problems:
-            problem = problem[0]
-            for user in users:
-                user = user[0]
-                attempts = logs.filter(user_id=user, problem_id=problem).count()
-                content.append({'problem_id':problem, 'user_id':user, 'attempts':attempts})
-        return Response(content)
-
-class Recommendations(APIView):
-    def get(self, request, format=None):
-        recommendations = Recommendations.objects.all()
-        serializer = RecommendationSerializer(recommendations, many=True)
-        return Response(serializer.data)
-    def post(self, request, format=None):
-        serializer = RecommendationSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 def send_comment_email(student, comment, link):
     solution_link = 'http://machineteaching.tech{}'.format(link)
     student_email = student.email
@@ -966,7 +934,6 @@ def send_comment_email(student, comment, link):
         </div>""".format(student.first_name, student.last_name, comment.userlog.problem.title, comment.user, comment.content, solution_link)
     send_mail(message_subject, message_content, None, [student_email], fail_silently=False, html_message=message_html)
 
-@xframe_options_exempt
 def about(request):
     Team = Collaborator.objects.all().order_by('name')
     inactiveCount = Team.filter(active = False).count()
@@ -989,6 +956,8 @@ def python_tutor(request):
     context = {'link_fixo': link_fixo, 'codigo_aluno': codigo_aluno}
 
     return JsonResponse(context)
+
 @login_required
 def profile(request):
     return render(request, 'questions/profile.html')
+    send_mail(message_subject, message_content, None, [student_email], fail_silently=False, html_message=message_html)
