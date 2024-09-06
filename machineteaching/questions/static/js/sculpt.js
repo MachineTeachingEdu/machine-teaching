@@ -97,6 +97,8 @@ function postEvaluate(status_code=null, message_error=null){  //Esta função se
     //console.log("seconds in page:" + seconds_in_page);
     //console.log("seconds to begin:" + seconds_to_begin);
 
+    //console.log("Respostas: " + document.getElementById("output").innerHTML);
+
     let eval_div = document.getElementById("evaluation");
     if(message_error == null){
         let errors = $(eval_div).children('[passed=false]').length;
@@ -132,7 +134,8 @@ function postEvaluate(status_code=null, message_error=null){  //Esta função se
         if(status_code == 4){   //Erro de sintaxe ou de compilação
             divOutput = document.getElementById("output");
             divOutput.innerHTML = divOutput.innerHTML + message_error;
-            //save_log('F', seconds_in_code, seconds_to_begin, seconds_in_page, 0);
+            //if($("#dropdown-lang").length)
+                //save_log('F', seconds_in_code, seconds_to_begin, seconds_in_page, 0);
         }
         eval_div.innerHTML = `
         <div class="card" style="position: relative;" id="print_error">
@@ -399,6 +402,7 @@ function runit(args, func, lang="") {
                 let pre_process_message = response_pre_process.message;
                 let final_code = response_pre_process.final_code;
                 let profCode = dictSolutions[language].solution;
+                console.log("Test cases: ", dictSolutions[language].test_cases);
 
                 if (pre_process_status != 0){
                     $('.loader div').stop();
@@ -427,10 +431,13 @@ function runit(args, func, lang="") {
                     zip.file("run_me_prof", profCode);   //Adicionando o arquivo com o código do professor
                     zip.generateAsync({ type: "blob" }).then((content) => {
                         let ajaxPromises = [];
-                        for (let i = 0; i < args.length; i++) {
+                        //let test_cases_length = args.length;
+                        let test_cases_length = dictSolutions[language].test_cases.length;
+                        for (let i = 0; i < test_cases_length; i++) {
                             //if(i==0){   //para debug
-                                let argList = []
-                                argList.push(args[i])
+                                let argList = [];
+                                //argList.push(args[i]);
+                                argList.push(dictSolutions[language].test_cases[i]);
                                 var formData = new FormData();
                                 formData.append("file", content, "extract-me.zip");   //Adicionando um campo 'file' no formData para adicionar o arquivo como um .zip
                                 formData.append("args", JSON.stringify(argList));
@@ -459,7 +466,8 @@ function runit(args, func, lang="") {
                                             var resultTxt = output;
                                             resultsNovo[i] = resultTxt + '\n';
                                         }
-                                        evaluateResult(args[i], func, prof_output, resultsNovo[i], isCorrect, i);
+                                        //evaluateResult(args[i], func, prof_output, resultsNovo[i], isCorrect, i);
+                                        evaluateResult(dictSolutions[language].test_cases[i], func, prof_output, resultsNovo[i], isCorrect, i);
                                     },
                                     error: function(error) {
                                         console.log("erro na chamada do ajax: ", error);

@@ -187,6 +187,17 @@ class Cluster(models.Model):
         return "%d - %s" % (self.id, self.label)
 
 
+class Language(models.Model):
+    #Linguagens de programação
+    name = models.CharField(max_length=20)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = _('Language')
+        verbose_name_plural = _('Languages')
+
 class Solution(models.Model):
     content = models.TextField(blank=False)
     header = models.TextField(blank=True, null=True)
@@ -199,15 +210,7 @@ class Solution(models.Model):
     cluster = models.ForeignKey(Cluster, on_delete=models.SET_NULL,
                                 null=True, blank=True)
     #Linguagens de programação
-    PYTHON = 'Python'
-    JULIA = 'Julia'
-    C = 'C'
-    LANGUAGE_CHOICES = [
-        (PYTHON, 'Python'),
-        (JULIA, 'Julia'),
-        (C, 'C'),
-    ]
-    language = models.CharField(max_length=20, choices=LANGUAGE_CHOICES, default=PYTHON)
+    language = models.ForeignKey(Language, on_delete=models.SET_NULL, null=True, default=Language.objects.get(name='Python').id)
     #Tipos de retorno
     TYPE_CHOICES = [
         ('int', 'int'),
@@ -239,6 +242,7 @@ class Solution(models.Model):
 class TestCase(models.Model):
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
     content = models.TextField(blank=False)
+    languages = models.ManyToManyField(Language)  #Relacionamento Many-to-Many com Language
     history = HistoricalRecords()
 
     class Meta:
@@ -269,7 +273,7 @@ class UserLog(models.Model):
                                   default="D")
     test_case_hits = models.IntegerField(blank=True, null=True)
     user_class = models.ForeignKey(OnlineClass, on_delete=models.PROTECT, null=True)
-    language = models.CharField(max_length=20, default=Solution.PYTHON)
+    language = models.ForeignKey(Language, on_delete=models.SET_NULL, null=True, default=Language.objects.get(name='Python').id)
 
     class Meta:
         verbose_name = _('User log')
@@ -463,6 +467,8 @@ def create_test_cases(sender, instance, created, **kwargs):
                 test_case = TestCase()
                 test_case.problem = instance
                 test_case.content = json.dumps(item)
+                all_languages = Language.objects.all()
+                test_case.languages.add(*all_languages)  #Adicionando todas as linguagens
                 test_case.save()
 
 @receiver(post_save, sender=UserLog)
@@ -470,12 +476,33 @@ def create_test_cases(sender, instance, created, **kwargs):
 def create_userlog_error(sender, instance, created, **kwargs):
     if instance.outcome == 'F' and instance.console != '':
         clean_errors = []
-        if instance.language == Solution.PYTHON:
+        if instance.language == Language.objects.get(name='Python'):
             user_errors = instance.console.split('\n')
             # TODO: This is considering that Python errors have the word Error on
             # them. More elaborate strategies to log this are welcome.
             clean_errors = list(set([error.split(":")[0] for error in
                                 user_errors if "Error" in error.split(":")[0]]))
+        elif instance.language == Language.objects.get(name='Julia'):
+            user_errors = instance.console.split('\n')
+            try:
+                clean_errors = list(set([error.split(":")[1].strip() for error in
+                                    user_errors if "Error" in error.split(":")[1]]))
+            except:
+                clean_errors = []
+        """
+        elif instance.language == Language.objects.get(name='C'):
+            user_errors = instance.console.split('\n')
+            try:
+                for error in user_errors:
+                    error_type = error.split(":")[0]
+                    if "RUNTIME ERROR" in error_type:
+                        clean_errors.append("RuntimeError")
+                    elif "COMPILE ERROR" in error_type:
+                        clean_errors.append("CompileError")
+                clean_errors = list(set(clean_errors))
+            except:
+                clean_errors = []
+        """
         # Add error to Log Error model
         for error in clean_errors:
             log_error = UserLogError()

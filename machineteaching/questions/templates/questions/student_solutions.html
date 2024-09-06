@@ -38,6 +38,7 @@
         {% for log in problem.logs %}
         <div class="solution">
             <span style="display:inline-block;">{{ log.timestamp }}</span>
+            <span style="display:inline-block;">Lang: {{log.language}}</span>
             <div style="text-align: center;"><a class="link" href="{% url 'past_solutions' id=log.id %}">{% blocktrans %}See solution{% endblocktrans %}</a></div>
             <div style="display: flex; width: 100%; align-items: center; padding-top: 1rem;">
                 <div style="width: 90%; text-align: center;">
@@ -101,7 +102,8 @@
             lineNumbers: true,
             indentUnit: 4,
             tabMode: "spaces",
-            matchBrackets: true
+            matchBrackets: true,
+            readOnly: true
         });
         if(textareas[i].lang == "C")
             editor.setOption('mode', { name: "text/x-csrc" });

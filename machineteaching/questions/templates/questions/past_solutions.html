@@ -59,7 +59,10 @@
 
     <!-- code -->
     <div class="card">
-        <h3>{% blocktrans %}Solution{% endblocktrans %}</h3>
+        <div class="solutionLang" style="display: flex; justify-content: space-between; align-items: center;">
+            <h3>{% blocktrans %}Solution{% endblocktrans %}</h3>
+            <h3>Language: {{log.language}}</h3>
+        </div>
         <textarea class="code" id="code" name="solution" style="display: none;" lang="{{log.language}}">{{log.solution}}</textarea>
     </div>
 
@@ -184,7 +187,6 @@
 
     //running solution
     //runit({{test_case|safe}}, '{{header}}', {{expected_results|safe}})
-    
     runit({{test_case|safe}}, '{{header}}', '{{log.language}}');
 
     const next = '{% blocktrans %}Next{% endblocktrans %}';

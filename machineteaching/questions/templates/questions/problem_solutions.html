@@ -11,6 +11,7 @@
     <div style="width: 100%; height: 30rem; padding-bottom: 2rem; display: flex;">
         <div class="card problem_solution">
             <span>{{ solution.log.timestamp }}</span>
+            <span style="margin-left: 2em;">Lang: {{solution.log.language}}</span>
             {% if solution.log.outcome == "P" %}
             <span class="badge success">{% trans "Passed" %}</span>
             {% elif solution.log.outcome == "F" %}
