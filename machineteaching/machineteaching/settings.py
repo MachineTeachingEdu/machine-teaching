@@ -249,3 +249,6 @@ TEST_SNAME="Teste"
 TEST_MANAGER="professor@machineteaching.tech"
 TEST_PASSWORD="senhaTeste"
 TEST_USER="usuario@machineteaching.tech"
+
+WORKER_NODE_HOST = os.getenv('WORKER_NODE_HOST')
+WORKER_NODE_PORT = os.getenv('WORKER_NODE_PORT')

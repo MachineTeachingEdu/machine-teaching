@@ -488,6 +488,7 @@ def get_problem_solutions(request, problem_id, class_id):
                                                                      'outcome',
                                                                      'timestamp',
                                                                      'test_case_hits',
+                                                                     'language',
                                                                      'id')
     students = []
     if logs.count():
@@ -496,6 +497,7 @@ def get_problem_solutions(request, problem_id, class_id):
                                   logs[0]["user__last_name"])
         student = {'name':student_name,'logs':[]}
         for log in logs:
+            log["language"] = Language.objects.get(id=log["language"]).name
             if log["user_id"] != current_student:
                 students.append(student)
                 current_student = log["user_id"]

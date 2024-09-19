@@ -98,6 +98,7 @@ function postEvaluate(status_code=null, message_error=null){  //Esta função se
     //console.log("seconds to begin:" + seconds_to_begin);
 
     //console.log("Respostas: " + document.getElementById("output").innerHTML);
+    $(".div_loading_test_cases").hide();   //Escondendo o loading na página de past_solutions
 
     let eval_div = document.getElementById("evaluation");
     if(message_error == null){
@@ -117,16 +118,19 @@ function postEvaluate(status_code=null, message_error=null){  //Esta função se
             </div>`);
         $('#next').remove();
         $('.result').append(`<button type="button" onclick="gotoproblem()" class="primary disabled" id="next">${next}</button>`);
-/*
+
         if($("#dropdown-lang").length){
-            if (errors == 0) {
-                passed()
-                save_log('P', seconds_in_code, seconds_to_begin, seconds_in_page, hits);
-            } else {
-                save_log('F', seconds_in_code, seconds_to_begin, seconds_in_page, hits);
-            };
+            language = $('#dropdown-lang option:selected').text();
+            if(totalTestCases == dictSolutions[language].test_cases.length){
+                if (errors == 0) {
+                    passed()
+                    save_log('P', seconds_in_code, seconds_to_begin, seconds_in_page, hits);
+                } else {
+                    save_log('F', seconds_in_code, seconds_to_begin, seconds_in_page, hits);
+                };
+            }
         }
-*/
+
     }
     else {   //Se o código submetido for inválido ou der erro no pré-processamento
         if(status_code == 1)   //Erro de print
@@ -134,18 +138,20 @@ function postEvaluate(status_code=null, message_error=null){  //Esta função se
         if(status_code == 4){   //Erro de sintaxe ou de compilação
             divOutput = document.getElementById("output");
             divOutput.innerHTML = divOutput.innerHTML + message_error;
-            //if($("#dropdown-lang").length)
-                //save_log('F', seconds_in_code, seconds_to_begin, seconds_in_page, 0);
+            if($("#dropdown-lang").length)
+                save_log('F', seconds_in_code, seconds_to_begin, seconds_in_page, 0);
         }
+        message_error = message_error.replace(/\n/g, "<br>");
         eval_div.innerHTML = `
         <div class="card" style="position: relative;" id="print_error">
             <div class="badge danger" style="position: absolute; top: 1rem; right: 1rem">${failed_txt}</div>
-            <h3>${error}</h3>
-            <p>${message_error}</p>
+            <h3 style="margin-bottom: 0.5em">${error}</h3>
+            <p style="margin-top: 0; margin-bottom: 0.1em">${message_error}</p>
         </div>`;
         $('.result').hide()
     } 
-   
+    
+    $('#dropdown-lang').prop('disabled', false);
     $('#run').show();
     $('.loader').hide();
     $('.loader div').attr('style', 'width: 0;');
@@ -370,6 +376,7 @@ function runit(args, func, expected_results) {
 
 function runit(args, func, lang="") {
     $('#run').hide();
+    $('#dropdown-lang').prop('disabled', true);
     $('.loader').show();
     $('.loader div').animate({width: '100%'}, 5000);
     var mypre = document.getElementById("output");
@@ -391,7 +398,7 @@ function runit(args, func, lang="") {
         formData.append("file", content, "extract-me.zip");
         formData.append("prog_lang", language);
         $.ajax({
-            url: "http://localhost:5000/pre-process",
+            url: worker_node_host + worker_node_port + "/pre-process",
             type: "POST",
             data: formData,
             processData: false,
@@ -402,7 +409,7 @@ function runit(args, func, lang="") {
                 let pre_process_message = response_pre_process.message;
                 let final_code = response_pre_process.final_code;
                 let profCode = dictSolutions[language].solution;
-                console.log("Test cases: ", dictSolutions[language].test_cases);
+                //console.log("Test cases: ", dictSolutions[language].test_cases);
 
                 if (pre_process_status != 0){
                     $('.loader div').stop();
@@ -445,7 +452,7 @@ function runit(args, func, lang="") {
                                 formData.append("funcName", func);
                                 formData.append("returnType", returnType);
                                 ajaxPromises.push($.ajax({
-                                    url: "http://localhost:5000/",
+                                    url: worker_node_host + worker_node_port + "/",
                                     type: "POST",
                                     data: formData,
                                     processData: false, // Necessário para enviar o FormData sem que jQuery tente processá-lo
@@ -458,11 +465,11 @@ function runit(args, func, lang="") {
                                         let isCorrect = response[0][0].isCorrect ? true : false;
                                         //console.log('statuscode: ', statusCode, '  servername: ', serverName, '  output: ', output);
                                         if(statusCode == 200){
-                                            console.log("Success: ", response);
+                                            //console.log("Success: ", response);
                                             resultsNovo[i] = output;
                                         }
                                         else{
-                                            console.log("Erro: ", response);
+                                            //console.log("Erro: ", response);
                                             var resultTxt = output;
                                             resultsNovo[i] = resultTxt + '\n';
                                         }

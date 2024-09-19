@@ -489,7 +489,6 @@ def create_userlog_error(sender, instance, created, **kwargs):
                                     user_errors if "Error" in error.split(":")[1]]))
             except:
                 clean_errors = []
-        """
         elif instance.language == Language.objects.get(name='C'):
             user_errors = instance.console.split('\n')
             try:
@@ -502,7 +501,6 @@ def create_userlog_error(sender, instance, created, **kwargs):
                 clean_errors = list(set(clean_errors))
             except:
                 clean_errors = []
-        """
         # Add error to Log Error model
         for error in clean_errors:
             log_error = UserLogError()
