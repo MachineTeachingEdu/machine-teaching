@@ -4,8 +4,9 @@ from django.views.generic import TemplateView
 from . import views, context_processors
 from django.conf.urls import url
 from django.views.static import serve
-# from django.conf.urls.static import static
 from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 
 
@@ -45,7 +46,8 @@ urlpatterns = [
     path('student_dashboard/<int:id>', views.get_student_dashboard, name='student_dashboard'),
     path('classes', views.classes, name='classes'),
     path('classes/manage/<int:onlineclass>', views.manage_class, name='manage_class'),
-    path('classes/dashboard/<int:onlineclass>', views.get_class_dashboard, name='class_dashboard'),
+    path('classes/dashboard/<int:onlineclass>', views.get_class_dashboard1, name='class_dashboard1'),
+    path('classes/old_dashboard/<int:onlineclass>', views.get_class_dashboard, name='class_dashboard'),
     path('class_active', views.class_active, name='class_active'),
     path('manager_dashboard', views.get_manager_dashboard, name='manager_dashboard'),
     path('delete_deadline/<int:onlineclass>/<int:deadline>', views.delete_deadline, name='delete_deadline'),
@@ -58,6 +60,8 @@ urlpatterns = [
     path('about', views.about, name='about'),
     path('dashboard1', views.get_dashboard1, name='dashboard1'),  
     path('student_dashboard1/<int:id>', views.get_student_dashboard1, name='student_dashboard1'),
+    path('python_tutor', views.python_tutor, name='python_tutor'),
+    path('profile', views.profile, name='profile'), 
 
     # path('attempts/', views.AttemptsList.as_view(), name='attempts'),
     # path('recommendations/', views.Recommendations.as_view(), name='recommendations'),
@@ -67,4 +71,9 @@ urlpatterns = [
 
     # View to redirect to embed form
     path('satisfaction_form', views.satisfaction_form, name='satisfaction_form'),
-]
+] 
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+else:
+    urlpatterns += staticfiles_urlpatterns()

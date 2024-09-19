@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'simple_history',
     'import_export',
     'rest_framework',
+    'downloadDB'
 ]
 
 MIDDLEWARE = [
@@ -156,7 +157,8 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = ( os.path.join('staticfiles'), )
 
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'questions')
 
 # Disable revert option from admin
 SIMPLE_HISTORY_REVERT_DISABLED=True

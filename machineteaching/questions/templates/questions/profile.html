@@ -29,6 +29,54 @@
         };
         </script>
 
+<style>
+    :root {
+        --box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;}
+
+
+    body{background-color: rgb(246,246,250);}
+
+    .white-box {
+        background-color: white;
+        box-shadow: var(--box-shadow);
+        padding: 1rem;
+        height: 20rem;
+        border-radius: 4px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width:90rem ;
+    }
+
+    .user-info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+.user-info label {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.user-info input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+}
+
+  </style>
+
     </head>
     <body>
         <div class="sidebar"><a href="http://machineteaching.tech" class="brand">Machine Teaching</a>
@@ -88,8 +136,6 @@
               <a class="link" href="{% url 'edit_profile' %}" style="height: 2.2rem; margin-bottom: 2rem;">{% blocktrans %}Change class{% endblocktrans %}</a>
               {% endif %}
               <br>
-              <a class="link profile" href="{% url 'profile' %}" style="height: 2.2rem;">{% blocktrans %}Profile{% endblocktrans %}</a>
-              <br>
               <a class="link logout" href="{% url 'logout' %}" style="height: 2.2rem;">{% blocktrans %}Logout{% endblocktrans %}</a>
             </div></span>
           </div>
@@ -105,7 +151,37 @@
         <!-- content --->
         <div class="layout-content">
             {% block content %}
+
+              <div class="white-box">
+                <h2>Informações do Usuário</h2>
+                <div class="user-info-grid">
+                    <div class="user-info">
+                        <label class="form-control-label" for="input-username">Nome</label>
+                        <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+                    </div>
+                    <div class="user-info">
+                        <label class="form-control-label" for="input-email">Email:</label> 
+                        <h3>{{ user.email }}</h3>
+                    </div>
+                    <div class="user-info">
+                        <label class="form-control-label" for="input-university">Universidade:</label>
+                        <h3>{{ request.user.userprofile.university }}</h3>                    
+                    </div>
+                    <div class="user-info">
+                        <label class="form-control-label" for="input-class-code">Código da Turma:</label>
+                        <h3>{{ request.user.userprofile.user_class }}</h3>                      
+                    </div>
+                    <div class="user-info">
+                        <label class="form-control-label" for="input-registration">Matrícula:</label>
+                        <h3>{{ request.user.userprofile.registration }}</h3>                    
+                    </div>
+                </div>
+                <br>
+                <h3>Caso deseje mudar suas Informações entre em contato com: equipe@machineteaching.tech</h3>
+            </div>
+
             {% endblock %}
+
         </div>
 
         <!-- footer --->
@@ -133,61 +209,6 @@
             </div>
         </div>
         </div>
-
-      {% if not student_course and not perms.questions.view_userlogview %}
-      <div class="bg2 course">
-        <div class="card add-course" style="width: 30rem;">
-          <h3>{% blocktrans %}Register your course{% endblocktrans %}</h3>
-            <select id="id_course">
-            <option disabled="" selected="">{% blocktrans %}Your course{% endblocktrans %}</option>
-            <option>Astronomia</option>
-            <option>Bacharelado em Ciências Matemáticas e da Terra</option>
-            <option>Bacharelado em Física</option>
-            <option>Bacharelado em Matemática</option>
-            <option>Bacharelado em Química</option>
-            <option>Ciências Atuariais</option>
-            <option>Engenharia Civil</option>
-            <option>Engenharia da Produção</option>
-            <option>Engenharia de Materiais</option>
-            <option>Engenharia de Petróleo</option>
-            <option>Engenharia Elétrica</option>
-            <option>Engenharia Matemática</option>
-            <option>Engenharia Mecânica</option>
-            <option>Engenharia Metalúrgica</option>
-            <option>Engenharia Naval e Oceânica</option>
-            <option>Engenharia Nuclear</option>
-            <option>Estatística</option>
-            <option>Licenciatura em Física</option>
-            <option>Licenciatura em Matemática</option>
-            <option>Licenciatura em Química</option>
-            <option>Matemática Aplicada</option>
-            <option>Meteorologia</option>
-            <option>Nanotecnologia</option>
-            <option>Química Atribuições Tecnológicas</option>
-            <option>Outro</option>
-          </select>
-          <input type="text" name="course" placeholder="{% blocktrans %}Other course{% endblocktrans %}" style="display: none;"><br>
-          <button class="primary" onclick="register()">{% blocktrans %}Register{% endblocktrans %}</button>
-        </div>
-      </div>
-      {% endif %}
-
-      {% if not user.userprofile.university and not perms.questions.view_userlogview %}
-      <div class="bg2 university">
-        <div class="card add-university" style="width: 30rem;">
-          <h2>{% blocktrans %}Update your informations{% endblocktrans %}</h2>
-          <div class="sub-section">
-            <h4>{% blocktrans %}Add you university{% endblocktrans %}</h4>
-            <input type="text" name="university" placeholder="Universidade">
-          </div>
-          <div class="sub-section">
-            <h4>{% blocktrans %}Add your university registration{% endblocktrans %}</h4>
-            <input type="text" name="registration" placeholder="Registration">
-          </div>
-          <button class="primary" onclick="registerUniversity()">{% blocktrans %}Register{% endblocktrans %}</button>
-        </div>
-      </div>
-      {% endif %}
 
 
       <!-- scripts -->
@@ -223,8 +244,6 @@
       <script src="{% static 'vendor/codemirror-5.58.2/lib/codemirror-repl.js' %}"></script>
       <script src="{% static 'vendor/codemirror-5.58.2/lib/codemirror.js' %}"></script>
       <script src="{% static 'vendor/codemirror-5.58.2/mode/python/python.js' %}"></script>
-      <script src="{% static 'vendor/codemirror-5.58.2/mode/julia/julia.js' %}"></script>
-      <script src="{% static 'vendor/codemirror-5.58.2/mode/clike/clike.js' %}"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/9.4.2/math.js"></script>
       <script src="{% static 'js/skulpt.min.js' %}" type="text/javascript"></script>
       <script src="{% static 'js/skulpt-stdlib.js' %}" type="text/javascript"></script>
