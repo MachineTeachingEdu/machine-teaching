@@ -22,7 +22,7 @@ from datetime import datetime
 from statistics import mean
 from questions.models import (Problem, Solution, UserLog, UserProfile,
                               Professor, OnlineClass, UserLogView, Chapter,
-                              Deadline, ExerciseSet, Recommendations, Comment)
+                              Deadline, ExerciseSet, Recommendations, Comment, Language)
 from questions.forms import (UserLogForm, SignUpForm, OutcomeForm, ChapterForm,
                              ProblemForm, SolutionForm, PageAccessForm, InteractiveForm,
                              EditProfileForm, NewClassForm, DeadlineForm, CommentForm)
@@ -38,6 +38,7 @@ from django.core.mail import send_mail
 from functools import wraps
 from .models import Collaborator
 from django.views.decorators.clickjacking import xframe_options_exempt
+from .utils import supported_languages
 import urllib
 
 
@@ -130,7 +131,7 @@ def show_problem(request, problem_id):
 @login_required
 def get_random_problem(request):
     problem = Problem.objects.random()
-    solution = Solution.objects.filter(problem=problem)[0]
+    solution = Solution.objects.filter(problem=problem, language=Language.objects.get(name='Python'))[0]
     return render(request, 'questions/show_problem.html', {'problem': problem,
                                                            'solution': solution})
 
@@ -151,6 +152,11 @@ def get_next_problem(request):
 
 @login_required
 def save_user_log(request):
+    if request.POST['language'] not in supported_languages:
+        return JsonResponse({'status': 'failed', 'message': 'Language not supported'})
+    request.POST = request.POST.copy()  #Criando uma cópia de request.POST, pois ele é imutável
+    lang_id = Language.objects.get(name=request.POST['language']).id
+    request.POST['language'] = str(lang_id)
     form = UserLogForm(request.POST)
     LOGGER.debug("Log received for user %s with outcome %s: %s",
                  request.user,
@@ -484,6 +490,7 @@ def get_problem_solutions(request, problem_id, class_id):
                                                                      'outcome',
                                                                      'timestamp',
                                                                      'test_case_hits',
+                                                                     'language',
                                                                      'id')
     students = []
     if logs.count():
@@ -492,6 +499,7 @@ def get_problem_solutions(request, problem_id, class_id):
                                   logs[0]["user__last_name"])
         student = {'name':student_name,'logs':[]}
         for log in logs:
+            log["language"] = Language.objects.get(id=log["language"]).name
             if log["user_id"] != current_student:
                 students.append(student)
                 current_student = log["user_id"]
@@ -521,12 +529,14 @@ def get_student_solutions(request, id, chapter):
                                                                      'outcome',
                                                                      'timestamp',
                                                                      'test_case_hits',
-                                                                     'id')
+                                                                     'id',
+                                                                     'language')
     problems = []
     if logs.count():
         current_problem = logs[0]["problem"]
         problem = {'problem':Problem.objects.get(id=current_problem),'logs':[]}
         for log in logs:
+            log["language"] = Language.objects.get(id=log["language"]).name
             if log["problem"] != current_problem:
                 problems.append(problem)
                 current_problem = log["problem"]

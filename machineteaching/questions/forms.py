@@ -62,7 +62,7 @@ class SignUpForm(UserCreationForm):
 
 class OutcomeForm(forms.Form):
     onlineclass = forms.ModelChoiceField(queryset=OnlineClass.objects.all(), label=_(u'Class'))
-    chapter = forms.ModelChoiceField(queryset=Chapter.objects.filter(active = True), label=_(u'Chapter'))
+    chapter = forms.ModelChoiceField(queryset=Chapter.objects.all(), label=_(u'Chapter'))
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
@@ -168,7 +168,7 @@ class NewClassForm(ModelForm):
         fields = ['name', 'start_date']
 
 class DeadlineForm(forms.Form):
-    chapter = forms.ModelChoiceField(queryset=Chapter.objects.filter(active = True), label=_(u'Chapter'))
+    chapter = forms.ModelChoiceField(queryset=Chapter.objects.all(), label=_(u'Chapter'))
     date = forms.CharField()
     time = forms.CharField()
 

@@ -136,3 +136,6 @@ machineteaching/machineteaching/maintenance_mode_state.txt
 
 !machineteaching/questions/static/pdf/dicas_MT.pdf
 staticfiles
+
+jsconfig.json
+launch.json

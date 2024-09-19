@@ -11,6 +11,7 @@
     <div style="width: 100%; height: 30rem; padding-bottom: 2rem; display: flex;">
         <div class="card problem_solution">
             <span>{{ solution.log.timestamp }}</span>
+            <span style="margin-left: 2em;">Lang: {{solution.log.language}}</span>
             {% if solution.log.outcome == "P" %}
             <span class="badge success">{% trans "Passed" %}</span>
             {% elif solution.log.outcome == "F" %}
@@ -25,7 +26,7 @@
                     <div style="width: {{ solution.log.test_case_hits }}%; background: var(--green);"></div></div>
                 </div>
             </div>
-            <textarea class="code" id="code" name="solution" style="display: none;">{{solution.log.solution}}</textarea>
+            <textarea class="code" id="code" name="solution" style="display: none;" lang="{{solution.log.language}}">{{solution.log.solution}}</textarea>
         </div>
         {% if solution.comments %}
         <div style="width: 50%; height: 100%">
@@ -85,8 +86,12 @@
             tabMode: "spaces",
             matchBrackets: true,
             readOnly: true
-    });
-    editor.setSize('100%',300);
+        });
+        if(textareas[i].lang == "C")
+            editor.setOption('mode', { name: "text/x-csrc" });
+        else if(textareas[i].lang == "Julia")
+            editor.setOption('mode', { name: "julia" });
+        editor.setSize('100%',300);
     }
 </script>
 {% endblock %}
