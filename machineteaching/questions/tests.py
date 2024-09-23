@@ -197,8 +197,8 @@ class InterfaceTests(DjkSampleTestCase):
         page.click("text=Adicionar problema")
 
 
-    def user(self):
-    # def test_user(self):
+    # def user(self):
+    def test_user(self):
         page = self.browser.new_page()
         page.set_default_timeout(10000)
 
