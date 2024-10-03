@@ -139,7 +139,8 @@ class InterfaceTests(DjkSampleTestCase):
         self.assertEqual("Casos de teste", page.locator('text=Casos de teste').text_content())
         self.write_terminal(page)
         self.assertEqual("oi", page.locator(("text=oi >> nth=0")).text_content())
-
+    
+    
     def write_code(self, page):
         #page.locator("text=xxxxxxxxxx 1#Start your python function here >> div[role='presentation']").click()
         page.keyboard.press("Enter")
@@ -154,6 +155,7 @@ class InterfaceTests(DjkSampleTestCase):
         page.keyboard.type("print('oi')")
         page.click('text=Executar')
         time.sleep(5)
+    
 
     def password_reset(self, page):
         page.goto(f"{self.live_server_url}/pt-br/accounts/login/?next=/pt-br/start")
@@ -194,7 +196,7 @@ class InterfaceTests(DjkSampleTestCase):
 
         solution = """def Header_Teste(num):
                 return num"""
-        
+        time.sleep(1)
         page.keyboard.type(solution)
         page.fill('form[action="/pt-br/new"] input[name="title"]', 'Exercicio_Teste')
         page.fill('form[action="/pt-br/new"] input[name="header"]', 'Header_Teste')
