@@ -467,30 +467,28 @@ def create_test_cases(sender, instance, created, **kwargs):
                 test_case = TestCase()
                 test_case.problem = instance
                 test_case.content = json.dumps(item)
+                test_case.save()
                 all_languages = Language.objects.all()
                 test_case.languages.add(*all_languages)  #Adicionando todas as linguagens
-                test_case.save()
 
 @receiver(post_save, sender=UserLog)
 @disable_for_loaddata
 def create_userlog_error(sender, instance, created, **kwargs):
     if instance.outcome == 'F' and instance.console != '':
         clean_errors = []
+        user_errors = instance.console.split('\n')
         if instance.language == Language.objects.get(name='Python'):
-            user_errors = instance.console.split('\n')
             # TODO: This is considering that Python errors have the word Error on
             # them. More elaborate strategies to log this are welcome.
             clean_errors = list(set([error.split(":")[0] for error in
                                 user_errors if "Error" in error.split(":")[0]]))
         elif instance.language == Language.objects.get(name='Julia'):
-            user_errors = instance.console.split('\n')
             try:
                 clean_errors = list(set([error.split(":")[1].strip() for error in
                                     user_errors if "Error" in error.split(":")[1]]))
             except:
                 clean_errors = []
         elif instance.language == Language.objects.get(name='C'):
-            user_errors = instance.console.split('\n')
             try:
                 for error in user_errors:
                     error_type = error.split(":")[0]
@@ -501,6 +499,11 @@ def create_userlog_error(sender, instance, created, **kwargs):
                 clean_errors = list(set(clean_errors))
             except:
                 clean_errors = []
+                
+        for error in user_errors:
+            if "Time limit exceeded" in error.split(":")[0]: 
+                clean_errors.append("TimeoutError")
+                break
         # Add error to Log Error model
         for error in clean_errors:
             log_error = UserLogError()
