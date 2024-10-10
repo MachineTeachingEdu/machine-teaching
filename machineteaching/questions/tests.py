@@ -3,7 +3,7 @@ from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from playwright.sync_api import sync_playwright
 from django.conf import settings
 from django.contrib.auth.models import User
-from questions.models import Professor, OnlineClass
+from questions.models import Professor, OnlineClass, Language
 from django.test.utils import override_settings
 from django.db import connection
 
@@ -22,6 +22,9 @@ class InterfaceTests(DjkSampleTestCase):
         headless = False     # False to show browser while testing
         cls.browser = cls.playwright.chromium.launch(headless=headless) 
         User.objects.create_superuser(username=settings.TEST_SUPERUSER_USER, email=settings.TEST_SUPERUSER_EMAIL, password=settings.TEST_SUPERUSER_PASSWORD)
+        Language.objects.create(id=1, name='Python')
+        Language.objects.create(id=2, name='Julia')
+        Language.objects.create(id=3, name='C')
  
     @classmethod 
     def tearDownClass(cls): 
@@ -136,9 +139,10 @@ class InterfaceTests(DjkSampleTestCase):
         self.assertEqual("Casos de teste", page.locator('text=Casos de teste').text_content())
         self.write_terminal(page)
         self.assertEqual("oi", page.locator(("text=oi >> nth=0")).text_content())
-
+    
+    
     def write_code(self, page):
-        page.locator("text=xxxxxxxxxx 1#Start your python function here >> div[role='presentation']").click()
+        #page.locator("text=xxxxxxxxxx 1#Start your python function here >> div[role='presentation']").click()
         page.keyboard.press("Enter")
         page.keyboard.type("def oi():")
         page.keyboard.press("Enter")
@@ -147,8 +151,11 @@ class InterfaceTests(DjkSampleTestCase):
         time.sleep(5)
 
     def write_terminal(self, page):
-        page.locator("div:nth-child(3) > .CodeMirror > .CodeMirror-scroll > .CodeMirror-sizer > div > .CodeMirror-lines > div > .CodeMirror-code").click()
+        page.locator("div:nth-child(2) > .CodeMirror > .CodeMirror-scroll > .CodeMirror-sizer > div > .CodeMirror-lines > div > .CodeMirror-code").click()
         page.keyboard.type("print('oi')")
+        page.click('text=Executar')
+        time.sleep(5)
+    
 
     def password_reset(self, page):
         page.goto(f"{self.live_server_url}/pt-br/accounts/login/?next=/pt-br/start")
@@ -189,7 +196,7 @@ class InterfaceTests(DjkSampleTestCase):
 
         solution = """def Header_Teste(num):
                 return num"""
-        
+        time.sleep(1)
         page.keyboard.type(solution)
         page.fill('form[action="/pt-br/new"] input[name="title"]', 'Exercicio_Teste')
         page.fill('form[action="/pt-br/new"] input[name="header"]', 'Header_Teste')

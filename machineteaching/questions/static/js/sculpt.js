@@ -5,10 +5,12 @@ $('#dropdown-lang').on('change', function() {
     editor.setValue(dictSolutions[language].text);
     currentLanguage = language;
     if(language == "Python"){
+        $("#python_tutor").show();
         editor.setOption('mode', {name: "python", version: 2, singleLineStringErrors: false});
         $("#interactive").parent().show();
     }
     else{
+        $("#python_tutor").hide();
         if(language == "Julia")
             editor.setOption('mode', { name: "julia" });
         else if(language == "C")
