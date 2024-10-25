@@ -753,6 +753,8 @@ def manage_class(request, onlineclass):
     else:
         raise PermissionDenied()
 
+@login_required
+@permission_required('questions.view_userlogview', raise_exception=True)
 def get_class_dashboard(request, onlineclass):
     onlineclass = OnlineClass.objects.get(id=onlineclass)
     if onlineclass in Professor.objects.get(user=request.user).prof_class.all():
@@ -760,6 +762,8 @@ def get_class_dashboard(request, onlineclass):
     else:
         raise PermissionDenied()
     
+@login_required
+@permission_required('questions.view_userlogview', raise_exception=True)
 def get_class_dashboard1(request, onlineclass):
     onlineclass = OnlineClass.objects.get(id=onlineclass)
     if onlineclass in Professor.objects.get(user=request.user).prof_class.all():
