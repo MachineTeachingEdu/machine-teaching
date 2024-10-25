@@ -468,7 +468,6 @@ left outer join
 ) d
 on a.chapter_id = d.chapter_id
 order by name, chapter_id'''
-    print(query)
     cursor.execute(query)
     infos = cursor.fetchall()
     chapters_users = []
