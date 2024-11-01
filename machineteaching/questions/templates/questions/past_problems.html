@@ -13,7 +13,13 @@
             <option value="{% blocktrans %}Failed{% endblocktrans %}">{% blocktrans %}Failed{% endblocktrans %}</option>
             <option value="{% blocktrans %}Skipped{% endblocktrans %}">{% blocktrans %}Skipped{% endblocktrans %}</option>
         </select>
-        <input type="text" name="search" id="search">
+
+        <select id="filter-classes" name="filter">
+            <option value="">{% blocktrans %}Classes{% endblocktrans %}</option>
+            {% for chapter in available_chapters %}
+                <option value="{{ chapter }}">{{ chapter }}</option>
+            {% endfor %}
+        </select>
     </div>  
 
     <!-- <table id="past-problems">
@@ -168,6 +174,8 @@ var table = $('#past-problems').DataTable({
 
 
 $('#past-problems_filter input').attr('placeholder','{% blocktrans %}Search{% endblocktrans%}');
+document.querySelector('#past-problems_filter input').style.display = 'none';
+
 
 $('input[type="checkbox"]').on('click', function() {
     var filter = [];
@@ -181,5 +189,18 @@ $('#filter-dropdown').on('change', function() {
         var filter = $(this).val();
         table.search(filter).draw();
     });
+
+$('#filter-classes').on('change', function() {
+    var filter = $(this).val();
+    table.search(filter).draw();
+});
+
+$('#filter-dropdown').on('change', function() {
+    $('#filter-classes').prop('selectedIndex', 0); 
+});
+
+$('#filter-classes').on('change', function() {
+    $('#filter-dropdown').prop('selectedIndex', 0); 
+});
 </script>
 {% endblock %}

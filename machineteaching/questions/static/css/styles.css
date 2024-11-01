@@ -2268,3 +2268,55 @@ input:checked + .slider:before {
     background-color: #1B71D6;
 
 }
+
+.card.chapterLinks a {
+    color: #007bff; 
+    text-decoration: underline; 
+    font-weight: 600; 
+    transition: color 0.3s ease, text-decoration 0.3s ease; 
+}
+
+.card.chapterLinks a:hover {
+    color: #0056b3; 
+    text-decoration: none; 
+}
+
+.card.chapterLinks h4 {
+    margin: 0.5em 0; 
+}
+
+#filter-dropdown {
+    background-color: rgb(85, 85, 85); /* Fundo cinza levemente mais claro */
+    color: #fff; /* Texto branco */
+    border: 1px solid #444; /* Borda */
+    padding: 8px; /* Espaçamento interno */
+    border-radius: 4px; /* Cantos arredondados */
+    appearance: none; /* Remove o estilo padrão do select */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="%23fff"><path d="M7 10l5 5 5-5z"/></svg>'); /* Seta para o dropdown */
+    background-repeat: no-repeat; /* Não repetir a imagem */
+    background-position: right 15px center; /* Posição da seta */
+    background-size: 12px; /* Tamanho da seta */
+    width: 150px; /* Largura ajustada para o filter-dropdown */
+}
+
+#filter-classes {
+    background-color: rgb(85, 85, 85); /* Fundo cinza levemente mais claro */
+    color: #fff; /* Texto branco */
+    border: 1px solid #444; /* Borda */
+    padding: 8px; /* Espaçamento interno */
+    border-radius: 4px; /* Cantos arredondados */
+    appearance: none; /* Remove o estilo padrão do select */
+    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="%23fff"><path d="M7 10l5 5 5-5z"/></svg>'); /* Seta para o dropdown */
+    background-repeat: no-repeat; /* Não repetir a imagem */
+    background-position: right 15px center; /* Posição da seta */
+    background-size: 12px; /* Tamanho da seta */
+    width: 200px; /* Largura ajustada para o filter-classes */
+    white-space: nowrap; /* Impede a quebra de linha */
+    overflow: hidden; /* Esconde o texto que excede */
+    text-overflow: ellipsis; /* Adiciona reticências ao final */
+}
+
+/* Efeito ao passar o mouse sobre os selects */
+#filter-dropdown:hover, #filter-classes:hover {
+    background-color: rgb(100, 100, 100); /* Um pouco mais claro ao passar o mouse */
+}

@@ -22,6 +22,7 @@ class Chapter(models.Model):
                                 null=True, blank=True)
     history = HistoricalRecords()
     #active = models.BooleanField(default=True)
+    link = models.ManyToManyField('ChapterLink', blank=True)
 
     def __unicode__(self):
         return self.label
@@ -378,6 +379,12 @@ class Collaborator(models.Model):
         verbose_name = _('Collaborator')
         verbose_name_plural = _('Collaborators')
 
+class ChapterLink(models.Model):
+    url = models.URLField(max_length=200)
+    name = models.CharField(max_length=200, null=True)
+
+    def __str__(self):
+        return self.url
 
 @receiver(post_save, sender=User)
 @disable_for_loaddata
