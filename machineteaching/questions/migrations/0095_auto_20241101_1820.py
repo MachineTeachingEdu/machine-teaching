@@ -33,6 +33,7 @@ class Migration(migrations.Migration):
             delete from questions_testcase_languages where (language_id=2 or language_id=3) and testcase_id in (select id from questions_testcase where problem_id = 742 and content like '%\\\%');
             delete from questions_testcase_languages where (language_id=2 or language_id=3) and testcase_id in (select id from questions_testcase where problem_id = 831 and content like '%\\\%');
             delete from questions_testcase_languages where (language_id=2 or language_id=3) and testcase_id in (select id from questions_testcase where problem_id = 820 and content like '%\\\%');
+            delete from questions_testcase_languages where (language_id=3) and testcase_id in (8003, 8004, 8005, 8011, 8012);
             """,
             reverse_sql="TRUNCATE TABLE questions_testcase_languages RESTART IDENTITY;"    #Removendo os registros da tabela e reiniciando a contagem de IDs
         ),
