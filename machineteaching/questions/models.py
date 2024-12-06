@@ -484,8 +484,15 @@ def create_userlog_error(sender, instance, created, **kwargs):
                                 user_errors if "Error" in error.split(":")[0]]))
         elif instance.language == Language.objects.get(name='Julia'):
             try:
-                clean_errors = list(set([error.split(":")[1].strip() for error in
-                                    user_errors if "Error" in error.split(":")[1]]))
+                #clean_errors = list(set([error.split(":")[1].strip() for error in
+                #                    user_errors if "Error" in error.split(":")[1] or "syntax" in error.split(":")[1]]))
+                for error in user_errors:
+                    error_type = error.split(":")[1]
+                    if "Error" in error_type:
+                        clean_errors.append(error.split(":")[1].strip())
+                    elif "syntax" in error_type:
+                        clean_errors.append("SyntaxError")
+                clean_errors = list(set(clean_errors))
             except:
                 clean_errors = []
         elif instance.language == Language.objects.get(name='C'):
