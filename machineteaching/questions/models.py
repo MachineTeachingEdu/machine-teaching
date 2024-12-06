@@ -210,7 +210,7 @@ class Solution(models.Model):
     cluster = models.ForeignKey(Cluster, on_delete=models.SET_NULL,
                                 null=True, blank=True)
     #Linguagens de programação
-    language = models.ForeignKey(Language, on_delete=models.SET_NULL, null=True, default=1)
+    language = models.ForeignKey(Language, on_delete=models.SET_DEFAULT, default=1)
     #Tipos de retorno
     TYPE_CHOICES = [
         ('int', 'int'),
