@@ -25,9 +25,6 @@ class InterfaceTests(DjkSampleTestCase):
         headless = True     # False to show browser while testing
         cls.browser = cls.playwright.chromium.launch(headless=headless) 
         User.objects.create_superuser(username=settings.TEST_SUPERUSER_USER, email=settings.TEST_SUPERUSER_EMAIL, password=settings.TEST_SUPERUSER_PASSWORD)
-        Language.objects.create(id=1, name='Python')
-        Language.objects.create(id=2, name='Julia')
-        Language.objects.create(id=3, name='C')
  
     @classmethod 
     def tearDownClass(cls): 

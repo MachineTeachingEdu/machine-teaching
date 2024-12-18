@@ -10,5 +10,10 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunSQL("ALTER TABLE questions_userlog ADD COLUMN test_case_hits INTEGER")
+        migrations.AddField(
+            model_name='userlog',
+            name='test_case_hits',
+            field=models.IntegerField(blank=True, null=True),
+        ),
+        #migrations.RunSQL("ALTER TABLE questions_userlog ADD COLUMN test_case_hits INTEGER")
     ]

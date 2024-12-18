@@ -273,7 +273,7 @@ class UserLog(models.Model):
                                   default="D")
     test_case_hits = models.IntegerField(blank=True, null=True)
     user_class = models.ForeignKey(OnlineClass, on_delete=models.PROTECT, null=True)
-    language = models.ForeignKey(Language, on_delete=models.SET_NULL, null=True, default=1)
+    language = models.ForeignKey(Language, on_delete=models.SET_DEFAULT, default=1)
 
     class Meta:
         verbose_name = _('User log')
