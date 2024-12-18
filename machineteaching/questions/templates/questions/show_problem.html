@@ -15,6 +15,15 @@
         <span id="problem_content"></span>
     </div>
 
+    <div class="card chapterLinks">
+        <h3>Material Relacionado:</h3>
+        {% for link in links %}
+            <h4>
+                <a href="{{ link.url }}">{{ link.name }}</a>
+            </h4>
+        {% endfor %}
+    </div>
+
     <div class="card result">
         <h3 style="margin-bottom: 0">{% blocktrans %}Test cases{% endblocktrans %}</h3>
         <div id="outcome">

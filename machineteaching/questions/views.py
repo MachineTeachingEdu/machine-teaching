@@ -36,7 +36,7 @@ import csv
 from django.conf import settings
 from django.core.mail import send_mail
 from functools import wraps
-from .models import Collaborator
+from .models import Collaborator, ChapterLink
 from django.views.decorators.clickjacking import xframe_options_exempt
 from .utils import supported_languages
 import urllib
@@ -114,6 +114,16 @@ def signup(request):
 def show_problem(request, problem_id):
     #try:
     context = get_problem(problem_id)
+    
+    problem = problem_id
+    exercise_sets = ExerciseSet.objects.filter(problem=problem)
+    chapters = [es.chapter for es in exercise_sets]
+    links = []
+    for chapter in chapters:
+        links.extend(chapter.link.all())
+
+    context['links'] = links
+
     #except Problem.DoesNotExist:
         #raise Http404("Problem does not exist")
     return render(request, 'questions/show_problem.html', context)
