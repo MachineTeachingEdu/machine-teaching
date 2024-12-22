@@ -1,3 +1,6 @@
 [submodule "machine-teaching-db"]
 	path = machine-teaching-db
 	url = git@github.com:MachineTeachingEdu/machine-teaching-db.git
+[submodule "remote-code-executor"]
+	path = remote-code-executor
+	url = git@github.com:MachineTeachingEdu/remote-code-executor.git
