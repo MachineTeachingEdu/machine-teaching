@@ -140,6 +140,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script>
 
+    var problem_id = "{{problem.id}}";
     // Save page access
     $(document).ready(function() {
         $.ajax({
@@ -188,7 +189,8 @@
 
     //running solution
     //runit({{test_case|safe}}, '{{header}}', {{expected_results|safe}})
-    runit({{test_case|safe}}, '{{header}}', '{{log.language}}');
+    //runit({{test_case|safe}}, '{{header}}', '{{log.language}}');
+    runit('{{log.language}}')
 
     const next = '{% blocktrans %}Next{% endblocktrans %}';
     const input = '{% blocktrans %}Input:{% endblocktrans %}';
@@ -199,9 +201,9 @@
     const error = '{% blocktrans %}Error{% endblocktrans %}';
     const print_error = '{% blocktrans %}The solution uses <strong>print</strong> command, breaking the rule that the entire result of the function must be returned exclusively through its return values.{% endblocktrans %}';
 
-    const dictSolutions = {{ solutions|safe }};
-    var worker_node_host = "{{ worker_node_host }}";
-    var worker_node_port = "{{ worker_node_port }}";
+    var dictSolutions = {{ solutions|safe }};
+    var code_submition_url = "{% url 'submit_code' %}";
+    var csrftoken = '{{ csrf_token }}';
     
     // Load markdown
     var converter = new showdown.Converter({'simplifiedAutoLink': true}),

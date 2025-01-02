@@ -26,7 +26,7 @@ from questions.models import (Problem, Solution, UserLog, UserProfile,
 from questions.forms import (UserLogForm, SignUpForm, OutcomeForm, ChapterForm,
                              ProblemForm, SolutionForm, PageAccessForm, InteractiveForm,
                              EditProfileForm, NewClassForm, DeadlineForm, CommentForm)
-from questions.serializers import RecommendationSerializer
+from questions.serializers import RecommendationSerializer, ProblemSerializer
 from questions.get_problem import get_problem
 from questions.get_dashboards import student_dashboard, class_dashboard, manager_dashboard, predict_drop_out, time_to_finish_exercise, get_time_to_finish_chapter_in_days
 from questions.get_dashboards import *
@@ -40,6 +40,7 @@ from .models import Collaborator, ChapterLink
 from django.views.decorators.clickjacking import xframe_options_exempt
 from .utils import supported_languages
 import urllib
+import requests
 
 
 
@@ -181,6 +182,32 @@ def save_user_log(request):
     # LOGGER.debug("Log failed: %s", form.errors)
     LOGGER.debug("Log failed")
     return JsonResponse({'status': 'failed'})
+
+#Método para enviar o código submetido para o worker-node
+@login_required
+def submit_code(request):
+    if request.method == "POST":
+        form_data = request.POST.dict()
+        files = request.FILES
+        worker_node_url = settings.WORKER_NODE_HOST + settings.WORKER_NODE_PORT + "/multi_process"
+        #print("Worker node URL:", worker_node_url)
+
+        try:
+            #Enviando os dados para o worker-node
+            response = requests.post(worker_node_url, data=form_data, files=files)
+            response.raise_for_status()  # Levanta exceção se o status não for 200
+            flask_response = response.json()  # Converte a resposta em JSON
+            #print("Flask response:", flask_response)
+
+            return JsonResponse(flask_response, safe=False)    #Preciso do safe=False já que o worker-node retorna uma lista de dicionários
+        except requests.exceptions.RequestException as e:
+            print("Request exception:", str(e))
+            return JsonResponse({"error": "Failed to communicate with Flask server", "details": str(e)}, status=500)
+        except Exception as e:
+            print("Unexpected exception:", str(e))
+            return JsonResponse({"error": "Unexpected error", "details": str(e)}, status=500)
+
+    return JsonResponse({"error": "Invalid request method"}, status=400)
 
 @login_required
 def get_past_problems(request):
@@ -959,6 +986,17 @@ class Recommendations(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+#worker-node
+class ProblemDetailView(APIView):    #Endpoint para recuperar detalhes de um problema específico pelo id
+    def get(self, request, problem_id):
+        try:
+            problem = Problem.objects.get(pk=problem_id)
+            serializer = ProblemSerializer(problem)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Problem.DoesNotExist:
+            return Response({'error': 'Problem not found'}, status=status.HTTP_404_NOT_FOUND)
+
 
 def send_comment_email(student, comment, link):
     solution_link = 'http://machineteaching.tech{}'.format(link)
