@@ -46,7 +46,8 @@
         <textarea class="code" id="code" name="solution" autofocus="true" style="display: none;">{{tip}}</textarea>
         <div style="text-align: center;">
             <!--<button class="primary" id="run" onclick="runit({{test_case|safe|escape_doublequote}}, '{{header}}', {{expected_results|safe|escape_doublequote}})">-->
-            <button class="primary" id="run" onclick="runit({{test_case|safe|escape_doublequote}}, '{{header}}')">
+            <!--<button class="primary" id="run" onclick="runit({{test_case|safe|escape_doublequote}}, '{{header}}')">-->
+            <button class="primary" id="run" onclick="runit()">
             {% blocktrans %}Run{% endblocktrans %}
             </button>
             <button class="primary" id="python_tutor" onclick="python_tutor()">
@@ -113,8 +114,9 @@
 <script>
 
     var dictSolutions = {{ solutions|safe }};
-    var worker_node_host = "{{ worker_node_host }}";
-    var worker_node_port = "{{ worker_node_port }}";
+    var problem_id = "{{problem.id}}";
+    var code_submition_url = "{% url 'submit_code' %}";
+    var csrftoken = '{{ csrf_token }}';
     // Save page access
     $(document).ready(function() {
         $.ajax({
@@ -147,7 +149,7 @@
         });
         $(dropdown).val(1);   //Selecionando Python por padrão
         var language = $('#dropdown-lang option:selected').text();
-        editor.setValue(dictSolutions[language].text);
+        editor.setValue(dictSolutions[language].tip);
         //console.log("solucoes: ", dictSolutions);
     });
     

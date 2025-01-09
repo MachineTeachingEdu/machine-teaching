@@ -1,3 +1,6 @@
 [submodule "machine-teaching-db"]
 	path = machine-teaching-db
 	url = git@github.com:MachineTeachingEdu/machine-teaching-db.git
+[submodule "worker-node"]
+	path = worker-node
+	url = git@github.com:MachineTeachingEdu/worker-node.git
