@@ -17,7 +17,7 @@ services:
       - machine_teaching_db
   worker_node:
     build:
-      context: ./remote-code-executor/worker_node
+      context: ./worker-node/worker_node
     ports:
       - 5000:5000
     depends_on:

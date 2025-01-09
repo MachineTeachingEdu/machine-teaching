@@ -190,7 +190,7 @@ def submit_code(request):
         form_data = request.POST.dict()
         files = request.FILES
         worker_node_url = settings.WORKER_NODE_HOST + settings.WORKER_NODE_PORT + "/multi_process"
-        #print("Worker node URL:", worker_node_url)
+        print("Dentro do método submit_code! Worker node URL:", worker_node_url)
 
         try:
             #Enviando os dados para o worker-node
