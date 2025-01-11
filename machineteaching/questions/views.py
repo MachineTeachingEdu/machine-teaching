@@ -22,7 +22,7 @@ from datetime import datetime
 from statistics import mean
 from questions.models import (Problem, Solution, UserLog, UserProfile,
                               Professor, OnlineClass, UserLogView, Chapter,
-                              Deadline, ExerciseSet, Recommendations, Comment, Language)
+                              Deadline, ExerciseSet, Recommendations, Comment, Language, TestCase)
 from questions.forms import (UserLogForm, SignUpForm, OutcomeForm, ChapterForm,
                              ProblemForm, SolutionForm, PageAccessForm, InteractiveForm,
                              EditProfileForm, NewClassForm, DeadlineForm, CommentForm)
@@ -193,6 +193,30 @@ def submit_code(request):
         print("Dentro do método submit_code! Worker node URL:", worker_node_url)
 
         try:
+            lang = form_data['prog_lang']
+            problem_id = form_data['problem_id']
+            problem = Problem.objects.get(pk=problem_id)
+            found_solution = False
+            #Recuperando informações sobre soluções e casos de teste:
+            solutions = Solution.objects.filter(problem=problem, ignore=False)  #Pegando soluções de todas as linguagens
+            for solution in solutions:
+                if solution.language.name == lang and not solution.ignore:
+                    test_cases_lang = TestCase.objects.filter(problem=problem, languages=solution.language)
+                    LOGGER.debug("Got test cases %s for problem %d", test_cases_lang, problem.id)
+                    test_cases_lang = [json.loads(test_case.content) for test_case in test_cases_lang]
+                    professor_code = solution.content
+                    func = solution.header
+                    return_type = solution.return_type
+                    form_data['professor_code'] = professor_code
+                    form_data['func'] = func
+                    form_data['return_type'] = return_type
+                    form_data['test_cases'] = json.dumps(test_cases_lang)  #Serializa a lista em uma string
+                    found_solution = True
+                    break
+                   
+            if not found_solution:
+                return JsonResponse({"error": "Error on getting solution and test cases"}, status=400)
+
             #Enviando os dados para o worker-node
             response = requests.post(worker_node_url, data=form_data, files=files)
             response.raise_for_status()  # Levanta exceção se o status não for 200
@@ -202,7 +226,7 @@ def submit_code(request):
             return JsonResponse(flask_response, safe=False)    #Preciso do safe=False já que o worker-node retorna uma lista de dicionários
         except requests.exceptions.RequestException as e:
             print("Request exception:", str(e))
-            return JsonResponse({"error": "Failed to communicate with Flask server", "details": str(e)}, status=500)
+            return JsonResponse({"error": "Failed to communicate with Worker-Node", "details": str(e)}, status=500)
         except Exception as e:
             print("Unexpected exception:", str(e))
             return JsonResponse({"error": "Unexpected error", "details": str(e)}, status=500)
