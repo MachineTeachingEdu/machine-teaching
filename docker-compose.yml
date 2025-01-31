@@ -3,7 +3,6 @@ services:
     image: postgres:13.14
     env_file: ./machine-teaching-db/.env
     volumes:
-      #- db-data:/var/lib/postgresql/data
       - ./machine-teaching-db/data/dump.sql:/docker-entrypoint-initdb.d/create_tables.sql
     ports:
       - 5432:5432
