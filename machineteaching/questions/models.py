@@ -21,7 +21,7 @@ class Chapter(models.Model):
     drop_out_model = models.ForeignKey('DropOutModel', on_delete=models.SET_NULL,
                                 null=True, blank=True)
     history = HistoricalRecords()
-    #active = models.BooleanField(default=True)
+    active = models.BooleanField(default=True)
     link = models.ManyToManyField('ChapterLink', blank=True)
 
     def __unicode__(self):
@@ -128,7 +128,8 @@ class Deadline(models.Model):
 
 
 class Professor(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)   #Mudei aqui porque estava dando problema na migration
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    #user = models.ForeignKey(User, on_delete=models.CASCADE, unique=True)
     prof_class = models.ManyToManyField(OnlineClass, related_name='professor')
     assistant = models.BooleanField(default=False)
     active = models.BooleanField(default=True)
