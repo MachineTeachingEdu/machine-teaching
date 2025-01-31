@@ -21,7 +21,8 @@ class Chapter(models.Model):
     drop_out_model = models.ForeignKey('DropOutModel', on_delete=models.SET_NULL,
                                 null=True, blank=True)
     history = HistoricalRecords()
-    #active = models.BooleanField(default=True)
+    active = models.BooleanField(default=True)
+    link = models.ManyToManyField('ChapterLink', blank=True)
 
     def __unicode__(self):
         return self.label
@@ -127,7 +128,7 @@ class Deadline(models.Model):
 
 
 class Professor(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)   #Mudei aqui porque estava dando problema na migration
+    user = models.ForeignKey(User, on_delete=models.CASCADE, unique=True)
     prof_class = models.ManyToManyField(OnlineClass, related_name='professor')
     assistant = models.BooleanField(default=False)
     active = models.BooleanField(default=True)
@@ -210,7 +211,7 @@ class Solution(models.Model):
     cluster = models.ForeignKey(Cluster, on_delete=models.SET_NULL,
                                 null=True, blank=True)
     #Linguagens de programação
-    language = models.ForeignKey(Language, on_delete=models.SET_NULL, null=True, default=Language.objects.get(name='Python').id)
+    language = models.ForeignKey(Language, on_delete=models.SET_DEFAULT, default=1)
     #Tipos de retorno
     TYPE_CHOICES = [
         ('int', 'int'),
@@ -273,7 +274,7 @@ class UserLog(models.Model):
                                   default="D")
     test_case_hits = models.IntegerField(blank=True, null=True)
     user_class = models.ForeignKey(OnlineClass, on_delete=models.PROTECT, null=True)
-    language = models.ForeignKey(Language, on_delete=models.SET_NULL, null=True, default=Language.objects.get(name='Python').id)
+    language = models.ForeignKey(Language, on_delete=models.SET_DEFAULT, default=1)
 
     class Meta:
         verbose_name = _('User log')
@@ -378,6 +379,12 @@ class Collaborator(models.Model):
         verbose_name = _('Collaborator')
         verbose_name_plural = _('Collaborators')
 
+class ChapterLink(models.Model):
+    url = models.URLField(max_length=200)
+    name = models.CharField(max_length=200, null=True)
+
+    def __str__(self):
+        return self.url
 
 @receiver(post_save, sender=User)
 @disable_for_loaddata
@@ -467,30 +474,35 @@ def create_test_cases(sender, instance, created, **kwargs):
                 test_case = TestCase()
                 test_case.problem = instance
                 test_case.content = json.dumps(item)
+                test_case.save()
                 all_languages = Language.objects.all()
                 test_case.languages.add(*all_languages)  #Adicionando todas as linguagens
-                test_case.save()
 
 @receiver(post_save, sender=UserLog)
 @disable_for_loaddata
 def create_userlog_error(sender, instance, created, **kwargs):
     if instance.outcome == 'F' and instance.console != '':
         clean_errors = []
+        user_errors = instance.console.split('\n')
         if instance.language == Language.objects.get(name='Python'):
-            user_errors = instance.console.split('\n')
             # TODO: This is considering that Python errors have the word Error on
             # them. More elaborate strategies to log this are welcome.
             clean_errors = list(set([error.split(":")[0] for error in
                                 user_errors if "Error" in error.split(":")[0]]))
         elif instance.language == Language.objects.get(name='Julia'):
-            user_errors = instance.console.split('\n')
             try:
-                clean_errors = list(set([error.split(":")[1].strip() for error in
-                                    user_errors if "Error" in error.split(":")[1]]))
+                #clean_errors = list(set([error.split(":")[1].strip() for error in
+                #                    user_errors if "Error" in error.split(":")[1] or "syntax" in error.split(":")[1]]))
+                for error in user_errors:
+                    error_type = error.split(":")[1]
+                    if "Error" in error_type:
+                        clean_errors.append(error.split(":")[1].strip())
+                    elif "syntax" in error_type:
+                        clean_errors.append("SyntaxError")
+                clean_errors = list(set(clean_errors))
             except:
                 clean_errors = []
         elif instance.language == Language.objects.get(name='C'):
-            user_errors = instance.console.split('\n')
             try:
                 for error in user_errors:
                     error_type = error.split(":")[0]
@@ -501,6 +513,11 @@ def create_userlog_error(sender, instance, created, **kwargs):
                 clean_errors = list(set(clean_errors))
             except:
                 clean_errors = []
+                
+        for error in user_errors:
+            if "Time limit exceeded" in error.split(":")[0]: 
+                clean_errors.append("TimeoutError")
+                break
         # Add error to Log Error model
         for error in clean_errors:
             log_error = UserLogError()

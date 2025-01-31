@@ -11,6 +11,16 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunSQL("ALTER TABLE questions_userprofile ADD COLUMN course CHAR(200)"),
-        migrations.RunSQL("ALTER TABLE questions_historicaluserprofile ADD COLUMN course CHAR(200)")
+        migrations.AddField(
+            model_name='historicaluserprofile',
+            name='course',
+            field=models.CharField(max_length=200, null=True),
+        ),
+        migrations.AddField(
+            model_name='userprofile',
+            name='course',
+            field=models.CharField(max_length=200, null=True),
+        ),
+        #migrations.RunSQL("ALTER TABLE questions_userprofile ADD COLUMN course CHAR(200)"),
+        #migrations.RunSQL("ALTER TABLE questions_historicaluserprofile ADD COLUMN course CHAR(200)")
     ]

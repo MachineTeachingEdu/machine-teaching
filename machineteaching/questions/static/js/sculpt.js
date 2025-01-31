@@ -1,14 +1,16 @@
 var currentLanguage = "Python";
 $('#dropdown-lang').on('change', function() {
     var language = $('#dropdown-lang option:selected').text();
-    dictSolutions[currentLanguage].text = editor.getValue();
-    editor.setValue(dictSolutions[language].text);
+    dictSolutions[currentLanguage].tip = editor.getValue();
+    editor.setValue(dictSolutions[language].tip);
     currentLanguage = language;
     if(language == "Python"){
+        $("#python_tutor").show();
         editor.setOption('mode', {name: "python", version: 2, singleLineStringErrors: false});
         $("#interactive").parent().show();
     }
     else{
+        $("#python_tutor").hide();
         if(language == "Julia")
             editor.setOption('mode', { name: "julia" });
         else if(language == "C")
@@ -42,7 +44,7 @@ function evaluateResult(args, func, expected_result, final_result, isCorrect, in
     let numTestCases = $(eval_div).children(".test-case").length;
     
     let newTestCase = $('<div>', { class: 'card test-case', passed: isCorrect, num: index });
-    let h3 = $('<h3>').text(numTestCases+1);    //Por ser síncrono, as questões ficariam em ordem "aleatória"
+    let h3 = $('<h3>').text(numTestCases+1);    //Por ser síncrono, as questões ficariam em ordem "aleatória" se eu fizer uma chamada ajax por caso de teste
     $(newTestCase).append(h3);
     let divOutcome = $('<div>', { id: 'outcome-' + (index + 1) });
     $(newTestCase).append(divOutcome);
@@ -76,7 +78,7 @@ function evaluateResult(args, func, expected_result, final_result, isCorrect, in
     newTestCase.append(table);
     $(newTestCase).css("display", "none");
     $(eval_div).append(newTestCase);
-    $(newTestCase).fadeIn();
+    $(newTestCase).fadeIn(500);
 
     //Atribuindo a insígnia de sucesso ou fracasso:
     let outcome = document.getElementById(`outcome-${index+1}`);
@@ -119,28 +121,30 @@ function postEvaluate(status_code=null, message_error=null){  //Esta função se
         $('#next').remove();
         $('.result').append(`<button type="button" onclick="gotoproblem()" class="primary disabled" id="next">${next}</button>`);
 
-        if($("#dropdown-lang").length){
+        if($("#dropdown-lang").length){   //Se não estiver na página past_solutions
             language = $('#dropdown-lang option:selected').text();
-            if(totalTestCases == dictSolutions[language].test_cases.length){
-                if (errors == 0) {
-                    passed()
-                    save_log('P', seconds_in_code, seconds_to_begin, seconds_in_page, hits);
-                } else {
-                    save_log('F', seconds_in_code, seconds_to_begin, seconds_in_page, hits);
-                };
+            //if(totalTestCases == dictSolutions[language].test_cases.length){
+            if (errors == 0) {
+                passed()
+                save_log('P', seconds_in_code, seconds_to_begin, seconds_in_page, hits);
+            } 
+            else {
+                save_log('F', seconds_in_code, seconds_to_begin, seconds_in_page, hits);
             }
+            //}
         }
 
     }
     else {   //Se o código submetido for inválido ou der erro no pré-processamento
         if(status_code == 1)   //Erro de print
             message_error = print_error;
-        if(status_code == 4){   //Erro de sintaxe ou de compilação
+        if(status_code == 4){   //Erro de sintaxe ou de compilação no pré-processamento
             divOutput = document.getElementById("output");
             divOutput.innerHTML = divOutput.innerHTML + message_error;
             if($("#dropdown-lang").length)
                 save_log('F', seconds_in_code, seconds_to_begin, seconds_in_page, 0);
         }
+        console.log("erro de teste. status code: ", status_code, "  message_error: ", message_error);
         message_error = message_error.replace(/\n/g, "<br>");
         eval_div.innerHTML = `
         <div class="card" style="position: relative;" id="print_error">
@@ -373,7 +377,7 @@ function runit(args, func, expected_results) {
 };
 */
 
-
+/*
 function runit(args, func, lang="") {
     $('#run').hide();
     $('#dropdown-lang').prop('disabled', true);
@@ -506,6 +510,101 @@ function runit(args, func, lang="") {
         });
     });
 };
+*/
+
+
+//Fazendo uma única chamada AJAX para o pré-processamento e para a execução dos testes:
+function runit(lang="") {
+    $('#run').hide();
+    $('#dropdown-lang').prop('disabled', true);
+    $('.loader').show();
+    $('.loader div').animate({width: '100%'}, 8000);
+    var mypre = document.getElementById("output");
+    mypre.innerHTML = '';
+
+    var code = editor.getValue();  //Get code from text editor
+    let eval_div = document.getElementById("evaluation");
+    eval_div.innerHTML = "";
+    $('.result').css('display','none');
+    let language = lang;
+    if($("#dropdown-lang").length)
+        language = $('#dropdown-lang option:selected').text();
+
+    while(code.includes('\t')){
+        code = code.replace('\t', '    ');
+    }
+
+    //Se for Python, será necessário usar o Skulpt para fazer o console interativo funcionar:
+    if(language == "Python"){
+        Sk.configure({});
+        var skPromise = Sk.misceval.asyncToPromise(function() {
+            return Sk.importMainWithBody("<stdin>", false, code, true);
+        });
+    }
+
+    //Fazendo apenas uma requisição AJAX:
+    let zip_codes = new JSZip();
+    zip_codes.file("run_me", code);
+    zip_codes.generateAsync({ type: "blob" }).then((content) => {
+        var formData = new FormData();
+        formData.append("file", content, "extract-me.zip");
+        formData.append("prog_lang", language);
+        formData.append("problem_id", problem_id);    //problem_id é uma variável global definida no template
+        formData.append("csrfmiddlewaretoken", csrftoken);    //definida no template
+        $.ajax({
+            //url: "http://localhost:5000/multi-process/",     //Para testar localmente
+            url: code_submition_url,   //definida no template
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if(response.pre_process_error){   //Se houver um erro no pré-processamento
+                    let pre_process_status = response.code_status;
+                    let pre_process_message = response.message;
+                    $('.loader div').stop();
+                    postEvaluate(pre_process_status, pre_process_message);
+                    console.log("Erro no pré-processamento: ", response);
+                }
+                else{
+                    let resultsNovo = {}
+                    $.each(response, function(i, response_item) {
+                        let statusCode = response_item.status_code;
+                        let serverName = response_item.result.hostname;
+                        let output = response_item.result.code_output;
+                        let prof_output = response_item.result.prof_output;
+                        let isCorrect = response_item.result.isCorrect ? true : false;
+                        let testCase = response_item.result.test_case;
+                        let funcName = response_item.result.func_name;
+
+                        if(statusCode == 200){
+                            //console.log("Success: ", response[i]);
+                            resultsNovo[i] = output;
+                        }
+                        else{
+                            //console.log("Erro: ", response[i]);
+                            var resultTxt = output;
+                            resultsNovo[i] = resultTxt + '\n';
+                        }
+                        evaluateResult(testCase, funcName, prof_output, resultsNovo[i], isCorrect, i);
+                        //Se um dos casos de teste der um erro no servidor (não sei como fazer nesse caso):
+                        //console.log("erro na chamada do ajax: ", error);
+                        //evaluateResult(null, null, null, null, false, i, true);    //Fazendo um card para os casos de erro na chamada ajax
+                    });
+                    $('.loader div').stop();
+                    postEvaluate(status_code=0);
+                }
+            },
+            error: function(error) {
+                $('.loader div').stop();
+                postEvaluate(-1, "Server communication error.");
+                console.log("erro na chamada do ajax: ", error, "\nNão foi possível realizar o processamento do código.");
+            },
+        });
+    });
+};
+
+
 
 function skipit() {
    // Evaluate results

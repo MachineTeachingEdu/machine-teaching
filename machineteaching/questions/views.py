@@ -22,11 +22,11 @@ from datetime import datetime
 from statistics import mean
 from questions.models import (Problem, Solution, UserLog, UserProfile,
                               Professor, OnlineClass, UserLogView, Chapter,
-                              Deadline, ExerciseSet, Recommendations, Comment, Language)
+                              Deadline, ExerciseSet, Recommendations, Comment, Language, TestCase)
 from questions.forms import (UserLogForm, SignUpForm, OutcomeForm, ChapterForm,
                              ProblemForm, SolutionForm, PageAccessForm, InteractiveForm,
                              EditProfileForm, NewClassForm, DeadlineForm, CommentForm)
-from questions.serializers import RecommendationSerializer
+from questions.serializers import RecommendationSerializer, ProblemSerializer
 from questions.get_problem import get_problem
 from questions.get_dashboards import student_dashboard, class_dashboard, manager_dashboard, predict_drop_out, time_to_finish_exercise, get_time_to_finish_chapter_in_days
 from questions.get_dashboards import *
@@ -36,11 +36,14 @@ import csv
 from django.conf import settings
 from django.core.mail import send_mail
 from functools import wraps
-from .models import Collaborator
+from .models import Collaborator, ChapterLink
 from django.views.decorators.clickjacking import xframe_options_exempt
 from .utils import supported_languages
 import urllib
-
+import requests
+import google.auth.transport.requests
+import google.oauth2.id_token
+import os
 
 
 LOGGER = logging.getLogger(__name__)
@@ -114,6 +117,16 @@ def signup(request):
 def show_problem(request, problem_id):
     #try:
     context = get_problem(problem_id)
+    
+    problem = problem_id
+    exercise_sets = ExerciseSet.objects.filter(problem=problem)
+    chapters = [es.chapter for es in exercise_sets]
+    links = []
+    for chapter in chapters:
+        links.extend(chapter.link.all())
+
+    context['links'] = links
+
     #except Problem.DoesNotExist:
         #raise Http404("Problem does not exist")
     return render(request, 'questions/show_problem.html', context)
@@ -171,6 +184,69 @@ def save_user_log(request):
     # LOGGER.debug("Log failed: %s", form.errors)
     LOGGER.debug("Log failed")
     return JsonResponse({'status': 'failed'})
+
+#Método para enviar o código submetido para o worker-node
+@login_required
+def submit_code(request):
+    if request.method == "POST":
+        form_data = request.POST.dict()
+        files = request.FILES
+        
+        audience = settings.WORKER_NODE_HOST + settings.WORKER_NODE_PORT
+        endpoint = audience + "/multi_process"
+        worker_node_url = settings.WORKER_NODE_HOST + settings.WORKER_NODE_PORT + "/multi_process"
+        #logging.info(f"audience: {audience}\nendpoint: {endpoint}")
+        try:
+            lang = form_data['prog_lang']
+            problem_id = form_data['problem_id']
+            problem = Problem.objects.get(pk=problem_id)
+            #form_data['problem_content'] = problem.content
+            #form_data['problem_title'] = problem.title
+            
+            found_solution = False
+            #Recuperando informações sobre soluções e casos de teste:
+            solutions = Solution.objects.filter(problem=problem, ignore=False)  #Pegando soluções de todas as linguagens
+            for solution in solutions:
+                if solution.language.name == lang and not solution.ignore:
+                    test_cases_lang = TestCase.objects.filter(problem=problem, languages=solution.language)
+                    #LOGGER.debug("Got test cases %s for problem %d", test_cases_lang, problem.id)
+                    test_cases_lang = [json.loads(test_case.content) for test_case in test_cases_lang]
+                    professor_code = solution.content
+                    func = solution.header
+                    return_type = solution.return_type
+                    form_data['professor_code'] = professor_code
+                    form_data['func'] = func
+                    form_data['return_type'] = return_type
+                    form_data['test_cases'] = json.dumps(test_cases_lang)  #Serializa a lista em uma string
+                    found_solution = True
+                    break
+                   
+            if not found_solution:
+                return JsonResponse({"error": "Error on getting solution and test cases"}, status=400)
+
+            #Enviando os dados para o worker-node:
+            if os.getenv('DEBUG') == 'FALSE':    #Se estiver em produção, é necessário autenticação
+                auth_req = google.auth.transport.requests.Request()
+                id_token = google.oauth2.id_token.fetch_id_token(auth_req, audience)
+                headers = { 'Authorization': f'Bearer {id_token}' }
+                #logging.info("com google")
+                response = requests.post(endpoint, data=form_data, files=files, headers=headers)
+            else:
+                #logging.info("sem google")
+                response = requests.post(endpoint, data=form_data, files=files)
+                
+            response.raise_for_status()  # Levanta exceção se o status não for 200
+            flask_response = response.json()  # Converte a resposta em JSON
+
+            return JsonResponse(flask_response, safe=False)    #Preciso do safe=False já que o worker-node retorna uma lista de dicionários
+        except requests.exceptions.RequestException as e:
+            print("Request exception:", str(e))
+            return JsonResponse({"error": "Failed to communicate with Worker-Node", "details": str(e)}, status=500)
+        except Exception as e:
+            print("Unexpected exception:", str(e))
+            return JsonResponse({"error": "Unexpected error", "details": str(e)}, status=500)
+
+    return JsonResponse({"error": "Invalid request method"}, status=400)
 
 @login_required
 def get_past_problems(request):
@@ -753,6 +829,8 @@ def manage_class(request, onlineclass):
     else:
         raise PermissionDenied()
 
+@login_required
+@permission_required('questions.view_userlogview', raise_exception=True)
 def get_class_dashboard(request, onlineclass):
     onlineclass = OnlineClass.objects.get(id=onlineclass)
     if onlineclass in Professor.objects.get(user=request.user).prof_class.all():
@@ -760,6 +838,8 @@ def get_class_dashboard(request, onlineclass):
     else:
         raise PermissionDenied()
     
+@login_required
+@permission_required('questions.view_userlogview', raise_exception=True)
 def get_class_dashboard1(request, onlineclass):
     onlineclass = OnlineClass.objects.get(id=onlineclass)
     if onlineclass in Professor.objects.get(user=request.user).prof_class.all():
@@ -945,6 +1025,17 @@ class Recommendations(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+#worker-node
+class ProblemDetailView(APIView):    #Endpoint para recuperar detalhes de um problema específico pelo id
+    def get(self, request, problem_id):
+        try:
+            problem = Problem.objects.get(pk=problem_id)
+            serializer = ProblemSerializer(problem)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Problem.DoesNotExist:
+            return Response({'error': 'Problem not found'}, status=status.HTTP_404_NOT_FOUND)
+
 
 def send_comment_email(student, comment, link):
     solution_link = 'http://machineteaching.tech{}'.format(link)

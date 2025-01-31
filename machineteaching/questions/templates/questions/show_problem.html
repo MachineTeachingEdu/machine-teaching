@@ -15,6 +15,15 @@
         <span id="problem_content"></span>
     </div>
 
+    <div class="card chapterLinks">
+        <h3>Material Relacionado:</h3>
+        {% for link in links %}
+            <h4>
+                <a href="{{ link.url }}">{{ link.name }}</a>
+            </h4>
+        {% endfor %}
+    </div>
+
     <div class="card result">
         <h3 style="margin-bottom: 0">{% blocktrans %}Test cases{% endblocktrans %}</h3>
         <div id="outcome">
@@ -37,7 +46,8 @@
         <textarea class="code" id="code" name="solution" autofocus="true" style="display: none;">{{tip}}</textarea>
         <div style="text-align: center;">
             <!--<button class="primary" id="run" onclick="runit({{test_case|safe|escape_doublequote}}, '{{header}}', {{expected_results|safe|escape_doublequote}})">-->
-            <button class="primary" id="run" onclick="runit({{test_case|safe|escape_doublequote}}, '{{header}}')">
+            <!--<button class="primary" id="run" onclick="runit({{test_case|safe|escape_doublequote}}, '{{header}}')">-->
+            <button class="primary" id="run" onclick="runit()">
             {% blocktrans %}Run{% endblocktrans %}
             </button>
             <button class="primary" id="python_tutor" onclick="python_tutor()">
@@ -104,8 +114,9 @@
 <script>
 
     var dictSolutions = {{ solutions|safe }};
-    var worker_node_host = "{{ worker_node_host }}";
-    var worker_node_port = "{{ worker_node_port }}";
+    var problem_id = "{{problem.id}}";
+    var code_submition_url = "{% url 'submit_code' %}";
+    var csrftoken = '{{ csrf_token }}';
     // Save page access
     $(document).ready(function() {
         $.ajax({
@@ -137,8 +148,9 @@
             $(dropdown).append($('<option></option>').attr('value', value).text(key));
         });
         $(dropdown).val(1);   //Selecionando Python por padrão
+        var language = $('#dropdown-lang option:selected').text();
+        editor.setValue(dictSolutions[language].tip);
         //console.log("solucoes: ", dictSolutions);
-        //console.log("worker node: ", a, "   ", b);
     });
     
     const next = '{% blocktrans %}Next{% endblocktrans %}';

@@ -7,6 +7,7 @@ from django.views.static import serve
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from .views import ProblemDetailView
 
 
 
@@ -65,6 +66,8 @@ urlpatterns = [
 
     # path('attempts/', views.AttemptsList.as_view(), name='attempts'),
     # path('recommendations/', views.Recommendations.as_view(), name='recommendations'),
+    path('submit_code/', views.submit_code, name='submit_code'),   #Endpoint responsável pela requisição feita para o worker-node
+    #path('problem_details/<int:problem_id>/', ProblemDetailView.as_view(), name='problem-detail'),    #Endpoint para fornecer detalhes de problemas parar o worker-node (se a API não for usada, COMENTAR)
 
     # DEBUG PURPOSES
     path('<int:problem_id>/', views.show_problem, name='show_problem'),

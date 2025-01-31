@@ -377,7 +377,7 @@ select 'S', count(*) from questions_userlogview where user_class_id = {userclass
     return pfs
 
 def get_heatmap(cursor, onlineclass):
-    cursor.execute(f'''select concat(first_name, ' ', last_name) as name, a.user_id, a.chapter_id, 
+    query = f'''select concat(first_name, ' ', last_name) as name, a.user_id, a.chapter_id, 
 case 
 	when total > coalesce(done, 0) then 0
 	when total = coalesce(done, 0) and last_log > deadline then 1
@@ -425,7 +425,8 @@ left outer join
 ) c
 on a.user_id = c.user_id and a.chapter_id = c.chapter_id
 left outer join 
-(select b.chapter_id, max(timediff) as upper_bound
+--(select b.chapter_id, max(timediff) as upper_bound
+(select b.chapter_id, case when max(timediff) = 0 then 1 else max(timediff) end as upper_bound
 	from
 	(select * from 
 		(select a.chapter_id, count(problem_id) as total, max(deadline) as deadline from 
@@ -466,7 +467,8 @@ left outer join
 	group by b.chapter_id
 ) d
 on a.chapter_id = d.chapter_id
-order by name, chapter_id''')
+order by name, chapter_id'''
+    cursor.execute(query)
     infos = cursor.fetchall()
     chapters_users = []
     user_id = None

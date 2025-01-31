@@ -12,6 +12,14 @@ services:
       - ./machineteaching:/app/machineteaching
     ports:
       - 8020:8020
-    env_file: ./.env
+    env_file: ./machineteaching/.env
     depends_on:
+      - machine_teaching_db
+  worker_node:
+    build:
+      context: ./worker-node/worker_node
+    ports:
+      - 5000:5000
+    depends_on:
+      - web
       - machine_teaching_db
