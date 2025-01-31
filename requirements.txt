@@ -29,3 +29,8 @@ requests==2.31.0
 statsmodels==0.14.1
 Werkzeug==2.0.3
 whitenoise==6.6.0
+cachetools==5.5.1
+google-auth==2.38.0
+pyasn1==0.6.1
+pyasn1_modules==0.4.1
+rsa==4.9

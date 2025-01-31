@@ -41,7 +41,9 @@ from django.views.decorators.clickjacking import xframe_options_exempt
 from .utils import supported_languages
 import urllib
 import requests
-
+import google.auth.transport.requests
+import google.oauth2.id_token
+import os
 
 
 LOGGER = logging.getLogger(__name__)
@@ -189,20 +191,25 @@ def submit_code(request):
     if request.method == "POST":
         form_data = request.POST.dict()
         files = request.FILES
+        
+        audience = settings.WORKER_NODE_HOST + settings.WORKER_NODE_PORT
+        endpoint = audience + "/multi_process"
         worker_node_url = settings.WORKER_NODE_HOST + settings.WORKER_NODE_PORT + "/multi_process"
-        print("Dentro do método submit_code! Worker node URL:", worker_node_url)
-
+        #logging.info(f"audience: {audience}\nendpoint: {endpoint}")
         try:
             lang = form_data['prog_lang']
             problem_id = form_data['problem_id']
             problem = Problem.objects.get(pk=problem_id)
+            #form_data['problem_content'] = problem.content
+            #form_data['problem_title'] = problem.title
+            
             found_solution = False
             #Recuperando informações sobre soluções e casos de teste:
             solutions = Solution.objects.filter(problem=problem, ignore=False)  #Pegando soluções de todas as linguagens
             for solution in solutions:
                 if solution.language.name == lang and not solution.ignore:
                     test_cases_lang = TestCase.objects.filter(problem=problem, languages=solution.language)
-                    LOGGER.debug("Got test cases %s for problem %d", test_cases_lang, problem.id)
+                    #LOGGER.debug("Got test cases %s for problem %d", test_cases_lang, problem.id)
                     test_cases_lang = [json.loads(test_case.content) for test_case in test_cases_lang]
                     professor_code = solution.content
                     func = solution.header
@@ -217,11 +224,19 @@ def submit_code(request):
             if not found_solution:
                 return JsonResponse({"error": "Error on getting solution and test cases"}, status=400)
 
-            #Enviando os dados para o worker-node
-            response = requests.post(worker_node_url, data=form_data, files=files)
+            #Enviando os dados para o worker-node:
+            if os.getenv('DEBUG') == 'FALSE':    #Se estiver em produção, é necessário autenticação
+                auth_req = google.auth.transport.requests.Request()
+                id_token = google.oauth2.id_token.fetch_id_token(auth_req, audience)
+                headers = { 'Authorization': f'Bearer {id_token}' }
+                #logging.info("com google")
+                response = requests.post(endpoint, data=form_data, files=files, headers=headers)
+            else:
+                #logging.info("sem google")
+                response = requests.post(endpoint, data=form_data, files=files)
+                
             response.raise_for_status()  # Levanta exceção se o status não for 200
             flask_response = response.json()  # Converte a resposta em JSON
-            #print("Flask response:", flask_response)
 
             return JsonResponse(flask_response, safe=False)    #Preciso do safe=False já que o worker-node retorna uma lista de dicionários
         except requests.exceptions.RequestException as e:

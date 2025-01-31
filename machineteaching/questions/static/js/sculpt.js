@@ -144,6 +144,7 @@ function postEvaluate(status_code=null, message_error=null){  //Esta função se
             if($("#dropdown-lang").length)
                 save_log('F', seconds_in_code, seconds_to_begin, seconds_in_page, 0);
         }
+        console.log("erro de teste. status code: ", status_code, "  message_error: ", message_error);
         message_error = message_error.replace(/\n/g, "<br>");
         eval_div.innerHTML = `
         <div class="card" style="position: relative;" id="print_error">
