@@ -1,6 +1,6 @@
 services:
   machine_teaching_db:
-    image: postgres:13.14
+    image: postgres:15.10
     env_file: ./machine-teaching-db/.env
     volumes:
       - ./machine-teaching-db/data/dump.sql:/docker-entrypoint-initdb.d/create_tables.sql
