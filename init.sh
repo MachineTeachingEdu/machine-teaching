@@ -32,6 +32,6 @@ else
     export DJANGO_SETTINGS_MODULE=machineteaching.settings
     echo "will start"
     opentelemetry-bootstrap --action=install
-    gunicorn machineteaching.wsgi --bind 0.0.0.0:$PORT --workers 3
+    gunicorn machineteaching.wsgi --bind 0.0.0.0:$PORT --workers 3 --timeout 200
 fi
 

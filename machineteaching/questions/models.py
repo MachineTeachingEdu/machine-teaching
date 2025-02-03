@@ -490,29 +490,28 @@ def create_userlog_error(sender, instance, created, **kwargs):
             clean_errors = list(set([error.split(":")[0] for error in
                                 user_errors if "Error" in error.split(":")[0]]))
         elif instance.language == Language.objects.get(name='Julia'):
-            try:
-                #clean_errors = list(set([error.split(":")[1].strip() for error in
-                #                    user_errors if "Error" in error.split(":")[1] or "syntax" in error.split(":")[1]]))
-                for error in user_errors:
+            #clean_errors = list(set([error.split(":")[1].strip() for error in user_errors if "Error" in error.split(":")[1] or "syntax" in error.split(":")[1]]))
+            for error in user_errors:
+                try:
                     error_type = error.split(":")[1]
                     if "Error" in error_type:
                         clean_errors.append(error.split(":")[1].strip())
                     elif "syntax" in error_type:
                         clean_errors.append("SyntaxError")
-                clean_errors = list(set(clean_errors))
-            except:
-                clean_errors = []
+                except:
+                    pass
+            clean_errors = list(set(clean_errors))
         elif instance.language == Language.objects.get(name='C'):
-            try:
-                for error in user_errors:
+            for error in user_errors:
+                try:
                     error_type = error.split(":")[0]
                     if "RUNTIME ERROR" in error_type:
                         clean_errors.append("RuntimeError")
                     elif "COMPILE ERROR" in error_type:
                         clean_errors.append("CompileError")
-                clean_errors = list(set(clean_errors))
-            except:
-                clean_errors = []
+                except:
+                    pass
+            clean_errors = list(set(clean_errors))
                 
         for error in user_errors:
             if "Time limit exceeded" in error.split(":")[0]: 
