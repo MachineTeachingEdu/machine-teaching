@@ -225,7 +225,7 @@ def submit_code(request):
                 return JsonResponse({"error": "Error on getting solution and test cases"}, status=400)
 
             #Enviando os dados para o worker-node:
-            if os.getenv('DEBUG') == 'FALSE':    #Se estiver em produção, é necessário autenticação
+            if os.getenv('ENVIRONMENT') == 'prod':    #Se estiver em produção, é necessário autenticação
                 auth_req = google.auth.transport.requests.Request()
                 id_token = google.oauth2.id_token.fetch_id_token(auth_req, audience)
                 headers = { 'Authorization': f'Bearer {id_token}' }
