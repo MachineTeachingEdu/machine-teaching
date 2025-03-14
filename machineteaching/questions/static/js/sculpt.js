@@ -156,6 +156,7 @@ function postEvaluate(status_code=null, message_error=null){  //Esta função se
     } 
     
     $('#dropdown-lang').prop('disabled', false);
+    editor.setOption('readOnly', false);
     $('#run').show();
     $('.loader').hide();
     $('.loader div').attr('style', 'width: 0;');
@@ -517,6 +518,7 @@ function runit(args, func, lang="") {
 function runit(lang="") {
     $('#run').hide();
     $('#dropdown-lang').prop('disabled', true);
+    editor.setOption('readOnly', true);
     $('.loader').show();
     $('.loader div').animate({width: '100%'}, 8000);
     var mypre = document.getElementById("output");
@@ -532,14 +534,6 @@ function runit(lang="") {
 
     while(code.includes('\t')){
         code = code.replace('\t', '    ');
-    }
-
-    //Se for Python, será necessário usar o Skulpt para fazer o console interativo funcionar:
-    if(language == "Python"){
-        Sk.configure({});
-        var skPromise = Sk.misceval.asyncToPromise(function() {
-            return Sk.importMainWithBody("<stdin>", false, code, true);
-        });
     }
 
     //Fazendo apenas uma requisição AJAX:
@@ -567,7 +561,15 @@ function runit(lang="") {
                     console.log("Erro no pré-processamento: ", response);
                 }
                 else{
-                    let resultsNovo = {}
+                    //Se tudo for ok no pré-processamento e se for Python, será necessário usar o Skulpt para fazer o console interativo funcionar:
+                    if(language == "Python"){
+                        Sk.configure({});
+                        var skPromise = Sk.misceval.asyncToPromise(function() {
+                            return Sk.importMainWithBody("<stdin>", false, code, true);
+                        });
+                    }
+                    let resultsNovo = {};
+                    let tle = false;
                     $.each(response, function(i, response_item) {
                         let statusCode = response_item.status_code;
                         let serverName = response_item.result.hostname;
@@ -586,13 +588,18 @@ function runit(lang="") {
                             var resultTxt = output;
                             resultsNovo[i] = resultTxt + '\n';
                         }
+                        if (!isCorrect) {
+                            if (output.toUpperCase().includes("TIME LIMIT EXCEEDED")) {   //Se der TLE em um dos casos de teste, apenas um é retornado
+                                tle = true;
+                                postEvaluate(99, "Time limit exceeded: O código excedeu o tempo limite de execução.");
+                            }
+                        }
                         evaluateResult(testCase, funcName, prof_output, resultsNovo[i], isCorrect, i);
-                        //Se um dos casos de teste der um erro no servidor (não sei como fazer nesse caso):
-                        //console.log("erro na chamada do ajax: ", error);
-                        //evaluateResult(null, null, null, null, false, i, true);    //Fazendo um card para os casos de erro na chamada ajax
+                        //Se um dos casos de teste der um erro no servidor: ainda não definido como proceder
                     });
                     $('.loader div').stop();
-                    postEvaluate(status_code=0);
+                    if (!tle)
+                        postEvaluate(status_code=0);
                 }
             },
             error: function(error) {
