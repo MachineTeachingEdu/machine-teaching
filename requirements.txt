@@ -32,5 +32,5 @@ python-dotenv==1.0.1
 requests==2.31.0
 rsa==4.9
 statsmodels==0.14.1
-Werkzeug==2.0.3
+Werkzeug==3.0.3
 whitenoise==6.6.0
