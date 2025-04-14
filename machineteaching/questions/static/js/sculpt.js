@@ -162,8 +162,9 @@ function postEvaluate(status_code=null, message_error=null){  //Esta função se
     $('.loader div').attr('style', 'width: 0;');
 }
 
-
-function evaluate(args, func, expected_results){
+/*
+function evaluate(args, func, expected_results){    //Essa função não está mais sendo usada na submissão dos códigos
+    console.log("Entrou no evaluate");
     eval_div = document.getElementById("evaluation");
     eval_div.innerHTML = "";
    // Get code
@@ -252,7 +253,6 @@ function evaluate(args, func, expected_results){
     $('#next').remove();
     $('.result').append(`<button type="button" onclick="gotoproblem()" class="primary disabled" id="next">${next}</button>`);
     
-    /*   DESCOMENTAR ISSO AQUI DEPOIS!!!!
     // If no errors are found, go to the next problem
     if (errors == 0) {
         passed()
@@ -260,7 +260,6 @@ function evaluate(args, func, expected_results){
     } else {
         save_log('F', seconds_in_code, seconds_to_begin, seconds_in_page, hits);
     };
-    */
 
     }
     
@@ -269,250 +268,7 @@ function evaluate(args, func, expected_results){
     $('.loader div').attr('style', 'width: 0;');
 
 };
-
-/*
-// Here's everything you need to run a python program in skulpt
-// grab the code from your textarea
-// get a reference to your pre element for output
-// configure the output function
-// call Sk.importMainWithBody()
-
-function runit(args, func, expected_results) {
-  $('#run').hide();
-  $('.loader').show();
-  $('.loader div').animate({width: '100%'}, 2000);
-  //console.log("args: " + args);
-  //console.log("func: " + func);
-  //console.log("expected_results: " + expected_results);
-
-   // Get code
-   var prog = editor.getValue();
-   //console.log("code: " + prog);
-
-
-   // Prepare output display
-   var mypre = document.getElementById("output");
-   mypre.innerHTML = '';
-   let results = [];
-
-   Sk.pre = "output";
-   Sk.configure({output:outf, read:builtinRead, __future__: Sk.python3, execLimit: 500});
-   (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'mycanvas';
-
-   // Extract data type from JSON 
-   //console.log(args);
-
-   for (i = 0; i < args.length; i++) {
-       item = args[i];
-       //console.log(item);
-       //prog_args = prog + "\nprint(" + func + "(*" + JSON.stringify(item) + "))";
-       while(prog.includes('\t')){
-              prog = prog.replace('\t', '    ');
-       }
-       prog_args = prog +
-       "\nif type(" + func + "(*" + item + ")) == str:\n    print(\"'\"+" + 
-       func + "(*" + item + ")+\"'\")\nelse:\n    print(" + 
-       func + "(*" + item + "))";
-       // prog_args = prog + `
-// try:
-    // print(` + func + `(*` + item + `))
-// except Exception as err:
-    // print(repr(err))`
-       //console.log("prog_args: " + prog_args);
-
-       var myPromise = Sk.misceval.asyncToPromise(function() {
-           return Sk.importMainWithBody("<stdin>", false, prog_args, true);
-       });
-       myPromise.then(function(mod) {
-           results.push('success');
-           //console.log('success');
-           //console.log(document.getElementById("output").innerHTML);
-      },
-           function(err) {
-           results.push(err.toString() + '\n');
-           console.log(err.toString());
-           //document.getElementById("output").innerHTML += err.toString() + '\n';
-       });
-   };
-
-   // Wait for async run to finish
-   setTimeout(function(){
-       //Write results in console
-       var final_results = [];
-       var correct_items = 0;
-       //console.log("results: " + results);
-       //console.log(results.length);
-       //console.log("correct_results: " + correct_results);
-       //console.log("Resultados esperados: " + expected_results);
-       for (i = 0; i < args.length; i++) {
-            //console.log(results[0])
-           if (results[i] == 'success') {
-               final_results.push(correct_results[correct_items]);
-               correct_items++;
-           } else {
-               final_results.push(results[i]);
-           }
-       }
-       console.log("final_results: " + final_results);
-       console.log("expected_results: " + expected_results);
-       // Empty correct_results
-       correct_results = []
-       mypre.innerHTML = final_results.join('');
-
-       // Evaluate results
-       seconds_end_page = performance.now()
-       seconds_in_page = Math.round((seconds_end_page - seconds_begin_page)/1000);
-
-        seconds_end_code = performance.now();
-        //console.log("seconds in this snippet:" + Math.round(
-        //    (seconds_end_code - seconds_begin_code)/1000));
-        seconds_in_code += Math.round((seconds_end_code - seconds_begin_code)/1000);
-        //console.log("seconds in code: " + seconds_in_code);
-       //console.log("seconds in page:" + seconds_in_page);
-       evaluate(args, func, expected_results);
-
-
-       //testeWorkerNode(prog);
-
-       }, 2000);
-};
 */
-
-/*
-function runit(args, func, lang="") {
-    $('#run').hide();
-    $('#dropdown-lang').prop('disabled', true);
-    $('.loader').show();
-    $('.loader div').animate({width: '100%'}, 5000);
-    var mypre = document.getElementById("output");
-    mypre.innerHTML = '';
-
-    var prog = editor.getValue();  //Get code from text editor
-    let eval_div = document.getElementById("evaluation");
-    eval_div.innerHTML = "";
-    $('.result').css('display','none');
-    let language = lang;
-    if($("#dropdown-lang").length)
-        language = $('#dropdown-lang option:selected').text();
-
-    //Realizando o pré-processamento do código:
-    let zip_pre_process = new JSZip();
-    zip_pre_process.file("run_me", prog);
-    zip_pre_process.generateAsync({ type: "blob" }).then((content) => {
-        var formData = new FormData();
-        formData.append("file", content, "extract-me.zip");
-        formData.append("prog_lang", language);
-        $.ajax({
-            url: worker_node_host + worker_node_port + "/pre-process",
-            type: "POST",
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function(response_pre_process) {
-                //console.log("Resultado do pré-processamento: ", response_pre_process);
-                let pre_process_status = response_pre_process.code_status;
-                let pre_process_message = response_pre_process.message;
-                let final_code = response_pre_process.final_code;
-                let profCode = dictSolutions[language].solution;
-                //console.log("Test cases: ", dictSolutions[language].test_cases);
-
-                if (pre_process_status != 0){
-                    $('.loader div').stop();
-                    postEvaluate(pre_process_status, pre_process_message);
-                    //console.log("Erro no pré-processamento: ", response_pre_process);
-                }
-                else {    //Código válido
-                    let resultsNovo = {}
-                    while(final_code.includes('\t')){
-                        final_code = final_code.replace('\t', '    ');
-                    }
-                    if(language == "Python"){
-                        Sk.configure({});
-                        var skPromise = Sk.misceval.asyncToPromise(function() {
-                            return Sk.importMainWithBody("<stdin>", false, final_code, true);
-                        });
-                    }
-                    while(profCode.includes('\t')){
-                        profCode = profCode.replace('\t', '    ');
-                    }
-                    
-                    let returnType = dictSolutions[language].return_type == null ? "" : dictSolutions[language].return_type;
-                    //Fazendo as requisições AJAX para cada caso de teste:
-                    let zip = new JSZip();
-                    zip.file("run_me", final_code);
-                    zip.file("run_me_prof", profCode);   //Adicionando o arquivo com o código do professor
-                    zip.generateAsync({ type: "blob" }).then((content) => {
-                        let ajaxPromises = [];
-                        //let test_cases_length = args.length;
-                        let test_cases_length = dictSolutions[language].test_cases.length;
-                        for (let i = 0; i < test_cases_length; i++) {
-                            //if(i==0){   //para debug
-                                let argList = [];
-                                //argList.push(args[i]);
-                                argList.push(dictSolutions[language].test_cases[i]);
-                                var formData = new FormData();
-                                formData.append("file", content, "extract-me.zip");   //Adicionando um campo 'file' no formData para adicionar o arquivo como um .zip
-                                formData.append("args", JSON.stringify(argList));
-                                formData.append("prog_lang", language);
-                                formData.append("funcName", func);
-                                formData.append("returnType", returnType);
-                                ajaxPromises.push($.ajax({
-                                    url: worker_node_host + worker_node_port + "/",
-                                    type: "POST",
-                                    data: formData,
-                                    processData: false, // Necessário para enviar o FormData sem que jQuery tente processá-lo
-                                    contentType: false, // Necessário para evitar que jQuery defina o Content-Type
-                                    success: function(response) {
-                                        let statusCode = response[0][1];
-                                        let serverName = response[0][0].hostname;
-                                        let output = response[0][0].code_output;
-                                        let prof_output = response[0][0].prof_output;
-                                        let isCorrect = response[0][0].isCorrect ? true : false;
-                                        //console.log('statuscode: ', statusCode, '  servername: ', serverName, '  output: ', output);
-                                        if(statusCode == 200){
-                                            //console.log("Success: ", response);
-                                            resultsNovo[i] = output;
-                                        }
-                                        else{
-                                            //console.log("Erro: ", response);
-                                            var resultTxt = output;
-                                            resultsNovo[i] = resultTxt + '\n';
-                                        }
-                                        //evaluateResult(args[i], func, prof_output, resultsNovo[i], isCorrect, i);
-                                        evaluateResult(dictSolutions[language].test_cases[i], func, prof_output, resultsNovo[i], isCorrect, i);
-                                    },
-                                    error: function(error) {
-                                        console.log("erro na chamada do ajax: ", error);
-                                        evaluateResult(null, null, null, null, false, i, true);    //Fazendo um card para os casos de erro na chamada ajax
-                                    },
-                                }));
-                            //}
-                        }
-                        Promise.allSettled(ajaxPromises)    //Aqui só vai rodar quando todas as chamadas ajax terminarem ou se alguma delas der erro
-                            .then(function(results) {
-                                //console.log("Resultados das chamadas Ajax: ", results);
-                                let errorRequests = 0;
-                                for(let i=0; i<results.length; i++){
-                                    if(results[i].status == "rejected")
-                                        errorRequests++;
-                                }
-                                $('.loader div').stop();
-                                postEvaluate(pre_process_status);
-                            });
-                    });
-                    
-                }
-            },
-            error: function(error) {
-                $('.loader div').stop();
-                postEvaluate(-1, "Server communication error.");
-                console.log("erro na chamada do ajax: ", error, "\nNão foi possível realizar o pré-processamento do código.");
-            },
-        });
-    });
-};
-*/
-
 
 //Fazendo uma única chamada AJAX para o pré-processamento e para a execução dos testes:
 function runit(lang="") {
@@ -546,7 +302,6 @@ function runit(lang="") {
         formData.append("problem_id", problem_id);    //problem_id é uma variável global definida no template
         formData.append("csrfmiddlewaretoken", csrftoken);    //definida no template
         $.ajax({
-            //url: "http://localhost:5000/multi-process/",     //Para testar localmente
             url: code_submition_url,   //definida no template
             type: "POST",
             data: formData,
