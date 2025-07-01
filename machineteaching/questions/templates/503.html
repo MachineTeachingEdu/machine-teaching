@@ -32,7 +32,7 @@
 <img src="{%static 'img/manutencao.jpg'%}" width="100%">
       <div class="container">
         <div style="padding-top: 14rem">
-            <button class="btn" onclick="showAbout('{{language}}')">{% blocktrans %}About this research{% endblocktrans %}</button>
+            <a href="{%url 'about'%}">{% blocktrans %}About this research{% endblocktrans %}</a>
         </div>
       <div class="footer" style="border-bottom: none;">
           <div class="footer-left">Machine Teaching</div>
@@ -45,8 +45,8 @@
             <span onclick="showPrivacy('{{language}}')">
             {% blocktrans %}Privacy Policy{% endblocktrans %}
             </span> | 
-            <span onclick="showAbout('{{language}}')">
-            {% blocktrans %}About this research{% endblocktrans %}
+            <span >
+              <a href="{%url 'about'%}">{% blocktrans %}About this research{% endblocktrans %}</a>
             </span> | 
             {% blocktrans %}© 2020 Copyright: <a href="http://machineteaching.tech">machineteaching.tech{% endblocktrans %}</a>
           </div>
