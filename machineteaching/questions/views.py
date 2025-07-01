@@ -210,14 +210,23 @@ def submit_code(request):
                 if solution.language.name == lang and not solution.ignore:
                     test_cases_lang = TestCase.objects.filter(problem=problem, languages=solution.language)
                     #LOGGER.debug("Got test cases %s for problem %d", test_cases_lang, problem.id)
-                    test_cases_lang = [json.loads(test_case.content) for test_case in test_cases_lang]
+
+                    try:
+                        test_cases_lang_formatted = [json.loads(test_case.content) for test_case in test_cases_lang]
+                        form_data['test_cases'] = json.dumps(test_cases_lang_formatted)  #Serializa a lista em uma string
+                    except json.decoder.JSONDecodeError as e:
+                        custom_test_cases = []
+                        for test_case in test_cases_lang:
+                            custom_test_cases.append(test_case.content)
+                        form_data['test_cases'] = custom_test_cases
+                        form_data['custom_test_cases'] = True
+
                     professor_code = solution.content
                     func = solution.header
                     return_type = solution.return_type
                     form_data['professor_code'] = professor_code
                     form_data['func'] = func
                     form_data['return_type'] = return_type
-                    form_data['test_cases'] = json.dumps(test_cases_lang)  #Serializa a lista em uma string
                     found_solution = True
                     break
                    
