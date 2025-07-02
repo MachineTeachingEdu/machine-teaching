@@ -1,15 +1,6 @@
 from rest_framework import serializers
-from questions.models import Recommendations, Problem, Solution, TestCase
+from questions.models import Problem, Solution, TestCase
 import json
-
-
-class RecommendationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Recommendations
-        fields = ['user', 'problem', 'timestamp']
-
-    def create(self, validated_data):
-        return Recommendations.objects.create(**validated_data)
 
 
 #Serializers usados pelo worker-node
