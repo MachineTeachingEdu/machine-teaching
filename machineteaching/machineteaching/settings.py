@@ -141,6 +141,7 @@ LOCALE_PATHS = [os.path.join(BASE_DIR, 'locale')]
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 AUTHENTICATION_BACKENDS = ['questions.backends.EmailBackend']
+#EMAIL_HOST = 'smtp.sendgrid.net'
 EMAIL_HOST = os.getenv("EMAIL_HOST", 'smtp.zoho.com')
 EMAIL_PORT = 587
 EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", 'apikey')

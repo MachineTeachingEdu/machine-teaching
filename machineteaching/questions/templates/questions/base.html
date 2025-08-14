@@ -123,8 +123,8 @@
                 <span onclick="showPrivacy('{{language}}')">
                 {% blocktrans %}Privacy Policy{% endblocktrans %}
                 </span> | 
-                <span onclick="showAbout('{{language}}')">
-                {% blocktrans %}About this research{% endblocktrans %}
+                <span>
+                  <a href="{%url 'about'%}">{% blocktrans %}About this research{% endblocktrans %}</a>
                 </span> | 
                 <span onclick="showTutorials('{{language}}')">
                 {% blocktrans %}Tutorials{% endblocktrans %}
