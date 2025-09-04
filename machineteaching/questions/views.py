@@ -1074,17 +1074,22 @@ def about(request):
 
 @login_required   
 def python_tutor(request):
-    
     link_fixo = "https://pythontutor.com/render.html#code="
     codigo_aluno = "none"
 
     if request.method == 'POST':
         codigo = request.POST.get('codigo')
+        linguagem = request.POST.get('linguagem')
         codigo_aluno = urllib.parse.quote_plus(str(codigo))
 
+    if linguagem == "C":
+        nome_funcao = request.POST.get('nome_funcao')
+        link_fixo = "https://pythontutor.com/c.html#mode=edit&code="
+        codigo_aluno = codigo_aluno + f"""%0A%0Aint main(){{%0A++//Descomente a função abaixo e alterne seus parâmetros para testá-la%0A++//{nome_funcao}();%0A++return 0;%0A}}"""
+        
     context = {'link_fixo': link_fixo, 'codigo_aluno': codigo_aluno}
-
     return JsonResponse(context)
+
 @login_required
 def profile(request):
     return render(request, 'questions/profile.html')
