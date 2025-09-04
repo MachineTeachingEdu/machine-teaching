@@ -57,6 +57,7 @@ def get_problem(problem_id):
     
     dictSolutions = {}
     solutions = Solution.objects.filter(problem=problem, ignore=False)  #Pegando soluções de todas as linguagens
+    func_name = solutions.first().header   #Pegando o nome da função
     for solution in solutions:
         lang_txt = Language.objects.get(pk=solution.language.id).name
         #dictSolutions[lang_txt] = {"solution": solution.content, "tip": solution.tip}    #Para debug
@@ -67,6 +68,7 @@ def get_problem(problem_id):
         "problem": problem,
         "options": options,
         "solutions": dictSolutions,
+        "problem_func_name": func_name,
         "title": _('Problem'),
     }
 
