@@ -10,11 +10,14 @@ $('#dropdown-lang').on('change', function() {
         $("#interactive").parent().show();
     }
     else{
-        $("#python_tutor").hide();
-        if(language == "Julia")
+        if(language == "Julia"){
             editor.setOption('mode', { name: "julia" });
-        else if(language == "C")
+            $("#python_tutor").hide();
+        }
+        else if(language == "C"){
             editor.setOption('mode', { name: "text/x-csrc" });
+            $("#python_tutor").show();
+        }
         $("#interactive").parent().hide();    //Não teremos editor interativo se não for Python
     }
 });

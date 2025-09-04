@@ -117,6 +117,7 @@
     var problem_id = "{{problem.id}}";
     var code_submition_url = "{% url 'submit_code' %}";
     var csrftoken = '{{ csrf_token }}';
+    var func_name = "{{problem_func_name}}"
     // Save page access
     $(document).ready(function() {
         $.ajax({
@@ -170,6 +171,7 @@
         } 
         else if (language == "C") {
             editor.setOption('mode', { name: "text/x-csrc" });
+            $("#python_tutor").show();   //Agora também terá para C
         }
     });
     
@@ -286,26 +288,29 @@
     //python tutor code embeed
     function python_tutor(){
 
-            var codigo = editor.getValue();
+        var codigo = editor.getValue();
+        var linguagemSelecionada = $('#dropdown-lang option:selected').text();
 
-            $.ajax({
-                type: "POST",
-                url: '{% url 'python_tutor' %}',
-                data: {
-                            'codigo': codigo,
-                            'csrfmiddlewaretoken': '{{ csrf_token }}',
-                        },
-                        dataType: 'json',
-                        success: function(data){
-                        console.log(data['codigo_aluno']);
-                        window.open(data['link_fixo'] + data['codigo_aluno'], "_blank");
-                        },
-                        error: function (request, status, error) {
-                        console.log(request.status);
-                        }
-                        });
+        $.ajax({
+            type: "POST",
+            url: '{% url 'python_tutor' %}',
+            data: {
+                'codigo': codigo,
+                'nome_funcao': func_name,
+                'linguagem': linguagemSelecionada,
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+            },
+            dataType: 'json',
+            success: function(data){
+                console.log(data['codigo_aluno']);
+                window.open(data['link_fixo'] + data['codigo_aluno'], "_blank");
+            },
+            error: function (request, status, error) {
+                console.log(request.status);
+            }
+        });
 
-                            }
+    }
 
     function answer() {
         {% if problem.question_type == 'M' %}
