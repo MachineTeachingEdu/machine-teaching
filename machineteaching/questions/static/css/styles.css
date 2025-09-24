@@ -502,7 +502,7 @@ input:focus, textarea:focus {
 } */
 input[type="checkbox"] {
     border-radius: 5px;
-    width: 1rem !important;
+    width: 1rem /*!important*/;
     height: 1rem;
     border: 3px solid white;
     outline: 1px solid #ced4da;
@@ -2321,12 +2321,13 @@ input:checked + .slider:before {
     background-color: rgb(100, 100, 100); /* Um pouco mais claro ao passar o mouse */
 }
 
-/*Thauan */
+/*Thauan 
+no base.html botei a tag meta*/
 
 @media only screen and (max-width: 500px){
 
     .bg{
-        width: 101%;
+        width: 102%;
     }
 
     .header {
@@ -2372,7 +2373,7 @@ input:checked + .slider:before {
     }
 
     .container {
-        height: 20%;
+        height: 80%;
     }
 
     .container a button {
@@ -2385,160 +2386,97 @@ input:checked + .slider:before {
         justify-content: center;
     }
 
+    .signup{
+        position: static;
+        height: 80rem;
+    }
+
+    .signup .form input{
+            width: 90%;
+            height: 3.4rem;
+            font-size: 20px;
+            margin-top: 10px;
+            
+        }
+
+     .signup .form select{
+            width: 90%;
+            height: 3.4rem;
+            font-size: 20px;
+            margin-top: 10px;           
+        }
+
+    .signup .card{
+            margin-top: 40rem;
+            width: 95%;
+        
+        }
+    .signup .terms{
+            margin-top: 40px;
+    }
+    .signup .terms a{
+            font-size: 1.0rem;
+        }
+
+    .signup .terms input{
+            width: 16%;
+            height: 1.8em;
+        }
+
+    .div-col6__paragrafo{
+        font-size: 20px;
+        padding: 0px 30px;
+    }
+
+
+    .signup .form .programming{
+        flex-direction: column;
+        font-size: 25px;
+    }
+
+    .signup .terms div{
+        font-size: 16px;
+        justify-content: center;
+    }
+
+    .btn-mobile{
+        margin-bottom: 10rem;
+    }
+    body{
+        height:125%;
+    }
 }
 
 
 /* Comentário de mudanças no devtools
-    no base.html botei a tag meta
-
-    .bg {
-    width: 100%;
-    height: 70rem;
-    background: linear-gradient(40deg, rgba(16, 93, 162, 1) 0%, rgba(31, 140, 227, 1) 100%);
-    }
-
-    .mt {
-    color: #ffffff;
-    text-transform: uppercase;
-    font-weight: 600;
-    font-size: 2.5rem;
-    letter-spacing: 1px;
-    }
-
-    .change-language {
-    text-decoration: none;
-    text-transform: uppercase;
-    font-weight: 400;
-    font-size: 2rem;
-    color: #ffffff;
-    color: #ffffff;
-    transition: all 0.4s;
-    opacity: 0.8;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    }
-
-    .change-language img {
-    width: 2.3rem;
-    margin-left: 0.5rem;
-    }
-
-    .landing h2 {
-    color: #ffffff;
-    font-size: 3rem;
-    }
-
-    .login form input {
-        width: 80%;
-        height: 18%;
-        margin-top: 40px;
-        font-size: 48px;
-    }
-
-    .form a {
-    cursor: pointer;
-    display: inline;
-    font-size: 2.2rem;
-    margin-top: 1.5rem;
-    }
-
-    .login form button {
-        width: 70%;
-        margin-top: 40px;
-        height: 100%;
-        padding: 1.8rem;
-        font-size: 2.3rem;
-        letter-spacing: 0.8px;
-    }
-
-    .container a button {
-        margin-top: 40px;
-        font-size: 1.6rem;
-        padding: 20px 36px;
-        letter-spacing: 0.6px;
-        width: 45%;
-    }
-
-    .login {
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-top: 2rem;
-    }
-
-    .login .card {
-        height: 45vh;
-        width: 80vw;
-    }
-        */
-
-
-/*Comentários de mudanças no devtools
+    @media only screen and (max-width: 500px){
     
-    .bg{
-        width: 101%;
-    }
+        .form .signup input{
+            width: 80%;
+            height: 2rem;
+            font-size: 20px;
+            
+        }
 
-    .header {
-        flex-wrap: wrap;
-        justify-content: space-around;
-    }
+        .card .signup{
+            margin-top: 75rem;
+        
+        }
 
-    .mt { 
-        width: 100%;
-        font-size: 1rem;
-        letter-spacing: 0.1px;
-    }
+        .terms{
+            margin-top: 40px;
+        }
 
-    .change-language{
-        font-size: 0.9rem;
-    }
+        .terms a{
+            font-size: 1.1rem;
+        }
 
-    .change-language img {
-        width: 1.1rem;
-    }
-
-    Ajustar css inline (margin-top: 2rem) na classe card
-
-    .landing h2 {
-            margin-bottom: 0;
-            font-size: 1.4rem;
-    }
-
-    .login form input {
-        height: 15%;
-        margin-top: 15px;
-        font-size: 16px;
-    }
-
-    .form a {
-        font-size: 0.9rem;
-    }
-
-    .login form button {
-        width: 60%;
-        margin-top: 18px;
-        height: 150%;
-    }
-
-    .container {
-        height: 60%;
-    }
-
-    .container a button {
-        margin-top: 0px;
-        width: calc(100% - 9rem);
-        height: 2.5rem;
-    }
-
-    .footer{
-        justify-content: center;
-    }
+        .terms input{
+            width: 16%;
+            height: 1.8em;
+        }
     
-
+    }
 
 
 */
