@@ -19,7 +19,7 @@
                     {% if next_problem %}
                     {% blocktrans %}Next problem{% endblocktrans %}: <a href="{% url 'show_problem' problem_id=next_problem.id %}"><span class="link">{{next_problem.title}}</span></a>
                     {% else %}
-                      <span>{% blocktrans %}All problems have been finalized{% endblocktrans %}</span>
+                      <span class="dp_none">{% blocktrans %}All problems have been finalized{% endblocktrans %}</span>
                     {% endif %}       
                 </div>
 	        </div>
@@ -45,7 +45,7 @@
                         {% endif %}
                     </div>
                     <div style="height: 7rem;">
-                        <span>{% blocktrans %}to end a chapter{% endblocktrans %}</span><br><br>                        
+                        <span class="dp_none">{% blocktrans %}to end a chapter{% endblocktrans %}</span><br><br>                        
                         {% if time_to_finish_chapter is not None and time_to_finish_chapter == 0 %}
                         <div style="font-size: 24px; text-align: center;">{% blocktrans %}Less than 1 day{% endblocktrans %}</div>
                         {% elif time_to_finish_chapter is not None and time_to_finish_chapter != 0 %}
@@ -55,7 +55,7 @@
                         {% endif %}
                     </div>
                 </div>
-                <div class="card" style="height: 8rem;">
+                <div class="card" style="height: 10rem;">
                     <h3>Dashboard</h3>
                     <div style='display: flex; width: 100%; justify-content: center; height: max-content;'>
                         <a class='link' style="width: 80%; text-align: center;" href="/dashboard">{% blocktrans %}See more infos{% endblocktrans %}</a>
@@ -63,7 +63,7 @@
                 </div>
 	    </div>
 
-	    <div class="col col-6" style="padding-left: 1rem;">
+	    <div class="col col-6 mobile" style="padding-left: 1rem;">
             <div class="card" style="height: 30rem; position: relative;">
                 <h3>{% blocktrans %}Current chapter{% endblocktrans %}</h3>
                 {% if current_chapter %}

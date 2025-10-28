@@ -44,15 +44,15 @@
                 <td class="col-9">{{ exerciseset.problem.title }}</td>
                 <td class="col-3" style="text-align: right;">
                     {% if exerciseset.problem.id in passed %}
-                    <span class="badge success">
+                    <span class="badge success dp_none">
                     {% blocktrans %}Passed{% endblocktrans %}
                     </span>
                     {% elif exerciseset.problem.id in failed %}
-                    <span class="badge danger">
+                    <span class="badge danger dp_none">
                     {% blocktrans %}Failed{% endblocktrans %}
                     </span>
                     {% elif exerciseset.problem.id in skipped %}
-                    <span class="badge warning">
+                    <span class="badge warning dp_none">
                     {% blocktrans %}Skipped{% endblocktrans %}
                     </span>
                     {% endif %}
@@ -78,15 +78,15 @@
                 <td class="col-9">{{ exerciseset.problem.title }}</td>
                 <td class="col-3" style="text-align: right;">
                     {% if exerciseset.problem.id in passed %}
-                    <span class="badge success">
+                    <span class="badge success dp_none">
                     {% blocktrans %}Passed{% endblocktrans %}
                     </span>
                     {% elif exerciseset.problem.id in failed %}
-                    <span class="badge danger">
+                    <span class="badge danger dp_none">
                     {% blocktrans %}Failed{% endblocktrans %}
                     </span>
                     {% elif exerciseset.problem.id in skipped %}
-                    <span class="badge warning">
+                    <span class="badge warning dp_none">
                     {% blocktrans %}Skipped{% endblocktrans %}
                     </span>
                     {% endif %}
@@ -97,7 +97,7 @@
     </div>
     {% endfor %}
 </div>
-<div class="col col-4">
+<div class="col col-4 mobile_card">
     {% for chapter in chapters.2 %}
     <div class="card">
         <div style="display: flex; align-items: center;">
@@ -112,15 +112,15 @@
                 <td class="col-9">{{ exerciseset.problem.title }}</td>
                 <td class="col-3" style="text-align: right;">
                     {% if exerciseset.problem.id in passed %}
-                    <span class="badge success">
+                    <span class="badge success dp_none">
                     {% blocktrans %}Passed{% endblocktrans %}
                     </span>
                     {% elif exerciseset.problem.id in failed %}
-                    <span class="badge danger">
+                    <span class="badge danger dp_none">
                     {% blocktrans %}Failed{% endblocktrans %}
                     </span>
                     {% elif exerciseset.problem.id in skipped %}
-                    <span class="badge warning">
+                    <span class="badge warning dp_none">
                     {% blocktrans %}Skipped{% endblocktrans %}
                     </span>
                     {% endif %}

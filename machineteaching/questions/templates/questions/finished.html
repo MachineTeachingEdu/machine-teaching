@@ -7,7 +7,7 @@
 	<div class="card">
 		{% trans "You finished all available problems in" %}
         {% if user.userprofile.sequential %} <b>{% trans "Sequential" %}</b>{% trans " mode. You can:" %}
-        <ul>
+        <ul class="mobile-ul">
             <li> {% trans "Go to" %} <u><a href="{% url 'chapters' %}"> {% trans "Chapters" %} </a></u> {% trans "and come back to skipped problems." %}</li>
             <li> {% trans "Go to" %} <b>{% trans "Random" %}</b>{% trans "mode and try other problems." %}
         </ul>

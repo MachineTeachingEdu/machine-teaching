@@ -21,15 +21,15 @@
           </td>
           <td class="col-3" onclick="window.location='{% url 'show_problem' problem_id=item.problem.id %}';" style="text-align: right;">
             {% if item.problem.id in passed %}
-            <span class="badge success">
+            <span class="badge success dp_none">
             {% blocktrans %}Passed{% endblocktrans %}
             </span>
             {% elif item.problem.id in failed %}
-            <span class="badge danger">
+            <span class="badge danger dp_none">
             {% blocktrans %}Failed{% endblocktrans %}
             </span>
             {% elif item.problem.id in skipped %}
-            <span class="badge warning">
+            <span class="badge warning dp_none">
             {% blocktrans %}Skipped{% endblocktrans %}
             </span>
             {% endif %}
@@ -81,7 +81,7 @@
     <div style="width: 50%" class="dashboard-item">
       {% if errors|length == 0 %}
       {% else %}
-      <div class="card" style="margin-right: 1rem; border-left: 4px solid var(--red);">
+      <div class="card mobile_card" style="margin-right: 1rem; border-left: 4px solid var(--red);">
         <h3>{% blocktrans %}Main errors{% endblocktrans %}</h3>
         <h1 style="margin-bottom: 0.5rem; margin-top: 0.5rem;">
         {{errors.0.error}}
