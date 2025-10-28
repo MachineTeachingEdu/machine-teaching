@@ -21,15 +21,15 @@
           </td>
           <td class="col-3" onclick="window.location='{% url 'show_problem' problem_id=item.problem.id %}';" style="text-align: right;">
             {% if item.problem.id in passed %}
-            <span class="badge success dp_none">
+            <span class="badge success">
             {% blocktrans %}Passed{% endblocktrans %}
             </span>
             {% elif item.problem.id in failed %}
-            <span class="badge danger dp_none">
+            <span class="badge danger">
             {% blocktrans %}Failed{% endblocktrans %}
             </span>
             {% elif item.problem.id in skipped %}
-            <span class="badge warning dp_none">
+            <span class="badge warning">
             {% blocktrans %}Skipped{% endblocktrans %}
             </span>
             {% endif %}

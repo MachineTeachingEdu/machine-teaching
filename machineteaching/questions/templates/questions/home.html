@@ -19,7 +19,7 @@
                     {% if next_problem %}
                     {% blocktrans %}Next problem{% endblocktrans %}: <a href="{% url 'show_problem' problem_id=next_problem.id %}"><span class="link">{{next_problem.title}}</span></a>
                     {% else %}
-                      <span class="dp_none">{% blocktrans %}All problems have been finalized{% endblocktrans %}</span>
+                      <span>{% blocktrans %}All problems have been finalized{% endblocktrans %}</span>
                     {% endif %}       
                 </div>
 	        </div>
@@ -45,7 +45,7 @@
                         {% endif %}
                     </div>
                     <div style="height: 7rem;">
-                        <span class="dp_none">{% blocktrans %}to end a chapter{% endblocktrans %}</span><br><br>                        
+                        <span>{% blocktrans %}to end a chapter{% endblocktrans %}</span><br><br>                        
                         {% if time_to_finish_chapter is not None and time_to_finish_chapter == 0 %}
                         <div style="font-size: 24px; text-align: center;">{% blocktrans %}Less than 1 day{% endblocktrans %}</div>
                         {% elif time_to_finish_chapter is not None and time_to_finish_chapter != 0 %}

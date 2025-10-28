@@ -15,7 +15,6 @@ function closeMenu() {
     $('.close').attr('onclick', 'openMenu()');
 
     if(window.innerWidth < 420){
-        $('.dp_none').show();
         $('.layout-content').show();
         $('.mobile-ul').css({
             'padding-left': '40px'
@@ -27,11 +26,8 @@ function closeMenu() {
 function openMenu() {
 
         // --- LINHA ADICIONADA ---
-    // Seleciona todos os elementos que têm a classe 'dp_none' e os esconde.
      // 1. Verifica se a largura da janela é menor que 420 pixels
     if (window.innerWidth < 420) {
-        // 2. Se for, esconde os elementos com a classe .dp_none
-        $('.dp_none').hide();
         $('.layout-content').hide();
         $('.title').hide();
         $('.topbar').css({
