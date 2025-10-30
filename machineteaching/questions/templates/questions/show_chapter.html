@@ -81,7 +81,7 @@
     <div style="width: 50%" class="dashboard-item">
       {% if errors|length == 0 %}
       {% else %}
-      <div class="card" style="margin-right: 1rem; border-left: 4px solid var(--red);">
+      <div class="card mobile_card" style="margin-right: 1rem; border-left: 4px solid var(--red);">
         <h3>{% blocktrans %}Main errors{% endblocktrans %}</h3>
         <h1 style="margin-bottom: 0.5rem; margin-top: 0.5rem;">
         {{errors.0.error}}

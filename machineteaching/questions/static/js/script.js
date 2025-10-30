@@ -13,12 +13,38 @@ function cancel() {
 function closeMenu() {
     $('.content').attr('style', 'width: 100%');
     $('.close').attr('onclick', 'openMenu()');
+
+    if(window.innerWidth < 420){
+        $('.layout-content').show();
+        $('.mobile-ul').css({
+            'padding-left': '40px'
+        });
+    }
 };
 
 //open menu
 function openMenu() {
-    $('.content').attr('style', 'width: calc(100% - 220px)');
-    $('.close').attr('onclick', 'closeMenu()');
+
+        // --- LINHA ADICIONADA ---
+     // 1. Verifica se a largura da janela é menor que 420 pixels
+    if (window.innerWidth < 420) {
+        $('.layout-content').hide();
+        $('.title').hide();
+        $('.topbar').css({
+            'height': '3.5rem'
+        })
+        $('.mobile-ul').css({
+            'padding-left': '0'
+        });
+
+        $('.content').attr('style', 'width: calc(100% - 315px)');
+        $('.close').attr('onclick', 'closeMenu()');
+    }
+    else{
+        $('.content').attr('style', 'width: calc(100% - 220px)');
+        $('.close').attr('onclick', 'closeMenu()');
+    }
+
 };
 
 if (window.matchMedia("(max-width:1300px)").matches) {
