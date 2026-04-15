@@ -1,0 +1,628 @@
+[
+    {
+        "expanded_representation": "def num_bombons(___, ___): ||| [{'print(num_bombons(48.24, 5.35))': ['myNaN'], 'print(num_bombons(79.96, 1.43))': ['myNaN'], 'print(num_bombons(72.35, 9.93))': ['myNaN'], 'print(num_bombons(88.18, 1.36))': ['myNaN'], 'print(num_bombons(53.28, 1.47))': ['myNaN'], 'print(num_bombons(8.61, 0.7))': ['myNaN'], 'print(num_bombons(27.72, 4.2))': ['myNaN'], 'print(num_bombons(52.33, 3.89))': ['myNaN'], 'print(num_bombons(0, 0.1))': ['myNaN'], 'print(num_bombons(1.0, 0.5))': ['myNaN']}, {'print(num_bombons(48.24, 5.35))': ['myNaN'], 'print(num_bombons(79.96, 1.43))': ['myNaN'], 'print(num_bombons(72.35, 9.93))': ['myNaN'], 'print(num_bombons(88.18, 1.36))': ['myNaN'], 'print(num_bombons(53.28, 1.47))': ['myNaN'], 'print(num_bombons(8.61, 0.7))': ['myNaN'], 'print(num_bombons(27.72, 4.2))': ['myNaN'], 'print(num_bombons(52.33, 3.89))': ['myNaN'], 'print(num_bombons(0, 0.1))': ['myNaN'], 'print(num_bombons(1.0, 0.5))': ['myNaN']}]",
+        "id": 1,
+        "line_values": [
+            {
+                "print(num_bombons(0, 0.1))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(1.0, 0.5))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(27.72, 4.2))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(48.24, 5.35))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(52.33, 3.89))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(53.28, 1.47))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(72.35, 9.93))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(79.96, 1.43))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(8.61, 0.7))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(88.18, 1.36))": [
+                    "myNaN"
+                ]
+            },
+            {
+                "print(num_bombons(0, 0.1))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(1.0, 0.5))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(27.72, 4.2))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(48.24, 5.35))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(52.33, 3.89))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(53.28, 1.47))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(72.35, 9.93))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(79.96, 1.43))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(8.61, 0.7))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(88.18, 1.36))": [
+                    "myNaN"
+                ]
+            }
+        ],
+        "template": "def num_bombons(___, ___):"
+    },
+    {
+        "expanded_representation": "return ___ // ___ ||| [{'print(num_bombons(48.24, 5.35))': ['myNaN'], 'print(num_bombons(79.96, 1.43))': ['myNaN'], 'print(num_bombons(72.35, 9.93))': ['myNaN'], 'print(num_bombons(88.18, 1.36))': ['myNaN'], 'print(num_bombons(53.28, 1.47))': ['myNaN'], 'print(num_bombons(8.61, 0.7))': ['myNaN'], 'print(num_bombons(27.72, 4.2))': ['myNaN'], 'print(num_bombons(52.33, 3.89))': ['myNaN'], 'print(num_bombons(0, 0.1))': ['myNaN'], 'print(num_bombons(1.0, 0.5))': ['myNaN']}, {'print(num_bombons(48.24, 5.35))': ['myNaN'], 'print(num_bombons(79.96, 1.43))': ['myNaN'], 'print(num_bombons(72.35, 9.93))': ['myNaN'], 'print(num_bombons(88.18, 1.36))': ['myNaN'], 'print(num_bombons(53.28, 1.47))': ['myNaN'], 'print(num_bombons(8.61, 0.7))': ['myNaN'], 'print(num_bombons(27.72, 4.2))': ['myNaN'], 'print(num_bombons(52.33, 3.89))': ['myNaN'], 'print(num_bombons(0, 0.1))': ['myNaN'], 'print(num_bombons(1.0, 0.5))': ['myNaN']}]",
+        "id": 2,
+        "line_values": [
+            {
+                "print(num_bombons(0, 0.1))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(1.0, 0.5))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(27.72, 4.2))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(48.24, 5.35))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(52.33, 3.89))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(53.28, 1.47))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(72.35, 9.93))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(79.96, 1.43))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(8.61, 0.7))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(88.18, 1.36))": [
+                    "myNaN"
+                ]
+            },
+            {
+                "print(num_bombons(0, 0.1))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(1.0, 0.5))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(27.72, 4.2))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(48.24, 5.35))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(52.33, 3.89))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(53.28, 1.47))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(72.35, 9.93))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(79.96, 1.43))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(8.61, 0.7))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(88.18, 1.36))": [
+                    "myNaN"
+                ]
+            }
+        ],
+        "template": "return ___ // ___"
+    },
+    {
+        "expanded_representation": "___ = ___ ||| [{'print(num_bombons(48.24, 5.35))': ['myNaN'], 'print(num_bombons(79.96, 1.43))': ['myNaN'], 'print(num_bombons(72.35, 9.93))': ['myNaN'], 'print(num_bombons(88.18, 1.36))': ['myNaN'], 'print(num_bombons(53.28, 1.47))': ['myNaN'], 'print(num_bombons(8.61, 0.7))': ['myNaN'], 'print(num_bombons(27.72, 4.2))': ['myNaN'], 'print(num_bombons(52.33, 3.89))': ['myNaN'], 'print(num_bombons(0, 0.1))': ['myNaN'], 'print(num_bombons(1.0, 0.5))': ['myNaN']}, {'print(num_bombons(48.24, 5.35))': ['myNaN'], 'print(num_bombons(79.96, 1.43))': ['myNaN'], 'print(num_bombons(72.35, 9.93))': ['myNaN'], 'print(num_bombons(88.18, 1.36))': ['myNaN'], 'print(num_bombons(53.28, 1.47))': ['myNaN'], 'print(num_bombons(8.61, 0.7))': ['myNaN'], 'print(num_bombons(27.72, 4.2))': ['myNaN'], 'print(num_bombons(52.33, 3.89))': ['myNaN'], 'print(num_bombons(0, 0.1))': ['myNaN'], 'print(num_bombons(1.0, 0.5))': ['myNaN']}]",
+        "id": 3,
+        "line_values": [
+            {
+                "print(num_bombons(0, 0.1))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(1.0, 0.5))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(27.72, 4.2))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(48.24, 5.35))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(52.33, 3.89))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(53.28, 1.47))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(72.35, 9.93))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(79.96, 1.43))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(8.61, 0.7))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(88.18, 1.36))": [
+                    "myNaN"
+                ]
+            },
+            {
+                "print(num_bombons(0, 0.1))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(1.0, 0.5))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(27.72, 4.2))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(48.24, 5.35))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(52.33, 3.89))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(53.28, 1.47))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(72.35, 9.93))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(79.96, 1.43))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(8.61, 0.7))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(88.18, 1.36))": [
+                    "myNaN"
+                ]
+            }
+        ],
+        "template": "___ = ___"
+    },
+    {
+        "expanded_representation": "if ___ > ___: ||| [{'print(num_bombons(48.24, 5.35))': ['myNaN', 'myNaN'], 'print(num_bombons(79.96, 1.43))': ['myNaN', 'myNaN'], 'print(num_bombons(72.35, 9.93))': ['myNaN', 'myNaN'], 'print(num_bombons(88.18, 1.36))': ['myNaN', 'myNaN'], 'print(num_bombons(53.28, 1.47))': ['myNaN', 'myNaN'], 'print(num_bombons(8.61, 0.7))': ['myNaN', 'myNaN'], 'print(num_bombons(27.72, 4.2))': ['myNaN', 'myNaN'], 'print(num_bombons(52.33, 3.89))': ['myNaN', 'myNaN'], 'print(num_bombons(0, 0.1))': ['myNaN', 'myNaN'], 'print(num_bombons(1.0, 0.5))': ['myNaN', 'myNaN']}, {'print(num_bombons(48.24, 5.35))': ['myNaN', 'myNaN'], 'print(num_bombons(79.96, 1.43))': ['myNaN', 'myNaN'], 'print(num_bombons(72.35, 9.93))': ['myNaN', 'myNaN'], 'print(num_bombons(88.18, 1.36))': ['myNaN', 'myNaN'], 'print(num_bombons(53.28, 1.47))': ['myNaN', 'myNaN'], 'print(num_bombons(8.61, 0.7))': ['myNaN', 'myNaN'], 'print(num_bombons(27.72, 4.2))': ['myNaN', 'myNaN'], 'print(num_bombons(52.33, 3.89))': ['myNaN', 'myNaN'], 'print(num_bombons(0, 0.1))': ['myNaN', 'myNaN'], 'print(num_bombons(1.0, 0.5))': ['myNaN', 'myNaN']}]",
+        "id": 4,
+        "line_values": [
+            {
+                "print(num_bombons(0, 0.1))": [
+                    "myNaN",
+                    "myNaN"
+                ],
+                "print(num_bombons(1.0, 0.5))": [
+                    "myNaN",
+                    "myNaN"
+                ],
+                "print(num_bombons(27.72, 4.2))": [
+                    "myNaN",
+                    "myNaN"
+                ],
+                "print(num_bombons(48.24, 5.35))": [
+                    "myNaN",
+                    "myNaN"
+                ],
+                "print(num_bombons(52.33, 3.89))": [
+                    "myNaN",
+                    "myNaN"
+                ],
+                "print(num_bombons(53.28, 1.47))": [
+                    "myNaN",
+                    "myNaN"
+                ],
+                "print(num_bombons(72.35, 9.93))": [
+                    "myNaN",
+                    "myNaN"
+                ],
+                "print(num_bombons(79.96, 1.43))": [
+                    "myNaN",
+                    "myNaN"
+                ],
+                "print(num_bombons(8.61, 0.7))": [
+                    "myNaN",
+                    "myNaN"
+                ],
+                "print(num_bombons(88.18, 1.36))": [
+                    "myNaN",
+                    "myNaN"
+                ]
+            },
+            {
+                "print(num_bombons(0, 0.1))": [
+                    "myNaN",
+                    "myNaN"
+                ],
+                "print(num_bombons(1.0, 0.5))": [
+                    "myNaN",
+                    "myNaN"
+                ],
+                "print(num_bombons(27.72, 4.2))": [
+                    "myNaN",
+                    "myNaN"
+                ],
+                "print(num_bombons(48.24, 5.35))": [
+                    "myNaN",
+                    "myNaN"
+                ],
+                "print(num_bombons(52.33, 3.89))": [
+                    "myNaN",
+                    "myNaN"
+                ],
+                "print(num_bombons(53.28, 1.47))": [
+                    "myNaN",
+                    "myNaN"
+                ],
+                "print(num_bombons(72.35, 9.93))": [
+                    "myNaN",
+                    "myNaN"
+                ],
+                "print(num_bombons(79.96, 1.43))": [
+                    "myNaN",
+                    "myNaN"
+                ],
+                "print(num_bombons(8.61, 0.7))": [
+                    "myNaN",
+                    "myNaN"
+                ],
+                "print(num_bombons(88.18, 1.36))": [
+                    "myNaN",
+                    "myNaN"
+                ]
+            }
+        ],
+        "template": "if ___ > ___:"
+    },
+    {
+        "expanded_representation": "return 0.0 ||| []",
+        "id": 5,
+        "line_values": [],
+        "template": "return 0.0"
+    },
+    {
+        "expanded_representation": "else: ||| []",
+        "id": 6,
+        "line_values": [],
+        "template": "else:"
+    },
+    {
+        "expanded_representation": "return ___ // ___ ||| [{'print(num_bombons(48.24, 5.35))': [48.24], 'print(num_bombons(79.96, 1.43))': [79.96], 'print(num_bombons(72.35, 9.93))': [72.35], 'print(num_bombons(88.18, 1.36))': [88.18], 'print(num_bombons(53.28, 1.47))': [53.28], 'print(num_bombons(8.61, 0.7))': [8.61], 'print(num_bombons(27.72, 4.2))': [27.72], 'print(num_bombons(52.33, 3.89))': [52.33], 'print(num_bombons(0, 0.1))': [0], 'print(num_bombons(1.0, 0.5))': [1.0]}, {'print(num_bombons(48.24, 5.35))': [5.35], 'print(num_bombons(79.96, 1.43))': [1.43], 'print(num_bombons(72.35, 9.93))': [9.93], 'print(num_bombons(88.18, 1.36))': [1.36], 'print(num_bombons(53.28, 1.47))': [1.47], 'print(num_bombons(8.61, 0.7))': [0.7], 'print(num_bombons(27.72, 4.2))': [4.2], 'print(num_bombons(52.33, 3.89))': [3.89], 'print(num_bombons(0, 0.1))': [0.1], 'print(num_bombons(1.0, 0.5))': [0.5]}]",
+        "id": 7,
+        "line_values": [
+            {
+                "print(num_bombons(0, 0.1))": [
+                    0
+                ],
+                "print(num_bombons(1.0, 0.5))": [
+                    1.0
+                ],
+                "print(num_bombons(27.72, 4.2))": [
+                    27.72
+                ],
+                "print(num_bombons(48.24, 5.35))": [
+                    48.24
+                ],
+                "print(num_bombons(52.33, 3.89))": [
+                    52.33
+                ],
+                "print(num_bombons(53.28, 1.47))": [
+                    53.28
+                ],
+                "print(num_bombons(72.35, 9.93))": [
+                    72.35
+                ],
+                "print(num_bombons(79.96, 1.43))": [
+                    79.96
+                ],
+                "print(num_bombons(8.61, 0.7))": [
+                    8.61
+                ],
+                "print(num_bombons(88.18, 1.36))": [
+                    88.18
+                ]
+            },
+            {
+                "print(num_bombons(0, 0.1))": [
+                    0.1
+                ],
+                "print(num_bombons(1.0, 0.5))": [
+                    0.5
+                ],
+                "print(num_bombons(27.72, 4.2))": [
+                    4.2
+                ],
+                "print(num_bombons(48.24, 5.35))": [
+                    5.35
+                ],
+                "print(num_bombons(52.33, 3.89))": [
+                    3.89
+                ],
+                "print(num_bombons(53.28, 1.47))": [
+                    1.47
+                ],
+                "print(num_bombons(72.35, 9.93))": [
+                    9.93
+                ],
+                "print(num_bombons(79.96, 1.43))": [
+                    1.43
+                ],
+                "print(num_bombons(8.61, 0.7))": [
+                    0.7
+                ],
+                "print(num_bombons(88.18, 1.36))": [
+                    1.36
+                ]
+            }
+        ],
+        "template": "return ___ // ___"
+    },
+    {
+        "expanded_representation": "___ = ___ // ___ ||| [{'print(num_bombons(48.24, 5.35))': ['myNaN'], 'print(num_bombons(79.96, 1.43))': ['myNaN'], 'print(num_bombons(72.35, 9.93))': ['myNaN'], 'print(num_bombons(88.18, 1.36))': ['myNaN'], 'print(num_bombons(53.28, 1.47))': ['myNaN'], 'print(num_bombons(8.61, 0.7))': ['myNaN'], 'print(num_bombons(27.72, 4.2))': ['myNaN'], 'print(num_bombons(52.33, 3.89))': ['myNaN'], 'print(num_bombons(0, 0.1))': ['myNaN'], 'print(num_bombons(1.0, 0.5))': ['myNaN']}, {'print(num_bombons(48.24, 5.35))': ['myNaN'], 'print(num_bombons(79.96, 1.43))': ['myNaN'], 'print(num_bombons(72.35, 9.93))': ['myNaN'], 'print(num_bombons(88.18, 1.36))': ['myNaN'], 'print(num_bombons(53.28, 1.47))': ['myNaN'], 'print(num_bombons(8.61, 0.7))': ['myNaN'], 'print(num_bombons(27.72, 4.2))': ['myNaN'], 'print(num_bombons(52.33, 3.89))': ['myNaN'], 'print(num_bombons(0, 0.1))': ['myNaN'], 'print(num_bombons(1.0, 0.5))': ['myNaN']}, {'print(num_bombons(48.24, 5.35))': ['myNaN'], 'print(num_bombons(79.96, 1.43))': ['myNaN'], 'print(num_bombons(72.35, 9.93))': ['myNaN'], 'print(num_bombons(88.18, 1.36))': ['myNaN'], 'print(num_bombons(53.28, 1.47))': ['myNaN'], 'print(num_bombons(8.61, 0.7))': ['myNaN'], 'print(num_bombons(27.72, 4.2))': ['myNaN'], 'print(num_bombons(52.33, 3.89))': ['myNaN'], 'print(num_bombons(0, 0.1))': ['myNaN'], 'print(num_bombons(1.0, 0.5))': ['myNaN']}]",
+        "id": 8,
+        "line_values": [
+            {
+                "print(num_bombons(0, 0.1))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(1.0, 0.5))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(27.72, 4.2))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(48.24, 5.35))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(52.33, 3.89))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(53.28, 1.47))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(72.35, 9.93))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(79.96, 1.43))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(8.61, 0.7))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(88.18, 1.36))": [
+                    "myNaN"
+                ]
+            },
+            {
+                "print(num_bombons(0, 0.1))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(1.0, 0.5))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(27.72, 4.2))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(48.24, 5.35))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(52.33, 3.89))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(53.28, 1.47))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(72.35, 9.93))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(79.96, 1.43))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(8.61, 0.7))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(88.18, 1.36))": [
+                    "myNaN"
+                ]
+            },
+            {
+                "print(num_bombons(0, 0.1))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(1.0, 0.5))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(27.72, 4.2))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(48.24, 5.35))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(52.33, 3.89))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(53.28, 1.47))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(72.35, 9.93))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(79.96, 1.43))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(8.61, 0.7))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(88.18, 1.36))": [
+                    "myNaN"
+                ]
+            }
+        ],
+        "template": "___ = ___ // ___"
+    },
+    {
+        "expanded_representation": "return ___ ||| [{'print(num_bombons(48.24, 5.35))': ['myNaN'], 'print(num_bombons(79.96, 1.43))': ['myNaN'], 'print(num_bombons(72.35, 9.93))': ['myNaN'], 'print(num_bombons(88.18, 1.36))': ['myNaN'], 'print(num_bombons(53.28, 1.47))': ['myNaN'], 'print(num_bombons(8.61, 0.7))': ['myNaN'], 'print(num_bombons(27.72, 4.2))': ['myNaN'], 'print(num_bombons(52.33, 3.89))': ['myNaN'], 'print(num_bombons(0, 0.1))': ['myNaN'], 'print(num_bombons(1.0, 0.5))': ['myNaN']}]",
+        "id": 9,
+        "line_values": [
+            {
+                "print(num_bombons(0, 0.1))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(1.0, 0.5))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(27.72, 4.2))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(48.24, 5.35))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(52.33, 3.89))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(53.28, 1.47))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(72.35, 9.93))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(79.96, 1.43))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(8.61, 0.7))": [
+                    "myNaN"
+                ],
+                "print(num_bombons(88.18, 1.36))": [
+                    "myNaN"
+                ]
+            }
+        ],
+        "template": "return ___"
+    },
+    {
+        "expanded_representation": "if ___ <= 0 or ___ <= 0: ||| [{'print(num_bombons(48.24, 5.35))': ['myNaN', 'myNaN'], 'print(num_bombons(79.96, 1.43))': ['myNaN', 'myNaN'], 'print(num_bombons(72.35, 9.93))': ['myNaN', 'myNaN'], 'print(num_bombons(88.18, 1.36))': ['myNaN', 'myNaN'], 'print(num_bombons(53.28, 1.47))': ['myNaN', 'myNaN'], 'print(num_bombons(8.61, 0.7))': ['myNaN', 'myNaN'], 'print(num_bombons(27.72, 4.2))': ['myNaN', 'myNaN'], 'print(num_bombons(52.33, 3.89))': ['myNaN', 'myNaN'], 'print(num_bombons(0, 0.1))': ['myNaN', 'myNaN'], 'print(num_bombons(1.0, 0.5))': ['myNaN', 'myNaN']}, {'print(num_bombons(48.24, 5.35))': ['myNaN', 'myNaN'], 'print(num_bombons(79.96, 1.43))': ['myNaN', 'myNaN'], 'print(num_bombons(72.35, 9.93))': ['myNaN', 'myNaN'], 'print(num_bombons(88.18, 1.36))': ['myNaN', 'myNaN'], 'print(num_bombons(53.28, 1.47))': ['myNaN', 'myNaN'], 'print(num_bombons(8.61, 0.7))': ['myNaN', 'myNaN'], 'print(num_bombons(27.72, 4.2))': ['myNaN', 'myNaN'], 'print(num_bombons(52.33, 3.89))': ['myNaN', 'myNaN'], 'print(num_bombons(0, 0.1))': ['myNaN', 'myNaN'], 'print(num_bombons(1.0, 0.5))': ['myNaN', 'myNaN']}]",
+        "id": 10,
+        "line_values": [
+            {
+                "print(num_bombons(0, 0.1))": [
+                    "myNaN",
+                    "myNaN"
+                ],
+                "print(num_bombons(1.0, 0.5))": [
+                    "myNaN",
+                    "myNaN"
+                ],
+                "print(num_bombons(27.72, 4.2))": [
+                    "myNaN",
+                    "myNaN"
+                ],
+                "print(num_bombons(48.24, 5.35))": [
+                    "myNaN",
+                    "myNaN"
+                ],
+                "print(num_bombons(52.33, 3.89))": [
+                    "myNaN",
+                    "myNaN"
+                ],
+                "print(num_bombons(53.28, 1.47))": [
+                    "myNaN",
+                    "myNaN"
+                ],
+                "print(num_bombons(72.35, 9.93))": [
+                    "myNaN",
+                    "myNaN"
+                ],
+                "print(num_bombons(79.96, 1.43))": [
+                    "myNaN",
+                    "myNaN"
+                ],
+                "print(num_bombons(8.61, 0.7))": [
+                    "myNaN",
+                    "myNaN"
+                ],
+                "print(num_bombons(88.18, 1.36))": [
+                    "myNaN",
+                    "myNaN"
+                ]
+            },
+            {
+                "print(num_bombons(0, 0.1))": [
+                    "myNaN",
+                    "myNaN"
+                ],
+                "print(num_bombons(1.0, 0.5))": [
+                    "myNaN",
+                    "myNaN"
+                ],
+                "print(num_bombons(27.72, 4.2))": [
+                    "myNaN",
+                    "myNaN"
+                ],
+                "print(num_bombons(48.24, 5.35))": [
+                    "myNaN",
+                    "myNaN"
+                ],
+                "print(num_bombons(52.33, 3.89))": [
+                    "myNaN",
+                    "myNaN"
+                ],
+                "print(num_bombons(53.28, 1.47))": [
+                    "myNaN",
+                    "myNaN"
+                ],
+                "print(num_bombons(72.35, 9.93))": [
+                    "myNaN",
+                    "myNaN"
+                ],
+                "print(num_bombons(79.96, 1.43))": [
+                    "myNaN",
+                    "myNaN"
+                ],
+                "print(num_bombons(8.61, 0.7))": [
+                    "myNaN",
+                    "myNaN"
+                ],
+                "print(num_bombons(88.18, 1.36))": [
+                    "myNaN",
+                    "myNaN"
+                ]
+            }
+        ],
+        "template": "if ___ <= 0 or ___ <= 0:"
+    },
+    {
+        "expanded_representation": "return 0 ||| []",
+        "id": 11,
+        "line_values": [],
+        "template": "return 0"
+    }
+]

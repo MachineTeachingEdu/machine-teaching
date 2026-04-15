@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Grupos de Soluções</title>
+
+<style>
+
+body{
+font-family:"Segoe UI",Arial;
+background:#f4f6f9;
+padding:40px;
+}
+
+.container{
+max-width:1000px;
+margin:auto;
+}
+
+.back{
+text-decoration:none;
+color:#444;
+font-weight:600;
+}
+
+.back:hover{
+color:#000;
+}
+
+.title{
+font-size:28px;
+font-weight:700;
+margin-top:12px;
+}
+
+.subtitle{
+color:#666;
+margin-bottom:20px;
+}
+
+.divider{
+border-bottom:1px solid #e5e7eb;
+margin-bottom:30px;
+}
+
+/* GRID */
+
+.grid{
+display:grid;
+grid-template-columns:repeat(2,1fr);
+gap:28px;
+}
+
+/* CARD */
+
+.card{
+background:white;
+border-radius:12px;
+padding:26px;
+box-shadow:0 2px 10px rgba(0,0,0,0.08);
+transition:all .2s ease;
+border-left:6px solid #ccc;
+}
+
+.card:hover{
+transform:translateY(-6px);
+box-shadow:0 10px 24px rgba(0,0,0,0.18);
+}
+
+.correct{
+border-left-color:#4CAF50;
+}
+
+.incorrect{
+border-left-color:#E53935;
+}
+
+.ignored{
+border-left-color:#FFC107;
+background:#fffde7;
+}
+
+.group-title{
+font-size:20px;
+font-weight:600;
+margin-bottom:10px;
+}
+
+.count{
+color:#555;
+}
+
+/* BOTÃO */
+
+.btn{
+display:inline-block;
+margin-top:16px;
+padding:10px 18px;
+color:white;
+text-decoration:none;
+border-radius:6px;
+font-size:14px;
+font-weight:500;
+transition:.2s;
+}
+
+/* CORRETO */
+
+.card.correct .btn{
+background:#16a34a;
+}
+
+.card.correct .btn:hover{
+background:#15803d;
+}
+
+/* INCORRETO */
+
+.card.incorrect .btn{
+background:#dc2626;
+}
+
+.card.incorrect .btn:hover{
+background:#b91c1c;
+}
+
+/* IGNORADO */
+
+.card.ignored .btn{
+background:#eab308;
+color:#222;
+}
+
+.card.ignored .btn:hover{
+background:#ca8a04;
+}
+
+/* CONTROLES */
+
+.controls{
+display:flex;
+justify-content:center;
+align-items:center;
+gap:25px;
+margin-top:35px;
+}
+
+.arrow{
+cursor:pointer;
+font-size:26px;
+color:#444;
+padding:6px 12px;
+border-radius:6px;
+transition:.2s;
+}
+
+.arrow:hover{
+background:#e5e7eb;
+}
+
+.page-info{
+font-weight:600;
+color:#444;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<a class="back" href="{% url 'escolher' %}">
+← Voltar
+</a>
+
+<div class="title">
+Grupos de Soluções
+</div>
+
+<div class="subtitle">
+Turma <b>{{ turma_id }}</b> • Problema <b>{{ problem_id }}</b>
+</div>
+
+<div class="divider"></div>
+
+<div id="groups-container" class="grid">
+
+{% for g in groups %}
+
+<div class="group-item">
+
+<div class="card {% if g.correct %}correct{% else %}incorrect{% endif %}">
+
+<div class="group-title">
+Grupo {{ g.group_index }}
+</div>
+
+<div class="count">
+{{ g.count }} soluções
+</div>
+
+<a class="btn"
+href="{% url 'group_detail' turma_id problem_id g.id %}">
+Abrir análise
+</a>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+{% if ignored_count > 0 %}
+
+<div class="group-item">
+
+<div class="card ignored">
+
+<div class="group-title">
+Soluções ignoradas
+</div>
+
+<div class="count">
+{{ ignored_count }} soluções
+</div>
+
+<a class="btn"
+href="{% url 'ignored_detail' turma_id problem_id %}">
+Ver detalhes
+</a>
+
+</div>
+
+</div>
+
+{% endif %}
+
+</div>
+
+<div class="controls">
+
+<div class="arrow" onclick="prevPage()">‹</div>
+
+<div class="page-info" id="page-info"></div>
+
+<div class="arrow" onclick="nextPage()">›</div>
+
+</div>
+
+</div>
+
+<script>
+
+const cardsPerPage = 4
+
+const items = document.querySelectorAll(".group-item")
+
+let currentPage = 1
+const totalPages = Math.ceil(items.length / cardsPerPage)
+
+function showPage(page){
+
+items.forEach((item,i)=>{
+
+if(i >= (page-1)*cardsPerPage && i < page*cardsPerPage){
+item.style.display="block"
+}else{
+item.style.display="none"
+}
+
+})
+
+document.getElementById("page-info").innerText =
+page + " / " + totalPages
+
+}
+
+function nextPage(){
+
+if(currentPage < totalPages){
+currentPage++
+showPage(currentPage)
+}
+
+}
+
+function prevPage(){
+
+if(currentPage > 1){
+currentPage--
+showPage(currentPage)
+}
+
+}
+
+showPage(currentPage)
+
+</script>
+
+</body>
+</html>

@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Valor padrão da porta
+PORT=${PORT:-8020}
+
 echo $ENVIRONMENT
 if [ "$ENVIRONMENT" = "development" ]; then
     echo "Preparing image for development"

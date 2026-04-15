@@ -1,0 +1,194 @@
+[
+    {
+        "maps_to": [
+            [
+                "def num_bombons(___, preco):",
+                "return ___ // preco",
+                "___ = ___ // preco"
+            ]
+        ],
+        "match_type": "values_match",
+        "original": [
+            "def num_bombons(___, valor_bombom):",
+            "___ = valor_bombom"
+        ],
+        "solution": "4436",
+        "values_of_match": {
+            "print(num_bombons(0, 0.1))": [
+                0.1
+            ],
+            "print(num_bombons(1.0, 0.5))": [
+                0.5
+            ],
+            "print(num_bombons(27.72, 4.2))": [
+                4.2
+            ],
+            "print(num_bombons(48.24, 5.35))": [
+                5.35
+            ],
+            "print(num_bombons(52.33, 3.89))": [
+                3.89
+            ],
+            "print(num_bombons(53.28, 1.47))": [
+                1.47
+            ],
+            "print(num_bombons(72.35, 9.93))": [
+                9.93
+            ],
+            "print(num_bombons(79.96, 1.43))": [
+                1.43
+            ],
+            "print(num_bombons(8.61, 0.7))": [
+                0.7
+            ],
+            "print(num_bombons(88.18, 1.36))": [
+                1.36
+            ]
+        }
+    },
+    {
+        "maps_to": [
+            [
+                "return dinheiro // ___",
+                "___ = dinheiro // ___",
+                "___ = dinheiro",
+                "def num_bombons(dinheiro, ___):"
+            ]
+        ],
+        "match_type": "values_match",
+        "original": [
+            "___ = dinheiro",
+            "def num_bombons(dinheiro, ___):"
+        ],
+        "solution": "4436",
+        "values_of_match": {
+            "print(num_bombons(0, 0.1))": [
+                0
+            ],
+            "print(num_bombons(1.0, 0.5))": [
+                1.0
+            ],
+            "print(num_bombons(27.72, 4.2))": [
+                27.72
+            ],
+            "print(num_bombons(48.24, 5.35))": [
+                48.24
+            ],
+            "print(num_bombons(52.33, 3.89))": [
+                52.33
+            ],
+            "print(num_bombons(53.28, 1.47))": [
+                53.28
+            ],
+            "print(num_bombons(72.35, 9.93))": [
+                72.35
+            ],
+            "print(num_bombons(79.96, 1.43))": [
+                79.96
+            ],
+            "print(num_bombons(8.61, 0.7))": [
+                8.61
+            ],
+            "print(num_bombons(88.18, 1.36))": [
+                88.18
+            ]
+        }
+    },
+    {
+        "maps_to": [
+            [
+                "return dinheiro // ___",
+                "___ = dinheiro // ___",
+                "___ = dinheiro",
+                "def num_bombons(dinheiro, ___):"
+            ]
+        ],
+        "match_type": "values_match",
+        "original": [
+            "return A // ___",
+            "if A <= 0 or ___ <= 0:",
+            "A = ___"
+        ],
+        "solution": "4436",
+        "values_of_match": {
+            "print(num_bombons(0, 0.1))": [
+                0
+            ],
+            "print(num_bombons(1.0, 0.5))": [
+                1.0
+            ],
+            "print(num_bombons(27.72, 4.2))": [
+                27.72
+            ],
+            "print(num_bombons(48.24, 5.35))": [
+                48.24
+            ],
+            "print(num_bombons(52.33, 3.89))": [
+                52.33
+            ],
+            "print(num_bombons(53.28, 1.47))": [
+                53.28
+            ],
+            "print(num_bombons(72.35, 9.93))": [
+                72.35
+            ],
+            "print(num_bombons(79.96, 1.43))": [
+                79.96
+            ],
+            "print(num_bombons(8.61, 0.7))": [
+                8.61
+            ],
+            "print(num_bombons(88.18, 1.36))": [
+                88.18
+            ]
+        }
+    },
+    {
+        "maps_to": [
+            [
+                "def num_bombons(___, preco):",
+                "return ___ // preco",
+                "___ = ___ // preco"
+            ]
+        ],
+        "match_type": "values_match",
+        "original": [
+            "return ___ // B",
+            "if ___ <= 0 or B <= 0:",
+            "B = ___"
+        ],
+        "solution": "4436",
+        "values_of_match": {
+            "print(num_bombons(0, 0.1))": [
+                0.1
+            ],
+            "print(num_bombons(1.0, 0.5))": [
+                0.5
+            ],
+            "print(num_bombons(27.72, 4.2))": [
+                4.2
+            ],
+            "print(num_bombons(48.24, 5.35))": [
+                5.35
+            ],
+            "print(num_bombons(52.33, 3.89))": [
+                3.89
+            ],
+            "print(num_bombons(53.28, 1.47))": [
+                1.47
+            ],
+            "print(num_bombons(72.35, 9.93))": [
+                9.93
+            ],
+            "print(num_bombons(79.96, 1.43))": [
+                1.43
+            ],
+            "print(num_bombons(8.61, 0.7))": [
+                0.7
+            ],
+            "print(num_bombons(88.18, 1.36))": [
+                1.36
+            ]
+        }
+    }
+]

@@ -1,0 +1,469 @@
+{% load custom_tags %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+
+<meta charset="UTF-8">
+<title>Grupo {{ group.group_index }}</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+
+<script>
+hljs.highlightAll();
+</script>
+
+<style>
+
+/* CSS */
+
+body{
+font-family:"Segoe UI",Arial;
+background:#f4f6f9;
+padding:40px;
+}
+
+.container{
+max-width:1000px;
+margin:auto;
+}
+
+.header{
+display:flex;
+justify-content:space-between;
+align-items:flex-start;
+}
+
+.title{
+font-size:28px;
+font-weight:700;
+}
+
+.subtitle{
+color:#6b7280;
+font-size:14px;
+margin-top:4px;
+}
+
+.tabs{
+display:flex;
+flex-direction:column;
+gap:8px;
+}
+
+.tab{
+padding:8px 14px;
+background:#e5e7eb;
+border-radius:6px;
+cursor:pointer;
+font-weight:500;
+transition:0.15s;
+}
+
+.tab:hover{
+background:#d1d5db;
+}
+
+.divider{
+border-bottom:1px solid #e5e7eb;
+margin:20px 0 25px;
+}
+
+.back{
+display:inline-block;
+margin-bottom:10px;
+text-decoration:none;
+color:#444;
+font-weight:600;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:10px;
+margin-bottom:20px;
+box-shadow:0 2px 6px rgba(0,0,0,0.08);
+}
+
+.code-block{
+background:#f3f4f6;
+border-radius:8px;
+padding:15px;
+margin-top:10px;
+overflow:auto;
+}
+
+.code-block pre{
+margin:0;
+}
+
+.language-python {
+background:#f3f4f6;
+}
+
+.comment-box{
+margin-top:20px;
+}
+
+textarea{
+width:100%;
+box-sizing:border-box;
+padding:10px;
+border-radius:6px;
+border:1px solid #d1d5db;
+font-family:"Segoe UI",Arial;
+resize:none;
+}
+
+button{
+margin-top:10px;
+padding:8px 16px;
+background:#16a34a;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+}
+
+.search{
+width:100%;
+box-sizing:border-box;
+padding:12px;
+border-radius:8px;
+border:1px solid #e5e7eb;
+margin-bottom:10px;
+font-size:14px;
+}
+
+.student{
+background:white;
+padding:12px;
+border-radius:8px;
+border:1px solid #e5e7eb;
+cursor:pointer;
+margin-bottom:8px;
+transition:0.15s;
+}
+
+.student:hover{
+background:#f3f4f6;
+}
+
+.controls{
+display:flex;
+justify-content:center;
+align-items:center;
+gap:25px;
+margin-top:20px;
+}
+
+.arrow{
+cursor:pointer;
+font-size:24px;
+padding:6px 12px;
+border-radius:6px;
+}
+
+.arrow:hover{
+background:#e5e7eb;
+}
+
+.page-info{
+font-weight:600;
+}
+
+.solution-detail{
+display:none;
+}
+
+.nav-solutions{
+display:flex;
+justify-content:center;
+gap:30px;
+margin-bottom:10px;
+}
+
+.nav-btn{
+cursor:pointer;
+font-size:24px;
+padding:4px 10px;
+border-radius:6px;
+}
+
+.nav-btn:hover{
+background:#e5e7eb;
+}
+
+</style>
+
+<script>
+
+/* JS */
+
+let studentsPerPage = 8
+let currentPage = 1
+
+let students = []
+let filtered = []
+let solutions = []
+
+let currentSolutionIndex = null
+
+function init(){
+students = [...document.querySelectorAll(".student")]
+solutions = [...document.querySelectorAll(".solution-detail")]
+filtered = [...students]
+showPage(1)
+}
+
+function hideAll(elements){
+elements.forEach(e => e.style.display="none")
+}
+
+function showPage(page){
+currentPage = page
+hideAll(students)
+
+let start = (page-1) * studentsPerPage
+let end = start + studentsPerPage
+
+filtered.slice(start,end).forEach(el=>{
+el.style.display="block"
+})
+
+let total = Math.ceil(filtered.length/studentsPerPage)
+
+document.getElementById("page-info").innerText =
+page+" / "+total
+}
+
+function nextPage(){
+let total=Math.ceil(filtered.length/studentsPerPage)
+if(currentPage<total) showPage(currentPage+1)
+}
+
+function prevPage(){
+if(currentPage>1) showPage(currentPage-1)
+}
+
+function searchStudent(){
+let value=document.getElementById("search").value.toLowerCase()
+filtered = students.filter(el =>
+el.dataset.name.includes(value)
+)
+showPage(1)
+}
+
+function showSolution(id){
+document.getElementById("student-section").style.display="none"
+hideAll(solutions)
+
+let element=document.getElementById("solution-"+id)
+element.style.display="block"
+
+currentSolutionIndex =
+solutions.findIndex(el => el.id === "solution-"+id)
+}
+
+function nextSolution(){
+if(currentSolutionIndex < solutions.length-1){
+solutions[currentSolutionIndex].style.display="none"
+currentSolutionIndex++
+solutions[currentSolutionIndex].style.display="block"
+}
+}
+
+function prevSolution(){
+if(currentSolutionIndex>0){
+solutions[currentSolutionIndex].style.display="none"
+currentSolutionIndex--
+solutions[currentSolutionIndex].style.display="block"
+}
+}
+
+function backToStudents(){
+hideAll(solutions)
+document.getElementById("student-section").style.display="block"
+}
+
+function openTab(tab){
+document.getElementById("representative").style.display="none"
+document.getElementById("solutions").style.display="none"
+document.getElementById(tab).style.display="block"
+}
+
+window.onload = function() {
+init()
+
+let hash = window.location.hash
+
+if(hash.startsWith("#solution-")){
+let id = hash.replace("#solution-", "")
+openTab('solutions')
+showSolution(id)
+}
+}
+
+</script>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<a class="back" href="{% url 'groups' turma_id problem_id %}">
+← Voltar para grupos
+</a>
+
+<div class="header">
+
+<div>
+<div class="title">Grupo {{ group.group_index }}</div>
+<div class="subtitle">{{ group.count }} Soluções</div>
+</div>
+
+<div class="tabs">
+<div class="tab" onclick="openTab('representative')">Código Representativo</div>
+<div class="tab" onclick="openTab('solutions')">Soluções Individuais</div>
+</div>
+
+</div>
+
+<div class="divider"></div>
+
+<div id="representative">
+
+<div class="card">
+
+<h3>Código Representativo</h3>
+
+<div class="code-block">
+<pre><code class="language-python">
+{{ group.representative_code }}
+</code></pre>
+</div>
+
+<div class="comment-box">
+
+<h3>Comentar para o Grupo</h3>
+
+{% if group_comments %}
+    {% for c in group_comments %}
+    <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:10px;margin-bottom:8px;">
+        <b>{{ c.author.user.first_name }} {{ c.author.user.last_name }}</b><br>
+        <span>{{ c.content }}</span>
+        <div style="margin-top:5px;">
+            <a href="{% url 'deletar_comentario' c.id %}?turma_id={{ turma_id }}&problem_id={{ problem_id }}"
+            onclick="return confirm('Tem certeza que deseja excluir este comentário?')">
+                excluir
+            </a>
+        </div>
+    </div>
+    {% endfor %}
+{% else %}
+    <p>Nenhum comentário ainda.</p>
+{% endif %}
+
+<form method="POST" action="{% url 'salvar_comentario' turma_id problem_id %}">
+{% csrf_token %}
+<input type="hidden" name="group_id" value="{{ group.id }}">
+<textarea name="content" rows="3"></textarea>
+<button type="submit">Salvar Comentário</button>
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+<div id="solutions" style="display:none">
+
+<div id="student-section">
+
+<input id="search" class="search" placeholder="Buscar aluno..." onkeyup="searchStudent()" />
+
+{% for s in solutions %}
+<div class="student"
+data-name="{{ s.user.first_name|lower }} {{ s.user.last_name|lower }}"
+onclick="showSolution('{{ s.user.id }}')">
+{{ s.user.first_name }} {{ s.user.last_name }}
+</div>
+{% endfor %}
+
+<div class="controls">
+<div class="arrow" onclick="prevPage()">‹</div>
+<div class="page-info" id="page-info"></div>
+<div class="arrow" onclick="nextPage()">›</div>
+</div>
+
+</div>
+
+{% for s in solutions %}
+
+<div id="solution-{{ s.user.id }}" class="solution-detail card">
+
+<a class="back" href="javascript:backToStudents()">
+← Voltar para lista de alunos
+</a>
+
+<div class="nav-solutions">
+<div class="nav-btn" onclick="prevSolution()">‹</div>
+<div class="nav-btn" onclick="nextSolution()">›</div>
+</div>
+
+<h3>{{ s.user.first_name }} {{ s.user.last_name }}</h3>
+
+<div class="code-block">
+<pre><code class="language-python">
+{{ s.solution }}
+</code></pre>
+</div>
+
+<div class="comment-box">
+
+<h3>Comentar para o Aluno</h3>
+
+{% with comments_by_user|get_item:s.user.id as user_comments %}
+    {% if user_comments %}
+        {% for c in user_comments %}
+        <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:10px;margin-bottom:8px;">
+            <b>{{ c.author.user.first_name }} {{ c.author.user.last_name }}</b><br>
+            <span>{{ c.content }}</span>
+            <div style="margin-top:5px;">
+                <a href="{% url 'deletar_comentario' c.id %}?turma_id={{ turma_id }}&problem_id={{ problem_id }}#solution-{{ s.user.id }}"
+                onclick="return confirm('Tem certeza que deseja excluir este comentário?')">
+                    excluir
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p>Nenhum comentário ainda.</p>
+    {% endif %}
+{% endwith %}
+
+<form method="POST" action="{% url 'salvar_comentario' turma_id problem_id %}">
+{% csrf_token %}
+<input type="hidden" name="group_id" value="{{ group.id }}">
+<input type="hidden" name="user_id" value="{{ s.user.id }}">
+<input type="hidden" name="selected_user" value="{{ s.user.id }}">
+<textarea name="content" rows="4"></textarea>
+<button type="submit">Salvar Comentário</button>
+</form>
+
+</div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>
+
+</body>
+</html>

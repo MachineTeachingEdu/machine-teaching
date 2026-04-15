@@ -1,4 +1,4 @@
-FROM python:3.9.0-slim AS base
+FROM python:3.9-slim-bookworm AS base
 
 RUN echo "Creating base Image"
 
