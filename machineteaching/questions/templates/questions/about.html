@@ -111,7 +111,13 @@
                         {% if x.active == True %}
                               <tr>
                                     <td style="padding: 15px 10px 15px 30px; width: 260px; height: 260px;">
-                                    <img src="{{ x.image.url }}" style="width: 200px; height: 200px; overflow: hidden; border-radius: 100%">
+                              {% if x.collaboratorimage %}
+                              <img src="data:image/png;base64,{{ x.collaboratorimage.base64 }}"
+                                    style="width: 200px; height: 200px; overflow: hidden; border-radius: 100%">
+                              {% else %}
+                              <img src="{{ x.image.url }}"
+                                    style="width: 200px; height: 200px; overflow: hidden; border-radius: 100%">
+                              {% endif %}
                                     </td>
                                     <td style="padding: 30px">
                                     <!--<strong> {{ x.name }} </strong>  {% blocktrans %} {{ x.description }} {% endblocktrans %}-->
