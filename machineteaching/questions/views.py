@@ -1,7 +1,7 @@
 # from django.http import Http404, JsonResponse
 import logging
 from django.http import JsonResponse, HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import permission_required, login_required
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
@@ -12,6 +12,7 @@ from django.db.models.functions import Lower
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from django.core.exceptions import PermissionDenied
+from django.urls import reverse
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -22,10 +23,11 @@ from datetime import datetime
 from statistics import mean
 from questions.models import (Problem, Solution, UserLog, UserProfile,
                               Professor, OnlineClass, UserLogView, Chapter,
-                              Deadline, ExerciseSet, Recommendations, Comment, Language, TestCase)
+                              Deadline, ExerciseSet, Recommendations, Comment, Language, 
+                              TestCase, GroupComment, IgnoredSolution, SolutionGroup)
 from questions.forms import (UserLogForm, SignUpForm, OutcomeForm, ChapterForm,
                              ProblemForm, SolutionForm, PageAccessForm, InteractiveForm,
-                             EditProfileForm, NewClassForm, DeadlineForm, CommentForm)
+                             EditProfileForm, NewClassForm, DeadlineForm, CommentForm, EscolhaTurmaProblemaForm)
 from questions.serializers import RecommendationSerializer, ProblemSerializer
 from questions.get_problem import get_problem
 from questions.get_dashboards import student_dashboard, class_dashboard, manager_dashboard, predict_drop_out, time_to_finish_exercise, get_time_to_finish_chapter_in_days
@@ -39,12 +41,14 @@ from functools import wraps
 from .models import Collaborator, ChapterLink
 from django.views.decorators.clickjacking import xframe_options_exempt
 from .utils import supported_languages
+from collections import defaultdict
 import urllib
 import requests
 import google.auth.transport.requests
 import google.oauth2.id_token
 import os
 
+from .tasks import iniciar_processamento_overcode
 
 LOGGER = logging.getLogger(__name__)
 
@@ -1093,3 +1097,238 @@ def python_tutor(request):
 @login_required
 def profile(request):
     return render(request, 'questions/profile.html')
+
+from django.shortcuts import render
+from django.urls import reverse
+from .forms import EscolhaTurmaProblemaForm
+
+def escolher_turma_problema(request):
+
+    if request.method == "POST":
+        # PASSANDO USUÁRIO LOGADO PARA O FORMULÁRIO
+        form = EscolhaTurmaProblemaForm(request.POST, user=request.user)
+
+        if form.is_valid():
+            turma = form.cleaned_data["turma"]
+            problema = form.cleaned_data["problema"]
+
+            iniciar_processamento_overcode(turma.id, problema.id)
+
+            return render(
+                request,
+                "questions/mensagem_inicio.html",
+                {
+                    "turma": turma,
+                    "problema": problema,
+                    "resultado_url": reverse(
+                        "groups",
+                        args=[turma.id, problema.id],
+                    ),
+                },
+            )
+
+    else:
+        form = EscolhaTurmaProblemaForm(request.GET, user=request.user)
+
+    return render(
+        request,
+        "questions/escolha_form.html",
+        {"form": form}
+    )
+
+def ver_resultado_overcode(request, turma_id, problema_id):
+    return render(
+        request,
+        "questions/inicio.html",
+        {
+            "turma_id": turma_id,
+            "problem_id": problema_id,
+        },
+    )
+
+def list_groups(request, turma_id, problema_id):
+    groups = SolutionGroup.objects.filter(
+        turma_id=turma_id,
+        problem_id=problema_id,
+    ).order_by("group_index")
+
+    ignored_count = IgnoredSolution.objects.filter(
+        problem_id=problema_id
+    ).count()
+
+    return render(
+        request,
+        "questions/group_list.html",
+        {
+            "groups": groups,
+            "turma_id": turma_id,
+            "problem_id": problema_id,
+            "ignored_count": ignored_count,
+        },
+    )
+
+def group_detail(request, turma_id, problema_id, group_id):
+
+    group = get_object_or_404(
+        SolutionGroup,
+        id=group_id,
+        turma_id=turma_id,
+        problem_id=problema_id,
+    )
+
+    member_ids = [int(m) for m in group.members]
+
+    solutions = UserLogView.objects.filter(
+        user_id__in=member_ids,
+        problem_id=problema_id,
+        user_class_id=turma_id
+    ).select_related("user").order_by("user_id")
+
+    comments = GroupComment.objects.filter(
+        problem_id=problema_id,
+        group=group
+    ).select_related("author")
+
+    # comentário de grupo
+    group_comments = comments.filter(user__isnull=True)
+
+    # comentários individuais
+    comments_by_user = defaultdict(list)
+
+    for c in comments:
+        if c.user:
+            comments_by_user[c.user.id].append(c)
+
+    return render(
+        request,
+        "questions/group_detail.html",
+        {
+            "group": group,
+            "solutions": solutions,
+            "group_comments": group_comments,
+            "comments_by_user": dict(comments_by_user),
+            "turma_id": turma_id,
+            "problem_id": problema_id,
+        },
+    )
+
+def ignored_detail(request, turma_id, problema_id):
+
+    ignored = IgnoredSolution.objects.filter(problem_id=problema_id)
+
+    solutions = []
+
+    for item in ignored:
+        log = UserLogView.objects.filter(
+            user_id=item.solution_id,
+            problem_id=problema_id,
+            user_class_id=turma_id
+        ).select_related("user").first()
+
+        if log:
+            solutions.append(log)
+
+    comments = GroupComment.objects.filter(
+        problem_id=problema_id,
+        group__isnull=True
+    ).select_related("author")
+
+    comments_by_user = defaultdict(list)
+
+    for c in comments:
+        if c.user:
+            comments_by_user[c.user.id].append(c)
+
+    return render(
+        request,
+        "questions/ignored_detail.html",
+        {
+            "solutions": solutions,
+            "comments_by_user": dict(comments_by_user),
+            "turma_id": turma_id,
+            "problem_id": problema_id,
+        }
+    )
+
+def salvar_comentario(request, turma_id, problema_id):
+
+    if request.method == "POST":
+
+        content = request.POST.get("content")
+        group_id = request.POST.get("group_id")
+        user_id = request.POST.get("user_id")
+        selected_user = request.POST.get("selected_user")
+
+        professor = Professor.objects.get(user=request.user.id)# TEMPORÁRIO
+
+        if not content:
+            return redirect(request.META.get("HTTP_REFERER", "/"))
+
+        data = {
+            "problem_id": problema_id,
+            "author": professor,
+            "content": content
+        }
+
+        # comentário de grupo
+        if group_id:
+            data["group_id"] = int(group_id)
+
+        # comentário individual / ignorado
+        if user_id:
+            data["user_id"] = int(user_id)
+
+        GroupComment.objects.create(**data)
+
+        # se veio de um group
+        if group_id:
+            redirect_url = reverse(
+                "group_detail",
+                args=[turma_id, problema_id, group_id],
+            )
+
+        # se for ignored (sem group_id)
+        else:
+            redirect_url = reverse(
+                "ignored_detail",
+                args=[turma_id, problema_id],
+            )
+
+        # adiciona o hash
+        if selected_user:
+            redirect_url += f"#solution-{selected_user}"
+
+        return redirect(redirect_url)
+
+def deletar_comentario(request, comment_id):
+    comment = get_object_or_404(GroupComment, id=comment_id)
+
+    # se for AJAX
+    if request.headers.get("x-requested-with") == "XMLHttpRequest":
+        comment.delete()
+        return JsonResponse({"status": "ok"})
+
+    # fallback normal (caso alguém acesse direto)
+    turma_id = request.GET.get("turma_id")
+    problema_id = request.GET.get("problem_id")
+
+    group_id = comment.group_id
+    user_id = comment.user_id
+
+    comment.delete()
+
+    if group_id:
+        url = reverse(
+            "group_detail",
+            args=[turma_id, problema_id, group_id],
+        )
+    else:
+        url = reverse(
+            "ignored_detail",
+            args=[turma_id, problema_id],
+        )
+
+    if user_id:
+        url += f"#solution-{user_id}"
+
+    return redirect(url)

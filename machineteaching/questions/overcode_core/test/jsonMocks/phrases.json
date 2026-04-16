@@ -1,0 +1,252 @@
+[
+    {
+        "code": "def dotProduct(listA,listB):", 
+        "id": 1, 
+        "indent": 0
+    }, 
+    {
+        "code": "total=0", 
+        "id": 2, 
+        "indent": 4
+    }, 
+    {
+        "code": "for i in range(len(listA)):", 
+        "id": 3, 
+        "indent": 4
+    }, 
+    {
+        "code": "total+=listA[i]*listB[i]", 
+        "id": 4, 
+        "indent": 8
+    }, 
+    {
+        "code": "return total", 
+        "id": 5, 
+        "indent": 4
+    }, 
+    {
+        "code": "length=len(listA)", 
+        "id": 6, 
+        "indent": 4
+    }, 
+    {
+        "code": "for i in range(0,length):", 
+        "id": 7, 
+        "indent": 4
+    }, 
+    {
+        "code": "product=listA[i]*listB[i]", 
+        "id": 8, 
+        "indent": 8
+    }, 
+    {
+        "code": "total+=product", 
+        "id": 9, 
+        "indent": 8
+    }, 
+    {
+        "code": "total=total+product", 
+        "id": 10, 
+        "indent": 8
+    }, 
+    {
+        "code": "for i in range(0,len(listA)):", 
+        "id": 11, 
+        "indent": 4
+    }, 
+    {
+        "code": "ans=sum(a*b for(a,b)in zip(listA,listB))", 
+        "id": 12, 
+        "indent": 4
+    }, 
+    {
+        "code": "return ans", 
+        "id": 13, 
+        "indent": 4
+    }, 
+    {
+        "code": "for i in xrange(0,len(listA)):", 
+        "id": 14, 
+        "indent": 4
+    }, 
+    {
+        "code": "total=total+listA[i]*listB[i]", 
+        "id": 15, 
+        "indent": 8
+    }, 
+    {
+        "code": "for i in xrange(len(listA)):", 
+        "id": 16, 
+        "indent": 4
+    }, 
+    {
+        "code": "a=listA[i]", 
+        "id": 17, 
+        "indent": 8
+    }, 
+    {
+        "code": "b=listB[i]", 
+        "id": 18, 
+        "indent": 8
+    }, 
+    {
+        "code": "product=a*b", 
+        "id": 19, 
+        "indent": 8
+    }, 
+    {
+        "code": "a___2=0", 
+        "id": 20, 
+        "indent": 4
+    }, 
+    {
+        "code": "while a___2&lt;length:", 
+        "id": 21, 
+        "indent": 4
+    }, 
+    {
+        "code": "total=total+listA[a___2]*listB[a___2]", 
+        "id": 22, 
+        "indent": 8
+    }, 
+    {
+        "code": "a___2+=1", 
+        "id": 23, 
+        "indent": 8
+    }, 
+    {
+        "code": "total=product+total", 
+        "id": 24, 
+        "indent": 8
+    }, 
+    {
+        "code": "n=len(listA)", 
+        "id": 25, 
+        "indent": 4
+    }, 
+    {
+        "code": "for n in range(0,n):", 
+        "id": 26, 
+        "indent": 4
+    }, 
+    {
+        "code": "a___2=a___2+1", 
+        "id": 27, 
+        "indent": 8
+    }, 
+    {
+        "code": "def dotProduct(listA__,listB__):", 
+        "id": 28, 
+        "indent": 0
+    }, 
+    {
+        "code": "length=len(listA__)", 
+        "id": 29, 
+        "indent": 4
+    }, 
+    {
+        "code": "listc=[]", 
+        "id": 30, 
+        "indent": 4
+    }, 
+    {
+        "code": "for i__ in range(0,length):", 
+        "id": 31, 
+        "indent": 4
+    }, 
+    {
+        "code": "listc.append(listA__.pop()*listB__.pop())", 
+        "id": 32, 
+        "indent": 8
+    }, 
+    {
+        "code": "for i__ in range(0,len(listc)):", 
+        "id": 33, 
+        "indent": 4
+    }, 
+    {
+        "code": "total+=listc.pop()", 
+        "id": 34, 
+        "indent": 8
+    }, 
+    {
+        "code": "ans=sum(listA[i]*listB[i]for i in range(len(listA)))", 
+        "id": 35, 
+        "indent": 4
+    }, 
+    {
+        "code": "AB=[]", 
+        "id": 36, 
+        "indent": 4
+    }, 
+    {
+        "code": "AB.append(listA[i]*listB[i])", 
+        "id": 37, 
+        "indent": 8
+    }, 
+    {
+        "code": "total+=AB[i]", 
+        "id": 38, 
+        "indent": 8
+    }, 
+    {
+        "code": "assert len(listA)==len(listB)", 
+        "id": 39, 
+        "indent": 4
+    }, 
+    {
+        "code": "return sum(AB)", 
+        "id": 40, 
+        "indent": 4
+    }, 
+    {
+        "code": "total=int(product)+total", 
+        "id": 41, 
+        "indent": 8
+    }, 
+    {
+        "code": "return sum(a*b for(a,b)in zip(listA,listB))", 
+        "id": 42, 
+        "indent": 4
+    }, 
+    {
+        "code": "index=0", 
+        "id": 43, 
+        "indent": 4
+    }, 
+    {
+        "code": "while a___2&lt;len(listA):", 
+        "id": 44, 
+        "indent": 4
+    }, 
+    {
+        "code": "product=listA[a___2]*listB[a___2]", 
+        "id": 45, 
+        "indent": 8
+    }, 
+    {
+        "code": "for(a,b)in zip(listA,listB):", 
+        "id": 46, 
+        "indent": 4
+    }, 
+    {
+        "code": "total=listA[i]*listB[i]+total", 
+        "id": 47, 
+        "indent": 8
+    }, 
+    {
+        "code": "total+=listA[a___2]*listB[a___2]", 
+        "id": 48, 
+        "indent": 8
+    }, 
+    {
+        "code": "listA[i]*listB[i]", 
+        "id": 49, 
+        "indent": 8
+    }, 
+    {
+        "code": "for i in range(0,len(listA),1):", 
+        "id": 50, 
+        "indent": 4
+    }
+]

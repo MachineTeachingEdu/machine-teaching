@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <title>Processamento Iniciado</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            padding: 3rem 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+        .wrapper {
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+        .container {
+            background: white;
+            padding: 2.5rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+        }
+        a.btn {
+            display: block;
+            margin-top: 1.5rem;
+            padding: 0.75rem;
+            background: #198754;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="container">
+            <h1>Processamento iniciado</h1>
+            <p>
+                Turma <strong>{{ turma.name }}</strong><br>
+                Problema <strong>{{ problema.title }}</strong>
+            </p>
+
+            <a href="{{ resultado_url }}" class="btn">
+                Ver grupos de soluções
+            </a>
+        </div>
+    </div>
+</body>
+</html>

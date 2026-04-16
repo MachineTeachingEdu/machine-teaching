@@ -5,7 +5,7 @@ services:
     volumes:
       - ./machine-teaching-db/data/dump.sql:/docker-entrypoint-initdb.d/create_tables.sql
     ports:
-      - 5432:5432
+      - 5435:5432
   web:
     build: .
     volumes:

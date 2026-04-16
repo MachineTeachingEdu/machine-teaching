@@ -1,0 +1,223 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>OverCode - Turma {{ turma_id }} / Problema {{ problema_id }}</title>
+
+  <!-- CSS do OverCode -->
+  <link rel="stylesheet" href="{% static 'overcode_app/libraries/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'overcode_app/libraries/bootstrap-theme.min.css' %}">
+  <link rel="stylesheet" href="{% static 'overcode_app/libraries/styles/default.css' %}">
+  <link rel="stylesheet" href="{% static 'overcode_app/libraries/qunit-2.0.0.css' %}">
+  <link rel="stylesheet" href="{% static 'overcode_app/libraries/jquery-ui.min.css' %}">
+  <link rel="stylesheet" href="{% static 'overcode_app/css/style.css' %}">
+
+  <!-- JS do OverCode -->
+  <script>
+    outputPath ="{% static 'overcode_app/output' %}/";
+    configPath ="{% static 'overcode_app/config.json' %}";
+    function debounce(a,b,c){var d;return function(){var e=this,f=arguments;clearTimeout(d),d=setTimeout(function(){d=null,c||a.apply(e,f)},b),c&&!d&&a.apply(e,f)}}
+  </script>
+  <script src="{% static 'overcode_app/libraries/jquery-2.2.4.min.js' %}"></script>
+  <script src="{% static 'overcode_app/libraries/underscore-min.js' %}"></script>
+  <script src="{% static 'overcode_app/libraries/bootstrap.min.js' %}"></script>
+  <script src="{% static 'overcode_app/libraries/d3.min.js' %}"></script>
+  <script src="{% static 'overcode_app/libraries/highlight.pack.js' %}"></script>
+  <script src="{% static 'overcode_app/libraries/jquery-ui.min.js' %}"></script>
+  <script src="{% static 'overcode_app/libraries/moment.js' %}"></script>
+  <script src="{% static 'overcode_app/libraries/qunit-2.0.0.js' %}"></script>
+  <script src="{% static 'overcode_app/tests.js' %}"></script>
+
+  <script src="{% static 'overcode_app/js/progress.js' %}"></script>
+  <script src="{% static 'overcode_app/js/rules.js' %}"></script>
+  <script src="{% static 'overcode_app/js/filter.js' %}"></script>
+  <script src="{% static 'overcode_app/js/getBaseDir.js' %}"></script>
+  <script src="{% static 'overcode_app/js/stacks.js' %}"></script>
+  <script src="{% static 'overcode_app/js/main.js' %}"></script>
+
+</head>
+
+<body>
+  <div class='tests'>
+    <div id="qunit"></div>
+    <div id="qunit-fixture"></div>
+  </div>
+  <div class="row">
+    <div id="main" class="col-xs-8">
+      <div id="header">
+        <div class="row">
+          <div id="header-container" class="col-xs-6">
+            <!-- <h4>
+              <select id="output-select" class="form-control" style="display: inline; width: 175px;">
+                  <option value="12">12</option>
+                  <option value="0">0</option>
+                  <option value="null">null</option>
+                  <option value="36">36</option>
+
+              </select>
+              <span class="text-muted"><span id="total-solutions"></span> total submissions</span>
+            </h4> -->
+
+            <div class="row">
+              <div id="header-prefix" class="col-xs-6">
+                <div class="text-muted">
+                  <h5>showing stacks</h5>
+                </div>
+                <h5>
+                <span id="num-filtered-correct-stacks">
+                  <span id="num-correct-stacks"></span>
+                  of
+                </span>
+                <span id="total-correct-stacks"></span>
+                correct
+                <br>
+                <span id="num-filtered-stacks">
+                  <span id="num-stacks"></span>
+                  of
+                  </span>
+                <span id="total-stacks"></span>
+                total
+                </h5>
+              </div>
+              <div class="col-xs-6">
+                <div class="text-muted">
+                  <!-- <h4>and</h4> -->
+                  <h5>representing submissions</h5>
+                </div>             
+                <h5>
+                  <span id="num-filtered-correct-solutions">
+                    <span id="num-correct-solutions"></span>
+                    of
+                  </span>
+                  <span id="total-correct-solutions"></span>
+                  correct
+                <br>
+                  <span id="num-filtered-solutions">
+                    <span id="num-solutions"></span>
+                    of
+                  </span>
+                  <span id="total-solutions"></span>
+                  total
+                </h5>
+              </div>
+            </div>
+
+            <div class="progress">
+              <div class="progress-bar">
+                <span>read</span>
+              </div>
+            </div>
+
+          </div>
+          <div id="filter-container" class="col-xs-6">
+            <h5 id="filter-header" class="text-muted">filtering by</h5>
+            <ul class="nav nav-pills nav-stacked sidebar-list" id="filter-phrases">
+            </ul>
+            <ul class="nav nav-pills nav-stacked sidebar-list" id="filter-templates">
+            </ul>
+            <!-- <div id="nothing"><i>nothing yet</i></div> -->
+          </div>
+        </div>
+      </div>
+
+      <div id="grid" class="row">
+        <div id="grid-colA" class="col-xs-6">
+          <h5 class="text-muted">largest stack (matching filters)</h5>
+        </div>
+        <div id="grid-colB" class="col-xs-6">
+          <h5 class="text-muted">remaining stacks (matching filters)</h>
+        </div>
+      </div>
+    </div>
+
+    <div id="sidebar" class="col-xs-4">
+      <!-- Nav tabs -->
+      <ul id="sidebar-nav" class="nav nav-tabs nav-justified">
+        <li class="active"><a href="#filter" class="filter" data-toggle="tab">filter</a></li>
+        <li><a href="#rewrite" class="rewrite" data-toggle="tab">rewrite</a></li>
+        <li><a href="#variables" class="variables" data-toggle="tab">legend</a></li>
+      </ul>
+
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div class="tab-pane active" id="filter">
+          <div id="sidebar-top">
+            <h5 id="lines-header">
+              <!-- <div id="filter-type-select" class="btn-group" data-toggle="buttons">
+                <label class="btn btn-xs btn-default active">
+                  <input type="radio" name="options" id="lines" autocomplete="off" checked> lines
+                </label>
+                <label class="btn btn-xs btn-default">
+                  <input type="radio" name="options" id="templates" autocomplete="off"> templates
+                </label>
+              </div> -->
+              lines that appear in at least
+              <input type="text" id="lineThresh" style="text-align: center; font-weight:bold; width:40px" size=1>
+              submissions
+            </h5>
+            <div id="slider-threshold-phrases"></div>
+            <div id="slider-threshold-templates"></div>
+          </div>
+
+          <ul class="nav nav-pills nav-stacked sidebar-list" id="remaining-phrases">
+          </ul>
+          <ul class="nav nav-pills nav-stacked sidebar-list" id="remaining-templates">
+          </ul>
+        </div>
+        <div class="tab-pane" id="rewrite">
+          <!-- <h3>rewrite rules</h3> -->
+          <ul class="list-group" id="rule-list">
+          </ul>
+          <ul class="list-group">
+            <li id="add-rule" class="list-group-item">
+              <form class="form-horizontal" role="form">
+
+                <div class="form-group">
+                  <label for="pattern-input" class="col-xs-2 control-label">rewrite</label>
+                  <div class="col-xs-10">
+                    <input type="text" class="form-control" id="pattern-input" placeholder="pattern">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="repl-input" class="col-xs-2 control-label">as</label>
+                  <div class="col-xs-10">
+                    <input type="text" class="form-control" id="repl-input" placeholder="replacement">
+                  </div>
+                  <div class="align-center">capture <code>exp<sub>2</sub></code> by typing <code>exp___2</code></div>
+                </div>
+                <div class="form-group">
+                  <div class="col-xs-offset-8 col-xs-4">
+                    <button id="add-rule-btn" type="button" class="btn btn-default">add new rule</button>
+                  </div>
+                </div>
+
+              </form>
+            </li>
+          </ul>
+        </div>
+        <div class="tab-pane" id="variables">
+          <div id="variables-header">
+            <!-- <h3>variable legend</h3> -->
+            <h5>variable runtime values in 
+            <div id="filter-variables" class="btn-group" data-toggle="buttons">
+              <label class="btn btn-default btn-xs active">
+                <input type="checkbox" autocomplete="off" name="var-in-correct" checked>correct
+              </label>
+              <label class="btn btn-default btn-xs">
+                <input type="checkbox" autocomplete="off" name="var-in-incorrect">incorrect
+              </label>
+            </div>
+             solutions
+             <ul class="nav nav-pills nav-stacked sidebar-list" id="filter-by-stack">
+              <li><a href="#"><span class="badge">x</span>filtered by most recently clicked stack</a></li>
+            </ul>
+            </h5>
+          </div>
+          <ul class="list-group" id="variable-list">
+          </ul>
+        </div>
+      </div>
+    </div> <!--end sidebar-->
+  </div> <!--end row-->
+</body>
