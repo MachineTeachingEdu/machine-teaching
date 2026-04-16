@@ -8,6 +8,7 @@ from django.utils.crypto import get_random_string
 from django.conf import settings
 import random
 import json
+import base64
 from random import randint, SystemRandom
 import numpy as np
 from simple_history.models import HistoricalRecords
@@ -374,11 +375,20 @@ class Collaborator(models.Model):
   name = models.CharField(max_length=255)
   description = models.CharField(max_length=1000)
   active = models.BooleanField(default=True)
-  image = models.ImageField(upload_to='static/img/equipe/')
+  image = models.ImageField(upload_to='static/img/equipe/') #Fazer uma consulta sql e criar uma tabela no bd para guardar as imagens em base64
+
 
   class Meta:
         verbose_name = _('Collaborator')
         verbose_name_plural = _('Collaborators')
+
+
+class CollaboratorImage(models.Model):
+    collaborator = models.OneToOneField(Collaborator, on_delete=models.CASCADE)
+    base64 = models.TextField()
+
+    def __str__(self):
+        return "Image for %s" % self.collaborator.name
 
 class ChapterLink(models.Model):
     url = models.URLField(max_length=200)
@@ -651,4 +661,31 @@ def create_userlog_error(sender, instance, created, **kwargs):
             log_error.save()
 
 
-
+@receiver(post_save, sender=Collaborator)
+@disable_for_loaddata
+def create_base64_image(sender, instance, created, **kwargs):
+    if instance.image:
+        try:
+            # Reabre o arquivo para garantir que possamos lê-lo
+            instance.image.open()
+            image_data = instance.image.read()
+            # instance.image.close() # O Django geralmente lida com o fechamento do arquivo, mas a abertura/leitura explícita é necessária
+            
+            encoded_string = base64.b64encode(image_data).decode('utf-8')
+            
+            CollaboratorImage.objects.update_or_create(
+                collaborator=instance,
+                defaults={'base64': encoded_string}
+            )
+        except Exception as e:
+            print(f"Error creating base64 image for collaborator {instance.id}: {e}")
+"""
+@receiver(post_save, sender=Collaborator)
+@disable_for_loaddata
+def create_base64_image(sender, instance, created, **kwargs):
+    if created:
+        # Create base64 image
+        base64_image = CollaboratorImage()
+        base64_image.collaborator = instance
+        base64_image.save()
+"""
