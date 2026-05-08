@@ -61,19 +61,70 @@ class SignUpForm(UserCreationForm):
 
 
 class OutcomeForm(forms.Form):
-    onlineclass = forms.ModelChoiceField(queryset=OnlineClass.objects.all(), label=_(u'Class'))
-    #chapter = forms.ModelChoiceField(queryset=Chapter.objects.all(), label=_(u'Chapter'))
-    chapter = forms.ModelChoiceField(queryset=Chapter.objects.filter(active = True), label=_(u'Chapter'))
-    
+
+    onlineclass = forms.ModelChoiceField(
+        queryset=OnlineClass.objects.none(),
+        label=_(u'Class'),
+        widget=forms.Select(attrs={
+            'onchange': 'this.form.submit();'
+        })
+    )
+
+    chapter = forms.ModelChoiceField(
+        queryset=Chapter.objects.none(),
+        required=False,
+        label=_(u'Chapter')
+    )
+
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user', None)
-        super(OutcomeForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
-    def clean_onlineclass(self):
-        onlineclass = self.cleaned_data.get('onlineclass')
-        if onlineclass not in OnlineClass.objects.filter(professor__user=self.user):
-            raise forms.ValidationError(_(u'You don\'t have authorization to view this class.'))
-        return onlineclass
+        # Filtra classes do professor
+        if self.user:
+            self.fields['onlineclass'].queryset = OnlineClass.objects.filter(
+                professor__user=self.user
+            ).order_by('name')
+
+        # FILTRO DINÂMICO DO CHAPTER
+        onlineclass_id = self.data.get('onlineclass')
+
+        from django.db.models import Subquery
+
+        if onlineclass_id:
+            try:
+                onlineclass_id = int(onlineclass_id)
+
+                # pega chapters VIA problems
+                chapters_ids = Problem.objects.filter(
+                    exerciseset__chapter__deadline__onlineclass__id=onlineclass_id
+                ).values_list('exerciseset__chapter_id', flat=True)
+
+                self.fields['chapter'].queryset = Chapter.objects.filter(
+                    id__in=chapters_ids,
+                    active=True
+                ).distinct().order_by('label')
+
+            except (ValueError, TypeError):
+                pass
+
+    def clean(self):
+        cleaned_data = super().clean()
+
+        onlineclass = cleaned_data.get('onlineclass')
+        chapter = cleaned_data.get('chapter')
+
+        if onlineclass and chapter:
+            valid_chapters = Chapter.objects.filter(
+                id__in=Problem.objects.filter(
+                    exerciseset__chapter__deadline__onlineclass=onlineclass
+                ).values_list('exerciseset__chapter_id', flat=True)
+            )
+
+            if chapter not in valid_chapters:
+                self.add_error('chapter', 'Chapter inválido para essa turma.')
+
+        return cleaned_data
 
 class ChapterForm(forms.ModelForm):
     deadline = forms.DateTimeField()
