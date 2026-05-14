@@ -171,7 +171,7 @@ color:#444;
 
 <div class="container">
 
-<a class="back" href="{% url 'escolher' %}">
+<a class="back" href="{% url 'overcode:escolher' %}">
 ← Voltar
 </a>
 
@@ -202,7 +202,7 @@ Grupo {{ g.group_index }}
 </div>
 
 <a class="btn"
-href="{% url 'group_detail' turma_id problem_id g.id %}">
+href="{% url 'overcode:group_detail' turma_id problem_id g.id %}">
 Abrir análise
 </a>
 
@@ -227,7 +227,7 @@ Soluções ignoradas
 </div>
 
 <a class="btn"
-href="{% url 'ignored_detail' turma_id problem_id %}">
+href="{% url 'overcode:ignored_detail' turma_id problem_id %}">
 Ver detalhes
 </a>
 

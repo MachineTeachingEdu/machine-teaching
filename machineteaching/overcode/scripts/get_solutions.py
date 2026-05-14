@@ -1,7 +1,7 @@
 import sys
 import os
 import shutil
-from execute_query import execute_query
+from overcode.scripts.execute_query import execute_query
 
 
 def create_solutions(data, dst_dir=""):

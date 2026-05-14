@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'simple_history',
     'import_export',
     'rest_framework',
-    'downloadDB'
+    'downloadDB',
+    'overcode.apps.OvercodeConfig',
 ]
 
 MIDDLEWARE = [

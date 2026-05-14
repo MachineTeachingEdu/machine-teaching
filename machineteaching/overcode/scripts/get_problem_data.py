@@ -1,8 +1,8 @@
 import sys
 import os
-from get_answer import get_answer
-from get_solutions import get_solutions
-from get_testcase import get_testcase
+from overcode.scripts.get_answer import get_answer
+from overcode.scripts.get_solutions import get_solutions
+from overcode.scripts.get_testcase import get_testcase
 
 def get_problem_data(turma_id, problem_id, problem_dir):
     """

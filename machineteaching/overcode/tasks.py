@@ -7,12 +7,8 @@ from pathlib import Path
 from django.conf import settings
 from django.db import close_old_connections
 
-from .models import (
-    SolutionGroup,
-    IgnoredSolution,
-    Problem,
-    OnlineClass
-)
+from .models import (SolutionGroup, IgnoredSolution)
+from questions.models import (Problem, OnlineClass)
 
 # ===============================
 # PATHS
@@ -80,7 +76,7 @@ def iniciar_processamento_overcode(turma_id, problem_id, interface=True):
         # DIRETÓRIOS
         # ===============================
 
-        statics_dir = os.path.join(settings.BASE_DIR, 'questions', 'statics')
+        statics_dir = os.path.join(settings.BASE_DIR, root_dir, 'statics')
         problems_dir = os.path.join(statics_dir, "problems_data")
         problem_dir = os.path.join(problems_dir, f"turma_{turma_id}_problem_{problem_id}")
         data_dir = os.path.join(problem_dir, "data")

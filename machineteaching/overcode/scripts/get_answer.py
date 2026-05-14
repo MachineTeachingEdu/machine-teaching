@@ -1,6 +1,6 @@
 import sys
 import os
-from execute_query import execute_query
+from overcode.scripts.execute_query import execute_query
 
 def get_answer(problem_id, dst_dir=""):
     """

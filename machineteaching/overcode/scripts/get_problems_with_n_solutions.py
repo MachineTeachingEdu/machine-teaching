@@ -1,5 +1,5 @@
 import sys
-from execute_query import execute_query
+from overcode.scripts.execute_query import execute_query
 
 
 def get_problems_with_at_least_n_solutions(n):
