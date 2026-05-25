@@ -42,7 +42,7 @@
                             <input type="text" name="{{ form.email.name }}" placeholder="{% blocktrans %}E-mail{% endblocktrans %}" value="{{form.email.value|default_if_none:''}}"></input>
                         </div>
                         <div class="col-6">
-                            <input type="text" name="{{ form.class_code.name }}" placeholder="{% blocktrans %}Class code{% endblocktrans %}" value="{{form.class_code.value|default_if_none:''}}"></input>Se não possui um código, utilize zDq-xVT-8G2 para entrar na turma aberta
+                            <input type="text" name="{{ form.class_code.name }}" placeholder="{% blocktrans %}Class code{% endblocktrans %}" value="{{form.class_code.value|default_if_none:''}}"></input> <div class="col-6__paragrafo"> Se não possui um código, utilize zDq-xVT-8G2 para entrar na turma aberta</div>
                         </div>
 
                         <div class="col-6">
@@ -79,6 +79,7 @@
                                 <option>Bacharelado em Física</option>
                                 <option>Bacharelado em Matemática</option>
                                 <option>Bacharelado em Química</option>
+                                <option>Bacharelado em Sistemas de Informação</option>
                                 <option>Ciências Atuariais</option>
                                 <option>Engenharia Civil</option>
                                 <option>Engenharia da Produção</option>
@@ -153,8 +154,9 @@
                     </div>
                 </form>
             </div>
-            <a href="{% url 'login' %}" style='margin-bottom: 30px;'>
-            <button class="btn" style='margin-bottom: 30px;'>{% blocktrans %}Login{% endblocktrans %}</button></a>
+            <!--tirei margin-bottom: 30px inline-->
+            <a href="{% url 'login' %}" class="btn-mobile">
+            <button class="btn" style='/*margin-bottom: 30px;*/'>{% blocktrans %}Login{% endblocktrans %}</button></a>
           </div>
         </div>
       </div>

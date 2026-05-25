@@ -502,7 +502,7 @@ input:focus, textarea:focus {
 } */
 input[type="checkbox"] {
     border-radius: 5px;
-    width: 1rem !important;
+    width: 1rem /*!important*/;
     height: 1rem;
     border: 3px solid white;
     outline: 1px solid #ced4da;
@@ -1827,7 +1827,7 @@ input:checked + .slider:before {
     .card .col-6 {width: 50% !important;}
     .card .col-7 {width: 58.33% !important;}
     .card .col-8 {width: 66.66% !important;}
-    .card .col-9 {width: 75% !important;}
+    .card .col-9 {width: 65% !important;}
     .card .col-10 {width: 83.33% !important;}
     .card .col-11 {width: 91.66% !important;}
     .card .col-12 {width: 100% !important;}
@@ -1899,7 +1899,10 @@ input:checked + .slider:before {
         margin: 0 0 1rem 0;
     }
     .dashboard-item .card {
-        margin: 0 !important;
+        margin-top: 0 !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        margin-bottom: 0;
     }
 
     .bg2 table tr {
@@ -2320,3 +2323,189 @@ input:checked + .slider:before {
 #filter-dropdown:hover, #filter-classes:hover {
     background-color: rgb(100, 100, 100); /* Um pouco mais claro ao passar o mouse */
 }
+
+/*Thauan 
+no base.html botei a tag meta*/
+
+@media only screen and (max-width: 500px){
+
+    .bg{
+        width: 102%;
+    }
+
+    .header {
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+
+    .mt { 
+        width: 100%;
+        font-size: 1rem;
+        letter-spacing: 0.1px;
+    }
+
+    .change-language{
+        font-size: 0.9rem;
+    }
+
+    .change-language img {
+        width: 1.1rem;
+    }
+
+    /*Ajustar css inline (margin-top: 2rem) na classe card*/
+
+    .landing h2 {
+            margin-bottom: 0;
+            font-size: 1.4rem;
+    }
+
+    .login form input {
+        height: 15%;
+        margin-top: 15px;
+        font-size: 16px;
+    }
+
+    .form a {
+        font-size: 0.9rem;
+    }
+
+    .login form button {
+        width: 60%;
+        margin-top: 18px;
+        height: 150%;
+    }
+
+    .container {
+        height: 80%;
+    }
+
+    .container a button {
+        margin-top: 0px;
+        width: calc(100% - 9rem);
+        height: 2.5rem;
+    }
+
+    .footer{
+        justify-content: center;
+    }
+
+    .signup{
+        position: static;
+        height: 80rem;
+    }
+
+    .signup .form input{
+            width: 90%;
+            height: 3.4rem;
+            font-size: 20px;
+            margin-top: 10px;
+            
+        }
+
+     .signup .form select{
+            width: 90%;
+            height: 3.4rem;
+            font-size: 20px;
+            margin-top: 10px;           
+        }
+
+    .signup .card{
+            margin-top: 40rem;
+            width: 95%;
+        
+        }
+    .signup .terms{
+            margin-top: 40px;
+    }
+    .signup .terms a{
+            font-size: 1.0rem;
+        }
+
+    .signup .terms input{
+            width: 16%;
+            height: 1.8em;
+        }
+
+    .div-col6__paragrafo{
+        font-size: 20px;
+        padding: 0px 30px;
+    }
+
+
+    .signup .form .programming{
+        flex-direction: column;
+        font-size: 25px;
+    }
+
+    .signup .terms div{
+        font-size: 16px;
+        justify-content: center;
+    }
+
+    .btn-mobile{
+        margin-bottom: 10rem;
+    }
+    body{
+        height:125%;
+    }
+    .mobile{
+        margin-bottom: 5rem;
+        padding-left: 0px !important;
+    }
+
+    .content{
+        width: calc(100% - 200px);
+    }
+
+    .row td {
+    padding: 1rem;
+    padding-right: 0;
+    padding-left: 0; 
+    }
+
+    .mobile_card{
+        margin-bottom: 8rem !important;
+    }
+
+    .mobile_menu{
+        margin-bottom: 2rem;
+    }
+
+    .sidebar{
+        width: 315px;
+    }
+}
+
+
+/* Comentário de mudanças no devtools
+    @media only screen and (max-width: 500px){
+    
+        .form .signup input{
+            width: 80%;
+            height: 2rem;
+            font-size: 20px;
+            
+        }
+
+        .card .signup{
+            margin-top: 75rem;
+        
+        }
+
+        .terms{
+            margin-top: 40px;
+        }
+
+        .terms a{
+            font-size: 1.1rem;
+        }
+
+        .terms input{
+            width: 16%;
+            height: 1.8em;
+        }
+    
+    }
+
+
+*/

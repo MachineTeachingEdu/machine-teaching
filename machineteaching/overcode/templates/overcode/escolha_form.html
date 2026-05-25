@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Executar Overcode</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            padding: 3rem 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        h2 {
+            color: #343a40;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .container {
+            background: white;
+            padding: 2.5rem 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+            max-width: 500px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        form {
+            width: 100%;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.3rem;
+            font-weight: 500;
+            color: #495057;
+        }
+
+        select {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            font-size: 1rem;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            margin-bottom: 1.2rem;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        select:focus {
+            border-color: #0d6efd;
+            outline: none;
+            box-shadow: 0 0 0 0.2rem rgb(13 110 253 / 0.25);
+        }
+
+        button {
+            width: 100%;
+            padding: 0.65rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: white;
+            background-color: #0d6efd;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0b5ed7;
+        }
+
+        .botao {
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+
+    <h2>Executar Overcode</h2>
+
+    <form method="get">
+
+        <label>Turma:</label>
+        {{ form.turma }}
+
+        <label>Problema:</label>
+        {{ form.problema }}
+
+    </form>
+
+    <form method="post" class="botao">
+        {% csrf_token %}
+
+        <input type="hidden" name="turma" value="{{ request.GET.turma }}">
+        <input type="hidden" name="problema" value="{{ request.GET.problema }}">
+
+        <button type="submit">Iniciar Processamento</button>
+    </form>
+
+</div>
+</body>
+</html>

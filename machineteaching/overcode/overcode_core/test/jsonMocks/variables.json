@@ -1,0 +1,157 @@
+[
+    {
+        "id": 1, 
+        "sequence": [
+            0, 
+            1, 
+            2
+        ], 
+        "varName": "i"
+    }, 
+    {
+        "id": 2, 
+        "sequence": [
+            0, 
+            4, 
+            14, 
+            32
+        ], 
+        "varName": "total"
+    }, 
+    {
+        "id": 3, 
+        "sequence": [
+            [
+                1, 
+                2, 
+                3
+            ]
+        ], 
+        "varName": "listA"
+    }, 
+    {
+        "id": 4, 
+        "sequence": [
+            [
+                4, 
+                5, 
+                6
+            ]
+        ], 
+        "varName": "listB"
+    }, 
+    {
+        "id": 5, 
+        "sequence": [
+            4, 
+            10, 
+            18
+        ], 
+        "varName": "product"
+    }, 
+    {
+        "id": 6, 
+        "sequence": [
+            3
+        ], 
+        "varName": "length"
+    }, 
+    {
+        "id": 7, 
+        "sequence": [
+            1, 
+            2, 
+            3
+        ], 
+        "varName": "a"
+    }, 
+    {
+        "id": 8, 
+        "sequence": [
+            4, 
+            5, 
+            6
+        ], 
+        "varName": "b"
+    }, 
+    {
+        "id": 9, 
+        "sequence": [
+            32
+        ], 
+        "varName": "ans"
+    }, 
+    {
+        "id": 10, 
+        "sequence": [
+            0, 
+            1, 
+            2, 
+            3
+        ], 
+        "varName": "a___2"
+    }, 
+    {
+        "id": 11, 
+        "sequence": [
+            3, 
+            0, 
+            1, 
+            2
+        ], 
+        "varName": "n"
+    }, 
+    {
+        "id": 12, 
+        "sequence": [
+            [], 
+            [
+                18
+            ], 
+            [
+                18, 
+                10
+            ], 
+            [
+                18, 
+                10, 
+                4
+            ], 
+            [
+                18, 
+                10
+            ], 
+            [
+                18
+            ], 
+            []
+        ], 
+        "varName": "listc"
+    }, 
+    {
+        "id": 13, 
+        "sequence": [
+            [], 
+            [
+                4
+            ], 
+            [
+                4, 
+                10
+            ], 
+            [
+                4, 
+                10, 
+                18
+            ]
+        ], 
+        "varName": "AB"
+    }, 
+    {
+        "id": 14, 
+        "sequence": [
+            0
+        ], 
+        "varName": "index"
+    }
+]

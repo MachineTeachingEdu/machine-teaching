@@ -40,7 +40,17 @@
     <tbody>
     {% for student in outcomes %}
     <tr>
-        <td> <a class="link" href={% url 'student_solutions' id=student.name.1 chapter=form.chapter.value%}>{{ student.name.0 }}</a> </td>
+        <td>
+            {% if form.chapter.value %}
+                <a class="link" href="{% url 'student_solutions' id=student.name.1 chapter=form.chapter.value %}">
+                    {{ student.name.0 }}
+                </a>
+            {% else %}
+                <a class="link" href="{% url 'student_solutions' id=student.name.1 %}">
+                    {{ student.name.0 }}
+                </a>
+            {% endif %}
+        </td>
         <td>
             <span class="badge success">{{student.total.P}} {% trans "Passed" %}</span>
             <span class="badge danger">{{student.total.F}} {% trans "Failed" %}</span>
@@ -89,7 +99,18 @@
             }
         });
     });
-    
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const classSelect = document.querySelector('select[name="onlineclass"]');
+        const chapterSelect = document.querySelector('select[name="chapter"]');
+
+        if (classSelect && chapterSelect) {
+            classSelect.addEventListener('change', function() {
+                chapterSelect.value = ""; // limpa chapter
+            });
+        }
+    });
+
 console.log("{{form.chapter.value}}");
 $('#outcomes').DataTable({
     "columnDefs": [{
