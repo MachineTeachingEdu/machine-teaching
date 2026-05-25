@@ -44,9 +44,12 @@ import requests
 import google.auth.transport.requests
 import google.oauth2.id_token
 import os
+import re
 
 
 LOGGER = logging.getLogger(__name__)
+
+#logging.basicConfig(level=logging.INFO)
 
 
 # Custom decorator, has to be in views.py file because it creates a circular import
@@ -186,8 +189,14 @@ def save_user_log(request):
     return JsonResponse({'status': 'failed'})
 
 #Método para enviar o código submetido para o worker-node
+#from django.views.decorators.csrf import csrf_exempt
+#@csrf_exempt
 @login_required
 def submit_code(request):
+    #logging.info(f"Received request with method: {request.method}")
+    #logging.info(f"Headers: {request.headers}")
+    #logging.info(f"Body: {request.body.decode('utf-8') if request.body else 'No body'}")
+    
     if request.method == "POST":
         form_data = request.POST.dict()
         files = request.FILES
@@ -215,6 +224,7 @@ def submit_code(request):
                         test_cases_lang_formatted = [json.loads(test_case.content) for test_case in test_cases_lang]
                         form_data['test_cases'] = json.dumps(test_cases_lang_formatted)  #Serializa a lista em uma string
                     except json.decoder.JSONDecodeError as e:
+                        #logging.info(f"Error decoding JSON!!!!")
                         custom_test_cases = []
                         for test_case in test_cases_lang:
                             custom_test_cases.append(test_case.content)
@@ -1083,12 +1093,39 @@ def python_tutor(request):
         codigo_aluno = urllib.parse.quote_plus(str(codigo))
 
     if linguagem == "C":
-        nome_funcao = request.POST.get('nome_funcao')
+        id_problema = request.POST.get('id_problema')
+        problema = Problem.objects.get(pk=id_problema)
+        lang_c = Language.objects.get(name="C")
+        c_solution = Solution.objects.filter(problem = problema, language = lang_c).first()
+        nome_funcao = c_solution.header
+        tipo_retorno = c_solution.return_type
+        caso_de_teste_exemplo = extract_args(TestCase.objects.filter(problem=problema).first().content)   #Pegando apenas o primeiro caso de teste
+        
         link_fixo = "https://pythontutor.com/c.html#mode=edit&code="
-        codigo_aluno = codigo_aluno + f"""%0A%0Aint main(){{%0A++//Descomente a função abaixo e alterne seus parâmetros para testá-la%0A++//{nome_funcao}();%0A++return 0;%0A}}"""
+        codigo_aluno = codigo_aluno + f"""%0A%0Aint main(){{%0A++//Teste a função do problema alternando seus parâmetros:%0A++{tipo_retorno} teste %3D {nome_funcao}({caso_de_teste_exemplo});%0A++return 0;%0A}}"""
         
     context = {'link_fixo': link_fixo, 'codigo_aluno': codigo_aluno}
     return JsonResponse(context)
+
+def extract_args(args):
+    try:
+        arg_string = re.sub(r"'([^']+)'", r'"\1"', args)
+        list_args = json.loads(arg_string)
+        argsTxt = ""
+        for i, arg in enumerate(list_args):
+            if isinstance(arg, str):
+                if len(arg) == 1:
+                    argsTxt += f"'{arg}'"
+                else:
+                    argsTxt += f'"{arg}"'
+            else:
+                argsTxt += f"{arg}"
+            if i != len(list_args) - 1:
+                argsTxt += f", "
+        return argsTxt
+    except json.JSONDecodeError:
+        args_formatted = args.strip()[1:-1].strip()
+        return args_formatted
 
 @login_required
 def profile(request):

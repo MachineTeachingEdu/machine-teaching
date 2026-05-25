@@ -117,7 +117,6 @@
     var problem_id = "{{problem.id}}";
     var code_submition_url = "{% url 'submit_code' %}";
     var csrftoken = '{{ csrf_token }}';
-    var func_name = "{{problem_func_name}}"
     // Save page access
     $(document).ready(function() {
         $.ajax({
@@ -296,7 +295,7 @@
             url: '{% url 'python_tutor' %}',
             data: {
                 'codigo': codigo,
-                'nome_funcao': func_name,
+                'id_problema': problem_id,
                 'linguagem': linguagemSelecionada,
                 'csrfmiddlewaretoken': '{{ csrf_token }}',
             },

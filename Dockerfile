@@ -1,3 +1,4 @@
+#FROM python:3.9-slim-bookworm AS base   #imagem menor, mas com vulnerabilidades
 FROM python:3.9.0-slim AS base
 
 RUN echo "Creating base Image"
