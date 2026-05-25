@@ -139,3 +139,5 @@ staticfiles
 
 jsconfig.json
 launch.json
+
+machineteaching/questions/management
