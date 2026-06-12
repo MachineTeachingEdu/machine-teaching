@@ -73,6 +73,14 @@ class SolutionGroup(models.Model):
 # GRUPO COMENTÁRIO
 
 class GroupComment(models.Model):
+    SOURCE_MANUAL = "manual"
+    SOURCE_AI = "ai"
+
+    SOURCE_CHOICES = [
+        (SOURCE_MANUAL, "Professor"),
+        (SOURCE_AI, "IA"),
+    ]
+
     """
     Comentário do professor:
     - para um grupo de soluções
@@ -110,6 +118,13 @@ class GroupComment(models.Model):
     )
 
     content = models.TextField()
+
+    source = models.CharField(
+        max_length=10,
+        choices=SOURCE_CHOICES,
+        default=SOURCE_MANUAL,
+        help_text="Origem do comentário: escrito pelo professor ou gerado com IA"
+    )
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

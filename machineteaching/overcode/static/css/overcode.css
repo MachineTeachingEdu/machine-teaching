@@ -1,0 +1,623 @@
+.overcode-page {
+    font-family: 'Nunito', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 100%;
+    box-sizing: border-box;
+    padding-bottom: 2.5rem;
+}
+
+.overcode-page .col-overcode,
+.overcode-page .col {
+    display: flex;
+    justify-content: center;
+}
+
+.overcode-page .h2-overcode {
+    color: #343a40;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.overcode-page .container-overcode {
+    max-width: 520px;
+    min-width: 320px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.overcode-page .form-overcode {
+    width: 100%;
+}
+
+.overcode-page .label-overcode {
+    display: block;
+    margin-bottom: 0.3rem;
+    font-weight: 500;
+    color: #495057;
+}
+
+.overcode-page .select-overcode {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    padding: 0.5rem 0.75rem;
+    font-size: 1rem;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    margin-bottom: 1.2rem;
+    box-sizing: border-box;
+    display: block;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.overcode-page .select-overcode:focus {
+    border-color: #2196F3;
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgb(33 150 243 / 0.2);
+}
+
+.overcode-page .botao-overcode:hover {
+    background-color: rgb(13,137,236);
+}
+
+.overcode-page .botao-overcode {
+    margin-top: 2rem;
+    width: 100%;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.overcode-page .mensagem-card-overcode {
+    text-align: center;
+}
+
+.overcode-page .texto-overcode {
+    color: #495057;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.overcode-page .link-botao-overcode {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    margin-top: 1.5rem;
+    text-align: center;
+    font-weight: 600;
+}
+
+.overcode-page .lista-overcode {
+    width: 100%;
+    max-width: 1000px;
+}
+
+.overcode-page .voltar-overcode {
+    align-items: center;
+    background: #ffffff;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    display: inline-flex;
+    gap: 0.35rem;
+    color: #495057;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    padding: 0.45rem 0.75rem;
+    transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.overcode-page .voltar-overcode:hover {
+    background: rgb(233,236,239);
+    border-color: #adb5bd;
+    color: #212529;
+}
+
+.overcode-page .subtitulo-overcode {
+    color: #6c757d;
+    margin-bottom: 1.25rem;
+}
+
+.overcode-page .divisor-overcode {
+    border-bottom: 1px solid rgb(233,236,239);
+    margin-bottom: 1.75rem;
+}
+
+.overcode-page .grid-grupos-overcode {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+}
+
+.overcode-page .group-card-overcode {
+    border-left: 6px solid #ced4da;
+    box-sizing: border-box;
+    min-height: 150px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.overcode-page .group-card-overcode:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(0,0,0,0.14);
+}
+
+.overcode-page .correct-overcode {
+    border-left-color: #4CAF50;
+}
+
+.overcode-page .incorrect-overcode {
+    border-left-color: #F44336;
+}
+
+.overcode-page .ignored-overcode {
+    border-left-color: #FFC107;
+    background: #fffde7;
+}
+
+.overcode-page .group-title-overcode {
+    color: #343a40;
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.overcode-page .count-overcode {
+    color: #6c757d;
+}
+
+.overcode-page .group-link-overcode {
+    display: inline-block;
+    margin-top: 1rem;
+    font-weight: 600;
+}
+
+.overcode-page .correct-link-overcode {
+    background: #4CAF50;
+    border-color: #4CAF50;
+}
+
+.overcode-page .correct-link-overcode:hover {
+    background: #43a047;
+    border-color: #43a047;
+}
+
+.overcode-page .incorrect-link-overcode {
+    background: #F44336;
+    border-color: #F44336;
+}
+
+.overcode-page .incorrect-link-overcode:hover {
+    background: #d32f2f;
+    border-color: #d32f2f;
+}
+
+.overcode-page .ignored-link-overcode {
+    background: #eab308;
+    border-color: #eab308;
+    color: #212529;
+}
+
+.overcode-page .ignored-link-overcode:hover {
+    background: #ca8a04;
+    border-color: #ca8a04;
+}
+
+.overcode-page .pagination-overcode {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.25rem;
+    margin-top: 2rem;
+}
+
+.overcode-page .pagination-button-overcode {
+    width: 2.5rem;
+    height: 2.5rem;
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: #495057;
+    cursor: pointer;
+    font-size: 1.75rem;
+    line-height: 1;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.overcode-page .pagination-button-overcode:hover:not(:disabled) {
+    background: rgb(233,236,239);
+    color: #212529;
+}
+
+.overcode-page .pagination-button-overcode:disabled {
+    color: #adb5bd;
+    cursor: default;
+}
+
+.overcode-page .page-info-overcode {
+    color: #495057;
+    font-weight: 600;
+    min-width: 4rem;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .overcode-page .grid-grupos-overcode {
+        grid-template-columns: 1fr;
+    }
+}
+
+.overcode-page .detalhe-container-overcode {
+    width: 100%;
+    max-width: 1000px;
+}
+
+.overcode-page .detalhe-header-overcode {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.overcode-page .detalhe-title-overcode {
+    text-align: left;
+    margin-bottom: 0.35rem;
+}
+
+.overcode-page .tabs-overcode {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 14rem;
+}
+
+.overcode-page .tab-overcode {
+    align-items: center;
+    box-sizing: border-box;
+    border: 0;
+    border-radius: 4px;
+    background: #0d6efd;
+    color: #ffffff;
+    cursor: pointer;
+    display: flex;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    justify-content: flex-start;
+    min-height: 2.5rem;
+    padding: 0.5rem 0.875rem;
+    text-align: left;
+    text-decoration: none;
+    transition: background-color 0.2s, color 0.2s;
+    width: 100%;
+}
+
+.overcode-page .tab-overcode:hover {
+    background: #0b5ed7;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.overcode-page .tab-overcode.active-overcode {
+    background: #0d6efd;
+    color: #ffffff;
+}
+
+.overcode-page .tab-overcode.active-overcode:hover {
+    background: #0b5ed7;
+    color: #ffffff;
+}
+
+.overcode-page .detalhe-card-overcode {
+    box-sizing: border-box;
+}
+
+.overcode-page .code-block-overcode {
+    background: #f3f4f6;
+    border-radius: 8px;
+    margin-top: 0.75rem;
+    overflow: auto;
+    padding: 1rem;
+}
+
+.overcode-page .code-block-overcode pre {
+    margin: 0;
+}
+
+.overcode-page .language-python {
+    background: #f3f4f6;
+}
+
+.overcode-page .comment-box-overcode {
+    margin-top: 1.25rem;
+}
+
+.overcode-page .comment-item-overcode {
+    align-items: flex-start;
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    padding: 0.75rem;
+}
+
+.overcode-page .comment-content-overcode {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    user-select: text;
+    word-break: break-word;
+}
+
+.overcode-page .comment-content-overcode ::selection {
+    background: #B5DCFF;
+}
+
+.overcode-page .comment-text-overcode {
+    display: block;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.overcode-page .comment-meta-overcode {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.35rem;
+    user-select: text;
+}
+
+.overcode-page .comment-source-overcode {
+    border-radius: 4px;
+    display: inline-block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    line-height: 1;
+    padding: 0.2rem 0.4rem;
+    text-transform: uppercase;
+    user-select: text;
+}
+
+.overcode-page .comment-source-ai-overcode {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.overcode-page .comment-source-manual-overcode {
+    background: #e5e7eb;
+    color: #495057;
+}
+
+.overcode-page .comment-date-overcode {
+    color: #6c757d;
+    font-size: 0.8rem;
+    user-select: text;
+}
+
+.overcode-page .comment-actions-overcode {
+    margin-top: 0.35rem;
+}
+
+.overcode-page .saved-comments-overcode {
+    margin-top: 1.25rem;
+}
+
+.overcode-page .delete-comment-overcode {
+    align-items: center;
+    border-radius: 4px;
+    color: #6c757d;
+    display: inline-flex;
+    flex: 0 0 auto;
+    font-size: 1.2rem;
+    height: 2rem;
+    justify-content: center;
+    line-height: 1;
+    width: 2rem;
+}
+
+.overcode-page .delete-comment-overcode:hover {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.overcode-page .textarea-overcode {
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-family: inherit;
+    max-height: 12rem;
+    min-height: 6rem;
+    padding: 0.75rem;
+    resize: vertical;
+    width: 100%;
+}
+
+.overcode-page .action-button-overcode {
+    margin-top: 0.75rem;
+}
+
+.overcode-page .secondary-button-overcode {
+    background: #ffffff;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    color: #495057;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 1rem;
+    margin-top: 0.75rem;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.overcode-page .secondary-button-overcode:hover {
+    background: rgb(233,236,239);
+    border-color: #adb5bd;
+    color: #212529;
+}
+
+.overcode-page .divisor-interno-overcode {
+    margin: 1.25rem 0;
+}
+
+.overcode-page .ai-panel-overcode {
+    background: #f0f7ff;
+    border: 1px solid #bfdbfe;
+    border-left: 4px solid #2196F3;
+    border-radius: 8px;
+    margin-top: 1.25rem;
+    padding: 1rem;
+}
+
+.overcode-page .ai-panel-overcode h3 {
+    color: #0f5f9f;
+    margin-top: 0;
+}
+
+.overcode-page .loading-overcode {
+    display: none;
+    margin-top: 0.75rem;
+}
+
+.overcode-page .llm-output-overcode {
+    margin-top: 0.75rem;
+}
+
+.overcode-page .llm-card-overcode {
+    border-left: 4px solid #2196F3;
+    margin-bottom: 0;
+}
+
+.overcode-page .llm-actions-overcode {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.75rem;
+}
+
+.overcode-page .llm-edit-overcode {
+    min-height: 10rem;
+}
+
+.overcode-page .llm-markdown-overcode {
+    color: #343a40;
+    line-height: 1.55;
+    overflow-wrap: anywhere;
+    user-select: text;
+    white-space: normal;
+}
+
+.overcode-page .llm-markdown-overcode h3 {
+    color: #0f5f9f;
+    font-size: 1rem;
+    margin: 0.55rem 0 0.25rem;
+}
+
+.overcode-page .llm-markdown-overcode ul {
+    margin: 0.25rem 0 0.55rem 1.25rem;
+    padding: 0;
+}
+
+.overcode-page .llm-markdown-overcode p {
+    margin: 0.25rem 0;
+}
+
+.overcode-page .llm-markdown-overcode li {
+    margin-bottom: 0.2rem;
+}
+
+.overcode-page .evaluation-question-overcode {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+}
+
+.overcode-page .evaluation-label-overcode {
+    margin-bottom: 0.5rem;
+}
+
+.overcode-page .evaluation-options-overcode {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.overcode-page .evaluation-option-overcode {
+    align-items: center;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-flex;
+    gap: 0.4rem;
+    padding: 0.4rem 0.75rem;
+}
+
+.overcode-page .evaluation-option-overcode input {
+    appearance: auto;
+    cursor: pointer;
+    height: 1rem;
+    margin: 0;
+    padding: 0;
+    width: 1rem;
+}
+
+.overcode-page .search-overcode {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+    padding: 0.75rem;
+    width: 100%;
+}
+
+.overcode-page .student-overcode {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-bottom: 0.5rem;
+    padding: 0.75rem;
+    transition: background-color 0.2s;
+}
+
+.overcode-page .student-overcode:hover {
+    background: #f3f4f6;
+}
+
+.overcode-page .controls-overcode,
+.overcode-page .nav-solutions-overcode {
+    align-items: center;
+    display: flex;
+    gap: 1.25rem;
+    justify-content: center;
+    margin-top: 1.25rem;
+}
+
+.overcode-page .solution-detail {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .overcode-page .detalhe-header-overcode {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .overcode-page .tabs-overcode {
+        flex-direction: row;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+
+    .overcode-page .tab-overcode {
+        flex: 1 1 12rem;
+        width: auto;
+    }
+}

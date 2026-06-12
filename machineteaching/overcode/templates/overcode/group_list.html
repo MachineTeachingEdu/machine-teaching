@@ -1,303 +1,110 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-<meta charset="UTF-8">
-<title>Grupos de Soluções</title>
+{% extends "questions/base.html" %}
+{% load static %}
+{% load i18n %}
 
-<style>
+{% block stylesheet %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/overcode.css' %}" />
+{% endblock %}
 
-body{
-font-family:"Segoe UI",Arial;
-background:#f4f6f9;
-padding:40px;
-}
+{% block content %}
 
-.container{
-max-width:1000px;
-margin:auto;
-}
+<div class="overcode-page grupos-overcode">
+    <div class="col col-12">
+        <div class="lista-overcode">
 
-.back{
-text-decoration:none;
-color:#444;
-font-weight:600;
-}
+            <a class="voltar-overcode" href="{% url 'overcode:escolher' %}">
+                &larr; Voltar
+            </a>
 
-.back:hover{
-color:#000;
-}
+            <p class="subtitulo-overcode">
+                Turma <strong>{{ turma_id }}</strong> &bull;
+                Problema <strong>{{ problem_id }}</strong>
+            </p>
 
-.title{
-font-size:28px;
-font-weight:700;
-margin-top:12px;
-}
+            <div class="divisor-overcode"></div>
 
-.subtitle{
-color:#666;
-margin-bottom:20px;
-}
+            <div
+                id="groups-container"
+                class="grid-grupos-overcode"
+                data-cards-per-page="4"
+            >
 
-.divider{
-border-bottom:1px solid #e5e7eb;
-margin-bottom:30px;
-}
+                {% for g in groups %}
+                    <div class="group-item-overcode">
+                        <div class="card group-card-overcode {% if g.correct %}correct-overcode{% else %}incorrect-overcode{% endif %}">
 
-/* GRID */
+                            <div class="group-title-overcode">
+                                Grupo {{ g.group_index }}
+                            </div>
 
-.grid{
-display:grid;
-grid-template-columns:repeat(2,1fr);
-gap:28px;
-}
+                            <div class="count-overcode">
+                                {{ g.count }} {% if g.count == 1 %}solução {% if g.correct %}correta{% else %}incorreta{% endif %}{% else %}soluções {% if g.correct %}corretas{% else %}incorretas{% endif %}{% endif %}
+                            </div>
 
-/* CARD */
+                            <a
+                                class="primary group-link-overcode {% if g.correct %}correct-link-overcode{% else %}incorrect-link-overcode{% endif %}"
+                                href="{% url 'overcode:group_detail' turma_id problem_id g.id %}"
+                            >
+                                Abrir análise
+                            </a>
 
-.card{
-background:white;
-border-radius:12px;
-padding:26px;
-box-shadow:0 2px 10px rgba(0,0,0,0.08);
-transition:all .2s ease;
-border-left:6px solid #ccc;
-}
+                        </div>
+                    </div>
+                {% endfor %}
 
-.card:hover{
-transform:translateY(-6px);
-box-shadow:0 10px 24px rgba(0,0,0,0.18);
-}
+                {% if ignored_count > 0 %}
+                    <div class="group-item-overcode">
+                        <div class="card group-card-overcode ignored-overcode">
 
-.correct{
-border-left-color:#4CAF50;
-}
+                            <div class="group-title-overcode">
+                                {{ ignored_count }} {% if ignored_count == 1 %}solução ignorada{% else %}soluções ignoradas{% endif %}
+                            </div>
 
-.incorrect{
-border-left-color:#E53935;
-}
+                            <div class="count-overcode">
+                                Fora dos grupos de soluções
+                            </div>
 
-.ignored{
-border-left-color:#FFC107;
-background:#fffde7;
-}
+                            <a
+                                class="primary group-link-overcode ignored-link-overcode"
+                                href="{% url 'overcode:ignored_detail' turma_id problem_id %}"
+                            >
+                                Ver detalhes
+                            </a>
 
-.group-title{
-font-size:20px;
-font-weight:600;
-margin-bottom:10px;
-}
+                        </div>
+                    </div>
+                {% endif %}
 
-.count{
-color:#555;
-}
+            </div>
 
-/* BOTÃO */
+            <div class="pagination-overcode" aria-label="Paginação dos grupos">
+                <button
+                    type="button"
+                    class="pagination-button-overcode"
+                    data-overcode-page-action="prev"
+                    aria-label="Página anterior"
+                >
+                    &lsaquo;
+                </button>
 
-.btn{
-display:inline-block;
-margin-top:16px;
-padding:10px 18px;
-color:white;
-text-decoration:none;
-border-radius:6px;
-font-size:14px;
-font-weight:500;
-transition:.2s;
-}
+                <div class="page-info-overcode" id="page-info"></div>
 
-/* CORRETO */
+                <button
+                    type="button"
+                    class="pagination-button-overcode"
+                    data-overcode-page-action="next"
+                    aria-label="Próxima página"
+                >
+                    &rsaquo;
+                </button>
+            </div>
 
-.card.correct .btn{
-background:#16a34a;
-}
-
-.card.correct .btn:hover{
-background:#15803d;
-}
-
-/* INCORRETO */
-
-.card.incorrect .btn{
-background:#dc2626;
-}
-
-.card.incorrect .btn:hover{
-background:#b91c1c;
-}
-
-/* IGNORADO */
-
-.card.ignored .btn{
-background:#eab308;
-color:#222;
-}
-
-.card.ignored .btn:hover{
-background:#ca8a04;
-}
-
-/* CONTROLES */
-
-.controls{
-display:flex;
-justify-content:center;
-align-items:center;
-gap:25px;
-margin-top:35px;
-}
-
-.arrow{
-cursor:pointer;
-font-size:26px;
-color:#444;
-padding:6px 12px;
-border-radius:6px;
-transition:.2s;
-}
-
-.arrow:hover{
-background:#e5e7eb;
-}
-
-.page-info{
-font-weight:600;
-color:#444;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<div class="container">
-
-<a class="back" href="{% url 'overcode:escolher' %}">
-← Voltar
-</a>
-
-<div class="title">
-Grupos de Soluções
+        </div>
+    </div>
 </div>
 
-<div class="subtitle">
-Turma <b>{{ turma_id }}</b> • Problema <b>{{ problem_id }}</b>
-</div>
+{% endblock %}
 
-<div class="divider"></div>
-
-<div id="groups-container" class="grid">
-
-{% for g in groups %}
-
-<div class="group-item">
-
-<div class="card {% if g.correct %}correct{% else %}incorrect{% endif %}">
-
-<div class="group-title">
-Grupo {{ g.group_index }}
-</div>
-
-<div class="count">
-{{ g.count }} soluções
-</div>
-
-<a class="btn"
-href="{% url 'overcode:group_detail' turma_id problem_id g.id %}">
-Abrir análise
-</a>
-
-</div>
-
-</div>
-
-{% endfor %}
-
-{% if ignored_count > 0 %}
-
-<div class="group-item">
-
-<div class="card ignored">
-
-<div class="group-title">
-Soluções ignoradas
-</div>
-
-<div class="count">
-{{ ignored_count }} soluções
-</div>
-
-<a class="btn"
-href="{% url 'overcode:ignored_detail' turma_id problem_id %}">
-Ver detalhes
-</a>
-
-</div>
-
-</div>
-
-{% endif %}
-
-</div>
-
-<div class="controls">
-
-<div class="arrow" onclick="prevPage()">‹</div>
-
-<div class="page-info" id="page-info"></div>
-
-<div class="arrow" onclick="nextPage()">›</div>
-
-</div>
-
-</div>
-
-<script>
-
-const cardsPerPage = 4
-
-const items = document.querySelectorAll(".group-item")
-
-let currentPage = 1
-const totalPages = Math.ceil(items.length / cardsPerPage)
-
-function showPage(page){
-
-items.forEach((item,i)=>{
-
-if(i >= (page-1)*cardsPerPage && i < page*cardsPerPage){
-item.style.display="block"
-}else{
-item.style.display="none"
-}
-
-})
-
-document.getElementById("page-info").innerText =
-page + " / " + totalPages
-
-}
-
-function nextPage(){
-
-if(currentPage < totalPages){
-currentPage++
-showPage(currentPage)
-}
-
-}
-
-function prevPage(){
-
-if(currentPage > 1){
-currentPage--
-showPage(currentPage)
-}
-
-}
-
-showPage(currentPage)
-
-</script>
-
-</body>
-</html>
+{% block javascript %}
+<script src="{% static 'js/group_list.js' %}"></script>
+{% endblock %}

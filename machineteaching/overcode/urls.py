@@ -2,6 +2,7 @@
 
 from django.urls import path
 from overcode import views
+from .views import llm_group_comment
 
 app_name = "overcode"
 
@@ -13,4 +14,6 @@ urlpatterns = [
     path('turmas/<int:turma_id>/problemas/<int:problema_id>/ignoradas/', views.ignored_detail, name='ignored_detail'),
     path('comentar/<int:turma_id>/<int:problema_id>/', views.salvar_comentario, name='salvar_comentario'),
     path('comentario/deletar/<int:comment_id>/', views.deletar_comentario, name='deletar_comentario'),
+    path("llm/group-comment/", llm_group_comment, name="llm_group_comment"),
+    path("llm/evaluation/", views.fake_llm_evaluation, name="fake_llm_evaluation"),
 ]
