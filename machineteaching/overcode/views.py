@@ -1,4 +1,11 @@
+from functools import wraps
+import json
+
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.core.exceptions import PermissionDenied
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 
 from django.shortcuts import (render, redirect, get_object_or_404,)
 
@@ -15,6 +22,40 @@ from .forms import (EscolhaTurmaProblemaForm)
 
 # Create your views here.
 
+
+def is_active_professor(user):
+    return (
+        user.is_authenticated
+        and Professor.objects.filter(user=user, active=True).exists()
+    )
+
+
+def professor_required(view_func):
+    return login_required(
+        user_passes_test(is_active_professor, login_url="login")(view_func),
+        login_url="login",
+    )
+
+
+def professor_turma_required(view_func):
+    @wraps(view_func)
+    @professor_required
+    def wrapped(request, *args, **kwargs):
+        turma_id = kwargs.get("turma_id")
+
+        if not Professor.objects.filter(
+            user=request.user,
+            active=True,
+            prof_class__id=turma_id,
+        ).exists():
+            raise PermissionDenied
+
+        return view_func(request, *args, **kwargs)
+
+    return wrapped
+
+
+@professor_required
 def escolher_turma_problema(request):
 
     if request.method == "POST":
@@ -33,6 +74,7 @@ def escolher_turma_problema(request):
                 {
                     "turma": turma,
                     "problema": problema,
+                    "title": "Processamento iniciado",
                     "resultado_url": reverse(
                         "overcode:groups",
                         args=[turma.id, problema.id],
@@ -46,9 +88,13 @@ def escolher_turma_problema(request):
     return render(
         request,
         "overcode/escolha_form.html",
-        {"form": form}
+        {
+            "form": form,
+            "title": "Executar Overcode",
+        }
     )
 
+@professor_turma_required
 def ver_resultado_overcode(request, turma_id, problema_id):
     return render(
         request,
@@ -59,6 +105,7 @@ def ver_resultado_overcode(request, turma_id, problema_id):
         },
     )
 
+@professor_turma_required
 def list_groups(request, turma_id, problema_id):
     groups = SolutionGroup.objects.filter(
         turma_id=turma_id,
@@ -77,9 +124,11 @@ def list_groups(request, turma_id, problema_id):
             "turma_id": turma_id,
             "problem_id": problema_id,
             "ignored_count": ignored_count,
+            "title": "Grupos de Soluções",
         },
     )
 
+@professor_turma_required
 def group_detail(request, turma_id, problema_id, group_id):
 
     group = get_object_or_404(
@@ -100,7 +149,7 @@ def group_detail(request, turma_id, problema_id, group_id):
     comments = GroupComment.objects.filter(
         problem_id=problema_id,
         group=group
-    ).select_related("author")
+    ).select_related("author").order_by("created_at", "id")
 
     # comentário de grupo
     group_comments = comments.filter(user__isnull=True)
@@ -122,9 +171,11 @@ def group_detail(request, turma_id, problema_id, group_id):
             "comments_by_user": dict(comments_by_user),
             "turma_id": turma_id,
             "problem_id": problema_id,
+            "title": f"Grupo {group.group_index}",
         },
     )
 
+@professor_turma_required
 def ignored_detail(request, turma_id, problema_id):
 
     ignored = IgnoredSolution.objects.filter(problem_id=problema_id)
@@ -144,7 +195,7 @@ def ignored_detail(request, turma_id, problema_id):
     comments = GroupComment.objects.filter(
         problem_id=problema_id,
         group__isnull=True
-    ).select_related("author")
+    ).select_related("author").order_by("created_at", "id")
 
     comments_by_user = defaultdict(list)
 
@@ -160,9 +211,11 @@ def ignored_detail(request, turma_id, problema_id):
             "comments_by_user": dict(comments_by_user),
             "turma_id": turma_id,
             "problem_id": problema_id,
+            "title": "Soluções Ignoradas",
         }
     )
 
+@professor_turma_required
 def salvar_comentario(request, turma_id, problema_id):
 
     if request.method == "POST":
@@ -171,8 +224,9 @@ def salvar_comentario(request, turma_id, problema_id):
         group_id = request.POST.get("group_id")
         user_id = request.POST.get("user_id")
         selected_user = request.POST.get("selected_user")
+        source = request.POST.get("source", GroupComment.SOURCE_MANUAL)
 
-        professor = Professor.objects.get(user=request.user.id)# TEMPORÁRIO
+        professor = Professor.objects.get(user=request.user, active=True)
 
         if not content:
             return redirect(request.META.get("HTTP_REFERER", "/"))
@@ -180,7 +234,10 @@ def salvar_comentario(request, turma_id, problema_id):
         data = {
             "problem_id": problema_id,
             "author": professor,
-            "content": content
+            "content": content,
+            "source": source
+            if source in dict(GroupComment.SOURCE_CHOICES)
+            else GroupComment.SOURCE_MANUAL,
         }
 
         # comentário de grupo
@@ -213,8 +270,21 @@ def salvar_comentario(request, turma_id, problema_id):
 
         return redirect(redirect_url)
 
+@professor_required
 def deletar_comentario(request, comment_id):
     comment = get_object_or_404(GroupComment, id=comment_id)
+    turma_id = request.GET.get("turma_id")
+    problem_id = request.GET.get("problem_id") or comment.problem_id
+
+    if comment.group:
+        turma_id = comment.group.turma_id
+
+    if not turma_id or not Professor.objects.filter(
+        user=request.user,
+        active=True,
+        prof_class__id=turma_id,
+    ).exists():
+        raise PermissionDenied
 
     # se for AJAX
     if request.headers.get("x-requested-with") == "XMLHttpRequest":
@@ -222,8 +292,7 @@ def deletar_comentario(request, comment_id):
         return JsonResponse({"status": "ok"})
 
     # fallback normal (caso alguém acesse direto)
-    turma_id = request.GET.get("turma_id")
-    problema_id = request.GET.get("problem_id")
+    problema_id = problem_id
 
     group_id = comment.group_id
     user_id = comment.user_id
@@ -245,3 +314,51 @@ def deletar_comentario(request, comment_id):
         url += f"#solution-{user_id}"
 
     return redirect(url)
+
+
+@professor_required
+@require_POST
+def fake_llm_evaluation(request):
+
+    data = json.loads(request.body)
+
+    print("\n===== RESPOSTA FORM =====")
+    print(data)
+    print("=========================\n")
+
+    return JsonResponse({
+        "success": True
+    })
+
+from .services.llm_service import generate_group_comment, generate_student_comment
+
+@csrf_exempt
+@professor_required
+def llm_group_comment(request):
+    if request.method != "POST":
+        return JsonResponse({"error": "POST required"}, status=400)
+
+    try:
+        data = json.loads(request.body)
+
+        code = data.get("code")
+        group_id = data.get("group_id")
+        user_id = data.get("user_id")
+        ignored = data.get("ignored", False)
+
+        if not code:
+            return JsonResponse({"error": "missing code"}, status=400)
+
+        if user_id:
+            comment = generate_student_comment(code, ignored=ignored)
+        else:
+            comment = generate_group_comment(code)
+
+        return JsonResponse({
+            "comment": comment,
+            "group_id": group_id,
+            "user_id": user_id
+        })
+
+    except Exception as e:
+        return JsonResponse({"error": str(e)}, status=500)

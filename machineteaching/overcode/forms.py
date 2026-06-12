@@ -8,8 +8,8 @@ class EscolhaTurmaProblemaForm(forms.Form):
         label='Turma',
         required=True,
         widget=forms.Select(attrs={
-            'class': 'form-select',
-            'onchange': 'this.form.submit()'
+            'class': 'form-select select-overcode',
+            'data-overcode-auto-submit': 'true',
         })
     )
 
@@ -18,8 +18,8 @@ class EscolhaTurmaProblemaForm(forms.Form):
         label='Problema',
         required=True,
         widget=forms.Select(attrs={
-            'class': 'form-select',
-            'onchange': 'this.form.submit()'
+            'class': 'form-select select-overcode',
+            'data-overcode-auto-submit': 'true',
         })
     )
 
