@@ -8,6 +8,7 @@
             <div class="card" style="margin-top: 2rem;">
                 <form method="post" action="{% url 'login' %}" class="form">
                     {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ next }}">
                     {% for error in form.non_field_errors %}
                         <span>{{ error|escape }}</span>
                     {% endfor %}

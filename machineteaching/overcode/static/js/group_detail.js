@@ -310,42 +310,19 @@ window.onload = function(){
 
     init()
 
-    const activeTab =
-        sessionStorage.getItem(
-            "active_tab"
-        )
+    sessionStorage.removeItem("active_tab")
+    sessionStorage.removeItem("active_solution")
 
-    const activeSolution =
-        sessionStorage.getItem(
-            "active_solution"
-        )
+    const selectedSolution =
+        window.location.hash.match(/^#solution-(\d+)$/)
 
-    const activeGroup =
-        sessionStorage.getItem(
-            "active_group"
-        )
-
-    const currentGroup =
-        window.overcodeConfig?.groupId || ""
-
-    if(activeGroup && activeGroup !== currentGroup){
-        sessionStorage.removeItem("active_tab")
-        sessionStorage.removeItem("active_solution")
-    }
-
-    if(activeGroup === currentGroup && activeTab === "solutions"){
-
+    if(selectedSolution){
         openTab("solutions")
-
-        if(activeSolution){
-
-            showSolution(activeSolution)
-        }
-
-    }else{
-
-        openTab("representative")
+        showSolution(selectedSolution[1])
+        return
     }
+
+    openTab("representative")
 }
 
 function generateLLMGroupComment(groupId){

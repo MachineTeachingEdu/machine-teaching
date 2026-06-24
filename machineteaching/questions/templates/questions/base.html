@@ -46,6 +46,7 @@
               <a class="menu-item" href="{% url 'chapters' %}">{% blocktrans %}Chapters{% endblocktrans %}</a>
               {% if perms.questions.view_userlogview %}
               <a class="menu-item" href="{% url 'classes' %}">{% blocktrans %}Classes{% endblocktrans %}</a>
+              <a class="menu-item" href="{% url 'overcode:escolher' %}">OverCode</a>
               {% endif %}
               <a class="menu-item" href="{% if perms.questions.view_userlogview %}{% url 'show_outcome' %}{% else %}{% url 'dashboard' %}{% endif %}">{% blocktrans %}Outcomes{% endblocktrans %}</a>
               {% if SHOW_SATISFACTION_FORM %}
