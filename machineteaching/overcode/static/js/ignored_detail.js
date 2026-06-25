@@ -316,6 +316,7 @@ function saveFinalLLM(userId){
 
         headers: {
             "Content-Type": "application/x-www-form-urlencoded",
+            "X-Requested-With": "XMLHttpRequest",
             "X-CSRFToken": getCookie("csrftoken")
         },
 
@@ -326,7 +327,13 @@ function saveFinalLLM(userId){
             source: "ai"
         })
     })
-    .then(() => {
+    .then(async (res) => {
+
+        const data = await res.json();
+
+        if(!res.ok || !data.success){
+            throw new Error(data.error || "Erro ao salvar comentário");
+        }
 
         const outputEl =
             document.getElementById("llm-output-" + userId);
@@ -348,12 +355,23 @@ function saveFinalLLM(userId){
             ${renderEvaluationForm(userId)}
 
             <div class="llm-actions-overcode">
-                <button type="button" class="primary action-button-overcode" onclick="finishEvaluation(${userId})">
+                <button type="button" class="primary action-button-overcode" onclick="finishEvaluation(${userId}, ${data.comment_id})">
                     Finalizar formulário
                 </button>
             </div>
 
         </div>
+        `;
+    })
+    .catch(err => {
+
+        const outputEl =
+            document.getElementById("llm-output-" + userId);
+
+        outputEl.innerHTML = `
+            <div class="card">
+                <p>Erro: ${err.message}</p>
+            </div>
         `;
     });
 }
@@ -429,7 +447,7 @@ function evaluationQuestion(userId, field, label){
     `;
 }
 
-function finishEvaluation(userId){
+function finishEvaluation(userId, commentId){
 
     const fields = [
         "helpful",
@@ -440,6 +458,7 @@ function finishEvaluation(userId){
     ];
 
     let payload = {
+        comment_id: commentId,
         user_id: userId
     };
 
@@ -474,12 +493,21 @@ function finishEvaluation(userId){
 
         body: JSON.stringify(payload)
     })
-    .then(() => {
+    .then(async (res) => {
+
+        const data = await res.json();
+
+        if(!res.ok || !data.success){
+            throw new Error(data.error || "Erro ao salvar avaliação");
+        }
 
         window.location.hash = "solution-" + userId;
 
         location.reload();
 
+    })
+    .catch(err => {
+        alert(err.message);
     });
 }
 

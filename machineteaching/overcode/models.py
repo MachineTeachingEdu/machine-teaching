@@ -144,3 +144,93 @@ class GroupComment(models.Model):
         if self.group:
             return f"Comment on Group {self.group.group_index}"
         return f"General comment (Problem {self.problem_id})"
+
+
+class LLMCommentEvaluation(models.Model):
+    TARGET_REPRESENTATIVE = "representative"
+    TARGET_INDIVIDUAL = "individual"
+    TARGET_IGNORED = "ignored"
+
+    TARGET_CHOICES = [
+        (TARGET_REPRESENTATIVE, "Código representativo"),
+        (TARGET_INDIVIDUAL, "Solução individual"),
+        (TARGET_IGNORED, "Solução ignorada"),
+    ]
+
+    comment = models.OneToOneField(
+        GroupComment,
+        on_delete=models.CASCADE,
+        related_name="llm_evaluation",
+        help_text="Comentário gerado por IA avaliado pelo professor",
+    )
+
+    professor = models.ForeignKey(
+        Professor,
+        on_delete=models.CASCADE,
+        related_name="llm_comment_evaluations",
+    )
+
+    problem = models.ForeignKey(
+        Problem,
+        on_delete=models.CASCADE,
+        related_name="llm_comment_evaluations",
+        null=True,
+        blank=True,
+    )
+
+    turma = models.ForeignKey(
+        OnlineClass,
+        on_delete=models.CASCADE,
+        related_name="llm_comment_evaluations",
+        null=True,
+        blank=True,
+    )
+
+    group = models.ForeignKey(
+        SolutionGroup,
+        on_delete=models.CASCADE,
+        related_name="llm_comment_evaluations",
+        null=True,
+        blank=True,
+    )
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="llm_comment_evaluations_received",
+        null=True,
+        blank=True,
+        help_text="Aluno avaliado quando o comentário é individual ou ignorado",
+    )
+
+    target_type = models.CharField(
+        max_length=20,
+        choices=TARGET_CHOICES,
+        null=True,
+        blank=True,
+        help_text="Tipo de código avaliado pelo comentário IA",
+    )
+
+    helpful = models.BooleanField()
+    correct = models.BooleanField()
+    improve = models.BooleanField()
+    understand = models.BooleanField()
+    contains_code = models.BooleanField()
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "LLM Comment Evaluation"
+        verbose_name_plural = "LLM Comment Evaluations"
+        indexes = [
+            models.Index(fields=["professor"]),
+            models.Index(fields=["comment"]),
+            models.Index(fields=["problem", "turma"]),
+            models.Index(fields=["group"]),
+            models.Index(fields=["user"]),
+            models.Index(fields=["target_type"]),
+        ]
+
+    def __str__(self):
+        return f"LLM evaluation for comment {self.comment_id}"

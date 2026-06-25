@@ -15,5 +15,5 @@ urlpatterns = [
     path('comentar/<int:turma_id>/<int:problema_id>/', views.salvar_comentario, name='salvar_comentario'),
     path('comentario/deletar/<int:comment_id>/', views.deletar_comentario, name='deletar_comentario'),
     path("llm/group-comment/", llm_group_comment, name="llm_group_comment"),
-    path("llm/evaluation/", views.fake_llm_evaluation, name="fake_llm_evaluation"),
+    path("llm/evaluation/", views.salvar_avaliacao_llm, name="salvar_avaliacao_llm"),
 ]

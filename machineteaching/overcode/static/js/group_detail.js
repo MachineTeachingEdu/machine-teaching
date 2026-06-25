@@ -599,12 +599,19 @@ function saveFinalLLM(id, isGroup){
 
         headers: {
             "Content-Type": "application/x-www-form-urlencoded",
+            "X-Requested-With": "XMLHttpRequest",
             "X-CSRFToken": getCookie("csrftoken")
         },
 
         body: new URLSearchParams(bodyData)
     })
-    .then(() => {
+    .then(async (res) => {
+
+        const data = await res.json()
+
+        if(!res.ok || !data.success){
+            throw new Error(data.error || "Erro ao salvar comentário")
+        }
 
         const outputEl =
             document.getElementById("llm-output-" + id)
@@ -626,11 +633,22 @@ function saveFinalLLM(id, isGroup){
                 ${renderEvaluationForm(id)}
 
                 <div class="llm-actions-overcode">
-                    <button type="button" class="primary action-button-overcode" onclick="finishEvaluation(${id}, true)">
+                    <button type="button" class="primary action-button-overcode" onclick="finishEvaluation(${id}, ${isGroup}, ${data.comment_id})">
                         Finalizar formulário
                     </button>
                 </div>
 
+            </div>
+        `
+    })
+    .catch(err => {
+
+        const outputEl =
+            document.getElementById("llm-output-" + id)
+
+        outputEl.innerHTML = `
+            <div class="card">
+                <p>Erro: ${err.message}</p>
             </div>
         `
     })
@@ -706,7 +724,7 @@ function evaluationQuestion(id, field, label){
     `
 }
 
-function finishEvaluation(id, isGroup = false){
+function finishEvaluation(id, isGroup = false, commentId = null){
 
     const fields = [
         "helpful",
@@ -717,7 +735,13 @@ function finishEvaluation(id, isGroup = false){
     ]
 
     let payload = {
-        user_id: id
+        comment_id: commentId
+    }
+
+    if(isGroup){
+        payload.group_id = id
+    }else{
+        payload.user_id = id
     }
 
     for(let field of fields){
@@ -750,10 +774,34 @@ function finishEvaluation(id, isGroup = false){
 
         body: JSON.stringify(payload)
     })
-    .then(() => {
+    .then(async (res) => {
+
+        const data = await res.json()
+
+        if(!res.ok || !data.success){
+            throw new Error(data.error || "Erro ao salvar avaliação")
+        }
 
         saveCurrentView()
 
+        if(!isGroup){
+            const targetUrl =
+                window.location.pathname +
+                window.location.search +
+                "#solution-" + id
+
+            if(window.location.href.endsWith("#solution-" + id)){
+                location.reload()
+            }else{
+                window.location.href = targetUrl
+            }
+
+            return
+        }
+
         location.reload()
+    })
+    .catch(err => {
+        alert(err.message)
     })
 }

@@ -16,7 +16,12 @@ from collections import defaultdict
 from .tasks import iniciar_processamento_overcode
 
 from questions.models import (Professor, UserLogView)
-from .models import (GroupComment, IgnoredSolution, SolutionGroup)
+from .models import (
+    GroupComment,
+    IgnoredSolution,
+    LLMCommentEvaluation,
+    SolutionGroup,
+)
 from .forms import (EscolhaTurmaProblemaForm)
 
 
@@ -248,7 +253,13 @@ def salvar_comentario(request, turma_id, problema_id):
         if user_id:
             data["user_id"] = int(user_id)
 
-        GroupComment.objects.create(**data)
+        comment = GroupComment.objects.create(**data)
+
+        if request.headers.get("x-requested-with") == "XMLHttpRequest":
+            return JsonResponse({
+                "success": True,
+                "comment_id": comment.id,
+            })
 
         # se veio de um group
         if group_id:
@@ -318,16 +329,90 @@ def deletar_comentario(request, comment_id):
 
 @professor_required
 @require_POST
-def fake_llm_evaluation(request):
+def salvar_avaliacao_llm(request):
 
     data = json.loads(request.body)
+    professor = Professor.objects.get(user=request.user, active=True)
+    comment_id = data.get("comment_id")
 
-    print("\n===== RESPOSTA FORM =====")
-    print(data)
-    print("=========================\n")
+    if not comment_id:
+        return JsonResponse({
+            "success": False,
+            "error": "comment_id is required",
+        }, status=400)
+
+    comment = get_object_or_404(
+        GroupComment.objects.select_related(
+            "group",
+            "user__userprofile",
+        ),
+        id=comment_id,
+        source=GroupComment.SOURCE_AI,
+    )
+
+    if comment.group:
+        turma_id = comment.group.turma_id
+        turma = comment.group.turma
+    elif comment.user_id:
+        turma_id = comment.user.userprofile.user_class_id
+        turma = comment.user.userprofile.user_class
+    else:
+        return JsonResponse({
+            "success": False,
+            "error": "Unable to determine comment class",
+        }, status=400)
+
+    if comment.group and comment.user_id:
+        target_type = LLMCommentEvaluation.TARGET_INDIVIDUAL
+    elif comment.group:
+        target_type = LLMCommentEvaluation.TARGET_REPRESENTATIVE
+    else:
+        target_type = LLMCommentEvaluation.TARGET_IGNORED
+
+    if not professor.prof_class.filter(id=turma_id).exists():
+        raise PermissionDenied
+
+    required_fields = [
+        "helpful",
+        "correct",
+        "improve",
+        "understand",
+        "contains_code",
+    ]
+
+    missing_fields = [
+        field
+        for field in required_fields
+        if field not in data or not isinstance(data[field], bool)
+    ]
+
+    if missing_fields:
+        return JsonResponse({
+            "success": False,
+            "error": "Invalid evaluation fields",
+            "fields": missing_fields,
+        }, status=400)
+
+    evaluation, _created = LLMCommentEvaluation.objects.update_or_create(
+        comment=comment,
+        defaults={
+            "professor": professor,
+            "problem": comment.problem,
+            "turma": turma,
+            "group": comment.group,
+            "user": comment.user,
+            "target_type": target_type,
+            "helpful": data["helpful"],
+            "correct": data["correct"],
+            "improve": data["improve"],
+            "understand": data["understand"],
+            "contains_code": data["contains_code"],
+        },
+    )
 
     return JsonResponse({
-        "success": True
+        "success": True,
+        "evaluation_id": evaluation.id,
     })
 
 from .services.llm_service import generate_group_comment, generate_student_comment
