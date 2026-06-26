@@ -291,8 +291,13 @@ class OverCodeInterfaceTests(StaticLiveServerTestCase):
         page.locator(f'input[name="improve-{group.id}"][value="true"]').check()
         page.locator(f'input[name="understand-{group.id}"][value="false"]').check()
         page.locator(f'input[name="contains_code-{group.id}"][value="false"]').check()
-        page.click("text=Finalizar formulário")
-        page.wait_for_load_state("networkidle")
+        with page.expect_response(
+            lambda response: (
+                "llm/evaluation/" in response.url
+                and response.status == 200
+            )
+        ):
+            page.click("text=Finalizar formulário")
 
         self.assertTrue(
             LLMCommentEvaluation.objects.filter(
