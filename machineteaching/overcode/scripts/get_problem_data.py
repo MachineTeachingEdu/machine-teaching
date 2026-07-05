@@ -29,12 +29,9 @@ def get_problem_data(turma_id, problem_id, problem_dir):
         Problem 123 data already exists.
     """
 
-    # Verify if problem data already exists. Create problem directory if it does not exist.
-    if os.path.exists(problem_dir):
-        print(f"Problem {problem_id} data already exists.")
-        return
-    else:
-        os.makedirs(problem_dir)
+    # A previous processing attempt may have left this directory incomplete.
+    # Rebuild the input files whenever the pipeline has no output yet.
+    os.makedirs(problem_dir, exist_ok=True)
 
     # Get problem solutions
     get_solutions(turma_id, problem_id, problem_dir)

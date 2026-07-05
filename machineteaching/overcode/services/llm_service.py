@@ -1,11 +1,14 @@
+import os
+
 import requests
 
-OLLAMA_URL = "http://localhost:11434/api/generate"
+OLLAMA_URL = os.getenv("OLLAMA_URL", "http://localhost:11434/api/generate")
+OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "llama3")
 
 
 def _generate_comment(prompt: str) -> str:
     payload = {
-        "model": "llama3",
+        "model": OLLAMA_MODEL,
         "prompt": prompt,
         "stream": False,
         "options": {
