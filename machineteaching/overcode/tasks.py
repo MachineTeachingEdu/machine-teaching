@@ -1,6 +1,7 @@
 import os
 import sys
 import json
+import shutil
 import threading
 from pathlib import Path
 
@@ -86,13 +87,31 @@ def iniciar_processamento_overcode(turma_id, problem_id, interface=True):
         # PIPELINE
         # ===============================
 
-        if not os.path.exists(output_dir):
+        required_output_files = (
+            os.path.join(output_dir, "phrases.json"),
+            os.path.join(output_dir, "solutions.json"),
+        )
 
-            if not os.path.exists(data_dir):
-                get_problem_data(turma_id, problem_id, problem_dir)
+        if not all(os.path.isfile(path) for path in required_output_files):
+            # Uma execução interrompida pode deixar um diretório de saída vazio.
+            # Reconstrói os dados de entrada e os dados derivados em vez de considerar esse diretório como um processamento concluído.
+            shutil.rmtree(output_dir, ignore_errors=True)
+            get_problem_data(turma_id, problem_id, problem_dir)
 
-            funcname = get_function_name(os.path.join(data_dir, "answer.py"))
-            run_pipeline(problem_dir, funcname)
+            answer_path = os.path.join(data_dir, "answer.py")
+            funcname = get_function_name(answer_path)
+            if not funcname:
+                raise ValueError(
+                    f"Could not identify a Python function in {answer_path}"
+                )
+
+            run_pipeline(problem_dir, funcname=funcname)
+
+            if not all(os.path.isfile(path) for path in required_output_files):
+                raise RuntimeError(
+                    "OverCode finished without generating phrases.json and "
+                    "solutions.json"
+                )
 
         problem = Problem.objects.get(id=problem_id)
         turma = OnlineClass.objects.get(id=turma_id)

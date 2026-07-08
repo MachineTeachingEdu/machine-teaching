@@ -37,7 +37,11 @@ def get_problem_data(turma_id, problem_id, problem_dir):
     get_solutions(turma_id, problem_id, problem_dir)
 
     # Get problem correct answer and save alongside the students solutions
-    get_answer(problem_id, os.path.join(problem_dir, "data"))
+    get_answer(
+        problem_id,
+        os.path.join(problem_dir, "data"),
+        turma_id=turma_id,
+    )
 
     # Get problem test case
     get_testcase(problem_id, problem_dir)
