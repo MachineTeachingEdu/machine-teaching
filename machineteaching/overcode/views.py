@@ -15,7 +15,7 @@ from collections import defaultdict
 
 from .tasks import iniciar_processamento_overcode
 
-from questions.models import (Professor, UserLogView)
+from questions.models import (Professor, Problem, UserLogView)
 from .models import (
     GroupComment,
     IgnoredSolution,
@@ -417,6 +417,33 @@ def salvar_avaliacao_llm(request):
 
 from .services.llm_service import generate_group_comment, generate_student_comment
 
+
+def _get_llm_problem(data, professor):
+    group_id = data.get("group_id")
+
+    if group_id:
+        group = get_object_or_404(
+            SolutionGroup.objects.select_related("problem", "turma"),
+            id=group_id,
+        )
+
+        if not professor.prof_class.filter(id=group.turma_id).exists():
+            raise PermissionDenied
+
+        return group.problem
+
+    problem_id = data.get("problem_id")
+    turma_id = data.get("turma_id")
+
+    if turma_id and not professor.prof_class.filter(id=turma_id).exists():
+        raise PermissionDenied
+
+    if not problem_id:
+        return None
+
+    return Problem.objects.filter(id=problem_id).first()
+
+
 @csrf_exempt
 @professor_required
 def llm_group_comment(request):
@@ -425,25 +452,39 @@ def llm_group_comment(request):
 
     try:
         data = json.loads(request.body)
+        professor = Professor.objects.get(user=request.user, active=True)
 
         code = data.get("code")
         group_id = data.get("group_id")
         user_id = data.get("user_id")
         ignored = data.get("ignored", False)
+        problem = _get_llm_problem(data, professor)
+        exercise_statement = problem.content if problem else None
 
         if not code:
             return JsonResponse({"error": "missing code"}, status=400)
 
         if user_id:
-            comment = generate_student_comment(code, ignored=ignored)
+            comment = generate_student_comment(
+                code,
+                ignored=ignored,
+                exercise_statement=exercise_statement,
+            )
         else:
-            comment = generate_group_comment(code)
+            comment = generate_group_comment(
+                code,
+                exercise_statement=exercise_statement,
+            )
 
         return JsonResponse({
             "comment": comment,
             "group_id": group_id,
-            "user_id": user_id
+            "user_id": user_id,
+            "problem_id": problem.id if problem else None,
         })
+
+    except PermissionDenied:
+        raise
 
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)

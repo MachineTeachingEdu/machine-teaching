@@ -399,7 +399,9 @@ function generateLLMGroupComment(groupId){
         },
         body: JSON.stringify({
             code: code,
-            group_id: groupId
+            group_id: groupId,
+            problem_id: window.overcodeConfig.problemId,
+            turma_id: window.overcodeConfig.turmaId
         })
     })
     .then(async (res) => {
@@ -496,7 +498,9 @@ function generateLLMForStudent(userId){
         body: JSON.stringify({
             code: code,
             group_id: null,
-            user_id: userId
+            user_id: userId,
+            problem_id: window.overcodeConfig.problemId,
+            turma_id: window.overcodeConfig.turmaId
         })
     })
     .then(async (res) => {
