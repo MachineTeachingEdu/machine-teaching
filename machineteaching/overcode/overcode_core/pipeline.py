@@ -1,5 +1,6 @@
 import cgi
 from collections import Counter
+from decimal import Decimal, InvalidOperation
 import imp
 import json
 from math import log
@@ -64,6 +65,41 @@ def get_name(var_obj):
         return var_obj.maps_to.canon_name
     return var_obj.local_name
 
+def parse_numeric_output(output):
+    lines = output.splitlines()
+    parsed_lines = []
+
+    for line in lines:
+        tokens = line.split()
+
+        if not tokens:
+            parsed_lines.append([])
+            continue
+
+        parsed_tokens = []
+
+        for token in tokens:
+            try:
+                parsed_tokens.append(Decimal(token))
+            except InvalidOperation:
+                return None
+
+        parsed_lines.append(parsed_tokens)
+
+    return parsed_lines
+
+def output_matches(expected, actual):
+    if actual == expected:
+        return True
+
+    expected_numbers = parse_numeric_output(expected)
+    actual_numbers = parse_numeric_output(actual)
+
+    if expected_numbers is None or actual_numbers is None:
+        return False
+
+    return actual_numbers == expected_numbers
+
 def compare_output(ordered_tests, tests_to_actual, tests_to_expected):
     print('tests_to_expected',tests_to_expected)
     print('tests_to_actual', tests_to_actual)
@@ -84,7 +120,7 @@ def compare_output(ordered_tests, tests_to_actual, tests_to_expected):
         for test in ordered_tests:
             actual = tests_to_actual[test]
             expected = tests_to_expected[test]
-            error_vector.append(actual == expected)
+            error_vector.append(output_matches(expected, actual))
 
     return error_vector
 

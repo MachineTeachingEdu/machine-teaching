@@ -230,7 +230,9 @@ function generateLLMForStudent(userId){
             code: code,
             group_id: null,
             user_id: userId,
-            ignored: true
+            ignored: true,
+            problem_id: window.overcodeConfig.problemId,
+            turma_id: window.overcodeConfig.turmaId
         })
     })
     .then(async (res) => {

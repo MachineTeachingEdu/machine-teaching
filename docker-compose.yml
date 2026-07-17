@@ -3,11 +3,13 @@ services:
     image: postgres:15.10
     env_file: ./machine-teaching-db/.env
     volumes:
+      - postgres_data:/var/lib/postgresql/data
       - ./machine-teaching-db/data/dump.sql:/docker-entrypoint-initdb.d/create_tables.sql
     ports:
       - 5435:5432
   web:
     build: .
+    working_dir: /app/machineteaching
     volumes:
       - ./machineteaching:/app/machineteaching
     ports:
@@ -15,6 +17,7 @@ services:
     env_file: ./machineteaching/.env
     depends_on:
       - machine_teaching_db
+      - ollama
   worker_node:
     build:
       context: ./worker-node/worker_node
@@ -23,3 +26,13 @@ services:
     depends_on:
       - web
       - machine_teaching_db
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - 11434:11434
+    volumes:
+      - ollama_data:/root/.ollama
+
+volumes:
+  ollama_data:
+  postgres_data:

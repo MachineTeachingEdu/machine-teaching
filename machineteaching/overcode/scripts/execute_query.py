@@ -1,6 +1,26 @@
-import json
-import psycopg2
 import os
+
+import psycopg2
+
+
+def _database_config():
+    """Build a psycopg2 connection config from the Django DB environment."""
+    config = {
+        "host": os.getenv("DB_HOST"),
+        "dbname": os.getenv("DB_NAME"),
+        "user": os.getenv("DB_USER"),
+        "password": os.getenv("DB_PASSWORD"),
+        "port": os.getenv("DB_PORT", "5432"),
+    }
+
+    missing = [name for name, value in config.items() if not value]
+    if missing:
+        raise RuntimeError(
+            "Missing database configuration: " + ", ".join(missing)
+        )
+
+    return config
+
 
 def execute_query(query, params=None):
     """
@@ -13,14 +33,7 @@ def execute_query(query, params=None):
     Returns:
         The result of the query execution.
     """
-    db_params_path = os.path.join(os.path.dirname(__file__), "db_params.json")
-    with open(db_params_path, "r") as f:
-        db_params = json.load(f)
-
-    # Override the database parameters with environment variables if they exist.
-    db_params["host"] = os.environ.get("DB_HOST", db_params["host"])
-
-    with psycopg2.connect(**db_params) as connection:
+    with psycopg2.connect(**_database_config()) as connection:
         with connection.cursor() as cursor:
             cursor.execute(query, params)
             result = cursor.fetchall()

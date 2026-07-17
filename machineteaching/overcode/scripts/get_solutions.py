@@ -41,7 +41,7 @@ def create_solutions(data, dst_dir=""):
 
 def get_solutions(turma_id, problem_id, dst_dir=""):
     """
-    Retrieve the most recent solutions for a given problem ID from the database and generate Python files.
+    Retrieve one solution per user for a given problem ID from the database and generate Python files.
 
     Args:
         problem_id (int): The ID of the problem for which solutions are requested.
@@ -57,18 +57,28 @@ def get_solutions(turma_id, problem_id, dst_dir=""):
     Notes:
         - The 'db_params.json' file should contain the necessary parameters for the PostgreSQL connection.
         - The 'questions_userlog' table in the database should store the user-submitted solutions along with timestamps.
-        - The function retrieves the most recent solution for each user by ordering submissions based on timestamps.
+        - The function retrieves one solution for each user by prioritizing passed submissions.
+        - If a user has no passed submission, the function keeps that user's most recent failed submission.
 
     Example:
         >>> get_solutions(123, dst_dir="/path/to/directory")
         Python files for each solution saved to '/path/to/directory/data'
     """
 
-    # Query solutions and user IDs, getting only the most recent solution for each user
+    # Query solutions and user IDs, prioritizing a correct solution for each user.
     query = f"""SELECT solution, user_id
                 FROM (
                     SELECT solution, user_id,
-                        ROW_NUMBER() OVER (PARTITION BY user_id ORDER BY timestamp DESC) AS rn
+                        ROW_NUMBER() OVER (
+                            PARTITION BY user_id
+                            ORDER BY
+                                CASE
+                                    WHEN outcome = 'P' THEN 1
+                                    WHEN outcome = 'F' THEN 2
+                                    ELSE 3
+                                END,
+                                timestamp DESC
+                        ) AS rn
                     FROM questions_userlog
                     WHERE problem_id = {problem_id} AND user_class_id = {turma_id}
                 ) AS submissions

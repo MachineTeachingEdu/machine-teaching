@@ -12,6 +12,91 @@ let currentSolutionIndex = null
 
 let llm_state = {}
 
+function solutionHash(id){
+    return "#solution-" + id
+}
+
+function updateUrlHash(hash){
+    if(window.location.hash === hash){
+        return
+    }
+
+    window.history.replaceState(
+        null,
+        "",
+        window.location.pathname + window.location.search + hash
+    )
+}
+
+function clearSolutionHash(){
+    if(!window.location.hash.match(/^#solution-\d+$/)){
+        return
+    }
+
+    window.history.replaceState(
+        null,
+        "",
+        window.location.pathname + window.location.search
+    )
+}
+
+function clearSelectedSolutionState(){
+    currentSolutionIndex = null
+
+    sessionStorage.removeItem(
+        "active_solution"
+    )
+
+    clearSolutionHash()
+}
+
+function setRepresentativeState(){
+    sessionStorage.setItem(
+        "active_group",
+        window.overcodeConfig?.groupId || ""
+    )
+
+    sessionStorage.setItem(
+        "active_tab",
+        "representative"
+    )
+
+    clearSelectedSolutionState()
+}
+
+function setSolutionsListState(){
+    sessionStorage.setItem(
+        "active_group",
+        window.overcodeConfig?.groupId || ""
+    )
+
+    sessionStorage.setItem(
+        "active_tab",
+        "solutions"
+    )
+
+    clearSelectedSolutionState()
+}
+
+function setSolutionState(id){
+    sessionStorage.setItem(
+        "active_group",
+        window.overcodeConfig?.groupId || ""
+    )
+
+    sessionStorage.setItem(
+        "active_tab",
+        "solutions"
+    )
+
+    sessionStorage.setItem(
+        "active_solution",
+        id
+    )
+
+    updateUrlHash(solutionHash(id))
+}
+
 function escapeHtml(text){
     return (text || "")
         .replace(/&/g, "&amp;")
@@ -109,11 +194,6 @@ function saveCurrentView(){
 
     if(isSolutionsVisible){
 
-        sessionStorage.setItem(
-            "active_tab",
-            "solutions"
-        )
-
         if(currentSolutionIndex !== null){
 
             const currentId =
@@ -122,24 +202,16 @@ function saveCurrentView(){
                 ?.replace("solution-", "")
 
             if(currentId){
-
-                sessionStorage.setItem(
-                    "active_solution",
-                    currentId
-                )
+                setSolutionState(currentId)
+                return
             }
         }
 
+        setSolutionsListState()
+        return
     }else{
 
-        sessionStorage.setItem(
-            "active_tab",
-            "representative"
-        )
-
-        sessionStorage.removeItem(
-            "active_solution"
-        )
+        setRepresentativeState()
     }
 }
 
@@ -220,6 +292,8 @@ function showSolution(id){
         solutions.findIndex(
             el => el.id === "solution-" + id
         )
+
+    setSolutionState(id)
 }
 
 function nextSolution(){
@@ -240,14 +314,7 @@ solutions[currentSolutionIndex].style.display="block"
 
 function backToStudents(){
 
-    sessionStorage.setItem(
-        "active_tab",
-        "solutions"
-    )
-
-    sessionStorage.removeItem(
-        "active_solution"
-    )
+    setSolutionsListState()
 
     hideAll(solutions)
 
@@ -279,15 +346,7 @@ function openTab(tab){
         .style.display = "block"
 
     if(tab === "solutions"){
-        sessionStorage.setItem(
-            "active_group",
-            window.overcodeConfig?.groupId || ""
-        )
-
-        sessionStorage.setItem(
-            "active_tab",
-            "solutions"
-        )
+        setSolutionsListState()
 
         document.getElementById(
             "student-section"
@@ -295,14 +354,7 @@ function openTab(tab){
 
         hideAll(solutions)
     }else{
-        sessionStorage.setItem(
-            "active_tab",
-            "representative"
-        )
-
-        sessionStorage.removeItem(
-            "active_solution"
-        )
+        setRepresentativeState()
     }
 }
 
@@ -327,7 +379,7 @@ window.onload = function(){
 
 function generateLLMGroupComment(groupId){
 
-    saveCurrentView()
+    setRepresentativeState()
 
     const loadingEl = document.getElementById("llm-loading-" + groupId)
     const outputEl = document.getElementById("llm-output-" + groupId)
@@ -347,7 +399,9 @@ function generateLLMGroupComment(groupId){
         },
         body: JSON.stringify({
             code: code,
-            group_id: groupId
+            group_id: groupId,
+            problem_id: window.overcodeConfig.problemId,
+            turma_id: window.overcodeConfig.turmaId
         })
     })
     .then(async (res) => {
@@ -421,7 +475,7 @@ function generateLLMGroupComment(groupId){
 
 function generateLLMForStudent(userId){
 
-    saveCurrentView()
+    setSolutionState(userId)
 
     const loadingEl = document.getElementById("llm-loading-" + userId)
     const outputEl = document.getElementById("llm-output-" + userId)
@@ -444,7 +498,9 @@ function generateLLMForStudent(userId){
         body: JSON.stringify({
             code: code,
             group_id: null,
-            user_id: userId
+            user_id: userId,
+            problem_id: window.overcodeConfig.problemId,
+            turma_id: window.overcodeConfig.turmaId
         })
     })
     .then(async (res) => {
@@ -536,6 +592,12 @@ function getCookie(name){
 
 function acceptLLM(id, isGroup){
 
+    if(isGroup){
+        setRepresentativeState()
+    }else{
+        setSolutionState(id)
+    }
+
     const state = llm_state[id]
 
     if(!state) return
@@ -574,6 +636,12 @@ function rejectLLM(id){
 }
 
 function saveFinalLLM(id, isGroup){
+
+    if(isGroup){
+        setRepresentativeState()
+    }else{
+        setSolutionState(id)
+    }
 
     const textarea =
         document.getElementById("llm-edit-" + id)
@@ -633,7 +701,7 @@ function saveFinalLLM(id, isGroup){
                 ${renderEvaluationForm(id)}
 
                 <div class="llm-actions-overcode">
-                    <button type="button" class="primary action-button-overcode" onclick="finishEvaluation(${id}, ${isGroup}, ${data.comment_id})">
+                    <button type="button" class="primary action-button-overcode" onclick="finishEvaluation(${id}, ${isGroup}, ${data.comment_id}, this)">
                         Finalizar formulário
                     </button>
                 </div>
@@ -724,7 +792,7 @@ function evaluationQuestion(id, field, label){
     `
 }
 
-function finishEvaluation(id, isGroup = false, commentId = null){
+function finishEvaluation(id, isGroup = false, commentId = null, button = null){
 
     const fields = [
         "helpful",
@@ -763,6 +831,12 @@ function finishEvaluation(id, isGroup = false, commentId = null){
             checked.value === "true"
     }
 
+    if(button){
+        button.disabled = true
+        button.dataset.originalText = button.textContent
+        button.textContent = "Salvando avaliação..."
+    }
+
     fetch(window.overcodeConfig.llmEvaluationUrl, {
 
         method: "POST",
@@ -782,26 +856,25 @@ function finishEvaluation(id, isGroup = false, commentId = null){
             throw new Error(data.error || "Erro ao salvar avaliação")
         }
 
-        saveCurrentView()
-
         if(!isGroup){
-            const targetUrl =
-                window.location.pathname +
-                window.location.search +
-                "#solution-" + id
+            setSolutionState(id)
 
-            if(window.location.href.endsWith("#solution-" + id)){
-                location.reload()
-            }else{
-                window.location.href = targetUrl
-            }
+            window.location.hash = solutionHash(id)
+            location.reload()
 
             return
         }
 
+        setRepresentativeState()
         location.reload()
     })
     .catch(err => {
+        if(button){
+            button.disabled = false
+            button.textContent =
+                button.dataset.originalText || "Finalizar formulário"
+        }
+
         alert(err.message)
     })
 }

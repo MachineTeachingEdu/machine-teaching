@@ -137,6 +137,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
 <script>
     window.overcodeConfig = {
+        problemId: "{{ problem_id }}",
+        turmaId: "{{ turma_id }}",
         commentUrl: "{% url 'overcode:salvar_comentario' turma_id problem_id %}",
         llmGroupCommentUrl: "{% url 'overcode:llm_group_comment' %}",
         llmEvaluationUrl: "{% url 'overcode:salvar_avaliacao_llm' %}"

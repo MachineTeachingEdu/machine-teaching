@@ -22,6 +22,7 @@ RUN pip3 install Cython
 ADD requirements.txt .
 
 RUN pip install -r requirements.txt
+RUN python -m playwright install --with-deps chromium
 
 COPY machineteaching .
 
