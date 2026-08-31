@@ -9,13 +9,13 @@ from django.views.decorators.http import require_POST
 
 from django.shortcuts import (render, redirect, get_object_or_404,)
 
-from django.http import JsonResponse
+from django.http import JsonResponse, StreamingHttpResponse
 
 from collections import defaultdict
 
 from .tasks import iniciar_processamento_overcode
 
-from questions.models import (Professor, Problem, UserLogView)
+from questions.models import (Professor, Problem, UserLog, UserLogView)
 from .models import (
     GroupComment,
     IgnoredSolution,
@@ -234,6 +234,11 @@ def salvar_comentario(request, turma_id, problema_id):
         professor = Professor.objects.get(user=request.user, active=True)
 
         if not content:
+            if request.headers.get("x-requested-with") == "XMLHttpRequest":
+                return JsonResponse({
+                    "success": False,
+                    "error": "content is required",
+                }, status=400)
             return redirect(request.META.get("HTTP_REFERER", "/"))
 
         data = {
@@ -331,7 +336,14 @@ def deletar_comentario(request, comment_id):
 @require_POST
 def salvar_avaliacao_llm(request):
 
-    data = json.loads(request.body)
+    try:
+        data = json.loads(request.body or "{}")
+    except json.JSONDecodeError:
+        return JsonResponse({
+            "success": False,
+            "error": "Invalid JSON",
+        }, status=400)
+
     professor = Professor.objects.get(user=request.user, active=True)
     comment_id = data.get("comment_id")
 
@@ -341,36 +353,109 @@ def salvar_avaliacao_llm(request):
             "error": "comment_id is required",
         }, status=400)
 
-    comment = get_object_or_404(
-        GroupComment.objects.select_related(
-            "group",
-            "user__userprofile",
-        ),
+    comment = GroupComment.objects.select_related(
+        "group",
+        "group__turma",
+        "user__userprofile",
+    ).filter(
         id=comment_id,
         source=GroupComment.SOURCE_AI,
-    )
+    ).first()
+
+    if comment is None:
+        return JsonResponse({
+            "success": False,
+            "error": "AI comment not found",
+        }, status=404)
+
+    payload_problem_id = data.get("problem_id")
+    if payload_problem_id not in (None, ""):
+        try:
+            payload_problem_id = int(payload_problem_id)
+        except (TypeError, ValueError):
+            return JsonResponse({
+                "success": False,
+                "error": "Invalid problem_id",
+            }, status=400)
+
+        if payload_problem_id != comment.problem_id:
+            return JsonResponse({
+                "success": False,
+                "error": "Evaluation problem does not match comment",
+            }, status=400)
+
+    payload_turma = None
+    payload_turma_id = data.get("turma_id")
+    if payload_turma_id not in (None, ""):
+        try:
+            payload_turma_id = int(payload_turma_id)
+        except (TypeError, ValueError):
+            return JsonResponse({
+                "success": False,
+                "error": "Invalid turma_id",
+            }, status=400)
+
+        payload_turma = professor.prof_class.filter(id=payload_turma_id).first()
+        if payload_turma is None:
+            return JsonResponse({
+                "success": False,
+                "error": "Permission denied",
+            }, status=403)
 
     if comment.group:
         turma_id = comment.group.turma_id
         turma = comment.group.turma
+
+        if payload_turma and payload_turma.id != turma_id:
+            return JsonResponse({
+                "success": False,
+                "error": "Evaluation class does not match comment",
+            }, status=400)
+
     elif comment.user_id:
-        turma_id = comment.user.userprofile.user_class_id
-        turma = comment.user.userprofile.user_class
+        turma = payload_turma
+
+        if turma and not UserLogView.objects.filter(
+            user_id=comment.user_id,
+            problem_id=comment.problem_id,
+            user_class_id=turma.id,
+        ).exists():
+            return JsonResponse({
+                "success": False,
+                "error": "Comment user does not belong to evaluation class",
+            }, status=400)
+
+        if turma is None:
+            userprofile = getattr(comment.user, "userprofile", None)
+            turma = getattr(userprofile, "user_class", None)
+
+        if turma is None:
+            return JsonResponse({
+                "success": False,
+                "error": "Unable to determine comment class",
+            }, status=400)
+
+        turma_id = turma.id
+
     else:
         return JsonResponse({
             "success": False,
             "error": "Unable to determine comment class",
         }, status=400)
 
-    if comment.group and comment.user_id:
-        target_type = LLMCommentEvaluation.TARGET_INDIVIDUAL
-    elif comment.group:
-        target_type = LLMCommentEvaluation.TARGET_REPRESENTATIVE
-    else:
-        target_type = LLMCommentEvaluation.TARGET_IGNORED
-
     if not professor.prof_class.filter(id=turma_id).exists():
-        raise PermissionDenied
+        return JsonResponse({
+            "success": False,
+            "error": "Permission denied",
+        }, status=403)
+
+    target_type = (
+        LLMCommentEvaluation.TARGET_INDIVIDUAL
+        if comment.group and comment.user_id
+        else LLMCommentEvaluation.TARGET_REPRESENTATIVE
+        if comment.group
+        else LLMCommentEvaluation.TARGET_IGNORED
+    )
 
     required_fields = [
         "helpful",
@@ -415,21 +500,35 @@ def salvar_avaliacao_llm(request):
         "evaluation_id": evaluation.id,
     })
 
-from .services.llm_service import generate_group_comment, generate_student_comment
+from .services.llm_service import (
+    generate_group_comment,
+    generate_group_comment_events,
+    generate_student_comment,
+    generate_student_comment_events,
+)
+
+
+def _get_llm_group(data, professor):
+    group_id = data.get("group_id")
+
+    if not group_id:
+        return None
+
+    group = get_object_or_404(
+        SolutionGroup.objects.select_related("problem", "turma"),
+        id=group_id,
+    )
+
+    if not professor.prof_class.filter(id=group.turma_id).exists():
+        raise PermissionDenied
+
+    return group
 
 
 def _get_llm_problem(data, professor):
-    group_id = data.get("group_id")
+    group = _get_llm_group(data, professor)
 
-    if group_id:
-        group = get_object_or_404(
-            SolutionGroup.objects.select_related("problem", "turma"),
-            id=group_id,
-        )
-
-        if not professor.prof_class.filter(id=group.turma_id).exists():
-            raise PermissionDenied
-
+    if group:
         return group.problem
 
     problem_id = data.get("problem_id")
@@ -442,6 +541,58 @@ def _get_llm_problem(data, professor):
         return None
 
     return Problem.objects.filter(id=problem_id).first()
+
+
+def _group_correction_evidence(group):
+    if group is None:
+        return None
+
+    status = "passou" if group.correct else "não passou"
+    return (
+        f"O grupo representativo {status} nas verificações automáticas "
+        "registradas pelo OverCode."
+    )
+
+
+def _student_correction_evidence(user_id, problem_id, turma_id):
+    if not user_id or not problem_id:
+        return None
+
+    log = UserLog.objects.filter(
+        user_id=user_id,
+        problem_id=problem_id,
+        user_class_id=turma_id,
+    ).order_by("-timestamp").first()
+
+    if log is None:
+        return None
+
+    outcome_labels = {
+        "P": "passou",
+        "F": "não passou",
+        "S": "foi pulada",
+    }
+    status = outcome_labels.get(log.outcome, "tem resultado desconhecido")
+    evidence = [
+        f"A última submissão do aluno {status} nas verificações automáticas."
+    ]
+
+    if log.test_case_hits is not None:
+        evidence.append(
+            f"Percentual de verificações atendidas: {log.test_case_hits}%."
+        )
+
+    return " ".join(evidence)
+
+
+def _wants_llm_stream(request, data):
+    accept_header = request.headers.get("accept", "")
+    return data.get("stream") is True or "application/x-ndjson" in accept_header
+
+
+def _stream_llm_events(events):
+    for event in events:
+        yield json.dumps(event, ensure_ascii=False).encode("utf-8") + b"\n"
 
 
 @csrf_exempt
@@ -458,22 +609,58 @@ def llm_group_comment(request):
         group_id = data.get("group_id")
         user_id = data.get("user_id")
         ignored = data.get("ignored", False)
-        problem = _get_llm_problem(data, professor)
+        group = _get_llm_group(data, professor)
+        problem = group.problem if group else _get_llm_problem(data, professor)
         exercise_statement = problem.content if problem else None
 
         if not code:
             return JsonResponse({"error": "missing code"}, status=400)
 
         if user_id:
+            correction_evidence = _student_correction_evidence(
+                user_id,
+                problem.id if problem else None,
+                data.get("turma_id"),
+            )
+            if _wants_llm_stream(request, data):
+                response = StreamingHttpResponse(
+                    _stream_llm_events(generate_student_comment_events(
+                        code,
+                        ignored=ignored,
+                        exercise_statement=exercise_statement,
+                        correction_evidence=correction_evidence,
+                    )),
+                    content_type="application/x-ndjson; charset=utf-8",
+                )
+                response["Cache-Control"] = "no-cache"
+                response["X-Accel-Buffering"] = "no"
+                return response
+
             comment = generate_student_comment(
                 code,
                 ignored=ignored,
                 exercise_statement=exercise_statement,
+                correction_evidence=correction_evidence,
             )
         else:
+            correction_evidence = _group_correction_evidence(group)
+            if _wants_llm_stream(request, data):
+                response = StreamingHttpResponse(
+                    _stream_llm_events(generate_group_comment_events(
+                        code,
+                        exercise_statement=exercise_statement,
+                        correction_evidence=correction_evidence,
+                    )),
+                    content_type="application/x-ndjson; charset=utf-8",
+                )
+                response["Cache-Control"] = "no-cache"
+                response["X-Accel-Buffering"] = "no"
+                return response
+
             comment = generate_group_comment(
                 code,
                 exercise_statement=exercise_statement,
+                correction_evidence=correction_evidence,
             )
 
         return JsonResponse({
