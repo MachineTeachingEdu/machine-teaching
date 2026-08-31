@@ -377,6 +377,203 @@ window.onload = function(){
     openTab("representative")
 }
 
+function renderLLMGenerationShell(id, outputEl){
+    outputEl.innerHTML = `
+        <div class="card llm-card-overcode">
+            <p>
+                <strong>
+                    Comentário sugerido pela IA:
+                </strong>
+            </p>
+
+            <div id="llm-stream-${id}" class="llm-markdown-overcode">
+                ${markdownToHtml("Gerando comentário...")}
+            </div>
+        </div>
+    `
+}
+
+function updateLLMGeneratedMarkdown(id, comment){
+    const markdownEl =
+        document.getElementById("llm-stream-" + id)
+
+    if(markdownEl){
+        markdownEl.innerHTML = markdownToHtml(comment || "Gerando comentário...")
+    }
+}
+
+function renderLLMGeneratedComment(id, isGroup, outputEl, comment){
+    llm_state[id] = {
+        comment: comment
+    }
+
+    const commentHtml = markdownToHtml(comment)
+
+    outputEl.innerHTML = `
+        <div class="card llm-card-overcode">
+
+            <p>
+                <strong>
+                    Comentário sugerido pela IA:
+                </strong>
+            </p>
+
+            <div class="llm-markdown-overcode">${commentHtml}</div>
+
+            <div class="llm-actions-overcode">
+                <button type="button" class="primary action-button-overcode" onclick="acceptLLM(${id}, ${isGroup})">
+                    Usar comentário
+                </button>
+
+                <button type="button" class="secondary-button-overcode" onclick="rejectLLM(${id})">
+                    Não usar
+                </button>
+            </div>
+
+        </div>
+    `
+}
+
+function renderLLMGenerationError(outputEl, message){
+    outputEl.innerHTML = `
+        <div class="card">
+            <p>Erro: ${escapeHtml(message)}</p>
+        </div>
+    `
+}
+
+function handleLLMStreamEvent(event, id, isGroup, outputEl, state){
+    if(event.type === "token"){
+        state.comment += event.text || ""
+        updateLLMGeneratedMarkdown(id, state.comment)
+        return
+    }
+
+    if(event.type === "replace"){
+        state.comment = event.text || ""
+        updateLLMGeneratedMarkdown(id, state.comment)
+        return
+    }
+
+    if(event.type === "done"){
+        const finalComment =
+            event.comment || state.comment || "Sem resposta da IA"
+
+        state.finished = true
+        renderLLMGeneratedComment(id, isGroup, outputEl, finalComment)
+        return
+    }
+
+    if(event.type === "error"){
+        throw new Error(event.error || "Erro na geração do comentário")
+    }
+}
+
+async function readLLMStream(response, id, isGroup, outputEl, state){
+    const reader = response.body.getReader()
+    const decoder = new TextDecoder()
+    let buffer = ""
+
+    while(true){
+        const result = await reader.read()
+
+        if(result.done){
+            break
+        }
+
+        buffer += decoder.decode(result.value, {stream: true})
+        const lines = buffer.split("\n")
+        buffer = lines.pop()
+
+        for(const line of lines){
+            if(!line.trim()){
+                continue
+            }
+
+            handleLLMStreamEvent(
+                JSON.parse(line),
+                id,
+                isGroup,
+                outputEl,
+                state
+            )
+        }
+    }
+
+    buffer += decoder.decode()
+
+    if(buffer.trim()){
+        handleLLMStreamEvent(
+            JSON.parse(buffer),
+            id,
+            isGroup,
+            outputEl,
+            state
+        )
+    }
+}
+
+async function streamLLMComment(id, isGroup, loadingEl, outputEl, bodyData){
+    if(loadingEl) loadingEl.style.display = "block"
+    if(outputEl) renderLLMGenerationShell(id, outputEl)
+
+    const state = {
+        comment: "",
+        finished: false
+    }
+
+    try{
+        const res = await fetch(window.overcodeConfig.llmGroupCommentUrl, {
+            method: "POST",
+            headers: {
+                "Accept": "application/x-ndjson",
+                "Content-Type": "application/json",
+                "X-CSRFToken": getCookie("csrftoken")
+            },
+            body: JSON.stringify({
+                ...bodyData,
+                stream: true
+            })
+        })
+
+        if(!res.ok){
+            const text = await res.text()
+            let data = {}
+
+            try{
+                data = JSON.parse(text)
+            }catch(e){
+                throw new Error(text || "Erro na API")
+            }
+
+            throw new Error(data.error || "Erro na API")
+        }
+
+        const contentType = res.headers.get("content-type") || ""
+
+        if(!res.body || !contentType.includes("application/x-ndjson")){
+            const data = await res.json()
+            renderLLMGeneratedComment(
+                id,
+                isGroup,
+                outputEl,
+                data?.comment || "Sem resposta da IA"
+            )
+            return
+        }
+
+        await readLLMStream(res, id, isGroup, outputEl, state)
+
+        if(!state.finished){
+            throw new Error("Resposta incompleta da IA")
+        }
+    }catch(err){
+        renderLLMGenerationError(outputEl, err.message)
+    }finally{
+        if(loadingEl) loadingEl.style.display = "none"
+    }
+}
+
 function generateLLMGroupComment(groupId){
 
     setRepresentativeState()
@@ -384,93 +581,22 @@ function generateLLMGroupComment(groupId){
     const loadingEl = document.getElementById("llm-loading-" + groupId)
     const outputEl = document.getElementById("llm-output-" + groupId)
 
-    if (loadingEl) loadingEl.style.display = "block"
-    if (outputEl) outputEl.innerHTML = ""
-
     const code =
         document.querySelector("#representative .code-block-overcode pre")
         ?.innerText || ""
 
-    fetch(window.overcodeConfig.llmGroupCommentUrl, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": getCookie("csrftoken")
-        },
-        body: JSON.stringify({
+    streamLLMComment(
+        groupId,
+        true,
+        loadingEl,
+        outputEl,
+        {
             code: code,
             group_id: groupId,
             problem_id: window.overcodeConfig.problemId,
             turma_id: window.overcodeConfig.turmaId
-        })
-    })
-    .then(async (res) => {
-
-        const text = await res.text()
-
-        let data
-
-        try{
-            data = JSON.parse(text)
-        }catch(e){
-            throw new Error("Resposta inválida do servidor")
         }
-
-        if(!res.ok){
-            throw new Error(data.error || "Erro na API")
-        }
-
-        return data
-    })
-    .then(data => {
-
-        if (loadingEl)
-            loadingEl.style.display = "none"
-
-        const comment =
-            data?.comment || "Sem resposta da IA"
-
-        llm_state[groupId] = {
-            comment: comment
-        }
-
-        const commentHtml = markdownToHtml(comment)
-
-        outputEl.innerHTML = `
-            <div class="card llm-card-overcode">
-
-                <p>
-                    <strong>
-                        Comentário sugerido pela IA:
-                    </strong>
-                </p>
-
-                <div class="llm-markdown-overcode">${commentHtml}</div>
-
-                <div class="llm-actions-overcode">
-                    <button type="button" class="primary action-button-overcode" onclick="acceptLLM(${groupId}, true)">
-                        Usar comentário
-                    </button>
-
-                    <button type="button" class="secondary-button-overcode" onclick="rejectLLM(${groupId})">
-                        Não usar
-                    </button>
-                </div>
-
-            </div>
-        `
-    })
-    .catch(err => {
-
-        if (loadingEl)
-            loadingEl.style.display = "none"
-
-        outputEl.innerHTML = `
-            <div class="card">
-                <p>Erro: ${err.message}</p>
-            </div>
-        `
-    })
+    )
 }
 
 function generateLLMForStudent(userId){
@@ -480,94 +606,25 @@ function generateLLMForStudent(userId){
     const loadingEl = document.getElementById("llm-loading-" + userId)
     const outputEl = document.getElementById("llm-output-" + userId)
 
-    if (loadingEl) loadingEl.style.display = "block"
-    if (outputEl) outputEl.innerHTML = ""
-
     const solutionEl = document.getElementById("solution-" + userId)
 
     const code = solutionEl
         ? solutionEl.querySelector(".code-block-overcode pre")?.innerText || ""
         : ""
 
-    fetch(window.overcodeConfig.llmGroupCommentUrl, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "X-CSRFToken": getCookie("csrftoken")
-        },
-        body: JSON.stringify({
+    streamLLMComment(
+        userId,
+        false,
+        loadingEl,
+        outputEl,
+        {
             code: code,
             group_id: null,
             user_id: userId,
             problem_id: window.overcodeConfig.problemId,
             turma_id: window.overcodeConfig.turmaId
-        })
-    })
-    .then(async (res) => {
-
-        const text = await res.text()
-
-        let data
-        try {
-            data = JSON.parse(text)
-        } catch (e) {
-            throw new Error("Resposta inválida do servidor: " + text)
         }
-
-        if (!res.ok) {
-            throw new Error(data.error || "Erro na API")
-        }
-
-        return data
-    })
-    .then(data => {
-
-        if (loadingEl)
-            loadingEl.style.display = "none"
-
-        const comment =
-            data?.comment || "Sem resposta da IA"
-
-        llm_state[userId] = {
-            comment: comment
-        }
-
-        const commentHtml = markdownToHtml(comment)
-
-        outputEl.innerHTML = `
-            <div class="card llm-card-overcode">
-
-                <p>
-                    <strong>
-                        Comentário sugerido pela IA:
-                    </strong>
-                </p>
-
-                <div class="llm-markdown-overcode">${commentHtml}</div>
-
-                <div class="llm-actions-overcode">
-                    <button type="button" class="primary action-button-overcode" onclick="acceptLLM(${userId}, false)">
-                        Usar comentário
-                    </button>
-
-                    <button type="button" class="secondary-button-overcode" onclick="rejectLLM(${userId})">
-                        Não usar
-                    </button>
-                </div>
-
-            </div>
-        `
-    })
-    .catch(err => {
-
-        if (loadingEl) loadingEl.style.display = "none"
-
-        outputEl.innerHTML = `
-            <div class="card">
-                <p>Erro: ${err.message}</p>
-            </div>
-        `
-    })
+    )
 }
 
 function sendFeedback(groupId, value){
@@ -803,7 +860,9 @@ function finishEvaluation(id, isGroup = false, commentId = null, button = null){
     ]
 
     let payload = {
-        comment_id: commentId
+        comment_id: commentId,
+        problem_id: window.overcodeConfig.problemId,
+        turma_id: window.overcodeConfig.turmaId
     }
 
     if(isGroup){
@@ -843,6 +902,7 @@ function finishEvaluation(id, isGroup = false, commentId = null, button = null){
 
         headers: {
             "Content-Type": "application/json",
+            "X-Requested-With": "XMLHttpRequest",
             "X-CSRFToken": getCookie("csrftoken")
         },
 
@@ -850,7 +910,14 @@ function finishEvaluation(id, isGroup = false, commentId = null, button = null){
     })
     .then(async (res) => {
 
-        const data = await res.json()
+        const text = await res.text()
+        let data
+
+        try {
+            data = JSON.parse(text)
+        } catch (error) {
+            throw new Error("Resposta inválida do servidor ao salvar avaliação.")
+        }
 
         if(!res.ok || !data.success){
             throw new Error(data.error || "Erro ao salvar avaliação")
