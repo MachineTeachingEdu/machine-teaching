@@ -417,7 +417,7 @@ function acceptLLM(userId){
 
         <h4>Editar comentário antes de salvar:</h4>
 
-        <textarea id="llm-edit-${userId}" class="textarea-overcode llm-edit-overcode" rows="6">${state.comment}</textarea>
+        <textarea id="llm-edit-${userId}" class="textarea-overcode llm-edit-overcode" rows="6">${escapeHtml(state.comment)}</textarea>
 
         <button type="button" class="primary action-button-overcode" onclick="saveFinalLLM(${userId})">
             Salvar comentário
@@ -445,6 +445,7 @@ function saveFinalLLM(userId){
         document.getElementById("llm-edit-" + userId);
 
     const finalComment = textarea.value;
+    const state = llm_state[userId] || {};
 
     fetch(window.overcodeConfig.commentUrl, {
 
@@ -460,7 +461,8 @@ function saveFinalLLM(userId){
             user_id: userId,
             selected_user: userId,
             content: finalComment,
-            source: "ai"
+            source: "ai",
+            llm_generated_content: state.comment || finalComment
         })
     })
     .then(async (res) => {

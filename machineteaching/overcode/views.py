@@ -23,9 +23,14 @@ from .models import (
     SolutionGroup,
 )
 from .forms import (EscolhaTurmaProblemaForm)
+from .services.llm_comment_processing import invalid_code_reason
 
 
 # Create your views here.
+
+
+def _normalize_comment_for_comparison(comment):
+    return (comment or "").replace("\r\n", "\n").replace("\r", "\n")
 
 
 def is_active_professor(user):
@@ -230,6 +235,7 @@ def salvar_comentario(request, turma_id, problema_id):
         user_id = request.POST.get("user_id")
         selected_user = request.POST.get("selected_user")
         source = request.POST.get("source", GroupComment.SOURCE_MANUAL)
+        llm_generated_content = request.POST.get("llm_generated_content")
 
         professor = Professor.objects.get(user=request.user, active=True)
 
@@ -250,6 +256,20 @@ def salvar_comentario(request, turma_id, problema_id):
             else GroupComment.SOURCE_MANUAL,
         }
 
+        if data["source"] == GroupComment.SOURCE_AI:
+            if llm_generated_content is None:
+                llm_generated_content = content
+
+            llm_modified_by_professor = (
+                _normalize_comment_for_comparison(content)
+                != _normalize_comment_for_comparison(llm_generated_content)
+            )
+
+            data["llm_generated_content"] = llm_generated_content
+            data["llm_modified_by_professor"] = llm_modified_by_professor
+            if llm_modified_by_professor:
+                data["llm_teacher_content"] = content
+
         # comentário de grupo
         if group_id:
             data["group_id"] = int(group_id)
@@ -264,6 +284,7 @@ def salvar_comentario(request, turma_id, problema_id):
             return JsonResponse({
                 "success": True,
                 "comment_id": comment.id,
+                "llm_modified_by_professor": comment.llm_modified_by_professor,
             })
 
         # se veio de um group
@@ -613,8 +634,9 @@ def llm_group_comment(request):
         problem = group.problem if group else _get_llm_problem(data, professor)
         exercise_statement = problem.content if problem else None
 
-        if not code:
-            return JsonResponse({"error": "missing code"}, status=400)
+        code_error = invalid_code_reason(code)
+        if code_error:
+            return JsonResponse({"error": code_error}, status=400)
 
         if user_id:
             correction_evidence = _student_correction_evidence(
