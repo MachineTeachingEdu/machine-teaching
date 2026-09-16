@@ -670,7 +670,7 @@ function acceptLLM(id, isGroup){
                 Editar comentário antes de salvar:
             </h4>
 
-            <textarea id="llm-edit-${id}" class="textarea-overcode llm-edit-overcode" rows="6">${state.comment}</textarea>
+            <textarea id="llm-edit-${id}" class="textarea-overcode llm-edit-overcode" rows="6">${escapeHtml(state.comment)}</textarea>
 
             <button type="button" class="primary action-button-overcode" onclick="saveFinalLLM(${id}, ${isGroup})">
                 Salvar comentário
@@ -704,10 +704,12 @@ function saveFinalLLM(id, isGroup){
         document.getElementById("llm-edit-" + id)
 
     const finalComment = textarea.value
+    const state = llm_state[id] || {}
 
     let bodyData = {
         content: finalComment,
-        source: "ai"
+        source: "ai",
+        llm_generated_content: state.comment || finalComment
     }
 
     if(isGroup){

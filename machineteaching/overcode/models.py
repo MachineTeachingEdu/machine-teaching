@@ -126,6 +126,23 @@ class GroupComment(models.Model):
         help_text="Origem do comentário: escrito pelo professor ou gerado com IA"
     )
 
+    llm_generated_content = models.TextField(
+        blank=True,
+        default="",
+        help_text="Comentário original gerado pelo LLM antes de edição pelo professor"
+    )
+
+    llm_teacher_content = models.TextField(
+        blank=True,
+        default="",
+        help_text="Comentário final usado pelo professor quando ele editou o texto do LLM"
+    )
+
+    llm_modified_by_professor = models.BooleanField(
+        default=False,
+        help_text="Indica se o professor editou o comentário original gerado pelo LLM"
+    )
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

@@ -1,3 +1,4 @@
+import ast
 import re
 import unicodedata
 from typing import Optional
@@ -5,7 +6,7 @@ from typing import Optional
 
 EMPTY_COMMENT_MESSAGE = "Sem resposta da IA."
 DEFAULT_IMPROVEMENT_TEXT = (
-    "Não foram identificados problemas relevantes na lógica apresentada."
+    "Não foram identificados problemas lógicos relevantes na solução."
 )
 DEFAULT_IMPROVEMENT_BULLET = f"- {DEFAULT_IMPROVEMENT_TEXT}"
 FAILED_IMPROVEMENT_TEXT = (
@@ -14,6 +15,27 @@ FAILED_IMPROVEMENT_TEXT = (
     "localizar em qual parte do raciocínio essa diferença aparece."
 )
 FAILED_IMPROVEMENT_BULLET = f"- {FAILED_IMPROVEMENT_TEXT}"
+SKIPPED_IMPROVEMENT_TEXT = (
+    "A submissão foi marcada como pulada. Vale conferir se há código suficiente "
+    "para avaliar a estratégia antes de usar um comentário automático."
+)
+SKIPPED_IMPROVEMENT_BULLET = f"- {SKIPPED_IMPROVEMENT_TEXT}"
+INSUFFICIENT_CODE_MESSAGE = (
+    "Não foi possível gerar comentário: o código disponível está vazio, "
+    "incompleto ou contém apenas o modelo inicial da resposta."
+)
+MIN_MEANINGFUL_CODE_CHARS = 8
+NON_PASSING_GRADING_STATUSES = ("failed", "skipped")
+
+PLACEHOLDER_CODE_PATTERNS = (
+    r"\bstart your python function here\b",
+    r"\bcoloque um coment[aá]rio dizendo o que a fun[cç][aã]o faz\b",
+    r"\bescolha nomes elucidativos para suas vari[aá]veis\b",
+)
+
+INCOMPLETE_CODE_PATTERNS = (
+    r"^(?:def|return|pass|none|\.\.\.)$",
+)
 
 BLOCKED_NAMING_PATTERNS = (
     r"\b(?:nome|identificador|vari[aá]ve(?:l|is)|par[aâ]metros?|fun[cç][aã]o).{0,70}\b(?:claro|clara|descritivo|adequado|confus\w*|represent\w*|portugu[eê]s|ingl[eê]s)\b",
@@ -102,11 +124,21 @@ PROMPT_MARKER_PATTERNS = (
 DROP_BULLET_PATTERNS = (
     r"\b(?:docstring|unit tests?|documenta[cç][aã]o)\b",
     r"\b(?:adicione|crie|escreva|implemente).{0,50}\btest\w*\b",
+    r"\b(?:adicione|crie|escreva|implemente|inclua|prepare|fa[cç]a|vale|poderia|seria bom).{0,80}\b(?:test\w*|casos? de teste)\b",
+    r"\b(?:reescreva|refa[cç]a|troque|substitua|use|usar|utilize|utilizar|adote|prefira|vale).{0,80}\b(?:for|while|la[cç]o|compreens[aã]o|fun[cç][aã]o pronta|biblioteca)\b",
+    r"\b(?:for|while|la[cç]o|compreens[aã]o de lista|fun[cç][aã]o pronta|biblioteca).{0,80}\b(?:mais simples|mais claro|mais eficiente|melhor|otimizad[ao])\b",
+    r"\b(?:otimiz|eficient|concis).{0,80}\b(?:for|while|la[cç]o|compreens[aã]o|fun[cç][aã]o pronta|biblioteca)\b",
+    r"\bcondi[cç][aã]o.{0,80}\b(?:pode|poderia|deve|deveria|vale).{0,40}\bsimplificad[ao]\b",
+    r"\b(?:adicione|crie|implemente|inclua|fa[cç]a|vale|poderia|seria bom|importante).{0,80}\b(?:validar|valida[cç][aã]o|entrada inv[aá]lida|tratamento de exce[cç][oõ]es?|exce[cç][aã]o|try|except)\b",
+    r"\b(?:validar|valida[cç][aã]o|entrada inv[aá]lida|tratamento de exce[cç][oõ]es?|exce[cç][aã]o|try|except).{0,80}\b(?:seria bom|importante|necess[aá]rio|melhor|mais seguro)\b",
 )
 
 GENERIC_PATTERNS = (
     r"\b(?:pense melhor|preste mais aten[cç][aã]o|continue praticando|mais tradicional)\b",
     r"\b(?:revise|reveja|verifique).{0,50}\b(?:l[oó]gica|correto|c[oó]digo)\b",
+    r"\bverifique.{0,30}\bresultado\b",
+    r"\bcompare.{0,30}\benunciado\b",
+    r"\bsua l[oó]gica est[aá] errad[ao]\b",
     r"\b(?:tente melhorar|pode ser melhorad[oa])\b",
 )
 
@@ -137,6 +169,67 @@ def _plain_text(text: str) -> str:
     return re.sub(r"\s+", " ", without_accents).strip()
 
 
+def _is_empty_ast_statement(statement: ast.AST) -> bool:
+    if isinstance(statement, ast.Pass):
+        return True
+    if (
+        isinstance(statement, ast.Expr)
+        and isinstance(statement.value, ast.Constant)
+        and isinstance(statement.value.value, str)
+    ):
+        return True
+    if isinstance(statement, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
+        return all(_is_empty_ast_statement(child) for child in statement.body)
+    return False
+
+
+def _has_executable_code(code: str) -> bool:
+    try:
+        tree = ast.parse(code)
+    except SyntaxError:
+        return True
+
+    return any(not _is_empty_ast_statement(statement) for statement in tree.body)
+
+
+def invalid_code_reason(code: Optional[str]) -> Optional[str]:
+    if not isinstance(code, str):
+        return INSUFFICIENT_CODE_MESSAGE
+
+    normalized_code = code.replace("\xa0", " ").strip()
+    if not normalized_code:
+        return INSUFFICIENT_CODE_MESSAGE
+
+    visible_code_lines = [
+        line
+        for line in normalized_code.splitlines()
+        if line.strip()
+    ]
+    non_comment_code_lines = [
+        line
+        for line in visible_code_lines
+        if not line.lstrip().startswith("#")
+    ]
+    meaningful_code = "\n".join(non_comment_code_lines).strip()
+    plain_code = _plain_text(meaningful_code)
+
+    if not meaningful_code:
+        return INSUFFICIENT_CODE_MESSAGE
+    if (
+        _contains_any(meaningful_code, PLACEHOLDER_CODE_PATTERNS)
+        and not _has_executable_code(meaningful_code)
+    ):
+        return INSUFFICIENT_CODE_MESSAGE
+    if len(plain_code) < MIN_MEANINGFUL_CODE_CHARS:
+        return INSUFFICIENT_CODE_MESSAGE
+    if _contains_any(plain_code, INCOMPLETE_CODE_PATTERNS):
+        return INSUFFICIENT_CODE_MESSAGE
+    if not _has_executable_code(meaningful_code):
+        return INSUFFICIENT_CODE_MESSAGE
+
+    return None
+
+
 def grading_status_from_evidence(correction_evidence: Optional[str]) -> Optional[str]:
     if not correction_evidence:
         return None
@@ -163,10 +256,12 @@ def _normalize_bullet(line: str) -> str:
 
 def _is_default_improvement_bullet(bullet: str) -> bool:
     text = _plain_text(_normalize_bullet(bullet).removeprefix("- "))
-    return (
-        "nao foram identificados" in text
-        and "problemas relevantes" in text
-        and "logica apresentada" in text
+    return bool(
+        re.search(
+            r"\bnao foram identificados\b.{0,40}\bproblemas\b.{0,40}\b"
+            r"(?:logicos|logica|relevantes)\b",
+            text,
+        )
     )
 
 
@@ -331,7 +426,7 @@ def _sanitize_bullet(
     if grading_status == "failed" and _is_default_improvement_bullet(bullet):
         return FAILED_IMPROVEMENT_TEXT
     if (
-        grading_status == "failed"
+        grading_status in NON_PASSING_GRADING_STATUSES
         and _contains_any(bullet, OVERALL_CORRECTNESS_CLAIM_PATTERNS)
     ):
         return None
@@ -410,6 +505,7 @@ def _sanitize_bullet(
         not bullet
         or _contains_any(bullet, DROP_BULLET_PATTERNS)
         or _contains_any(bullet, JARGON_OR_BROKEN_LANGUAGE_PATTERNS)
+        or _contains_any(bullet, GENERIC_PATTERNS)
         or _contains_any(bullet, RESIDUAL_CODE_PATTERNS)
     ):
         return None
@@ -486,6 +582,15 @@ def _ensure_default_improvement(
             )
         return f"### Melhorias\n{FAILED_IMPROVEMENT_BULLET}"
 
+    if grading_status == "skipped" and not _has_section(text, "Melhorias"):
+        if text.strip():
+            return (
+                f"{text.rstrip()}\n\n"
+                "### Melhorias\n"
+                f"{SKIPPED_IMPROVEMENT_BULLET}"
+            )
+        return f"### Melhorias\n{SKIPPED_IMPROVEMENT_BULLET}"
+
     if grading_status == "passed" and not _has_section(text, "Melhorias"):
         if text.strip():
             return (
@@ -513,13 +618,29 @@ def prepare_response(
     return _ensure_default_improvement(
         _normalize_response(
             _sanitize_response(
-                _normalize_response(text),
+                text,
                 grading_status=grading_status,
             )
         ),
         grading_status=grading_status,
         ensure_default=ensure_default,
     )
+
+
+def correctness_conflict_fallback(grading_status: Optional[str]) -> str:
+    if grading_status == "skipped":
+        return f"### Melhorias\n{SKIPPED_IMPROVEMENT_BULLET}"
+    return f"### Melhorias\n{FAILED_IMPROVEMENT_BULLET}"
+
+
+def has_correctness_conflict(
+    errors: list[str],
+    *,
+    grading_status: Optional[str] = None,
+) -> bool:
+    if grading_status not in NON_PASSING_GRADING_STATUSES:
+        return False
+    return any("afirma correção geral" in error for error in errors)
 
 
 def _format_errors(text: str) -> list[str]:
@@ -579,10 +700,10 @@ def validation_errors(
     if _contains_any(text, GENERIC_PATTERNS):
         errors.append("A resposta contém orientação genérica.")
     if (
-        grading_status == "failed"
+        grading_status in NON_PASSING_GRADING_STATUSES
         and _contains_any(text, OVERALL_CORRECTNESS_CLAIM_PATTERNS)
     ):
-        errors.append("A resposta afirma correção geral apesar de reprovação.")
+        errors.append("A resposta afirma correção geral apesar de reprovação ou submissão pulada.")
     if (
         grading_status == "passed"
         and _contains_any(text, PASSED_SPECULATIVE_IMPROVEMENT_PATTERNS)

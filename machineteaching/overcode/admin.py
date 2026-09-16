@@ -5,9 +5,24 @@ from .models import GroupComment, LLMCommentEvaluation
 
 @admin.register(GroupComment)
 class GroupCommentAdmin(admin.ModelAdmin):
-    list_display = ("id", "problem", "group", "user", "author", "source", "created_at")
-    list_filter = ("source", "created_at")
-    search_fields = ("content", "user__username", "author__user__username")
+    list_display = (
+        "id",
+        "problem",
+        "group",
+        "user",
+        "author",
+        "source",
+        "llm_modified_by_professor",
+        "created_at",
+    )
+    list_filter = ("source", "llm_modified_by_professor", "created_at")
+    search_fields = (
+        "content",
+        "llm_generated_content",
+        "llm_teacher_content",
+        "user__username",
+        "author__user__username",
+    )
 
 
 @admin.register(LLMCommentEvaluation)

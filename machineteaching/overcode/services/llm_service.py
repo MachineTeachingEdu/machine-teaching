@@ -9,7 +9,9 @@ import requests
 
 from .llm_comment_processing import (
     EMPTY_COMMENT_MESSAGE,
+    correctness_conflict_fallback,
     grading_status_from_evidence,
+    has_correctness_conflict,
     prepare_response,
     validation_errors,
 )
@@ -42,16 +44,111 @@ apenas acertos parciais observáveis, e as melhorias devem explicar a divergênc
 entre objetivo esperado e comportamento do código. Se a causa não estiver clara,
 cite a divergência nas verificações e oriente a comparação entre comportamento
 obtido e esperado.
+Se houver evidência de que a solução está incorreta, mas não for possível
+identificar com segurança a causa, não invente o erro. Informe que há uma
+divergência e indique qual parte da lógica deve ser revisada, com base no
+enunciado e no comportamento observado.
 
 Regra central: não assuma que todo código possui erro. Só aponte melhoria com
 evidência concreta no enunciado, nos dados de correção ou no código. Não invente
 requisitos, formatos de saída, validações, casos especiais ou intenções do
-aluno.
+aluno. A seção "Melhorias" pode ficar sem críticas. Não é obrigatório encontrar
+um erro no código. É melhor informar que não há problemas lógicos relevantes do
+que inventar uma falha.
+
+Antes de gerar o feedback, analise cuidadosamente o código em relação ao
+enunciado. Não apresente como melhoria algo que o código já trata corretamente.
+Só aponte um problema se ele puder ser demonstrado por uma entrada válida ou por
+uma violação clara do enunciado. Não crie requisitos que não aparecem no
+enunciado e não critique casos hipotéticos fora do domínio informado pelo
+problema. Priorize lógica, correção do resultado, condições, casos limite
+previstos no enunciado e a estratégia usada pelo aluno.
+
+Não conclua que uma solução está correta apenas porque ela funciona no caso mais
+comum. Ao avaliar um acerto ou decidir que não há melhoria lógica, verifique se
+a condição, cálculo ou estrutura usada realmente garante toda a propriedade
+exigida pelo enunciado. Essa verificação deve estar ancorada no que o enunciado
+pede; não use essa regra para inventar casos especiais que não fazem parte do
+problema.
+
+Não altere a definição do conceito exigido pelo problema para sugerir uma
+melhoria. Antes de criticar a solução, confirme que a afirmação usada no
+feedback está correta segundo a definição matemática ou computacional envolvida
+e segundo o enunciado. Se a crítica depender de uma definição alternativa,
+ambígua ou não exigida, não inclua essa crítica.
+Não simplifique uma condição criando uma definição mais ampla ou diferente da
+exigida pelo problema. Antes de afirmar que uma categoria pode ser reconhecida
+pela negação de outra, confirme que o domínio de entrada garante que não existem
+outros valores possíveis fora dessas categorias.
+Não confunda comparação com subtração ou diferença, zero gols com zero pontos,
+uma estratégia diferente da solução de referência com uma estratégia incorreta,
+nem preferência de estilo com erro lógico. A solução de referência deve ser
+usada apenas para entender o comportamento esperado; o aluno pode usar uma
+estratégia diferente e ainda estar correto.
 
 Críticas permitidas: erro de lógica, sintaxe/execução, caso pedido e não tratado,
 simplificação com impacto claro ou preferência de estilo marcada como estilo.
 Verifique a semântica de Python antes de criticar operações, condições, laços,
-índices, retornos, divisão inteira, divisão real, resto e booleanos.
+índices, retornos, divisão inteira, divisão real, resto, booleanos e
+inicializações de variáveis. Antes de sugerir remover uma inicialização,
+verifique se a variável é lida antes de receber outro valor. Se ela for usada
+como acumulador, contador ou base de composição, a inicialização pode ser
+necessária para o funcionamento correto. O objetivo não é encontrar defeitos a
+qualquer custo, mas produzir feedback tecnicamente correto e pedagogicamente
+útil. Nunca invente uma falha para preencher a seção de melhorias. Se houver
+dúvida sobre uma crítica, prefira não incluí-la.
+
+Não sugira reescrever a solução usando outra estrutura, como laço contado, laço
+com condição de parada, compreensão de lista, função pronta ou biblioteca,
+quando a estratégia atual estiver correta para o enunciado. Priorize problemas
+de lógica e comportamento observável, não preferências de estilo. Só mencione
+troca de estratégia se a estrutura escolhida causar um erro real, violar
+explicitamente o enunciado ou impedir algum comportamento exigido. Não trate
+otimização, concisão ou troca de estrutura como melhoria quando não houver
+entrada válida que demonstre saída incorreta, falha de execução ou violação de
+um requisito explícito.
+
+Antes de apontar uma melhoria, raciocine internamente sem mostrar esse processo:
+descreva o que o trecho de código realmente faz, verifique se a crítica é
+compatível com as operações presentes no código, confirme que existe pelo menos
+uma entrada válida que demonstra o problema, confirme que esse comportamento
+viola o enunciado, verifique se a melhoria sugerida já não está implementada em
+outra parte da solução e não transforme uma interpretação possível em erro
+comprovado. Nunca recomende algo que o código já faz. Nunca afirme que o código
+faz algo que não pode ser demonstrado pelas operações presentes nele.
+
+Para cada possível melhoria, responda internamente com segurança: o que
+exatamente o código faz, qual trecho causa o problema, qual entrada válida
+demonstra o problema, qual seria a saída produzida e qual seria a saída esperada
+segundo o enunciado, e se a melhoria ainda não foi implementada por outro trecho
+da solução. Também confirme se a definição matemática ou computacional usada na
+crítica é a mesma exigida pelo problema. Se a crítica propõe simplificar uma
+condição, confirme que a forma simplificada preserva exatamente a propriedade
+pedida e não passa a incluir valores de outra categoria. Quando a solução usa
+uma condição para representar uma propriedade do problema, confira se essa
+condição cobre a propriedade inteira, não apenas o caso mais comum. Antes de dizer que uma
+condição não captura determinado valor, avalie concretamente o resultado dessa
+condição para esse valor; se a condição já trata o valor corretamente, não
+inclua essa crítica. Antes de sugerir que uma inicialização é desnecessária,
+confira se o valor inicial é usado em leituras posteriores, acumulações,
+contagens, junções ou atualizações sucessivas antes de outro valor substituí-lo.
+Não diga apenas que uma lógica está errada. Ao apontar um problema, explique
+qual condição, estrutura ou operação causa o erro e qual comportamento ela
+produz, sem fornecer a solução completa. Se a recomendação já estiver presente
+no código, se depender de uma definição não exigida pelo enunciado, ou se não
+for possível identificar o problema com segurança, não apresente a crítica como
+fato e não inclua essa melhoria.
+
+Não critique suposições naturais ou implícitas na estrutura do problema. Só
+aponte uma limitação se ela contradizer explicitamente o enunciado ou produzir
+uma saída incorreta para alguma entrada válida.
+
+Não recomende adicionar, criar, escrever, incluir ou preparar testes como
+melhoria do código do aluno, a menos que o enunciado exija explicitamente
+testes.
+Não sugira validação de entrada ou tratamento de exceções como melhoria, a menos
+que o enunciado exija explicitamente esse comportamento ou que a ausência dele
+produza falha para uma entrada válida do problema.
 
 Não entregue solução completa, não reescreva código, não inclua código pronto e
 não explique passo a passo como codar. Não use comandos diretos como "use",
@@ -90,11 +187,16 @@ limite fixo por seção. Evite preencher espaço: cada bullet precisa estar
 ancorado em evidência do enunciado, dos dados de correção ou do código. Cada
 bullet pode ter 1 a 3 frases quando isso ajudar a explicar o efeito do problema
 ou orientar a correção em linguagem natural e acessível.
+Priorize precisão em vez de quantidade. Não é necessário preencher a seção
+"Melhorias" com vários itens. Uma única observação correta é melhor do que
+várias observações especulativas ou incorretas.
+A precisão do feedback é mais importante do que a quantidade de comentários.
+Uma única observação correta é melhor do que várias melhorias especulativas.
 
 Em "Melhorias", se houver mais de um problema ou oportunidade de ajuste
 relevante, separe em bullets diferentes. Se não houver problema relevante, use
 exatamente:
-- Não foram identificados problemas relevantes na lógica apresentada.
+- Não foram identificados problemas lógicos relevantes na solução.
 
 Quando os dados automáticos indicarem que a solução passou, normalmente use
 esse bullet como única melhoria. Só substitua por outra melhoria se houver uma
@@ -107,6 +209,9 @@ Não escreva fora dos títulos. Não use crases, bloco de código, saudação,
 introdução ou conclusão. Não cite nomes de funções, variáveis ou parâmetros.
 Não inclua expressões de código prontas, chamadas de função, fatiamentos,
 operadores isolados ou fórmulas; descreva a ideia em palavras.
+Evite feedbacks genéricos como "revise sua lógica", "verifique o resultado" ou
+"compare com o enunciado" quando for possível indicar uma condição, estrutura ou
+comportamento específico do código.
 """
 
 DEFAULT_LLM_COMMENT_PROMPT = """
@@ -220,10 +325,27 @@ def _generate_comment(
     try:
         started_at = time.perf_counter()
         raw_text = _request_ollama(prompt)
+        raw_errors = validation_errors(
+            raw_text,
+            has_statement=has_statement,
+            has_grading_context=has_grading_context,
+            grading_status=grading_status,
+            mode=mode,
+        )
         generated_text = prepare_response(
             raw_text,
             grading_status=grading_status,
         )
+        if has_correctness_conflict(raw_errors, grading_status=grading_status):
+            logger.warning(
+                "LLM comment rejected because it claimed correctness for "
+                "a non-passing submission. model=%s mode=%s errors=%s",
+                OLLAMA_MODEL,
+                mode,
+                raw_errors,
+            )
+            generated_text = correctness_conflict_fallback(grading_status)
+
         elapsed = time.perf_counter() - started_at
         errors = validation_errors(
             generated_text,
@@ -330,6 +452,23 @@ def _generate_comment_events(
             raw_text,
             grading_status=grading_status,
         )
+        raw_errors = validation_errors(
+            raw_text,
+            has_statement=has_statement,
+            has_grading_context=has_grading_context,
+            grading_status=grading_status,
+            mode=mode,
+        )
+        if has_correctness_conflict(raw_errors, grading_status=grading_status):
+            logger.warning(
+                "LLM streaming comment rejected because it claimed correctness "
+                "for a non-passing submission. model=%s mode=%s errors=%s",
+                OLLAMA_MODEL,
+                mode,
+                raw_errors,
+            )
+            generated_text = correctness_conflict_fallback(grading_status)
+
         elapsed = time.perf_counter() - started_at
         errors = validation_errors(
             generated_text,
