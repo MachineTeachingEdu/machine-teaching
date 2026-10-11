@@ -1,0 +1,45 @@
+{
+  "ollama_base_url": "http://localhost:11434",
+  "output_dir": "benchmarks/ollama/results",
+  "prompt_file": "benchmarks/ollama/prompts.example.json",
+  "repetitions": 5,
+  "warmup_runs": 0,
+  "timeout_seconds": 180,
+  "keep_alive": "10m",
+  "resource_sampling_interval_seconds": 0.5,
+  "generation_options": {
+    "temperature": 0.1,
+    "top_p": 0.9,
+    "num_predict": 320
+  },
+  "models": [
+    {
+      "name": "llama3.2:1b",
+      "label": "Llama 3.2 1B"
+    },
+    {
+      "name": "llama3.2:3b",
+      "label": "Llama 3.2 3B"
+    },
+    {
+      "name": "gemma3:4b",
+      "label": "Gemma 3 4B"
+    },
+    {
+      "name": "qwen3:4b",
+      "label": "Qwen 3 4B"
+    },
+    {
+      "name": "phi3:mini",
+      "label": "Phi-3 Mini"
+    },
+    {
+      "name": "tinyllama:1.1b",
+      "label": "TinyLlama 1.1B"
+    },
+    {
+      "name": "qwen2.5:1.5b",
+      "label": "Qwen 2.5 1.5B"
+    }
+  ]
+}

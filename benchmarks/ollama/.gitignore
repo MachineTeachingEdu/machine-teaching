@@ -1,0 +1,5 @@
+results/
+config.local.json
+prompts.local.json
+__pycache__/
+*.pyc

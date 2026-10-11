@@ -1,0 +1,42 @@
+{
+  "description": "Casos provisórios apenas para validar o benchmark. O script monta o prompt final usando a mesma função _build_prompt do OverCode.",
+  "quality_criteria": [
+    "correcao_conceitual",
+    "clareza",
+    "utilidade_pedagogica",
+    "completude",
+    "ausencia_de_alucinacao"
+  ],
+  "feedback_cases": [
+    {
+      "id": "feedback_exemplo_solucao_correta",
+      "type": "overcode_feedback_case",
+      "category": "feedback",
+      "mode": "student",
+      "ignored": false,
+      "exercise_statement": "Leia dois números inteiros e mostre a soma entre eles.",
+      "correction_evidence": "Resultado dos testes automáticos: passou em todos os testes.",
+      "code": "n1 = int(input())\nn2 = int(input())\nprint(n1 + n2)",
+      "expected_focus": [
+        "reconhecer que a solução atende ao enunciado",
+        "não inventar problema inexistente",
+        "usar linguagem simples"
+      ]
+    },
+    {
+      "id": "feedback_exemplo_solucao_incorreta",
+      "type": "overcode_feedback_case",
+      "category": "feedback",
+      "mode": "student",
+      "ignored": false,
+      "exercise_statement": "Leia dois números inteiros e mostre a soma entre eles.",
+      "correction_evidence": "Resultado dos testes automáticos: falhou quando as entradas foram 4 e 5. Saída esperada: 9. Saída obtida: 20.",
+      "code": "n1 = int(input())\nn2 = int(input())\nprint(n1 * n2)",
+      "expected_focus": [
+        "identificar a divergência entre operação usada e operação pedida",
+        "não entregar a solução completa",
+        "orientar o aluno de forma pedagógica"
+      ]
+    }
+  ]
+}
