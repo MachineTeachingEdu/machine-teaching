@@ -5,6 +5,9 @@ from typing import Optional
 
 
 EMPTY_COMMENT_MESSAGE = "Sem resposta da IA."
+NO_STRENGTHS_BULLET = (
+    "- Não foi possível destacar um acerto específico com segurança."
+)
 DEFAULT_IMPROVEMENT_TEXT = (
     "Não foram identificados problemas lógicos relevantes na solução."
 )
@@ -609,13 +612,19 @@ def _ensure_default_improvement(
     return text
 
 
+def _ensure_strengths_section(text: str) -> str:
+    if _has_section(text, "Melhorias") and not _has_section(text, "Pontos fortes"):
+        return f"### Pontos fortes\n{NO_STRENGTHS_BULLET}\n\n{text}"
+    return text
+
+
 def prepare_response(
     text: str,
     *,
     grading_status: Optional[str] = None,
     ensure_default: bool = True,
 ) -> str:
-    return _ensure_default_improvement(
+    prepared = _ensure_default_improvement(
         _normalize_response(
             _sanitize_response(
                 text,
@@ -625,12 +634,13 @@ def prepare_response(
         grading_status=grading_status,
         ensure_default=ensure_default,
     )
+    return _ensure_strengths_section(prepared) if ensure_default else prepared
 
 
 def correctness_conflict_fallback(grading_status: Optional[str]) -> str:
     if grading_status == "skipped":
-        return f"### Melhorias\n{SKIPPED_IMPROVEMENT_BULLET}"
-    return f"### Melhorias\n{FAILED_IMPROVEMENT_BULLET}"
+        return _ensure_strengths_section(f"### Melhorias\n{SKIPPED_IMPROVEMENT_BULLET}")
+    return _ensure_strengths_section(f"### Melhorias\n{FAILED_IMPROVEMENT_BULLET}")
 
 
 def has_correctness_conflict(

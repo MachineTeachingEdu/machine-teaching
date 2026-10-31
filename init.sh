@@ -44,5 +44,5 @@ else
     export DJANGO_SETTINGS_MODULE=machineteaching.settings
     echo "will start"
     bootstrap_opentelemetry
-    gunicorn machineteaching.wsgi --bind 0.0.0.0:$PORT --workers 3 --timeout 200
+    gunicorn machineteaching.wsgi --bind 0.0.0.0:$PORT --workers 3 --timeout "${GUNICORN_TIMEOUT:-0}"
 fi

@@ -208,7 +208,7 @@ def configured_models(config: dict[str, Any]) -> list[dict[str, Any]]:
     return models
 
 
-def get_ollama_version(base_url: str, timeout: int) -> dict[str, Any] | None:
+def get_ollama_version(base_url: str, timeout: int | None) -> dict[str, Any] | None:
     try:
         response = requests.get(api_url(base_url, "/api/version"), timeout=timeout)
         response.raise_for_status()
@@ -217,7 +217,7 @@ def get_ollama_version(base_url: str, timeout: int) -> dict[str, Any] | None:
         return None
 
 
-def get_available_models(base_url: str, timeout: int) -> dict[str, dict[str, Any]]:
+def get_available_models(base_url: str, timeout: int | None) -> dict[str, dict[str, Any]]:
     response = requests.get(api_url(base_url, "/api/tags"), timeout=timeout)
     response.raise_for_status()
     models = response.json().get("models", [])
@@ -397,7 +397,7 @@ def call_ollama_generate(
     prompt: str,
     options: dict[str, Any],
     keep_alive: str | None,
-    timeout: int,
+    timeout: int | None,
 ) -> dict[str, Any]:
     payload: dict[str, Any] = {
         "model": model_name,
@@ -463,6 +463,7 @@ def call_ollama_generate(
         "ollama_eval_duration_seconds": eval_duration_seconds,
         "prompt_eval_count": final_chunk.get("prompt_eval_count"),
         "eval_count": eval_count,
+        "done_reason": final_chunk.get("done_reason"),
         "tokens_per_second": tokens_per_second,
     }
 
@@ -532,7 +533,7 @@ def run_single_test(
     repetition: int,
     global_options: dict[str, Any],
     keep_alive: str | None,
-    timeout: int,
+    timeout: int | None,
     resource_interval: float,
 ) -> dict[str, Any]:
     options = dict(global_options)
@@ -604,7 +605,7 @@ def run_warmups(
     prompt: dict[str, Any],
     global_options: dict[str, Any],
     keep_alive: str | None,
-    timeout: int,
+    timeout: int | None,
     warmup_runs: int,
 ) -> list[str]:
     errors = []
@@ -911,7 +912,8 @@ def main() -> int:
     config = load_json(config_path)
 
     base_url = config.get("ollama_base_url", "http://localhost:11434")
-    timeout = int(config.get("timeout_seconds", 180))
+    configured_timeout = int(config.get("timeout_seconds", 0))
+    timeout = configured_timeout if configured_timeout > 0 else None
     repetitions = args.repetitions or int(config.get("repetitions", 5))
     warmup_runs = int(config.get("warmup_runs", 0))
     keep_alive = config.get("keep_alive")
@@ -935,7 +937,7 @@ def main() -> int:
         raise ValueError("Nenhum prompt selecionado para executar.")
 
     try:
-        available_models = get_available_models(base_url, timeout)
+        available_models = get_available_models(base_url, timeout or 10)
     except requests.RequestException as exc:
         print(
             f"Não foi possível conectar ao Ollama em {base_url}: {compact_error(exc)}",
@@ -976,7 +978,7 @@ def main() -> int:
         "config_path": str(config_path),
         "prompt_path": str(prompt_path),
         "ollama_base_url": base_url,
-        "ollama_version": get_ollama_version(base_url, timeout),
+        "ollama_version": get_ollama_version(base_url, timeout or 10),
         "repetitions": repetitions,
         "warmup_runs": warmup_runs,
         "generation_options": global_options,

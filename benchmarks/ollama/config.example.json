@@ -4,13 +4,13 @@
   "prompt_file": "benchmarks/ollama/prompts.example.json",
   "repetitions": 5,
   "warmup_runs": 0,
-  "timeout_seconds": 180,
+  "timeout_seconds": 0,
   "keep_alive": "10m",
   "resource_sampling_interval_seconds": 0.5,
   "generation_options": {
     "temperature": 0.1,
     "top_p": 0.9,
-    "num_predict": 320
+    "num_predict": 1024
   },
   "models": [
     {

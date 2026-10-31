@@ -107,6 +107,17 @@ O script mede:
 
 Métricas indisponíveis são registradas como `null`.
 
+Para gerar sem timeout, configure `"timeout_seconds": 0` no arquivo de configuração.
+Na aplicação, `OLLAMA_TIMEOUT=0` desativa o timeout da chamada ao modelo e
+`GUNICORN_TIMEOUT=0` desativa o timeout do worker em produção.
+
+O teto de saída é independente do timeout: `generation_options.num_predict` no
+benchmark e `OLLAMA_NUM_PREDICT` na aplicação controlam o máximo de tokens
+gerados. O padrão do projeto é 1024 tokens; os dois modelos devem usar o mesmo
+valor em uma comparação. Um teto maior permite respostas completas, mas não
+garante correção nem impede repetições. Nas medições, `done_reason="length"`
+indica que a geração atingiu o teto de saída.
+
 ## Qualidade das respostas
 
 Enquanto o prompt final de feedback ainda estiver em construção, use `prompts.example.json` apenas para validar a ferramenta. O arquivo agora aceita casos no formato:
